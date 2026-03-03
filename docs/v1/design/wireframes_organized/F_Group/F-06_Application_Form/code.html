@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - Application Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "primary-content": "#ffffff",
+                        "primary-light": "#e7e7f3",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a1a2e",
+                        "text-main": "#0d0d1b",
+                        "text-sub": "#4c4c9a",
+                        "border-color": "#cfcfe7",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Spline Sans", "Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Spline Sans', 'Noto Sans KR', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-text-main dark:text-slate-100 font-display selection:bg-primary/20">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-color bg-surface-light/95 backdrop-blur-md dark:bg-surface-dark/95 dark:border-slate-800 px-6 lg:px-10 py-3 shadow-sm transition-colors duration-200">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center rounded-lg bg-primary/10">
+<span class="material-symbols-outlined text-primary text-2xl">school</span>
+</div>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-text-sub dark:text-slate-400 hover:text-primary dark:hover:text-primary-light transition-colors text-sm font-medium leading-normal" href="#">Groups</a>
+<a class="text-text-sub dark:text-slate-400 hover:text-primary dark:hover:text-primary-light transition-colors text-sm font-medium leading-normal" href="#">Events</a>
+<a class="text-text-sub dark:text-slate-400 hover:text-primary dark:hover:text-primary-light transition-colors text-sm font-medium leading-normal" href="#">Community</a>
+<a class="text-primary dark:text-primary-light text-sm font-bold leading-normal relative after:content-[''] after:absolute after:bottom-[-20px] after:left-0 after:w-full after:h-[2px] after:bg-primary" href="#">My Applications</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden lg:flex flex-col min-w-40 !h-10 max-w-64 transition-all focus-within:max-w-72">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border border-transparent focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/10 transition-all bg-background-light dark:bg-slate-800">
+<div class="text-text-sub flex items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg bg-transparent border-none focus:outline-none focus:ring-0 h-full placeholder:text-text-sub/50 dark:placeholder:text-slate-500 px-3 pl-2 text-sm font-normal leading-normal text-text-main dark:text-white" placeholder="Search groups..." value=""/>
+</div>
+</label>
+<button class="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 border border-border-color hover:bg-background-light text-text-sub text-sm font-medium leading-normal tracking-[0.015em] transition-colors dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
+<span class="truncate">Log Out</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20 cursor-pointer hover:ring-primary/50 transition-all" data-alt="User profile avatar of a smiling woman" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8pCnkbQ54wnzLq0c37VpVwVC45tRPQb_0X3lpmBa3Jkm1LHtDP2UlPQ1QE87RceO5yTo9Nf3AW0hesZ_hx3mPT572t599mgeu7Tpfm5qh9QcH5L_V5eyoZlqkf7yms4ScvJDU_sBm4awGnTaaspTaMplJ7dIUGxlpfuhfL-6UgYM3tk6bLDWHbP1qHk_qq-i70f7jaf9DgovbhJLPPjWcGnyWaoAergCITKALIHOZ9HE0NgTQwai_vxi--eCk-xA15oMJ7PL84uGl");'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-[800px] flex flex-col gap-8">
+<!-- Auto-save notification -->
+<div class="sticky top-20 z-40 w-full flex justify-center pointer-events-none">
+<div class="bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-sm border border-primary/20 shadow-sm rounded-full px-4 py-1.5 flex items-center gap-2 animate-pulse">
+<span class="material-symbols-outlined text-primary text-sm">cloud_done</span>
+<p class="text-text-sub dark:text-slate-400 text-xs font-medium">Draft saved automatically just now</p>
+</div>
+</div>
+<!-- Title Section -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-8 border border-border-color dark:border-slate-800 shadow-sm">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-lg">science</span>
+<span>AI Research Lab</span>
+</div>
+<h1 class="text-text-main dark:text-white text-3xl sm:text-4xl font-black leading-tight tracking-tight">AI 서비스 개발 프로젝트 지원</h1>
+<p class="text-text-sub dark:text-slate-400 text-base leading-relaxed max-w-2xl">
+                                인공지능 기술을 활용하여 실제 유저들이 사용할 수 있는 서비스를 개발하는 프로젝트입니다. 열정 있는 개발자분들의 많은 지원 바랍니다.
+                            </p>
+<div class="flex flex-wrap gap-3 mt-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">#Python</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">#DeepLearning</span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">#ServiceDev</span>
+</div>
+</div>
+</div>
+<!-- Form Section -->
+<form class="flex flex-col gap-6" onsubmit="event.preventDefault();">
+<!-- Question 1 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 sm:p-8 border border-border-color dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow duration-300 group focus-within:ring-1 focus-within:ring-primary/50">
+<label class="flex flex-col gap-4 w-full cursor-text">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">1</span>
+<span class="text-text-main dark:text-white text-lg font-bold">프로젝트 참여 동기는 무엇인가요?</span>
+</div>
+<p class="text-text-sub dark:text-slate-400 text-sm -mt-2 ml-8">이 프로젝트를 통해 얻어가고 싶은 점이나 기여하고 싶은 부분을 구체적으로 작성해주세요.</p>
+<textarea class="form-textarea w-full mt-2 resize-none rounded-lg text-text-main dark:text-white bg-background-light dark:bg-slate-900 border border-border-color dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary min-h-40 placeholder:text-text-sub/50 p-4 text-base leading-relaxed transition-all" placeholder="동기를 자세히 적어주세요 (500자 이내)..."></textarea>
+</label>
+</div>
+<!-- Question 2 -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 sm:p-8 border border-border-color dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow duration-300 group focus-within:ring-1 focus-within:ring-primary/50">
+<label class="flex flex-col gap-4 w-full cursor-text">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">2</span>
+<span class="text-text-main dark:text-white text-lg font-bold">사용 가능한 기술 스택은 무엇인가요?</span>
+</div>
+<p class="text-text-sub dark:text-slate-400 text-sm -mt-2 ml-8">현재 활용 가능한 언어, 프레임워크, 도구 등을 나열하고 숙련도를 간단히 언급해주세요.</p>
+<textarea class="form-textarea w-full mt-2 resize-none rounded-lg text-text-main dark:text-white bg-background-light dark:bg-slate-900 border border-border-color dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary min-h-40 placeholder:text-text-sub/50 p-4 text-base leading-relaxed transition-all" placeholder="예: Python (중급), PyTorch (기초), React (중급) ..."></textarea>
+</label>
+</div>
+<!-- Portfolio Link -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 sm:p-8 border border-border-color dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow duration-300 group focus-within:ring-1 focus-within:ring-primary/50">
+<label class="flex flex-col gap-4 w-full">
+<div class="flex items-center gap-2">
+<span class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">3</span>
+<span class="text-text-main dark:text-white text-lg font-bold">포트폴리오 링크 (선택)</span>
+</div>
+<p class="text-text-sub dark:text-slate-400 text-sm -mt-2 ml-8">GitHub, Notion, 블로그 등 본인을 어필할 수 있는 링크가 있다면 첨부해주세요.</p>
+<div class="relative mt-2 ml-0 sm:ml-8">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-sub text-lg">link</span>
+</div>
+<input class="form-input w-full rounded-lg text-text-main dark:text-white bg-background-light dark:bg-slate-900 border border-border-color dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary py-3 pl-10 pr-4 text-base transition-all placeholder:text-text-sub/50" placeholder="https://..." type="url"/>
+</div>
+</label>
+</div>
+<!-- Submit Action -->
+<div class="sticky bottom-4 z-30 mt-4 flex justify-end">
+<div class="bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md p-2 rounded-xl border border-border-color dark:border-slate-800 shadow-lg flex gap-4 items-center">
+<span class="hidden sm:inline text-xs text-text-sub dark:text-slate-400 px-2">마지막 저장: 방금 전</span>
+<button class="px-6 py-2.5 rounded-lg border border-border-color bg-surface-light text-text-main font-bold text-sm hover:bg-background-light transition-colors dark:bg-slate-800 dark:border-slate-600 dark:text-white dark:hover:bg-slate-700">
+                                    임시 저장
+                                </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-bold text-sm shadow-md shadow-primary/30 hover:bg-blue-700 hover:shadow-lg hover:shadow-primary/40 active:scale-95 transition-all flex items-center gap-2">
+<span>지원서 제출하기</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>모더레이션 및 콘텐츠 블라인드 흐름 (한글)</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display overflow-x-hidden">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-50">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64 hidden md:flex">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-200/50 dark:bg-slate-800/50 group focus-within:ring-2 ring-primary/20">
+<div class="text-slate-500 flex border-none items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="Search communities..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9 hidden lg:flex">
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Communities</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Groups</a>
+<a class="text-slate-900 dark:text-slate-100 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Events</a>
+</div>
+<div class="flex gap-2">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="truncate">Create Post</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-slate-200/50 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="layout-container flex flex-col items-center py-10 px-4 sm:px-10 gap-16">
+<section class="w-full max-w-[960px] flex flex-col gap-6 relative">
+<div class="absolute -left-6 top-0 bottom-0 border-l-2 border-dashed border-slate-300 dark:border-slate-700 hidden xl:block"></div>
+<div class="absolute -left-[35px] top-8 bg-primary text-white size-6 rounded-full flex items-center justify-center text-xs font-bold hidden xl:flex">1</div>
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<div class="flex flex-wrap gap-2 text-sm mb-2">
+<a class="text-slate-500 hover:text-primary transition-colors font-medium" href="#">Home</a>
+<span class="text-slate-400">/</span>
+<a class="text-slate-500 hover:text-primary transition-colors font-medium" href="#">University Union</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-900 dark:text-white font-medium">Photography Club</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight">커뮤니티 피드</h2>
+</div>
+<div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 border border-green-200 shadow-sm animate-pulse">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+                    신고가 성공적으로 접수되었습니다. 곧 검토하겠습니다.
+                </div>
+</div>
+<div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-white dark:bg-slate-900 p-6 shadow-sm border border-slate-200 dark:border-slate-800 relative overflow-hidden">
+<div class="flex flex-[2] flex-col justify-between gap-4 z-10">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wider">사진</span>
+<span class="text-slate-400 text-xs">•</span>
+<span class="text-slate-500 text-sm">User123 작성 • 2 hours ago</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Anyone know good spots for night photography on campus?</h3>
+<p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+                            I've been trying to find some secluded spots with interesting lighting. The main quad is too bright. Maybe behind the old science building? Looking for some "moody" vibes if you know what I mean...
+                        </p>
+</div>
+<div class="flex items-center gap-4 pt-2">
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+<span>24</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span>댓글 8개</span>
+</button>
+<div class="flex-1"></div>
+<button class="flex items-center justify-center rounded-lg h-8 px-3 gap-2 bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all text-sm font-medium group" disabled="">
+<span class="material-symbols-outlined text-[18px] group-hover:fill-current">flag</span>
+<span>신고됨</span>
+</button>
+</div>
+</div>
+<div class="md:w-64 w-full aspect-video md:aspect-auto rounded-lg bg-slate-200 dark:bg-slate-800 overflow-hidden relative group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Dark moody night campus photography" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5EvFSoA1k2CRN3NRn67cJv2WYDZGyrmyqxh1ZT2x-jzsemrfOvLcSLHhVCwVhqGXC4vq4f-Th4CTZA3hpxZOSKpe9tZHWG7z3A0GaVtHAcrYx49G64uUwUghXaPl2rf4HWPY_OLzDK4GizhsaX0DYys4jo_24GX4mZ0naa4LP-NcRVuaR6eY7RbSt148XWRDZ3XMvv63ZJ0TTtqHahV8gTaJoWMycgndstiVaT68o9usuviKgwP2_KfoFqd6KiJE-M0oJCnAyaz6C");'></div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+</div>
+</div>
+</section>
+<section class="w-full max-w-[960px] flex flex-col gap-6 relative">
+<div class="absolute -left-6 top-0 bottom-0 border-l-2 border-dashed border-slate-300 dark:border-slate-700 hidden xl:block"></div>
+<div class="absolute -left-[35px] top-8 bg-primary text-white size-6 rounded-full flex items-center justify-center text-xs font-bold hidden xl:flex">2</div>
+<div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+<div>
+<h2 class="text-slate-900 dark:text-white text-2xl font-bold flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl text-primary">admin_panel_settings</span>
+                        운영 관리 큐
+                    </h2>
+<p class="text-slate-500 mt-1">대기 중인 사용자 신고를 검토하고 조치하세요.</p>
+</div>
+<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">3건 대기 중</span>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-primary/20 overflow-hidden">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined text-lg">warning</span>
+</div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">신고 #4829</p>
+<p class="text-xs text-slate-500">사유: 의심스러운 활동 / 무단 침입</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 text-sm font-medium transition-colors">반려</button>
+<button class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-bold shadow-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+                            게시물 블라인드
+                        </button>
+</div>
+</div>
+<div class="p-6 grid md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Content Preview</p>
+<div class="p-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/30">
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Anyone know good spots for night photography on campus?</h4>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-4">...Maybe behind the old science building? Looking for some "moody" vibes...</p>
+<div class="h-32 w-full rounded bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="Dark moody night campus photography preview" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBR3_Ud6cyR3bQuqYa0xvTQICJjIeeFq2x6G2hYB48jBEC-Up7kojzX0HXkpeLXWembsTYIN0_Tpjp4aN5t9mByiHd2CK4CVsRARA6e9v58o1Fe3R-Mfn1vCMQN55d0E66JbKy0m1IWBA3HTfeLPG_-ylNTjEKR5ARUpsYko-vCxRPVhSiEGAXVIG-Xz8NEPqtEOf5kLD7wgLznBLKT2JY3OonEB4CCLp6xa7iqvOqNnMPey8K6P0veEBoTnE-Gz6kFU6WrQQEeM3yH");'></div>
+</div>
+</div>
+<div class="space-y-4">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Report Details</p>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
+<span class="text-sm text-slate-500">신고자</span>
+<span class="text-sm font-medium text-slate-900 dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">flag</span> 3명
+                                </span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800">
+<span class="text-sm text-slate-500">작성자 상태</span>
+<span class="text-sm font-medium text-green-600">활동 중 (양호)</span>
+</div>
+<div class="bg-yellow-50 dark:bg-yellow-900/10 p-3 rounded text-xs text-yellow-800 dark:text-yellow-200 border border-yellow-100 dark:border-yellow-900/20">
+<strong>시스템 노트:</strong> 주요 키워드로 인해 안전 감시가 트리거되었습니다.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full max-w-[960px] flex flex-col gap-6 relative">
+<div class="absolute -left-[35px] top-8 bg-primary text-white size-6 rounded-full flex items-center justify-center text-xs font-bold hidden xl:flex">3</div>
+<div>
+<h2 class="text-slate-900 dark:text-white text-2xl font-bold leading-tight">피드 업데이트</h2>
+<p class="text-slate-500 mt-1">해당 게시글은 이제 공용 피드에서 숨겨집니다.</p>
+</div>
+<div class="rounded-xl bg-slate-50 dark:bg-slate-900/50 p-1 shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex flex-col items-center justify-center py-10 px-6 text-center gap-3 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700">
+<div class="size-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-1">
+<span class="material-symbols-outlined text-2xl">visibility_off</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">이 게시글은 숨겨졌습니다.</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm max-w-md">
+                        이 콘텐츠는 안전 및 제한 구역에 관한 커뮤니티 가이드라인을 위반하여 삭제되었습니다.
+                    </p>
+<div class="flex gap-4 mt-2">
+<button class="text-primary text-sm font-medium hover:underline">커뮤니티 가이드라인 보기</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-stretch justify-between gap-6 rounded-xl bg-white dark:bg-slate-900 p-6 shadow-sm border border-slate-200 dark:border-slate-800 opacity-60">
+<div class="flex flex-[2] flex-col justify-between gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wider">Events</span>
+<span class="text-slate-400 text-xs">•</span>
+<span class="text-slate-500 text-sm">Posted by CampusLife • 5 hours ago</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Spring Festival Volunteers Needed!</h3>
+<p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+                            Sign up now to help organize the biggest event of the semester. Free t-shirts and food vouchers for all volunteers.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-10 mt-10">
+<div class="max-w-[960px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2 text-slate-900 dark:text-white font-bold">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+                Cluverse
+            </div>
+<p class="text-slate-500 text-sm">© 2024 Cluverse Inc. All rights reserved.</p>
+</div>
+</footer>
+
+</body></html>

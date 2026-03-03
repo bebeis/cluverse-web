@@ -1,0 +1,43 @@
+.scrollContainer {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  padding: 8px 16px;
+  margin: 0 -16px; /* Negate parent padding if any, adjust based on layout */
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.chipGroup {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.chip {
+  padding: 8px 16px;
+  background-color: #F1F5F9;
+  color: #64748B;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background-color: #E2E8F0;
+}
+
+.chip.active {
+  background-color: #0F172A;
+  color: #FFFFFF;
+}
+
+.chip:active {
+  transform: scale(0.95);
+}

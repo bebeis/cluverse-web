@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 학과 탐색</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "primary-light": "#e0e0ff",
+                        "primary-dark": "#0a0ab5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a1a2e",
+                        "text-main": "#0d0d1b",
+                        "text-muted": "#6b7280",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "Noto Sans KR", "sans-serif"],
+                        "sans": ["Lexend", "Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', 'Noto Sans KR', sans-serif;
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-slate-100 min-h-screen flex flex-col font-display">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-text-main dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-text-main dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="hidden lg:flex flex-col min-w-40 !h-10 w-64">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-full bg-slate-100 dark:bg-slate-800 group focus-within:ring-2 ring-primary/50 transition-all">
+<div class="text-slate-400 flex items-center justify-center pl-4 rounded-l-xl border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl bg-transparent border-none text-text-main dark:text-white focus:ring-0 placeholder:text-slate-400 px-3 text-sm font-normal leading-normal" placeholder="검색어를 입력하세요" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">커뮤니티</a>
+<a class="text-primary font-bold text-sm leading-normal" href="#">학과 탐색</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">동아리</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">이벤트</a>
+</nav>
+<div class="flex gap-3">
+<button class="flex min-w-[80px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 px-5 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold shadow-lg shadow-primary/20">
+<span class="truncate">로그인</span>
+</button>
+<button class="flex min-w-[80px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-9 px-5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors text-text-main dark:text-white text-sm font-bold">
+<span class="truncate">회원가입</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-4 sm:px-8">
+<div class="layout-content-container flex flex-col lg:flex-row max-w-[1200px] w-full gap-8">
+<!-- Sidebar: Filters & Navigation -->
+<aside class="w-full lg:w-72 flex-shrink-0 flex flex-col gap-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 px-1">
+<a class="text-slate-500 hover:text-primary transition-colors text-sm font-medium" href="#">홈</a>
+<span class="text-slate-400 text-sm font-medium">/</span>
+<span class="text-primary font-bold text-sm">학과 탐색</span>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800">
+<h2 class="text-lg font-bold text-text-main dark:text-white mb-4">단과대학 선택</h2>
+<div class="flex flex-col gap-2">
+<!-- Accordion Item 1 (Active) -->
+<details class="group" open="">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors list-none select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">engineering</span>
+<span class="font-bold text-text-main dark:text-white">공학 대학</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pl-11 pr-3 pb-3 pt-1 flex flex-col gap-1">
+<a class="block py-2 text-sm text-primary font-semibold bg-primary/10 rounded-lg px-3 -ml-3" href="#">기계공학부</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">전자전기공학부</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">컴퓨터공학부</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">신소재공학부</a>
+</div>
+</details>
+<!-- Accordion Item 2 -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors list-none select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">menu_book</span>
+<span class="font-medium text-slate-700 dark:text-slate-200">인문 대학</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pl-11 pr-3 pb-3 pt-1 flex flex-col gap-1">
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">국어국문학과</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">영어영문학과</a>
+</div>
+</details>
+<!-- Accordion Item 3 -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors list-none select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">biotech</span>
+<span class="font-medium text-slate-700 dark:text-slate-200">자연과학 대학</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pl-11 pr-3 pb-3 pt-1 flex flex-col gap-1">
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">수학과</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">물리학과</a>
+</div>
+</details>
+<!-- Accordion Item 4 -->
+<details class="group">
+<summary class="flex cursor-pointer items-center justify-between rounded-lg p-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors list-none select-none">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">palette</span>
+<span class="font-medium text-slate-700 dark:text-slate-200">예술 체육 대학</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="pl-11 pr-3 pb-3 pt-1 flex flex-col gap-1">
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">디자인학부</a>
+<a class="block py-2 text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors px-3 -ml-3" href="#">스포츠과학과</a>
+</div>
+</details>
+</div>
+</div>
+<div class="bg-primary/5 dark:bg-primary/10 rounded-xl p-5 border border-primary/10 flex flex-col gap-3">
+<h3 class="text-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+                        관심 학과를 찾으시나요?
+                    </h3>
+<p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        관심 있는 키워드를 설정하면 내 성향에 맞는 학과를 추천받을 수 있습니다.
+                    </p>
+<button class="w-full mt-1 bg-surface-light dark:bg-surface-dark text-primary border border-primary/20 hover:border-primary/50 text-xs font-bold py-2.5 rounded-lg transition-all shadow-sm">
+                        내 성향 분석하기
+                    </button>
+</div>
+</aside>
+<!-- Main Feed -->
+<section class="flex-1 flex flex-col min-w-0">
+<div class="flex flex-col gap-6 mb-8">
+<h1 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">기계공학부</h1>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-text-main text-white dark:bg-white dark:text-text-main rounded-full text-sm font-bold shadow-md hover:scale-105 transition-transform">
+<span>전체</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span>인기순</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>최신순</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">image</span>
+<span>이미지 포함</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+<span>댓글 많은</span>
+</button>
+</div>
+</div>
+<!-- Feed List -->
+<div class="flex flex-col gap-6">
+<!-- Post Item 1 -->
+<article class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex gap-6">
+<div class="flex-1 flex flex-col gap-3">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">공지</span>
+<span>•</span>
+<span>학생회</span>
+<span>•</span>
+<span>2시간 전</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                    2024학년도 2학기 기계공학부 전공 필수 과목 수강신청 안내 및 주의사항 필독
+                                </h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-2">
+                                    이번 학기 전공 필수 과목 수강신청과 관련하여 변경된 사항이 있습니다. 3학년 학생들은 특히 주의하여 주시기 바랍니다. 설계 과목의 경우 분반이 조정되었으니...
+                                </p>
+<div class="flex items-center gap-4 mt-auto pt-2">
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="font-medium">2.4k</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="font-medium">156</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span>42</span>
+</div>
+</div>
+</div>
+<!-- Thumbnail -->
+<div class="w-28 h-28 sm:w-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="students gathered around a table studying" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Group of students studying together in a modern library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAepenCh70oOgIb-48y8hki2vZuWxmat0zuoyQT1TrCh7dH_QuIaZIRxlRQiXbB6NEhYHRq81IyGnNDHXvw7bVv8PPpBI0_bIOpZkiWx61At8ggqKJfKAGOScRS8_KsamnWymfxqawhBByAbwZI9CrDb6n1-tf88t6BRVJUwvUT-aKiwCduxaSwqlFMIZSctny7VXhEiOctw--wzZpF4MUP4fi3ezsZNU4lwjCuKPtC3El-KeNuTvLjyC4osQKKk2vGcABjndDqOGRF"/>
+</div>
+</div>
+</article>
+<!-- Post Item 2 -->
+<article class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex gap-6">
+<div class="flex-1 flex flex-col gap-3">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+<span class="px-2 py-0.5 rounded bg-primary/10 text-primary">질문</span>
+<span>•</span>
+<span>익명</span>
+<span>•</span>
+<span>5시간 전</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                    기계공학부 졸업 프로젝트 팀원 구합니다 (로봇 제어 분야 관심있는 분)
+                                </h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-2">
+                                    안녕하세요. 이번 졸작 주제로 자율주행 로봇 제어 관련 프로젝트를 진행하려고 합니다. 현재 H/W 담당 1명, S/W 담당 1명(본인) 있습니다. 임베디드...
+                                </p>
+<div class="flex items-center gap-4 mt-auto pt-2">
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="font-medium">856</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="font-medium">24</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span>8</span>
+</div>
+</div>
+</div>
+<div class="w-28 h-28 sm:w-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="close up of robot arm and circuit board" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Detailed view of robotic arm technology prototype" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt2HIVGtVartIUl7XS5O83TJXeYx7980SfGi1BlhmTcSjshjn_asZ_vmnJmEE7s-DW2Wy5E6jtEVHqqaIo3jTOKJTCSU4qiIAcxEpnKZSvqV6k1bV4DP4q64GmAhq1ye4SJHYcv0DWj7Yjmci7FjEQ74KHwNlFV8qnQC9TJEUMV1Fiie5VE131TzzfNu89Rt_Pao1nDoeFx4FTayHfFRCL2fyDxico74Mf_6DQrT3H8KvTq3MomeTGPL7f8gnE2J4EX_x9xB_EerFf"/>
+</div>
+</div>
+</article>
+<!-- Post Item 3 (No Image Variant - Just text but keeping layout consistent if wanted, but user asked for thumbnails, so we'll provide another with thumb) -->
+<article class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex gap-6">
+<div class="flex-1 flex flex-col gap-3">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">정보</span>
+<span>•</span>
+<span>김철수</span>
+<span>•</span>
+<span>1일 전</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                    2023 기계공학 학술제 현장 스케치 및 우수작 공유
+                                </h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-2">
+                                    어제 열렸던 학술제 다들 고생 많으셨습니다. 대상 받은 4조의 드론 프로젝트가 정말 인상깊었는데요. 현장 사진 몇 장과 우수작들 간단한 리뷰 남깁니다.
+                                </p>
+<div class="flex items-center gap-4 mt-auto pt-2">
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="font-medium">1.2k</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="font-medium">89</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span>15</span>
+</div>
+</div>
+</div>
+<div class="w-28 h-28 sm:w-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="people presenting at a conference" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Students presenting their projects at an academic fair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfcIjKIFOBhSlGD4gV6C-dBtNfUoTecP-vvyGUfcDc8sjq5c2NnhxsKfEMXsD9b7GomrywzylRL6fVvSSTylmikU7E4sCkXrF2J24QmrqbAsEGUbR7iPC5VGKU6qe46uq6VMiFF2vEMF3LDg8xJqxoYQk7M81wx0mQAVdHzp-sPxrkk-_RyDDPs3w_7TK-a9B4JycCmfu0DKWSE_b9wEaM454ki-4reA69EIM-6028poYYIMj-YaYkRfsfSv0kZeV5bWKpkzHiw_zY"/>
+</div>
+</div>
+</article>
+<!-- Post Item 4 -->
+<article class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md hover:border-primary/30 transition-all cursor-pointer">
+<div class="flex gap-6">
+<div class="flex-1 flex flex-col gap-3">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+<span class="px-2 py-0.5 rounded bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">Hot</span>
+<span>•</span>
+<span>학과장</span>
+<span>•</span>
+<span>3일 전</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                                    [필독] 해외 인턴십 프로그램 참가자 모집 (독일, 미국)
+                                </h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-2">
+                                    우리 학부와 자매결연을 맺은 독일 뮌헨 공과대학교 및 미국 조지아 공과대학교로 파견될 하계 인턴십 참가자를 모집합니다. 전액 장학금이 지원되오니...
+                                </p>
+<div class="flex items-center gap-4 mt-auto pt-2">
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+<span class="font-medium">5.6k</span>
+</div>
+<div class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="font-medium">432</span>
+</div>
+<div class="flex items-center gap-1.5 text-primary text-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span>128</span>
+</div>
+</div>
+</div>
+<div class="w-28 h-28 sm:w-40 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-slate-200 relative">
+<img alt="students walking on university campus" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Sunny day at a university campus with students walking" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnVwBqG8G-dFIyyM2JzzECTHBDopS1UCKlHk8z7vuTQrapmQmHHAenNdTKgPBdXZZfdLlQSnJRFInxr9kIJ89cjApTsLSH9tpB--3O8BQ9FDMwTIebYEQxpzVqKG9KROOMuyxNYF_ZjLyMoulyAcA6XfD4qftn5aYslmaO79l2beKQNW-NuqVAXfBActiC4Py6f_PVPrk9uYuWTUHuvivsltykVP-Y1VulPomt8cNVkzef6blRSLtRDOvcRYx1KE5KHr3Ar0qJdfKt"/>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-10 flex justify-center">
+<nav class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 disabled:opacity-50">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-lg bg-primary text-white font-bold shadow-md shadow-primary/20">1</button>
+<button class="w-10 h-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors">2</button>
+<button class="w-10 h-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors">3</button>
+<button class="w-10 h-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors">4</button>
+<span class="text-slate-400 px-2">...</span>
+<button class="w-10 h-10 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium transition-colors">10</button>
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</div>
+</main>
+</body></html>

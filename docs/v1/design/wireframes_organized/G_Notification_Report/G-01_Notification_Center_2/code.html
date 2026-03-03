@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 알림 센터</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "unread-bg": "#eff6ff", // Light indigo/blue background for unread
+              "unread-bg-dark": "#1e293b",
+            },
+            fontFamily: {
+              "display": ["Spline Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="flex flex-col min-w-40 !h-10 max-w-64 hidden md:flex">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 flex border-none items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="커뮤니티 검색..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal" href="#">홈</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal" href="#">커뮤니티</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal" href="#">이벤트</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal" href="#">프로필</a>
+</div>
+<div class="flex gap-3 items-center">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors">
+<span class="truncate">글쓰기</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-800"></span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 ml-2 border border-slate-200 dark:border-slate-700" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCr9V5mICAGUxPH7gkYuXfY0MoJPs9bdBvi_6-6z67_wlqSAIk09quR2bVYltGmWCdy15g2CoSuxAls7i-bN_AuOIRCNApfXrRlVlhTcm6wPzPYWZY_x38DngTYPUHilCSHzD4T2MVFPGIWZotGR1WkuoA4qpvJyUUYB3BlnQm9ORdASgGC0wjSs18Ovu2DAGASQ_O_rGm5v7H1bnoOk24yVNR2O5nW3DWxk0uvbPoo7DmoYvVHZy2ZIKLR5edVzzQCovUnTnZqWbDC");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-[800px]">
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">알림</h1>
+<button class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white px-2 py-1 rounded transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+                        모두 읽음으로 표시
+                    </button>
+</div>
+<div class="flex flex-col gap-3">
+<div class="group flex flex-col sm:flex-row gap-4 bg-unread-bg dark:bg-unread-bg-dark p-4 rounded-xl border border-blue-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-primary border border-blue-100 dark:border-slate-700 shrink-0 h-12 w-12 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">chat</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold">새 댓글</p>
+<span class="h-2 w-2 rounded-full bg-primary ring-2 ring-white dark:ring-slate-900"></span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    누군가 당신의 게시글에 댓글을 남겼습니다.
+                                </p>
+</div>
+</div>
+<div class="flex sm:flex-col justify-between items-end sm:items-end gap-2 shrink-0 pl-16 sm:pl-0">
+<span class="text-slate-400 dark:text-slate-500 text-xs font-medium whitespace-nowrap">2분 전</span>
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary p-1 rounded-full hover:bg-blue-100 dark:hover:bg-slate-800 transition-colors" title="읽음으로 표시">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col sm:flex-row gap-4 bg-unread-bg dark:bg-unread-bg-dark p-4 rounded-xl border border-blue-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-emerald-500 border border-emerald-100 dark:border-slate-700 shrink-0 h-12 w-12 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold">지원 승인</p>
+<span class="h-2 w-2 rounded-full bg-primary ring-2 ring-white dark:ring-slate-900"></span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    AI 프로젝트 그룹 지원이 승인되었습니다! 환영합니다.
+                                </p>
+<div class="mt-1">
+<button class="inline-flex items-center justify-center rounded-lg h-9 px-4 border border-emerald-400 text-emerald-600 hover:bg-emerald-50 dark:text-emerald-400 dark:border-emerald-500 dark:hover:bg-emerald-900/20 bg-transparent text-sm font-semibold transition-colors">
+                                        그룹으로 이동
+                                    </button>
+</div>
+</div>
+</div>
+<div class="flex sm:flex-col justify-between items-end sm:items-end gap-2 shrink-0 pl-16 sm:pl-0">
+<span class="text-slate-400 dark:text-slate-500 text-xs font-medium whitespace-nowrap">15분 전</span>
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary p-1 rounded-full hover:bg-blue-100 dark:hover:bg-slate-800 transition-colors" title="읽음으로 표시">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col sm:flex-row gap-4 bg-unread-bg dark:bg-unread-bg-dark p-4 rounded-xl border border-blue-100 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="flex items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-orange-500 border border-orange-100 dark:border-slate-700 shrink-0 h-12 w-12 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">campaign</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<p class="text-slate-900 dark:text-white text-base font-semibold">그룹 공지</p>
+<span class="h-2 w-2 rounded-full bg-primary ring-2 ring-white dark:ring-slate-900"></span>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    새로운 공지사항이 등록되었습니다.
+                                </p>
+</div>
+</div>
+<div class="flex sm:flex-col justify-between items-end sm:items-end gap-2 shrink-0 pl-16 sm:pl-0">
+<span class="text-slate-400 dark:text-slate-500 text-xs font-medium whitespace-nowrap">1시간 전</span>
+<button class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary p-1 rounded-full hover:bg-blue-100 dark:hover:bg-slate-800 transition-colors" title="읽음으로 표시">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</button>
+</div>
+</div>
+<div class="group flex flex-col sm:flex-row gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
+<div class="flex items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 shrink-0 h-12 w-12 border border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined text-[24px]">article</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<p class="text-slate-700 dark:text-slate-200 text-base font-medium">새 게시글</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                                    팔로우 중인 사용자가 새 글을 올렸습니다.
+                                </p>
+</div>
+</div>
+<div class="flex sm:flex-col justify-between items-end sm:items-end gap-2 shrink-0 pl-16 sm:pl-0">
+<span class="text-slate-400 dark:text-slate-600 text-xs font-medium whitespace-nowrap">3시간 전</span>
+<div class="h-8 w-8"></div>
+</div>
+</div>
+<div class="group flex flex-col sm:flex-row gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 transition-colors">
+<div class="flex items-start gap-4 flex-1">
+<div class="relative shrink-0">
+<div class="flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500 shrink-0 h-12 w-12 border border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined text-[24px]">article</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<p class="text-slate-700 dark:text-slate-200 text-base font-medium">새 게시글</p>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                                    팔로우 중인 사용자가 새 글을 올렸습니다.
+                                </p>
+</div>
+</div>
+<div class="flex sm:flex-col justify-between items-end sm:items-end gap-2 shrink-0 pl-16 sm:pl-0">
+<span class="text-slate-400 dark:text-slate-600 text-xs font-medium whitespace-nowrap">5시간 전</span>
+<div class="h-8 w-8"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-8 mb-12">
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm font-medium flex items-center gap-2 transition-colors px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                        이전 알림 더보기
+                        <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

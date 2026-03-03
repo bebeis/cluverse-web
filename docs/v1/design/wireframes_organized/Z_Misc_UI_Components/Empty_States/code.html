@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - Empty States</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-content": "#ffffff",
+                        "primary-light": "#e0f0ff",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "border-light": "#e7edf3",
+                        "border-dark": "#2d3b4a",
+                        "text-main": "#0d141b",
+                        "text-sub": "#4c739a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Spline Sans', 'Noto Sans KR', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-6 py-3 shadow-sm">
+<div class="max-w-[1200px] mx-auto flex items-center justify-between w-full">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<a class="flex items-center gap-3 text-text-main dark:text-white group" href="#">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Cluverse</h2>
+</a>
+<!-- Nav Links -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">커뮤니티</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">동아리 찾기</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">이벤트</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">마이페이지</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search -->
+<div class="hidden sm:flex items-center bg-background-light dark:bg-background-dark rounded-full px-3 py-2 w-64 border border-border-light dark:border-border-dark focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-text-sub dark:text-slate-400 text-xl">search</span>
+<input class="bg-transparent border-none text-sm w-full focus:ring-0 text-text-main dark:text-white placeholder:text-text-sub ml-2" placeholder="관심사나 동아리를 검색해보세요"/>
+</div>
+<!-- User Profile -->
+<button class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-transparent hover:ring-primary transition-all" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5Rs2EvoBb89pOJBrujlh1SmAXxDhVtAyF6DJS0PLbRtk5efw8OrA9MgpNnexs0xQhy3s1OeQuorz7QKzkv-bW5npzI9a8sBQEtJHcSOoouW_-5JHvR7VTzM6XhgPHJZdTilT_Lvv_UB1E7z8HCvuOvak4ZyuwlIU97Ltx_oznu9ZKsV596Ybg8za8-QH9WhUXvu-eEs3EKB09GRCwVmo6I-Bvm9WPzvuJL8vE3Os58LIlHS8I14UavlTNQzGI7GEgH-ld4R14eZBd");'></button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center justify-center p-6 gap-12 w-full max-w-[1200px] mx-auto">
+<!-- Scenario 1: Empty State (No Posts) -->
+<section class="w-full max-w-2xl bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-border-light dark:border-border-dark p-10 md:p-16 flex flex-col items-center text-center animate-fade-in">
+<div class="relative w-48 h-48 mb-8">
+<!-- Abstract Illustration for Empty State -->
+<div class="absolute inset-0 bg-blue-50 dark:bg-blue-900/20 rounded-full blur-2xl opacity-60"></div>
+<div class="relative z-10 w-full h-full flex items-center justify-center">
+<div class="bg-gradient-to-tr from-primary/10 to-blue-200/20 dark:from-primary/20 dark:to-blue-900/40 rounded-full p-8">
+<span class="material-symbols-outlined text-primary text-7xl">post_add</span>
+</div>
+</div>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-2xl font-bold mb-3">아직 등록된 게시글이 없어요</h3>
+<p class="text-slate-500 dark:text-slate-400 text-base mb-8 max-w-md leading-relaxed">
+                이 게시판은 아직 조용하네요.<br class="hidden sm:block"/>
+                가장 먼저 흥미로운 이야기를 공유하고 <span class="text-primary font-semibold">첫 번째 주인공</span>이 되어보세요!
+            </p>
+<button class="flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+<span>글쓰기</span>
+</button>
+</section>
+<!-- Divider for demo purposes -->
+<div class="w-full flex items-center gap-4 text-slate-300 dark:text-slate-600 py-8">
+<div class="h-px bg-current flex-1"></div>
+<span class="text-xs font-mono uppercase tracking-widest">Example Scenarios</span>
+<div class="h-px bg-current flex-1"></div>
+</div>
+<!-- Scenario 2: Report Submitted (Success State) -->
+<section class="w-full max-w-2xl bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-border-light dark:border-border-dark p-10 md:p-16 flex flex-col items-center text-center">
+<div class="relative w-32 h-32 mb-6">
+<div class="absolute inset-0 bg-green-50 dark:bg-green-900/20 rounded-full blur-xl opacity-60"></div>
+<div class="relative z-10 w-full h-full flex items-center justify-center">
+<span class="material-symbols-outlined text-green-500 text-8xl">check_circle</span>
+</div>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-2xl font-bold mb-3">신고가 정상적으로 접수되었습니다</h3>
+<p class="text-slate-500 dark:text-slate-400 text-base mb-8 max-w-md leading-relaxed">
+                보내주신 소중한 의견 감사합니다.<br/>
+                Cluverse 운영팀에서 내용을 꼼꼼히 확인하고 <span class="text-slate-700 dark:text-slate-300 font-medium">빠르게 검토하겠습니다.</span>
+</p>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none bg-background-light dark:bg-background-dark hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-border-light dark:border-border-dark px-6 py-3 rounded-xl font-semibold transition-colors">
+                    이전으로
+                </button>
+<button class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold shadow-md shadow-primary/10 transition-all">
+<span>홈으로 돌아가기</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark mt-auto py-10 px-6">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-slate-500 dark:text-slate-400 text-sm">
+                © 2024 Cluverse. All rights reserved.
+            </div>
+<div class="flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm" href="#">이용약관</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm" href="#">개인정보처리방침</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary text-sm" href="#">문의하기</a>
+</div>
+</div>
+</footer>
+</body></html>

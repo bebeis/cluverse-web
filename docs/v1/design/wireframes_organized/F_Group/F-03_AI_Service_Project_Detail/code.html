@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - AI Service Development Project</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "primary-light": "#ebebfd",
+                        "primary-dark": "#0a0a8a",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1c1c2e",
+                        "text-main": "#0d0d1b",
+                        "text-secondary": "#4c4c9a",
+                        "border-light": "#e7e7f3",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans", "sans-serif"],
+                        "body": ["Spline Sans", "Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light text-text-main font-display antialiased min-h-screen flex flex-col relative">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light bg-surface-light/95 backdrop-blur-sm px-6 lg:px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-text-main cursor-pointer hover:opacity-80 transition-opacity">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-text-main text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 w-64 lg:w-80 group">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full ring-1 ring-border-light focus-within:ring-2 focus-within:ring-primary transition-all">
+<div class="text-text-secondary flex border-none bg-background-light items-center justify-center pl-3 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main focus:outline-0 focus:ring-0 border-none bg-background-light focus:border-none h-full placeholder:text-text-secondary px-3 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" placeholder="그룹, 프로젝트, 커뮤니티 검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden lg:flex items-center gap-8">
+<a class="text-text-secondary hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">커뮤니티</a>
+<a class="text-text-secondary hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">그룹 찾기</a>
+<a class="text-text-secondary hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">이벤트</a>
+</div>
+<button class="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary-dark transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-sm">
+<span class="truncate">그룹 만들기</span>
+</button>
+<div class="flex items-center gap-3 pl-2 border-l border-border-light">
+<button class="text-text-secondary hover:text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-white shadow-sm cursor-pointer" data-alt="User profile picture showing a smiling woman" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvzChm4NmEQJupscB6CzEd1cnnELttk0UvcI4b2TStgKJ3M7OXx28lLuAmo70VxvE3r3_hJhLoLh7ZpLrzUm0GIY0gNxv0nWWisFbhQ8H0zmkCJ_7YMzbrMIu7bdV7PNrNBwBz6yojm73olpqqpSpUEvLLVjNLuLeelau9N7qYKPvZDBOFSe_a2ldDFdp1d9qlROsXkJO2mTKjede6iD9uEmkWa4QbT-7-KRihrYLnfuhIiWnqbU52zBq_OCyBlLH1unnEy6cKeclJ");'></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1024px] mx-auto px-4 sm:px-6 py-6 pb-24">
+<!-- Header Section -->
+<div class="flex flex-col gap-6 mb-8">
+<!-- Cover Image -->
+<div class="relative w-full h-[220px] rounded-2xl overflow-hidden shadow-sm group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Team working together on laptops in a modern office with glass walls" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuClyC4F_hZLthY6BKTYzdDg4dDquEqTsWV-Ahl7IPQh9Lree2_yqi0aTGzsfDNYOgJny7ixBTZhm3DShHoiReGtvrfgfdXZ2ZoS6K0qa4qb_JnRg4PbIrl9a-GHE5USn0wqvKFt1BrRjqayRTXIXaqHEHOhfGdHUCZIv6xKWNGWMUDv2eKx4z6Axue8Q5_UDOkSxVt_fGwob3CYn6x_zXkJbbnRwKAaQoJqOK8QmzRxvr9VFd_GdF3NJbMaZg-VAivNBTwS2Dbb9ueW");'>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 sm:p-8 w-full">
+<div class="flex items-center gap-2 text-white/90 text-sm font-medium mb-2">
+<span class="bg-primary/90 px-2 py-0.5 rounded text-xs font-bold text-white uppercase tracking-wider">Project</span>
+<span>서울대학교</span>
+<span class="w-1 h-1 rounded-full bg-white/60"></span>
+<span>Tech</span>
+</div>
+<h1 class="text-white text-2xl sm:text-4xl font-bold leading-tight drop-shadow-sm">AI 서비스 개발 프로젝트</h1>
+</div>
+</div>
+<!-- Group Info -->
+<div class="flex flex-col sm:flex-row gap-6 items-start justify-between">
+<div class="flex gap-5 items-start">
+<div class="shrink-0 bg-white p-1 rounded-xl shadow-sm border border-border-light">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-lg w-20 h-20 sm:w-24 sm:h-24" data-alt="Abstract AI brain logo with neural network connections in blue and purple" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDoBrZfVGihxoxcQmDbDy_jcPQX-Aek3UbDLGcbjiSpO6AfrnKKDoCym9sw7R5RW0JR-dWB1v-Y1dU57cNcfxEqBjyIrexWZPKvKPRh8bdVgD0e4bIV1xF7BrraDMFbfyTgPOo5cRfpD0a1zl81lsPEVPO6YXvB5Qy_cJcUAXfpg1yQfmNYgS4X-AJxBbn202A_PiOM_y_AH8OiVreuy3Bt87CjtAAGopx6owH-gZPW4faZeHAEKRZRwOgDMfHVsAK0A9MuOep9S9eT");'></div>
+</div>
+<div class="flex flex-col gap-1 py-1">
+<h2 class="text-text-main text-xl font-bold leading-tight">AI Service Dev Team</h2>
+<p class="text-text-secondary text-sm sm:text-base leading-relaxed max-w-2xl">
+                            대학생들을 위한 AI 기반 맞춤형 추천 서비스를 개발하고 있습니다. <br class="hidden sm:block"/>
+                            열정적인 팀원들과 함께 실제 서비스 런칭까지 경험해보세요!
+                        </p>
+<div class="flex items-center gap-4 mt-2 text-sm text-text-secondary font-medium">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">group</span> 멤버 5명</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">calendar_month</span> D-14 모집 마감</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 self-end sm:self-center">
+<button class="p-2 rounded-lg hover:bg-background-light text-text-secondary hover:text-primary transition-colors border border-transparent hover:border-border-light">
+<span class="material-symbols-outlined">bookmark_border</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-background-light text-text-secondary hover:text-primary transition-colors border border-transparent hover:border-border-light">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="sticky top-[73px] z-40 bg-background-light/95 backdrop-blur pt-2 mb-6 border-b border-border-light">
+<div class="flex gap-8 overflow-x-auto no-scrollbar">
+<a class="group flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-primary/30 pb-3 px-1 min-w-[60px]" href="#">
+<span class="text-text-secondary group-hover:text-text-main text-sm font-bold tracking-[0.015em] transition-colors">소개</span>
+</a>
+<a class="group flex flex-col items-center justify-center border-b-[3px] border-b-primary pb-3 px-1 min-w-[60px]" href="#">
+<span class="text-primary text-sm font-bold tracking-[0.015em]">모집 공고</span>
+</a>
+<a class="group flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-primary/30 pb-3 px-1 min-w-[60px]" href="#">
+<span class="text-text-secondary group-hover:text-text-main text-sm font-bold tracking-[0.015em] transition-colors">멤버</span>
+</a>
+<a class="group flex flex-col items-center justify-center border-b-[3px] border-b-transparent hover:border-b-primary/30 pb-3 px-1 min-w-[60px]" href="#">
+<span class="text-text-secondary group-hover:text-text-main text-sm font-bold tracking-[0.015em] transition-colors">Q&amp;A</span>
+</a>
+</div>
+</div>
+<!-- Recruitment Content -->
+<div class="flex flex-col gap-6 animate-fade-in">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-text-main text-xl font-bold">오픈 포지션 <span class="text-primary ml-1">3</span></h3>
+<!-- Filter Dropdown Trigger (Visual only) -->
+<button class="flex items-center gap-1 text-sm font-medium text-text-secondary hover:text-text-main bg-white px-3 py-1.5 rounded-lg border border-border-light shadow-sm">
+<span>최신순</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+<!-- Card 1: Backend Developer -->
+<article class="bg-surface-light rounded-xl border border-border-light p-5 hover:border-primary/50 hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-light text-primary text-xs font-bold px-2.5 py-1 rounded-md uppercase">Backend</span>
+<span class="text-xs font-medium text-red-500 bg-red-50 px-2 py-1 rounded-full">마감임박</span>
+</div>
+<h4 class="text-lg font-bold text-text-main mb-2 group-hover:text-primary transition-colors">백엔드 개발자 (Python/Django)</h4>
+<p class="text-sm text-text-secondary mb-5 line-clamp-2 flex-grow">
+                        RESTful API 설계 및 데이터베이스 모델링 경험이 있으신 분을 찾습니다. AWS 배포 경험자 우대합니다.
+                    </p>
+<div class="space-y-3 pt-4 border-t border-border-light border-dashed">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">code</span>
+<span>Python, Django, AWS</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">group_add</span>
+<span>1명 모집</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">schedule</span>
+<span>10월 31일 마감</span>
+</div>
+</div>
+</article>
+<!-- Card 2: Frontend Developer -->
+<article class="bg-surface-light rounded-xl border border-border-light p-5 hover:border-primary/50 hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-primary-light text-primary text-xs font-bold px-2.5 py-1 rounded-md uppercase">Frontend</span>
+<span class="text-xs font-medium text-text-secondary bg-background-light px-2 py-1 rounded-full">모집중</span>
+</div>
+<h4 class="text-lg font-bold text-text-main mb-2 group-hover:text-primary transition-colors">프론트엔드 개발자 (React)</h4>
+<p class="text-sm text-text-secondary mb-5 line-clamp-2 flex-grow">
+                        React 및 TypeScript 활용 능숙하신 분. 컴포넌트 재사용성과 UI/UX에 관심이 많으신 분을 모십니다.
+                    </p>
+<div class="space-y-3 pt-4 border-t border-border-light border-dashed">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">code</span>
+<span>React, TypeScript, Tailwind</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">group_add</span>
+<span>2명 모집</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">schedule</span>
+<span>11월 05일 마감</span>
+</div>
+</div>
+</article>
+<!-- Card 3: UX/UI Designer -->
+<article class="bg-surface-light rounded-xl border border-border-light p-5 hover:border-primary/50 hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-md uppercase">Design</span>
+<span class="text-xs font-medium text-text-secondary bg-background-light px-2 py-1 rounded-full">모집중</span>
+</div>
+<h4 class="text-lg font-bold text-text-main mb-2 group-hover:text-primary transition-colors">UX/UI 디자이너</h4>
+<p class="text-sm text-text-secondary mb-5 line-clamp-2 flex-grow">
+                        Figma를 활용한 프로토타이핑이 가능하신 분. 개발팀과의 원활한 소통을 중요하게 생각합니다.
+                    </p>
+<div class="space-y-3 pt-4 border-t border-border-light border-dashed">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">palette</span>
+<span>Figma, Prototyping</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">group_add</span>
+<span>1명 모집</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px] text-primary/70">schedule</span>
+<span>11월 10일 마감</span>
+</div>
+</div>
+</article>
+<!-- Card 4: Product Manager (Closed) -->
+<article class="bg-background-light rounded-xl border border-border-light p-5 opacity-70 cursor-not-allowed flex flex-col h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-white/50 z-10 flex items-center justify-center backdrop-blur-[1px]">
+<span class="bg-text-main text-white px-4 py-2 rounded-full font-bold text-sm shadow-md">모집 마감</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<span class="bg-gray-200 text-gray-600 text-xs font-bold px-2.5 py-1 rounded-md uppercase">PM</span>
+</div>
+<h4 class="text-lg font-bold text-text-main mb-2">서비스 기획자 (PM)</h4>
+<p class="text-sm text-text-secondary mb-5 line-clamp-2 flex-grow">
+                        아이디어를 구체화하고 일정 관리를 담당하실 분. 
+                    </p>
+<div class="space-y-3 pt-4 border-t border-border-light border-dashed">
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+<span>기획, 문서화, 일정관리</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>1명 모집</span>
+</div>
+<div class="flex items-center gap-2 text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>10월 20일 마감</span>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<!-- Floating Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background-light via-background-light to-transparent pb-8 pt-12 pointer-events-none">
+<div class="max-w-[1024px] mx-auto flex justify-end pointer-events-auto">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-border-light p-4 w-full md:w-auto md:min-w-[400px] flex items-center justify-between gap-4">
+<div class="flex flex-col pl-2">
+<span class="text-xs font-semibold text-text-secondary uppercase tracking-wider mb-0.5">Application</span>
+<span class="text-text-main font-bold text-sm">마감이 얼마 남지 않았어요!</span>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-xl font-bold transition-all shadow-md shadow-primary/20 hover:shadow-primary/30 transform hover:-translate-y-0.5">
+<span>지원하기</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

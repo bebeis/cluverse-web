@@ -1,0 +1,53 @@
+.topAppBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.left, .right {
+  display: flex;
+  align-items: center;
+  width: 50px; /* To keep title roughly centered if symmetric */
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  padding: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: -8px;
+  transition: background-color 0.2s ease;
+}
+
+.iconBtn:hover {
+  background-color: #F1F5F9;
+}

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 개인정보 보호 설정</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+<div class="w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center gap-8">
+<div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+<div class="w-8 h-8 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"></path>
+</svg>
+</div>
+<span class="font-bold text-xl tracking-tight text-slate-900 dark:text-white">Cluverse</span>
+</div>
+<div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 w-64">
+<span class="material-symbols-outlined text-slate-500 text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full text-slate-900 dark:text-white placeholder-slate-500" placeholder="Search communities..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<a class="hover:text-primary transition-colors" href="#">Communities</a>
+<a class="hover:text-primary transition-colors" href="#">Events</a>
+<a class="text-primary font-semibold" href="#">My Page</a>
+</nav>
+<div class="h-10 w-10 rounded-full bg-slate-200 bg-cover bg-center border-2 border-white dark:border-slate-700 shadow-sm cursor-pointer" data-alt="User profile picture thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAV8fz5L_mxnGwkjdJENK2uKR1p2kHrfrxsHyzcx7uBUUQH8tu25KICdUZ7vNDF98Td12GkRtLlla5RoRS_jCpdX7rwWuXdGqBB2ecapnoxJ3M5xtqgNRiGUked8kIVFVWhg4l3r4I1A25SwnnzmSBWdniF4u_d4SlpbdGO9eBvqjFMjJjZrkItSbMgZMrweGHpn9Yf4wE32Aa806Yuk7MFJw0S0QNe5IGg4ZHJFgrI1RTBUz_pgYdQi5zHK8tHgnwDmkOey0k7arFe");'></div>
+</div>
+</div>
+</div>
+</div>
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="hidden lg:block lg:col-span-3">
+<div class="bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800 sticky top-24">
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">설정</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">person</span>
+                            프로필 정보
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+                            알림
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-primary bg-primary/5 rounded-lg" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary">lock</span>
+                            개인정보 보호
+                        </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">security</span>
+                            보안
+                        </a>
+</nav>
+</div>
+</div>
+<div class="lg:col-span-9 space-y-6">
+<div class="flex flex-col gap-2 mb-8">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">개인정보 보호 설정</h1>
+<p class="text-slate-500 dark:text-slate-400">다른 사용자에게 내 프로필이 어떻게 보일지 관리하고 상호작용 방식을 설정하세요.</p>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Profile Visibility</h2>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active
+                        </span>
+</div>
+<div class="p-6 space-y-6">
+<div class="flex items-center justify-between group">
+<div class="flex items-start gap-4">
+<div class="h-12 w-12 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">school</span>
+</div>
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white">Show University Name</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                        When disabled, your specific university name (e.g., "Yonsei Univ.") will be hidden from public view. Instead, a "Verified Student" badge will be shown.
+                                    </p>
+</div>
+</div>
+<div class="flex items-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="h-px w-full bg-slate-100 dark:bg-slate-800"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="h-12 w-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</div>
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white">Show Major</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Allow others to see your specific field of study.</p>
+</div>
+</div>
+<div class="flex items-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="h-px w-full bg-slate-100 dark:bg-slate-800"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-start gap-4">
+<div class="h-12 w-12 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">radio_button_checked</span>
+</div>
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white">Show Online Status</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Let others know when you are currently active on Cluverse.</p>
+</div>
+</div>
+<div class="flex items-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<span class="text-sm text-slate-500 dark:text-slate-400">변경사항은 자동으로 저장됩니다</span>
+<button class="inline-flex items-center gap-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-700 dark:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            타인에게 보이는 내 프로필 미리보기
+                        </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 p-6">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Messaging Privacy</h2>
+<div class="flex items-center justify-between p-4 border border-slate-100 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">mail</span>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300">Allow messages from non-verified users</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
+<div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-700 relative transform transition-all scale-100">
+<div class="bg-primary px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+<span class="font-semibold text-sm">전체 공개 미리보기 모드</span>
+</div>
+<button class="text-white/80 hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="relative">
+<div class="h-32 bg-gradient-to-r from-blue-400 to-indigo-500" data-alt="Abstract blue gradient header background for profile card"></div>
+<div class="absolute top-20 left-6">
+<div class="h-24 w-24 rounded-full border-4 border-white dark:border-slate-900 bg-white shadow-md overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXfcoka7IG_NCroMKZgmfb5BJoPI6OfxxduLElfQNOgcvl0aYVuQMOmFsIGPB5FlarK9tPophIhXXIDZGRgzjggB1WnXwhrD13F5lGpXk6gp43gr1_aGRirIl8qnjrvP7_fusaZAOuGbIawEO5R7eQem0V4XI2PuTY-lS57uUi_EM-Ab5FdmjMqK0kGsYEB5nZseJF492HSNj1Q3M6fE-SpzTXlW-QyPLDtJt454rl9UeGCm1GeEtu59JGOs97eEA15TRx2Fl_0hM3"/>
+</div>
+</div>
+<div class="mt-14 px-6 pb-8">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ji-min Kim</h2>
+<p class="text-slate-500 dark:text-slate-400 text-sm">@jimin_k_design</p>
+</div>
+<button class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:bg-blue-700 transition-colors">
+                            팔로우
+                        </button>
+</div>
+<div class="mt-6 flex flex-wrap gap-2">
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-[16px] text-green-500">verified</span>
+<span class="text-xs font-semibold">인증된 학생</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/30">
+<span class="material-symbols-outlined text-[16px]">palette</span>
+<span class="text-xs font-medium">인터랙션 디자인</span>
+</div>
+</div>
+<div class="mt-6">
+<h4 class="text-sm font-semibold text-slate-900 dark:text-white mb-2">소개</h4>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            Passionate about creating intuitive user experiences. Currently exploring the intersection of AI and community building. Loves photography and coffee. ☕️
+                        </p>
+</div>
+<div class="mt-6 grid grid-cols-3 gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
+<div class="text-center">
+<div class="font-bold text-slate-900 dark:text-white">248</div>
+<div class="text-xs text-slate-500">게시글</div>
+</div>
+<div class="text-center border-l border-slate-100 dark:border-slate-800">
+<div class="font-bold text-slate-900 dark:text-white">1.2k</div>
+<div class="text-xs text-slate-500">팔로워</div>
+</div>
+<div class="text-center border-l border-slate-100 dark:border-slate-800">
+<div class="font-bold text-slate-900 dark:text-white">850</div>
+<div class="text-xs text-slate-500">팔로잉</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 border-t border-yellow-100 dark:border-yellow-900/30 flex items-start gap-3">
+<span class="material-symbols-outlined text-yellow-600 dark:text-yellow-500 mt-0.5">info</span>
+<div class="text-sm text-yellow-800 dark:text-yellow-200">
+<span class="font-bold block mb-1">미리보기: 대학교 이름 숨김</span>
+                     '대학교 이름 표시'를 비활성화했기 때문에 다른 사용자에게는 학교 이름 대신 '인증된 학생' 배지만 표시됩니다.
+                 </div>
+</div>
+</div>
+</div>
+
+</body></html>

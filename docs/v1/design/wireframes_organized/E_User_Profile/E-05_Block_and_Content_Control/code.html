@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 사용자 차단 및 콘텐츠 제어</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-hover": "#0f6bd0",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "text-main": "#0d141b",
+                        "text-sub": "#4c739a",
+                        "border-light": "#e7edf3",
+                        "border-dark": "#2a3b4d",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }.btn-indigo-line {
+            @apply border border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 bg-transparent hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-text-main dark:text-slate-100">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-background-light dark:bg-slate-800">
+<div class="text-text-sub dark:text-slate-400 flex border-none items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent focus:border-none h-full placeholder:text-text-sub dark:placeholder:text-slate-400 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-text-main dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">커뮤니티</a>
+<a class="text-text-main dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">소모임</a>
+<a class="text-text-main dark:text-slate-200 text-sm font-medium hover:text-primary transition-colors" href="#">이벤트</a>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-full size-10 bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px]">account_circle</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary cursor-pointer" data-alt="User profile picture showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD3UVwj-Sxi2hzjju0aMbXVXzXFPzuGBrA1tDKFk8foo9un_uvYN3vuopKLrgBLJvpL6F1Q_-gmAgWSwGCWkHZ1GrDehZIjFiTVJG5NdR9Ibarm5YMC7xLSUwhMHITUbXfe8P7MJJO63emH4mcgF6K4dot0mKMls83FWTZWFxZGK3vQLz25RQS7QW0LGXw3XEOLY8EvZZvg2WdrgQuhk1ngeBL60MkU8pxPOxM_oj963xqMH5IIZUiYpnLMEEKssBG0V0dHtOn5VaXd");'></div>
+</div>
+</header>
+<main class="layout-container flex grow flex-col w-full max-w-[1200px] mx-auto px-4 py-8 gap-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
+<aside class="hidden lg:flex lg:col-span-3 flex-col gap-4">
+<div class="flex flex-col gap-2 p-4 bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark">
+<p class="text-xs font-bold text-text-sub dark:text-slate-400 uppercase tracking-wider mb-2 px-2">메뉴</p>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg text-text-main dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">feed</span>
+<span class="font-medium">피드</span>
+</a>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg text-text-main dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-medium">내 소모임</span>
+</a>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg text-text-main dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-medium">저장된 글</span>
+</a>
+</div>
+<div class="flex flex-col gap-2 p-4 bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-border-light dark:border-border-dark">
+<p class="text-xs font-bold text-text-sub dark:text-slate-400 uppercase tracking-wider mb-2 px-2">설정</p>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg text-text-main dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-medium">프로필 수정</span>
+</a>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg bg-primary/10 text-primary font-bold" href="#">
+<span class="material-symbols-outlined">block</span>
+<span>차단 관리</span>
+</a>
+<a class="flex items-center gap-3 px-2 py-2 rounded-lg text-text-main dark:text-slate-200 hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-medium">알림 설정</span>
+</a>
+</div>
+</aside>
+<section class="col-span-1 lg:col-span-6 flex flex-col gap-6">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h1 class="text-2xl font-bold text-text-main dark:text-slate-100">커뮤니티 피드</h1>
+<button class="text-sm text-text-sub hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-base">tune</span> 필터
+                    </button>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-primary text-white text-sm font-medium">전체</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">인기글</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">우리 학교</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">공모전</button>
+<button class="whitespace-nowrap px-4 py-1.5 rounded-full bg-background-light dark:bg-slate-800 text-text-main dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700">동아리</button>
+</div>
+</div>
+<article class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 bg-cover bg-center" data-alt="Profile picture of a user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpn8GzO24Et2MnSMsSfzyYelez0bc-mig96Tih5MNmtiE8xGUCvPbyHEuDSA-_iln9g31qCcg6CfNcv1mnXhSa6zGetcbA4w9tvZCddq7VLQIKOtNCXem4nxt76xtcoq2l4DjfDZCBx6wIXMMb9eDEmTUdIEEvrY3eN7VXXBKenypx9weCgozPdRDiiwj6e7Uwy1CMndqUTM4Y0TXWDcTiXk0mTJIJ8fvuvQv9a0g2w2kFeI3lVLsCFwsIoZfqz3hhU9sDmquott5n");'></div>
+<div>
+<p class="text-sm font-bold text-text-main dark:text-slate-100">디자인러버</p>
+<p class="text-xs text-text-sub dark:text-slate-400">홍익대학교 · 20분 전</p>
+</div>
+</div>
+<button class="text-text-sub hover:text-text-main dark:hover:text-slate-200">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-slate-100 mb-2">이번 주말 한강 피크닉 같이 가실 분?</h3>
+<p class="text-text-main dark:text-slate-300 text-sm leading-relaxed mb-3">날씨가 너무 좋아서 한강으로 피크닉 가려고 하는데 같이 가실 분 구합니다! 간단하게 치맥하고 보드게임도 해요.</p>
+<div class="w-full h-64 rounded-lg bg-cover bg-center mb-3" data-alt="Picnic setup on grass with food and drinks" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAuHSJQ6sX3oHRNBYsZR8iO-t2vmvFw7OhraCHcRbp41ZsNofZCm8VvOCDSp3CmucxBxNGogztDWTXw38hzt9msLmM2AZjZE5yusQeiEP7yeF7Rm1HLX67tBGYkJbliOgBK16gv3u1-rgvj7qfWWoM-0WIPIVWQpM1B-y2KWbP0xQkVEs5rPhA5wJSdrW7CV8vzUw6fSwMHt39y2J9QIKbi8KCVWZfU_ct_evHo1hrTuSwt92yy6BoPmFCqVlVRxltwCwS1EuhG8qGT");'></div>
+</div>
+<div class="flex items-center gap-6 pt-2 border-t border-border-light dark:border-border-dark">
+<button class="flex items-center gap-1.5 text-text-sub hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+<span class="text-sm">24</span>
+</button>
+<button class="flex items-center gap-1.5 text-text-sub hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm">8</span>
+</button>
+<button class="flex items-center gap-1.5 text-text-sub hover:text-primary transition-colors ml-auto">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</article>
+<article class="bg-gray-100 dark:bg-slate-800 p-8 rounded-xl border border-gray-200 dark:border-slate-700 flex flex-col items-center justify-center gap-4 text-center">
+<div class="p-4 bg-gray-200 dark:bg-slate-700 rounded-full text-gray-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-3xl">visibility_off</span>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-gray-700 dark:text-slate-300 font-bold text-base">차단한 사용자의 게시글입니다</p>
+<p class="text-gray-500 dark:text-slate-400 text-sm">해당 게시글의 내용을 보시려면 아래 버튼을 눌러주세요.</p>
+</div>
+<button class="px-6 py-2 rounded-lg border border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400 bg-transparent hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors text-sm font-bold mt-2">
+                    게시글 보기
+                </button>
+</article>
+<article class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl shadow-sm border border-border-light dark:border-border-dark flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBsouRxwwNYre6nhQalI6sNifqg5nBdC7Ug6rOlMQEwnvCA8RhX7VnB8o_JdNwjbhcpDeNNr088Ely3rkmUsqDLu-oW42mJ-7P7QekrAbuscjv4vplEIEN78hDnfCDQIe82MMTWktDNI7O_UXPT7n8xGUAvIeKPSjtDXodJXSzG9HCpdCQalzNL0fRes3OnRegzmkUVlJ0_Dp6-SV30iEPedoCrmsxGM0FjD38KC6qLLW2UzJESou6o6HGmH-6MOBYQa3VmZlGtNtO");'></div>
+<div>
+<p class="text-sm font-bold text-text-main dark:text-slate-100">코딩왕</p>
+<p class="text-xs text-text-sub dark:text-slate-400">서울대학교 · 1시간 전</p>
+</div>
+</div>
+<button class="text-text-sub hover:text-text-main dark:hover:text-slate-200">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div>
+<h3 class="text-lg font-bold text-text-main dark:text-slate-100 mb-2">해커톤 팀원 구합니다 (프론트엔드)</h3>
+<p class="text-text-main dark:text-slate-300 text-sm leading-relaxed">이번 여름 방학에 진행되는 대학생 연합 해커톤 같이 나가실 프론트엔드 개발자 분 구합니다. 리액트나 뷰 사용 가능하신 분 연락주세요!</p>
+</div>
+<div class="flex items-center gap-6 pt-2 border-t border-border-light dark:border-border-dark">
+<button class="flex items-center gap-1.5 text-text-sub hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+<span class="text-sm">12</span>
+</button>
+<button class="flex items-center gap-1.5 text-text-sub hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm">5</span>
+</button>
+</div>
+</article>
+</section>
+<aside class="col-span-1 lg:col-span-3">
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl shadow-sm border border-border-light dark:border-border-dark sticky top-24">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-bold text-text-main dark:text-slate-100">차단 관리</h2>
+<a class="text-xs text-primary font-medium hover:underline" href="#">전체보기</a>
+</div>
+<p class="text-xs text-text-sub dark:text-slate-400 mb-4 leading-relaxed bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-border-light dark:border-border-dark">
+<span class="font-bold block mb-1">📢 차단 정책 안내</span>
+                    차단 시 서로의 게시글, 댓글, 알림이 제한됩니다. 신중하게 결정해주세요.
+                </p>
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-border-light dark:border-border-dark hover:bg-background-light dark:hover:bg-slate-800 transition-colors group">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center border border-slate-200 dark:border-slate-600">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[20px]">person_off</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-text-main dark:text-slate-200">악성댓글러</span>
+<span class="text-xs text-text-sub dark:text-slate-400">연세대학교</span>
+</div>
+</div>
+<button class="text-xs font-medium text-slate-500 bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 transition-all shadow-sm">
+                            해제
+                        </button>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-border-light dark:border-border-dark hover:bg-background-light dark:hover:bg-slate-800 transition-colors group">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center border border-slate-200 dark:border-slate-600">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[20px]">person_off</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-text-main dark:text-slate-200">광고계정123</span>
+<span class="text-xs text-text-sub dark:text-slate-400">고려대학교</span>
+</div>
+</div>
+<button class="text-xs font-medium text-slate-500 bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 transition-all shadow-sm">
+                            해제
+                        </button>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg border border-border-light dark:border-border-dark hover:bg-background-light dark:hover:bg-slate-800 transition-colors group">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden flex items-center justify-center border border-slate-200 dark:border-slate-600">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[20px]">person_off</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-text-main dark:text-slate-200">도배빌런</span>
+<span class="text-xs text-text-sub dark:text-slate-400">성균관대학교</span>
+</div>
+</div>
+<button class="text-xs font-medium text-slate-500 bg-white border border-slate-200 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-400 px-3 py-1.5 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-slate-700 dark:hover:text-slate-200 transition-all shadow-sm">
+                            해제
+                        </button>
+</div>
+</div>
+</div>
+<div class="mt-6 p-5 bg-gradient-to-br from-primary to-[#0d5fb0] rounded-xl text-white shadow-lg relative overflow-hidden">
+<div class="absolute right-[-20px] top-[-20px] opacity-20">
+<span class="material-symbols-outlined text-[120px]">mark_email_unread</span>
+</div>
+<h3 class="font-bold text-lg mb-1 relative z-10">친구 초대하기</h3>
+<p class="text-sm text-white/90 mb-4 relative z-10">친구를 초대하고 함께 Cluverse를 즐겨보세요!</p>
+<button class="w-full bg-white text-primary text-sm font-bold py-2 rounded-lg hover:bg-slate-100 transition-colors relative z-10">
+                    초대 링크 복사
+                </button>
+</div>
+</aside>
+</div>
+</main>
+<div class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm" id="block-modal-demo">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-2xl w-full max-w-sm overflow-hidden transform scale-100 transition-transform">
+<div class="p-6 flex flex-col items-center text-center">
+<div class="size-14 rounded-full bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 flex items-center justify-center mb-5 ring-4 ring-red-50 dark:ring-red-900/10">
+<span class="material-symbols-outlined text-[32px]">block</span>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-slate-100 mb-2">사용자를 차단하시겠습니까?</h3>
+<p class="text-text-sub dark:text-slate-400 text-sm mb-8 leading-relaxed">
+                차단 시 서로의 게시글, 댓글, 알림이<br/>모두 제한됩니다.
+            </p>
+<div class="flex gap-3 w-full">
+<button class="flex-1 px-4 py-2.5 rounded-lg border border-border-light dark:border-border-dark text-text-sub dark:text-slate-400 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                    취소
+                </button>
+<button class="flex-1 px-4 py-2.5 rounded-lg bg-red-500 text-white font-bold text-sm hover:bg-red-600 transition-colors shadow-sm">
+                    차단하기
+                </button>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-auto border-t border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark py-8">
+<div class="layout-container max-w-[1200px] mx-auto px-4 text-center">
+<p class="text-text-sub dark:text-slate-500 text-sm">© 2024 Cluverse. All rights reserved.</p>
+</div>
+</footer>
+
+</body></html>

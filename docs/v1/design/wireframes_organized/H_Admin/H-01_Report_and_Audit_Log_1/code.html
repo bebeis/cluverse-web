@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse Admin - 신고 처리 및 감사 로그</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2563eb",
+                        "primary-dark": "#1e40af",
+                        "danger": "#dc2626",
+                        "danger-dark": "#b91c1c",
+                        "success": "#16a34a",
+                        "background-light": "#f1f5f9",
+                        "background-dark": "#0f172a",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e293b",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "sans": ["Spline Sans", "Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'card': '0 0 0 1px rgba(0,0,0,0.03), 0 2px 8px rgba(0,0,0,0.04)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: "Spline Sans", "Noto Sans KR", sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-6 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white">
+<div class="size-9 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold tracking-tight">Cluverse Ops</h2>
+</div>
+<nav class="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+<a class="px-4 py-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all text-sm font-medium leading-normal" href="#">대시보드</a>
+<a class="px-4 py-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all text-sm font-medium leading-normal" href="#">사용자</a>
+<a class="px-4 py-1.5 bg-white dark:bg-slate-700 text-primary dark:text-white shadow-sm rounded-md font-bold text-sm leading-normal" href="#">신고 센터</a>
+<a class="px-4 py-1.5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 rounded-md transition-all text-sm font-medium leading-normal" href="#">로그 감사</a>
+</nav>
+</div>
+<div class="flex items-center justify-end gap-4">
+<div class="relative hidden lg:block w-64">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="block w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-2 pl-10 pr-4 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="ID, 키워드 검색" type="text"/>
+</div>
+<button class="relative flex items-center justify-center rounded-full w-10 h-10 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-800"></span>
+</button>
+<div class="h-10 w-10 overflow-hidden rounded-full border-2 border-slate-200 dark:border-slate-700" data-alt="Admin User Profile">
+<img alt="Admin Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN2LHcgUyyIZR_Rxt_BC73j_0ZNby6lhItR99tIj5aJkOmemH9s5eBEEU_Ut_VgTw-_zjZwVi6bDRdeLcM_vl5ng04oHTOQjGsYJXVAnhOKObiCCIq95A-1TRmzLPY05JJnEjWa__g9psM-vPGikqHFCJUaoJaYhJt1ugxQkVZMoG8eDsVV8qU697JZd06W4-QtddyMQ6Cb2LT04H82uqEkYhv2B7VGStB4bJOV8W4MjD_7VzDhe18pfSKhqDkTqWzCzOhqsHCr3hI"/>
+</div>
+</div>
+</header>
+<main class="flex-1 px-4 py-8 sm:px-6 lg:px-8 bg-background-light dark:bg-background-dark">
+<div class="mx-auto max-w-7xl">
+<nav class="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 mb-6">
+<a class="hover:text-primary transition-colors" href="#">운영툴 홈</a>
+<span class="mx-2 text-slate-300">/</span>
+<a class="hover:text-primary transition-colors" href="#">신고 접수함</a>
+<span class="mx-2 text-slate-300">/</span>
+<span class="text-slate-900 dark:text-white font-semibold">티켓 #10234 상세</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-card">
+<div class="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-3">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-900">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>
+                                            신고 접수
+                                        </span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-mono">2026-02-27 14:30:10 KST</span>
+</div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">욕설 및 비하 발언 포함</h1>
+<div class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                                        신고자: <span class="font-medium text-slate-900 dark:text-white hover:underline cursor-pointer">user_992 (한국대)</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-3">
+<div class="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs font-mono text-slate-500 border border-slate-200 dark:border-slate-700">ID: #10234</div>
+<button class="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary-dark transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span> 
+                                        원본 바로가기
+                                    </button>
+</div>
+</div>
+<hr class="border-slate-100 dark:border-slate-700/50 my-6"/>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">forum</span>
+                                        신고된 콘텐츠 및 맥락
+                                    </h3>
+<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">게시판: 자유게시판 &gt; 축제</span>
+</div>
+<div class="relative space-y-4">
+<div class="absolute left-6 top-4 bottom-4 w-0.5 bg-slate-200 dark:bg-slate-700 -z-10"></div>
+<div class="relative pl-14 group">
+<div class="absolute left-4 top-4 w-4 h-4 rounded-full border-2 border-white dark:border-surface-dark bg-slate-300 dark:bg-slate-600 z-10"></div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50 opacity-75 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">행</div>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">행복한대학생</span>
+<span class="text-xs text-slate-400">14:20</span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400">이번 축제 라인업 진짜 별로지 않냐? 등록금이 아깝다 진짜.</p>
+</div>
+</div>
+<div class="relative pl-14">
+<div class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-2 border-white dark:border-surface-dark bg-danger z-10 ring-4 ring-red-50 dark:ring-red-900/20"></div>
+<div class="bg-red-50/50 dark:bg-red-900/10 p-5 rounded-xl border border-red-200 dark:border-red-900/30 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<div class="bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">report_problem</span> REPORTED
+                                                </div>
+</div>
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold">익</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold text-slate-900 dark:text-white">익명_불만러</span>
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded text-[10px] font-medium">작성자</span>
+</div>
+<div class="text-xs text-slate-500">14:25</div>
+</div>
+</div>
+</div>
+<p class="text-base font-medium text-slate-900 dark:text-slate-100 leading-relaxed p-3 bg-white dark:bg-slate-900/50 rounded-lg border border-red-100 dark:border-red-900/20">
+                                                야 이 **들아 니들이 뭘 안다고 떠드냐? 학교 수준 알만하다 ㅉㅉ 그냥 자퇴나 해라 **들아.
+                                            </p>
+</div>
+</div>
+<div class="relative pl-14 group">
+<div class="absolute left-4 top-4 w-4 h-4 rounded-full border-2 border-white dark:border-surface-dark bg-slate-300 dark:bg-slate-600 z-10"></div>
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700/50 opacity-75 hover:opacity-100 transition-opacity">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500">지</div>
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">지나가던행인</span>
+<span class="text-xs text-slate-400">14:28</span>
+</div>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400">말이 너무 심하시네요. 신고하겠습니다.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-card">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-500">history</span>
+                                    대상 유저 제재 이력 <span class="text-sm font-normal text-slate-500 ml-1">(익명_불만러)</span>
+</h3>
+<a class="text-sm text-primary hover:underline" href="#">전체 이력 보기</a>
+</div>
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+<tr>
+<th class="px-5 py-3 font-semibold w-32">일자</th>
+<th class="px-5 py-3 font-semibold">위반 사유</th>
+<th class="px-5 py-3 font-semibold">조치 내용</th>
+<th class="px-5 py-3 font-semibold w-32">처리자</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300 font-mono text-xs">2025.11.12</td>
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300">스팸/홍보</td>
+<td class="px-5 py-3"><span class="inline-flex items-center rounded-md bg-yellow-100 dark:bg-yellow-900/30 px-2 py-0.5 text-xs font-bold text-yellow-800 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-900/50">경고</span></td>
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300 text-xs">Admin_B</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300 font-mono text-xs">2025.08.04</td>
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300">욕설 및 비방</td>
+<td class="px-5 py-3"><span class="inline-flex items-center rounded-md bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 text-xs font-bold text-orange-800 dark:text-orange-300 border border-orange-200 dark:border-orange-900/50">3일 정지</span></td>
+<td class="px-5 py-3 text-slate-600 dark:text-slate-300 text-xs">Admin_A</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 flex items-start gap-3 p-3 bg-red-50 dark:bg-red-900/10 rounded-lg border border-red-100 dark:border-red-900/20">
+<span class="material-symbols-outlined text-[20px] text-red-600 dark:text-red-400 mt-0.5">warning</span>
+<div>
+<p class="text-sm font-semibold text-red-800 dark:text-red-300">상습 위반 경고</p>
+<p class="text-sm text-red-600 dark:text-red-400 mt-0.5">최근 6개월 내 제재 이력이 2회 존재합니다. 가중 처벌 규정(7일 이상 정지) 적용을 고려하세요.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-800 shadow-card sticky top-24 overflow-hidden">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+<h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">gavel</span>
+                                    신고 처리 및 조치
+                                </h3>
+</div>
+<div class="p-5 space-y-5">
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">관리자 메모 (내부 기록용)</label>
+<textarea class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:border-primary focus:ring-primary p-3 min-h-[100px] resize-none" placeholder="처리 사유나 특이사항을 입력하세요..."></textarea>
+</div>
+<div class="space-y-3">
+<div class="relative">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-white dark:bg-surface-dark px-2 text-xs text-slate-400 font-medium uppercase">제재 조치 (Red)</span>
+</div>
+</div>
+<button class="group w-full flex items-center justify-between bg-white dark:bg-slate-900 hover:bg-red-50 dark:hover:bg-red-900/10 border border-slate-200 dark:border-slate-700 hover:border-red-300 dark:hover:border-red-800 text-slate-700 dark:text-slate-200 hover:text-red-700 dark:hover:text-red-400 p-3 rounded-xl transition-all shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg text-red-600 dark:text-red-400 group-hover:bg-red-200 dark:group-hover:bg-red-800/50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</div>
+<div class="text-left">
+<div class="text-sm font-bold">게시글 삭제 + 7일 정지</div>
+<div class="text-xs text-slate-500 group-hover:text-red-600/70">가중 처벌 적용</div>
+</div>
+</div>
+</button>
+<button class="group w-full flex items-center justify-between bg-white dark:bg-slate-900 hover:bg-red-50 dark:hover:bg-red-900/10 border border-slate-200 dark:border-slate-700 hover:border-red-300 dark:hover:border-red-800 text-slate-700 dark:text-slate-200 hover:text-red-700 dark:hover:text-red-400 p-3 rounded-xl transition-all shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-slate-600 dark:text-slate-400 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 group-hover:text-red-600 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</div>
+<div class="text-left">
+<div class="text-sm font-bold">게시글만 삭제</div>
+<div class="text-xs text-slate-500 group-hover:text-red-600/70">경고 메시지 발송</div>
+</div>
+</div>
+</button>
+<div class="relative pt-2">
+<div aria-hidden="true" class="absolute inset-0 flex items-center pt-2">
+<div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+</div>
+<div class="relative flex justify-center pt-2">
+<span class="bg-white dark:bg-surface-dark px-2 text-xs text-slate-400 font-medium uppercase">반려 조치 (Blue)</span>
+</div>
+</div>
+<button class="group w-full flex items-center justify-between bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-blue-900/10 border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-800 text-slate-700 dark:text-slate-200 hover:text-blue-700 dark:hover:text-blue-400 p-3 rounded-xl transition-all shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg text-blue-600 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">done_all</span>
+</div>
+<div class="text-left">
+<div class="text-sm font-bold">신고 반려 (무혐의)</div>
+<div class="text-xs text-slate-500 group-hover:text-blue-600/70">위반 사항 없음</div>
+</div>
+</div>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 p-5">
+<div class="flex items-center justify-between mb-5">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">처리 타임라인 (Audit Log)</h3>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+<div class="relative pl-2">
+<div class="absolute left-[7px] top-2 bottom-2 w-[2px] bg-slate-200 dark:bg-slate-700"></div>
+<div class="space-y-6">
+<div class="relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-slate-50 dark:border-slate-900 bg-slate-400 ring-2 ring-white dark:ring-slate-900"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono text-slate-400">14:35:12</span>
+<span class="text-[10px] font-bold bg-slate-200 dark:bg-slate-700 px-1.5 rounded text-slate-600 dark:text-slate-300">AUTO</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+<span class="font-bold text-slate-900 dark:text-white">System</span>이 자동 분류 수행: <span class="text-red-600 dark:text-red-400 font-semibold">높은 위험도</span>
+</p>
+</div>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-slate-50 dark:border-slate-900 bg-primary ring-2 ring-white dark:ring-slate-900"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono text-slate-400">14:32:45</span>
+<span class="text-[10px] font-bold bg-blue-100 dark:bg-blue-900/30 px-1.5 rounded text-blue-700 dark:text-blue-300">STATUS</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+<span class="font-bold text-slate-900 dark:text-white">Admin_C</span>가 상태 변경: 
+                                                <span class="inline-block px-1.5 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200 ml-1">검토 중</span>
+</p>
+</div>
+</div>
+<div class="relative pl-6">
+<div class="absolute left-0 top-1.5 w-3.5 h-3.5 rounded-full border-2 border-slate-50 dark:border-slate-900 bg-slate-300 dark:bg-slate-600 ring-2 ring-white dark:ring-slate-900"></div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="text-xs font-mono text-slate-400">14:30:10</span>
+<span class="text-[10px] font-bold bg-slate-200 dark:bg-slate-700 px-1.5 rounded text-slate-600 dark:text-slate-300">NEW</span>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 leading-snug">
+<span class="font-bold text-slate-900 dark:text-white">user_992</span> 님이 신고 접수함
+                                            </p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 text-xs font-medium text-slate-500 hover:text-primary hover:bg-white dark:hover:bg-slate-800 py-2 rounded-lg border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all flex items-center justify-center gap-1">
+                                    전체 로그 (24건) 더보기 <span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

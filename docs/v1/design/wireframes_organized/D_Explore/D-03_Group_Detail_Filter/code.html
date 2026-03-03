@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 그룹 상세 필터</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1337ec",
+                        "primary-hover": "#0f2cb8",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101322",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a1f36",
+                        "border-light": "#e2e4ea",
+                        "border-dark": "#2d3348",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look if needed */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center p-4">
+<!-- Main Container / Modal Simulation -->
+<div class="w-full max-w-[640px] bg-surface-light dark:bg-surface-dark rounded-2xl shadow-xl overflow-hidden border border-border-light dark:border-border-dark flex flex-col max-h-[90vh]">
+<!-- Header -->
+<div class="px-6 py-5 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-white dark:bg-[#1a1f36] sticky top-0 z-10">
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">상세 필터</h2>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="overflow-y-auto flex-1 p-6 space-y-8">
+<!-- Section 1: Activity Type (Radio Style Cards) -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">laptop_chromebook</span>
+                    활동 방식
+                </h3>
+<div class="grid grid-cols-3 gap-3">
+<label class="group relative cursor-pointer">
+<input checked="" class="peer sr-only" name="activity_type" type="radio"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border border-border-light dark:border-border-dark bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary peer-checked:bg-primary/5 dark:peer-checked:bg-primary/20">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-primary mb-2 text-3xl">wifi</span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 peer-checked:text-primary dark:peer-checked:text-primary-300">온라인</span>
+</div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity_type" type="radio"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border border-border-light dark:border-border-dark bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary peer-checked:bg-primary/5 dark:peer-checked:bg-primary/20">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-primary mb-2 text-3xl">storefront</span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 peer-checked:text-primary dark:peer-checked:text-primary-300">오프라인</span>
+</div>
+</label>
+<label class="group relative cursor-pointer">
+<input class="peer sr-only" name="activity_type" type="radio"/>
+<div class="flex flex-col items-center justify-center p-4 rounded-xl border border-border-light dark:border-border-dark bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all peer-checked:border-primary peer-checked:ring-1 peer-checked:ring-primary peer-checked:bg-primary/5 dark:peer-checked:bg-primary/20">
+<span class="material-symbols-outlined text-slate-400 peer-checked:text-primary mb-2 text-3xl">move_up</span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 peer-checked:text-primary dark:peer-checked:text-primary-300">혼합</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+<!-- Section 2: Region (Checkboxes) -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">location_on</span>
+                    활동 지역
+                </h3>
+<div class="grid grid-cols-2 gap-y-3 gap-x-4">
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input checked="" class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">서울 전역</span>
+</label>
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">경기 / 인천</span>
+</label>
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">강원 / 제주</span>
+</label>
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">충청 / 대전</span>
+</label>
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">전라 / 광주</span>
+</label>
+<label class="flex items-center p-3 rounded-lg border border-transparent hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors">
+<input class="w-5 h-5 rounded text-primary border-slate-300 focus:ring-primary dark:border-slate-600 dark:bg-slate-700 dark:checked:bg-primary" type="checkbox"/>
+<span class="ml-3 text-sm text-slate-700 dark:text-slate-300 font-medium">경상 / 부산 / 대구</span>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px bg-border-light dark:bg-border-dark w-full"></div>
+<!-- Section 3: Group Type (Chip Selection) -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">category</span>
+                    그룹 유형
+                </h3>
+<div class="flex flex-wrap gap-2">
+<!-- Chip Item -->
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>🚀 프로젝트</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>✏️ 스터디</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>💬 네트워킹</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>🍺 친목</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>🏆 공모전</span>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-border-light dark:border-border-dark bg-white dark:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all peer-checked:bg-primary peer-checked:border-primary peer-checked:text-white dark:peer-checked:bg-primary dark:peer-checked:border-primary select-none flex items-center gap-2">
+<span>🎾 동아리</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Section 4: Day of Week (New Addition for completeness) -->
+<div>
+<h3 class="text-base font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">calendar_month</span>
+                    주요 활동 요일
+                </h3>
+<div class="flex w-full rounded-lg bg-slate-100 dark:bg-slate-800 p-1">
+<button class="flex-1 py-2 text-sm font-medium text-slate-500 rounded-md hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white transition-all">월</button>
+<button class="flex-1 py-2 text-sm font-medium text-slate-500 rounded-md hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white transition-all">화</button>
+<button class="flex-1 py-2 text-sm font-medium text-slate-500 rounded-md hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white transition-all">수</button>
+<button class="flex-1 py-2 text-sm font-medium text-slate-500 rounded-md hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white transition-all">목</button>
+<button class="flex-1 py-2 text-sm font-medium bg-white dark:bg-slate-600 text-primary dark:text-white shadow-sm rounded-md transition-all">금</button>
+<button class="flex-1 py-2 text-sm font-medium text-red-400 rounded-md hover:text-red-600 hover:bg-white dark:hover:bg-slate-700 transition-all">토</button>
+<button class="flex-1 py-2 text-sm font-medium text-red-400 rounded-md hover:text-red-600 hover:bg-white dark:hover:bg-slate-700 transition-all">일</button>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="px-6 py-4 border-t border-border-light dark:border-border-dark bg-slate-50 dark:bg-[#15192b] flex gap-3 sticky bottom-0 z-10">
+<button class="flex-1 flex items-center justify-center gap-2 h-11 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">refresh</span>
+                초기화
+            </button>
+<button class="flex-[2] flex items-center justify-center gap-2 h-11 rounded-lg bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary-hover transition-all transform active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg">check</span>
+                필터 적용 (3개)
+            </button>
+</div>
+</div>
+</body></html>

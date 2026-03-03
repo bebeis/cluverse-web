@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 홈 피드</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4051b5", 
+                        "primary-dark": "#303f9f",
+                        "accent": "#00E5FF",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#14161e",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e212b",
+                        "text-main": "#111218",
+                        "text-sub": "#5d6389",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Noto Sans KR', 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main antialiased min-h-screen flex flex-col font-body relative">
+<div class="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 transform scale-100 transition-all border border-gray-100 dark:border-gray-700 relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
+<div class="relative z-10 text-center">
+<div class="mx-auto w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-gray-500 dark:text-gray-400">build_circle</span>
+</div>
+<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">현재 시스템 점검 중입니다</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
+                보다 안정적인 서비스 제공을 위해 서버 점검을 진행하고 있습니다.<br class="hidden sm:block"/>
+                점검 중에는 글쓰기 및 일부 기능 사용이 제한됩니다.
+            </p>
+<div class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 mb-6 text-left border border-gray-100 dark:border-gray-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-semibold text-gray-500 dark:text-gray-400">점검 일시</span>
+<span class="text-sm font-bold text-gray-900 dark:text-white">2024.05.20 (월)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs font-semibold text-gray-500 dark:text-gray-400">완료 예정</span>
+<span class="text-sm font-bold text-primary dark:text-indigo-400">14:00 ~ 16:00 (2시간)</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-sm transition-colors shadow-lg shadow-primary/20">
+                    확인
+                </button>
+<a class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 underline decoration-gray-300 underline-offset-4" href="#">
+                    고객센터에 문의하기
+                </a>
+</div>
+</div>
+</div>
+</div>
+<header class="sticky top-0 z-40 w-full bg-surface-light/95 backdrop-blur border-b border-gray-200 dark:bg-surface-dark/95 dark:border-gray-800">
+<div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between gap-4">
+<div class="flex items-center gap-2 cursor-pointer">
+<div class="flex items-center justify-center size-8 rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined text-xl">diversity_3</span>
+</div>
+<h1 class="font-display text-xl font-bold text-gray-900 dark:text-white tracking-tight">Cluverse</h1>
+</div>
+<div class="hidden md:flex flex-1 max-w-md mx-8">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border-none rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm h-10 transition-all" placeholder="관심사, 학교, 모임 검색" type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-4">
+<nav class="hidden lg:flex items-center gap-6 mr-4">
+<a class="text-sm font-bold text-primary dark:text-indigo-400" href="#">홈</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-indigo-400 transition-colors" href="#">게시판</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-indigo-400 transition-colors" href="#">동아리</a>
+<a class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-indigo-400 transition-colors" href="#">이벤트</a>
+</nav>
+<button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
+</button>
+<button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gradient-to-tr from-primary to-indigo-400 p-[2px] cursor-pointer">
+<img alt="User Profile" class="h-full w-full rounded-full object-cover border-2 border-white dark:border-gray-900" data-alt="young woman smiling portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHeKp5Uew-jj2oA5kn632aeUx7BEWgEFk_2eIZBuoHfnKnpZNDUjvbniBTjsrvn2C9BCc69WAEr0x2D_ZoBmXEdy76dh-W7VdK7Wqq4tZ2__0dPUGhtvK3Lhq4eRLOHpN38tYU7JKB-JDnTeX3q5zT5aIrYu72XZp531Sm7aAxj66dyQsUKE3iOTVgZeeD-2LN7XFapW2Ipwh2UMk-8dqzuLHaDU-3A4Yl9b85UP-_jIe2vkyE-pnqXyUG0IV1pdNKGIheQmbr573X"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 blur-[2px] pointer-events-none select-none">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<aside class="hidden lg:block lg:col-span-3 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-4">
+<img alt="Profile" class="h-20 w-20 rounded-full object-cover border-4 border-background-light dark:border-gray-700" data-alt="User profile picture close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdBndDe9racyM19P48JQ5X6OywzRIAc6bw57vuse3CQ99eQn8XM4ECt20Xf17N-VmGFcspypoP-uVM4sZKGC6HmNHy0mcWpwWSt8BbYohBpiIw51SCqrkawkwcdXhmZVHTifExPdQZj_mA_Ope_kSH1VYpghQp3mzHZI_ppgNDCItporJHDW6CTKh15X9_tljq6yVaHtdvdsUA7tOKsUQucsE0x3Az2Wg3s4xnfpFfjRnYv8qKSdStQCz2duibUnqLGA4WFcbGJ1lW"/>
+<div class="absolute bottom-0 right-0 bg-green-500 p-1 rounded-full border-2 border-white dark:border-gray-800">
+<span class="sr-only">Online</span>
+</div>
+</div>
+<h3 class="font-bold text-lg text-gray-900 dark:text-white">김지민</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">서울대학교 · 경영학과 21학번</p>
+<div class="flex w-full justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl mb-4">
+<div class="text-center">
+<p class="text-xs text-gray-500 dark:text-gray-400">게시글</p>
+<p class="font-bold text-gray-900 dark:text-white">12</p>
+</div>
+<div class="w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="text-center">
+<p class="text-xs text-gray-500 dark:text-gray-400">팔로잉</p>
+<p class="font-bold text-gray-900 dark:text-white">48</p>
+</div>
+<div class="w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="text-center">
+<p class="text-xs text-gray-500 dark:text-gray-400">팔로워</p>
+<p class="font-bold text-gray-900 dark:text-white">156</p>
+</div>
+</div>
+<button class="w-full py-2 bg-primary/10 text-primary hover:bg-primary/20 rounded-lg text-sm font-semibold transition-colors">내 정보 수정</button>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-bold" href="#">
+<span class="material-symbols-outlined filled-icon">home</span>
+                            홈 피드
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">favorite</span>
+                            관심 게시글
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">groups</span>
+                            내 동아리
+                        </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors font-medium" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                            내 일정
+                        </a>
+</li>
+</ul>
+</div>
+</aside>
+<section class="col-span-1 lg:col-span-6 space-y-6">
+<div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-indigo-600 p-8 text-white shadow-lg">
+<div class="relative z-10 max-w-md">
+<h2 class="text-2xl font-bold mb-2 font-display">오늘의 캠퍼스 라이프, <br/>Cluverse에서 시작하세요!</h2>
+<p class="text-indigo-100 mb-6 text-sm">타 학교 친구들과 교류하고, 새로운 취미를 발견해보세요.</p>
+<div class="flex gap-3">
+<button class="bg-white text-primary px-4 py-2 rounded-lg text-sm font-bold shadow-sm hover:bg-indigo-50 transition-colors">동아리 찾기</button>
+<button class="bg-indigo-500/50 text-white px-4 py-2 rounded-lg text-sm font-bold backdrop-blur-sm hover:bg-indigo-500/70 transition-colors">친구 초대하기</button>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-64 w-64 -translate-y-12 translate-x-12 rounded-full bg-white/10 blur-3xl"></div>
+<div class="absolute bottom-0 right-20 h-32 w-32 translate-y-12 rounded-full bg-accent/20 blur-2xl"></div>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-gray-900 text-white dark:bg-white dark:text-gray-900 text-sm font-bold shadow-sm">전체</button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium transition-colors">🔥 인기글</button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium transition-colors">💬 자유게시판</button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium transition-colors">🎸 동아리 모집</button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium transition-colors">📚 스터디</button>
+<button class="flex-shrink-0 px-4 py-2 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium transition-colors">🥕 중고장터</button>
+</div>
+<article class="bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
+<div class="p-5">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<img alt="Author" class="w-10 h-10 rounded-full object-cover bg-gray-200" data-alt="Smiling man avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABAimq1EyBBCs-Igyj_lGtOU6VDqGNCZY-Oe6LHnDs7CqqDZBO5siNfiJpaytMg2pv2XsXvEgnwBZptvjHWCJZFnUAwyA_lKpi8VdaQVCGfXUHFSYyRjGuo6Ht0h_1Vp-cAIRmc2emxqWML33VWBHivfDp5w8e2MhoSqkS8Ngxj116u6cmNFsTv5vJPOyhPauyb_Cn4CWkeCxAVmy-BdmVcBtsx2U-FrU_DPQPJ9M-5fXcCnegvSzP8UmjTQ4guwUz-WSkLqLD5RJp"/>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white text-sm">박현우</h4>
+<div class="flex items-center gap-1.5 text-xs text-gray-500">
+<span class="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 text-primary dark:text-indigo-300 px-1.5 py-0.5 rounded text-[10px] font-bold">
+<span class="material-symbols-outlined text-[12px]">school</span> 연세대학교
+                                    </span>
+<span>·</span>
+<span>20분 전</span>
+</div>
+</div>
+</div>
+<button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">이번 주말 한강에서 보드게임 피크닉 하실 분! 🎲</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">날씨도 풀렸는데 반포 한강공원에서 치맥하면서 보드게임 해요! 루미큐브랑 스플랜더 챙겨갈게요. 타 학교 친구들도 환영합니다 :)</p>
+<div class="grid grid-cols-2 gap-2 mb-4 rounded-xl overflow-hidden h-64">
+<div class="h-full bg-cover bg-center" data-alt="Group of friends playing board games outdoors" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBe8erSY7qMJmfuotUjCQzVAlsMmAp4unRitKhRk0g6DnfRZaLD9w4_5kNCP0WLJURMDzC3g7XKgFlVmlkHk4GebJ10EZvyW8G8E2Sh1YyHb9n1TR-Y3OYejDOvgPFcy5TLVDjKysXYRzi7pi0RgOWqx7-q0RNs7joNto91EeSFkec0gUd8DdqJzHKqm89c44jy-hrj4W2_rQhcqPyDrwtbcEF2Cs_HGoL5e5S2_VgPx-f-nInCkbo8cCgAlsLbntKJo5cEeMqOYuQX');"></div>
+<div class="h-full bg-cover bg-center" data-alt="Picnic setup at a park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlADjg9JT4gXb72DnnDKVVWl35SqqaCqN_amdEtgcuhqDOCKq62JALrlT6E0aMhAFsuBZ4WrNx8pzWGULt0gpA6uJcFvf6EQlTW-1gyfPcVQZ3EJzR08-fcqx5Nq5Zv-YVBGXNOqU5JdUgNPPmvVspigChFna9CaRFYH9_gcvR9ODBVGQW0M2XrbDdAU5vPL89vdEtkhsT4-3pdEP0ZUcLCb6RMwSGUKeKl0L3hqwBRCk4N-wiwJOwFOABT4riK7GlsruVo5i7h38l');"></div>
+</div>
+<div class="flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-4">
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 text-gray-500 hover:text-red-500 transition-colors group">
+<span class="material-symbols-outlined group-hover:text-red-500 transition-colors">favorite</span>
+<span class="text-sm font-medium">24</span>
+</button>
+<button class="flex items-center gap-1 text-gray-500 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-sm font-medium">8</span>
+</button>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+<article class="bg-surface-light dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm">JS</div>
+<div>
+<h4 class="font-bold text-gray-900 dark:text-white text-sm">익명</h4>
+<div class="flex items-center gap-1.5 text-xs text-gray-500">
+<span class="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-1.5 py-0.5 rounded text-[10px] font-bold">
+<span class="material-symbols-outlined text-[12px]">school</span> 고려대학교
+                                </span>
+<span>·</span>
+<span>1시간 전</span>
+</div>
+</div>
+</div>
+<span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-md text-xs font-medium">자유게시판</span>
+</div>
+<h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">프론트엔드 개발자 취업 준비 질문있습니다.</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+                    현재 4학년 막학기인데 포트폴리오 프로젝트를 하나 더 하는게 좋을까요 아니면 코딩테스트 준비에 올인하는게 맞을까요? 현재 React 프로젝트 2개 정도 있는데, 백엔드 연동 경험이 좀 부족한 것 같아서 고민입니다. 선배님들의 조언 부탁드려요!
+                </p>
+<div class="flex items-center justify-between border-t border-gray-100 dark:border-gray-800 pt-4">
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 text-gray-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-sm font-medium">56</span>
+</button>
+<button class="flex items-center gap-1 text-gray-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-sm font-medium">32</span>
+</button>
+</div>
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+</div>
+</article>
+<article class="bg-surface-light dark:bg-surface-dark rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-shadow">
+<div class="relative h-48 bg-cover bg-center" data-alt="Concert crowd with colorful lights" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCRXB7WsMpV-mTdSUi7Rjmt1BzM0cydPK-p69RJooQrh0CGcBVxaJLYr_RWbo27b3sKwIR3hXMXT_8NwaWxLeVkPa4KamjNSChiYZLlJ6_XD-m55T4tywYFoBc5T_W_Ib5SU2cUfhutWD70z-Ch5YGL6ynHSajXXdS-qGstLF601nR1MmbDD2m4uKMIXubvSi7dsP_z0tOq3ow1vw8oznyO6HiXZqTlV9EwKY7NSJ0lDNBpi3VyGSa77CR67JLOGOu0PBAQM4pXkau0');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute top-4 left-4">
+<span class="bg-accent text-black px-3 py-1 rounded-full text-xs font-bold shadow-md">동아리 모집</span>
+</div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<h3 class="text-xl font-bold mb-1">연합 밴드 동아리 'SoundWave' 5기 모집</h3>
+<p class="text-white/80 text-sm truncate">음악을 사랑하는 대학생이라면 누구나! 보컬/드럼/베이스 모집중</p>
+</div>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span>마감 D-3</span>
+</div>
+<button class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors shadow-md shadow-primary/20">
+                        자세히 보기
+                    </button>
+</div>
+</article>
+</section>
+<aside class="hidden lg:block lg:col-span-3 space-y-6">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-gray-900 dark:text-white">실시간 인기 키워드</h3>
+<span class="material-symbols-outlined text-gray-400 text-sm">trending_up</span>
+</div>
+<ul class="space-y-3">
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="font-bold text-primary w-4">1</span>
+<span class="text-gray-700 dark:text-gray-300 text-sm group-hover:text-primary transition-colors">중간고사</span>
+</div>
+<span class="text-xs text-gray-400">new</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="font-bold text-primary w-4">2</span>
+<span class="text-gray-700 dark:text-gray-300 text-sm group-hover:text-primary transition-colors">축제 라인업</span>
+</div>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="font-bold text-primary w-4">3</span>
+<span class="text-gray-700 dark:text-gray-300 text-sm group-hover:text-primary transition-colors">해외봉사</span>
+</div>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="font-bold text-gray-400 w-4">4</span>
+<span class="text-gray-700 dark:text-gray-300 text-sm group-hover:text-primary transition-colors">자취방 양도</span>
+</div>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="font-bold text-gray-400 w-4">5</span>
+<span class="text-gray-700 dark:text-gray-300 text-sm group-hover:text-primary transition-colors">공모전 팀원</span>
+</div>
+<span class="text-xs text-gray-400">up</span>
+</li>
+</ul>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-gray-900 dark:text-white">추천 모임</h3>
+<a class="text-xs text-gray-500 hover:text-primary transition-colors" href="#">더보기</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Film Club" class="w-12 h-12 rounded-xl object-cover" data-alt="Film roll abstract icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9LgkF6xirT-mqqGsr-bdm6wtRs7ilEtQK4WyIRICXDr6EfyuSDPuBYg8Cx6XRN1htEzo0fgJ7d8uaMehw1rM0PHK2xbt0UE4OO17RcbHpOgPccTeQbW_lhgHfBA69Y0M5kzTPy-vkn1BH1mZOBZ--tdGnKuCkqb7uSzaUuOR8VrRk15n6rcg2NTZwJd_UCjLz_qUGa0faW_Nu15nZsR35kt_O7a6HKbk1i50GDGuNcJqOnHM0wxAVyGk5Fkv8iVcY2ScZdgV-JSlx"/>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-gray-900 dark:text-white text-sm truncate">시네마 천국</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">매주 금요일 영화 감상 모임</p>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<img alt="Coding Club" class="w-12 h-12 rounded-xl object-cover" data-alt="Code on screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaLlSuEloXdjIbiw9qVt9vGpNSzxeoP7g2m9tTTl6AVmyAzSCCYMt_2bqbE9-xMHtNNOfVZ9sX_eecTgJ94HeJS5trxbd9V9mGV-UtXQi95U3Csv9zh2wtP6d46IMUPKgKhSJUWQsikTNRTPuG9ZAwg7eoWKTlmhgLDbRomJbLUhh3zUOZX9XU1eEAdk64VVulVB9wutDU9EELj8SvYW-kJBjLNAcMTQzoFPjHn6zhEpAVZzr5wXYdnCNbXMwdY2g71YoS7hb_J9lE"/>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-gray-900 dark:text-white text-sm truncate">알고리즘 뿌셔</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">백준 플래티넘 도전 스터디</p>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<img alt="Hiking Club" class="w-12 h-12 rounded-xl object-cover" data-alt="Mountain landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7fFKNVLvUxg_IbeDa3JRTMfmiLNMvAiba7CWQXyFcQxN334a5ZBiMFrd0eBy5YXDPA2u1eHxKndbByqtxeRYI4lRWhdvlXZvWEFq0dbXOiUaXZmhfSLLE0S7fIp2hVZALsYTL3xEAqkbEhK3XJYnlneacmcNXw2Plc6I_8oMTEbHxeIgA3u5apHBafEIUVjtjsBghDWhDuzPchsotaKC4t57seSrXu_DBKm9D7p0fPWg1C1xlNUEjdNGMaw-InWnnPZyor_Fyy5f0"/>
+<div class="flex-1 min-w-0">
+<h4 class="font-bold text-gray-900 dark:text-white text-sm truncate">산악회 '오르자'</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">주말 근교 산행 함께해요</p>
+</div>
+<button class="text-primary hover:bg-primary/10 p-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+</div>
+</div>
+<div class="text-xs text-gray-400 dark:text-gray-500 px-2 leading-relaxed">
+<div class="flex flex-wrap gap-x-3 gap-y-1 mb-2">
+<a class="hover:underline" href="#">이용약관</a>
+<a class="hover:underline" href="#">개인정보처리방침</a>
+<a class="hover:underline" href="#">커뮤니티 가이드라인</a>
+<a class="hover:underline" href="#">문의하기</a>
+</div>
+<p>© 2024 Cluverse Inc.</p>
+</div>
+</aside>
+</div>
+</main>
+<button class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 bg-gray-400 cursor-not-allowed text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform z-30 opacity-75">
+<span class="material-symbols-outlined text-2xl font-semibold">edit_off</span>
+<span class="sr-only">글쓰기 비활성화</span>
+</button>
+<div class="lg:hidden fixed bottom-0 left-0 right-0 bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 z-40 pb-safe blur-[1px]">
+<div class="flex justify-around items-center h-16">
+<a class="flex flex-col items-center justify-center w-full h-full text-primary" href="#">
+<span class="material-symbols-outlined filled-icon">home</span>
+<span class="text-[10px] mt-1 font-medium">홈</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px] mt-1 font-medium">검색</span>
+</a>
+<div class="w-full"></div> 
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-[10px] mt-1 font-medium">채팅</span>
+</a>
+<a class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] mt-1 font-medium">내 정보</span>
+</a>
+</div>
+</div>
+<div class="lg:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-none opacity-75">
+<button class="bg-gray-400 cursor-not-allowed text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg pointer-events-auto">
+<span class="material-symbols-outlined text-2xl font-semibold">edit_off</span>
+</button>
+</div>
+
+</body></html>

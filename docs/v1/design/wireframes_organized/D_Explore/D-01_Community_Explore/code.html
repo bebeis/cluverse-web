@@ -1,0 +1,383 @@
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - Community Exploration</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1313ec",
+                        "primary-hover": "#0f0fc0",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a1a2e",
+                        "text-main": "#0d0d1b",
+                        "text-muted": "#4c4c9a",
+                        "border-light": "#e7e7f3",
+                        "border-dark": "#2a2a3e",
+                    },
+                    fontFamily: {
+                        display: ["Spline Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main antialiased overflow-hidden h-screen flex flex-col">
+<header class="h-16 flex items-center justify-between border-b border-border-light bg-card-light px-6 z-30 shrink-0">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900">Cluverse</h1>
+</div>
+<div class="hidden md:flex relative group w-80">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-muted">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border-none rounded-lg bg-background-light text-slate-900 placeholder:text-text-muted focus:ring-2 focus:ring-primary/20 text-sm" placeholder="커뮤니티, 게시글 검색..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-sm font-semibold text-slate-900 hover:text-primary transition-colors" href="#">커뮤니티</a>
+<a class="text-sm font-medium text-text-muted hover:text-slate-900 transition-colors" href="#">그룹</a>
+<a class="text-sm font-medium text-text-muted hover:text-slate-900 transition-colors" href="#">이벤트</a>
+<a class="text-sm font-medium text-text-muted hover:text-slate-900 transition-colors" href="#">장터</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm shadow-primary/30">
+                글쓰기
+            </button>
+<button class="p-2 text-slate-900 hover:bg-background-light rounded-lg transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-card-light"></span>
+</button>
+<button class="p-2 text-slate-900 hover:bg-background-light rounded-lg transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<div class="size-9 rounded-full bg-slate-200 bg-cover bg-center border border-border-light cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBc87t_7JfeTD0pVfRGFFzegJP12Rj2eW5lq6NGipzxf0ns9tpkRX6K7gBU5Qec2JaIVGc4uJm_6Z4mLiigyfkqYNK5uSRueJNT0y07rwIEOtt1vkVcysTDqMNR5xU2LWW_U-p2X1j_GR9Oy10N_d_SelqCEmDRQTGlnCUDNrzR1AUKmue29zuQVUnT2a2z5Uo1jLIbv9xFcOt1se6QMdYQQFDS_RjIYMzX4UhTYPEn1ct2DiIugrKsJbnGxrI7e3ogV9HOn3bWo6In");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<aside class="w-64 bg-card-light border-r border-border-light hidden md:flex flex-col shrink-0 overflow-y-auto">
+<div class="p-5">
+<h2 class="text-xs font-bold text-text-muted uppercase tracking-wider mb-4">카테고리</h2>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-background-light hover:text-slate-900 group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span class="text-sm font-medium">홈</span>
+</a>
+<div class="space-y-1">
+<button class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg bg-primary/5 text-primary group transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] fill-1">engineering</span>
+<span class="text-sm font-bold">공학계열</span>
+</div>
+<span class="material-symbols-outlined text-[18px]">expand_less</span>
+</button>
+<div class="pl-4 space-y-1 relative">
+<div class="absolute left-6 top-0 bottom-0 w-px bg-border-light"></div>
+<a class="flex items-center gap-2 pl-6 py-2 text-text-muted hover:text-slate-900 text-sm font-medium relative group" href="#">
+<span>기계공학</span>
+</a>
+<div class="space-y-1">
+<a class="flex items-center gap-2 pl-6 py-2 text-primary font-semibold text-sm relative group" href="#">
+<div class="absolute left-[23px] top-1/2 -translate-y-1/2 size-1.5 bg-primary rounded-full"></div>
+<span>IT 및 소프트웨어</span>
+</a>
+<div class="pl-4 space-y-1">
+<a class="flex items-center justify-between pl-6 py-2 pr-2 text-primary bg-primary/10 rounded-r-lg text-sm font-bold border-l-2 border-primary" href="#">
+<span>컴퓨터공학</span>
+</a>
+<a class="flex items-center pl-6 py-2 text-text-muted hover:text-slate-900 text-sm font-normal" href="#">
+<span>정보보안</span>
+</a>
+<a class="flex items-center pl-6 py-2 text-text-muted hover:text-slate-900 text-sm font-normal" href="#">
+<span>AI 및 데이터 사이언스</span>
+</a>
+</div>
+</div>
+<a class="flex items-center gap-2 pl-6 py-2 text-text-muted hover:text-slate-900 text-sm font-medium" href="#">
+<span>전기공학</span>
+</a>
+</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-background-light hover:text-slate-900 group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">menu_book</span>
+<span class="text-sm font-medium">인문계열</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-background-light hover:text-slate-900 group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="text-sm font-medium">사회과학</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-background-light hover:text-slate-900 group transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">palette</span>
+<span class="text-sm font-medium">예술 및 체육</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-5 border-t border-border-light">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-background-light border border-border-light">
+<div class="size-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">trophy</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-900">위클리 챌린지</p>
+<p class="text-[10px] text-text-muted">알고리즘 문제를 풀어보세요!</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 bg-background-light relative">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-2 text-sm text-text-muted mb-4">
+<span class="hover:text-primary cursor-pointer">Engineering</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="hover:text-primary cursor-pointer">IT</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="font-semibold text-slate-900">Computer Engineering</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h1 class="text-3xl font-black text-slate-900 tracking-tight mb-1">Computer Engineering Board</h1>
+<p class="text-text-muted">Discussions about algorithms, coding, and tech trends across universities.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-border-light rounded-lg text-sm font-semibold text-slate-900 shadow-sm hover:bg-gray-50">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-bold hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[18px] fill-1">star</span>
+                        Following
+                    </button>
+</div>
+</div>
+</div>
+<div aria-hidden="true" class="flex-1 overflow-y-auto px-6 pb-6 space-y-4 opacity-50 pointer-events-none select-none">
+<div class="bg-card-light p-5 rounded-xl border border-border-light shadow-sm flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[40px]">
+<button class="text-text-muted hover:text-primary"><span class="material-symbols-outlined">expand_less</span></button>
+<span class="font-bold text-slate-900">124</span>
+<button class="text-text-muted hover:text-red-500"><span class="material-symbols-outlined">expand_more</span></button>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<div class="size-6 rounded-full bg-indigo-100" data-alt="Avatar placeholder"></div>
+<span class="text-xs font-bold text-slate-900">Dev_Master</span>
+<span class="text-xs text-text-muted">• 2h ago</span>
+<span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">Question</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 mb-1">Best resources for learning Rust in 2024?</h3>
+<p class="text-text-muted text-sm line-clamp-2">I've been a C++ developer for 5 years and want to transition. Any recommendations for advanced guides?</p>
+<div class="flex items-center gap-4 mt-3">
+<button class="flex items-center gap-1.5 text-xs font-medium text-text-muted hover:bg-gray-100 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span> 24 Comments
+                        </button>
+<button class="flex items-center gap-1.5 text-xs font-medium text-text-muted hover:bg-gray-100 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[16px]">share</span> Share
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-card-light p-5 rounded-xl border border-border-light shadow-sm flex gap-4">
+<div class="flex flex-col items-center gap-1 min-w-[40px]">
+<button class="text-text-muted hover:text-primary"><span class="material-symbols-outlined">expand_less</span></button>
+<span class="font-bold text-slate-900">89</span>
+<button class="text-text-muted hover:text-red-500"><span class="material-symbols-outlined">expand_more</span></button>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-2">
+<div class="size-6 rounded-full bg-blue-100" data-alt="Avatar placeholder"></div>
+<span class="text-xs font-bold text-slate-900">Algo_Rithm</span>
+<span class="text-xs text-text-muted">• 5h ago</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 mb-1">Understanding Time Complexity of QuickSort</h3>
+<p class="text-text-muted text-sm line-clamp-2">Here is a visual breakdown of why the worst case is O(n^2) but average is O(n log n).</p>
+</div>
+</div>
+</div>
+<div class="absolute inset-0 bg-black/10 backdrop-blur-sm z-10 flex justify-center overflow-hidden">
+<div class="bg-card-light w-full max-w-[800px] h-full shadow-2xl flex flex-col animate-in slide-in-from-bottom-4 duration-300">
+<div class="flex items-center justify-between px-6 py-4 border-b border-border-light shrink-0">
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-background-light rounded-full text-text-muted transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<span class="text-sm font-medium text-text-muted">게시글 상세</span>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-background-light rounded-full text-text-muted transition-colors">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+<button class="p-2 hover:bg-background-light rounded-full text-text-muted transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<div class="p-8">
+<div class="flex items-start justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center border border-border-light shadow-sm" data-alt="Author profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGn55DNeA_7NKByQbgoZcdzeJnYjklQqMudqKgZXtGxF3MtIxskX6cgFNFwMyIJHPG7CvWPfj_WXWjiEmHTVSoWtRDnQiXolo4_HOH5jltJTLi9aJky-na4DZfsp7d1B1MRF8G4CZFCL340BiTQlMuo9uGBYzN8pFtv-J2lhYmzHS5rQKymulEJ2LKghnV2uHvJLwSMF3o-zqA6Yvq-D9q5PeXhGft3DbvauNvyXg9dqMiKxsk4iDPIbpBuM4tlfn1jJ2OziZB6fdy");'></div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-base font-bold text-slate-900">TechWizard_99</h3>
+<span class="bg-primary/10 text-primary text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Univ A</span>
+</div>
+<p class="text-xs text-text-muted">Computer Engineering • 2 hours ago</p>
+</div>
+</div>
+<button class="text-primary text-sm font-bold hover:underline">Follow</button>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 mb-4 leading-tight">Thoughts on AI Coding Assistants? Copilot vs others.</h2>
+<div class="prose prose-slate max-w-none text-slate-800 mb-6 leading-relaxed">
+<p class="mb-4">Has anyone tried the new updates for AI coding assistants? I'm curious about how it handles complex recursion problems compared to traditional methods.</p>
+<p class="mb-4">I've been testing Copilot and a few open-source models locally. While Copilot is great for boilerplate, sometimes it hallucinates libraries that don't exist when dealing with niche C++ frameworks.</p>
+<div class="bg-background-light rounded-lg p-4 border border-border-light mb-4">
+<code class="text-sm font-mono text-pink-600">
+                                        // Example of generated code<br/>
+                                        void recursiveSort(int arr[], int n) { ... }
+                                    </code>
+</div>
+<p>Would love to hear your experiences, especially for Systems Programming tasks.</p>
+</div>
+<div class="flex items-center justify-between border-y border-border-light py-3 mb-6">
+<div class="flex gap-4">
+<button class="flex items-center gap-2 text-slate-900 bg-background-light hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary">thumb_up</span>
+<span class="font-bold text-sm">42</span>
+</button>
+<button class="flex items-center gap-2 text-text-muted hover:bg-background-light px-3 py-1.5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">thumb_down</span>
+</button>
+</div>
+<div class="flex gap-4 text-sm text-text-muted">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">visibility</span> 1.2k</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">chat</span> 댓글 8개</span>
+</div>
+</div>
+<div class="space-y-6">
+<h3 class="text-lg font-bold text-slate-900">Comments (8)</h3>
+<div class="flex gap-3 group">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARTrLO0GpG0rbr-ZVGwrYO22NoPJL8li4gTDG2Rjvn6LZN4MPD7gGepHpFdzAi6mrE6UnTBjgvfIKuicKWZuxyZh84dyTec--UOw_WBX6KiQNJpXrHwD7bnBtLUA993ZYVpmtp6Z3DuOr9kHXXfXHyh8rdJVqu9IP9XGjHrVbEt-NH9fio3eIxE-goDKFdO4n846WvXWJnDExgwRKCBHhNSf0UwDa9_7YXb2-7VrZV4-paxz1BsoKR9v_ULH8L4b5zFymphU7Giv6e");'></div>
+<div class="flex-1">
+<div class="bg-background-light p-3 rounded-lg rounded-tl-none">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-sm text-slate-900">System_Architect</span>
+<span class="text-xs text-text-muted">1h ago</span>
+</div>
+<p class="text-sm text-slate-800">For systems programming, I still prefer writing manually. The context window often isn't large enough to understand the full dependency tree of a large makefile project.</p>
+</div>
+<div class="flex items-center gap-4 mt-1 pl-1">
+<button class="text-xs font-semibold text-text-muted hover:text-primary">좋아요</button>
+<button class="text-xs font-semibold text-text-muted hover:text-primary">답글</button>
+</div>
+</div>
+</div>
+<div class="flex gap-3 relative">
+<div class="absolute left-[15px] top-10 bottom-[-24px] w-0.5 bg-border-light -z-10"></div>
+<div class="size-8 rounded-full bg-cover bg-center shrink-0" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCT3W-Hioh-yn0uBR4geD79y9wFZfwsffYLEsxqf-jP8M8DXUrsjwyMkQaVoCPmYX6lRBUBOKClBn0rmwiWEEBuv0Kfk-Ihd6jKNnpk5XJZVRD7W2YyLPGJu9RhQdq1tBytBWYlpr4AsH5eQIDulX8S7xebpU3pu1TKXEMIP-EFONMHLqPDIdXApJai-BYiq7rCLPX9T7ne0bsi2aKtzHEsgjGvdu1rahBTFarzEBbQq2t4ONHqLVGZ-O4CeUkmpvxrr2qHOE7xlW9x");'></div>
+<div class="flex-1">
+<div class="bg-primary/5 border border-primary/10 p-3 rounded-lg rounded-tl-none">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm text-slate-900">Junior_Dev</span>
+<span class="bg-yellow-100 text-yellow-700 text-[10px] px-1 rounded font-bold">작성자</span>
+</div>
+<span class="text-xs text-text-muted">45m ago</span>
+</div>
+<p class="text-sm text-slate-800">I agree, context is king. Have you tried providing the header files first?</p>
+</div>
+<div class="flex items-center gap-4 mt-1 pl-1 mb-3">
+<button class="text-xs font-semibold text-text-muted hover:text-primary">좋아요</button>
+<button class="text-xs font-bold text-primary">답글</button>
+</div>
+<div class="flex gap-3 animate-in fade-in zoom-in-95 duration-200">
+<div class="size-6 rounded-full bg-cover bg-center shrink-0 mt-1" data-alt="Your avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCe4MWOlcgWXlnZ3RvhnWdGxxgpSeYR-1aQmEspmyg7l1XMTCEs4HMofujZt3CPvbguYODEgDfJpePdR1od_2Er2nYebOc1CxSfbukn6kX3cusAUFG2t3jbVvAzSXb9JDpXKWHvqwwxjngky1EQWr9sQMlnUy4yoo4AOZ9pw2J1w15piqEP9hzUkScSKDQbUCMXOQI7p_Z0ggNG2ME3WTEYAJ14vLlHhSVSOp3uhbo7Bm3FbwryJUVqMNF8q2wrr2dPSFYokx1EKTOc");'></div>
+<div class="flex-1">
+<div class="relative">
+<textarea autofocus="" class="w-full bg-white border border-primary rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none min-h-[80px] shadow-sm" placeholder="Junior_Dev님에게 답글 쓰기..."></textarea>
+<div class="absolute bottom-2 left-2 flex gap-1">
+<button class="p-1 text-text-muted hover:text-primary rounded hover:bg-background-light">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1 text-text-muted hover:text-primary rounded hover:bg-background-light">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</button>
+<button class="p-1 text-text-muted hover:text-primary rounded hover:bg-background-light">
+<span class="material-symbols-outlined text-[18px]">image</span>
+</button>
+</div>
+</div>
+<div class="flex justify-end gap-2 mt-2">
+<button class="px-3 py-1.5 text-xs font-bold text-text-muted hover:text-slate-900 rounded-lg hover:bg-background-light transition-colors">취소</button>
+<button class="px-4 py-1.5 text-xs font-bold text-white bg-primary hover:bg-primary-hover rounded-lg transition-colors shadow-sm shadow-primary/30">
+                                                    등록
+                                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-3 pl-12 pt-2 relative">
+<div class="absolute left-[27px] top-[-10px] bottom-6 w-0.5 bg-border-light rounded-bl-xl border-b-0"></div> 
+<div class="absolute left-[27px] top-[18px] w-4 h-0.5 bg-border-light"></div> 
+<div class="size-6 rounded-full bg-cover bg-center shrink-0" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9EjeMT9iWmrYW8o8XYw0OSk9cbPaXOEmy8op08X_Ea87-GeWGiIYQLOq4-msTKspLBKhVgZ8MkCHf1MkuCaqEzDiDJJmpGhLOu3GrJ3rqTjOxU2yo9VpI6d5-_ig5nqEbd6oIJuleoyStTQDpehYWi8-_qb7ZYVsLOnu28kxY90sK207On527mbDQr4iIz7FfaAJ1_Q4Osb7HY-jI1BMKGmsvGLFbFnrM6RV4QWLDQ8oXo0sEz_SpW6TEjvKfOeIKDHXmarRHWmtH");'></div>
+<div class="flex-1">
+<div class="bg-background-light p-2.5 rounded-lg rounded-tl-none">
+<div class="flex justify-between items-start mb-0.5">
+<span class="font-bold text-xs text-slate-900">Rust_Evangelist</span>
+<span class="text-[10px] text-text-muted">10m ago</span>
+</div>
+<p class="text-xs text-slate-800">You can also try using ctags to generate a map for the context window.</p>
+</div>
+<div class="flex items-center gap-3 mt-1 pl-1">
+<button class="text-[10px] font-semibold text-text-muted hover:text-primary">좋아요</button>
+<button class="text-[10px] font-semibold text-text-muted hover:text-primary">답글</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 bg-white border-t border-border-light shrink-0">
+<div class="relative flex items-center gap-3">
+<div class="size-8 rounded-full bg-cover bg-center shrink-0 border border-border-light" data-alt="Current user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDV0jchiZbTf6DqLlAeKFPz2CFbm5rZ7QhwCkoun-v4KiDOxvQSWQKTafc0Q-foJ2_wx65QNuZLJT8VA2FSodw4siIKmtVxNaVQZfHDx4uY1L9nr1EqWI2ZR10KlEKAt8zUFsMdjwebQfmfwWKv3iE5OTS8SYA8PysCLV8lG8IimWOeWWVv6NepnU0tTjKJPYqMqF7YvU7lq1ck3ffMiv0iFXHRtYaAPdPejtzqpJGMEx8sZgIQFNf9k9t-MkKhVFRtnG3hYuAmC1Yq");'></div>
+<div class="flex-1 relative">
+<input class="w-full bg-background-light border-none rounded-full py-2.5 pl-4 pr-12 text-sm focus:ring-1 focus:ring-primary focus:bg-white transition-all" placeholder="댓글을 입력하세요..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-primary hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

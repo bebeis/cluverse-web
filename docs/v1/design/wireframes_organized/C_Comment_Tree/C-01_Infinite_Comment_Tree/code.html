@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - Infinite Comment Tree</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b] px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full ring-1 ring-slate-200 dark:ring-slate-700 focus-within:ring-2 focus-within:ring-primary bg-slate-50 dark:bg-slate-800">
+<div class="text-slate-400 flex items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg bg-transparent text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none placeholder:text-slate-400 px-4 pl-2 text-sm font-normal leading-normal" placeholder="검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden lg:flex items-center gap-9">
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">커뮤니티</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">그룹</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">이벤트</a>
+<a class="text-slate-900 dark:text-white hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">마이페이지</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-blue-600 transition-colors text-white text-sm font-bold leading-normal shadow-md shadow-blue-500/20">
+<span class="truncate">글쓰기</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-white dark:ring-slate-700 cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCo_gOu2Y0bGXjrRD-8aeI7YmWIjj-4rRFZ9z_BKLUy99xAFso4ptyAHN3q00D_DA2pwcBUZzn_0EZ6RieXC39JmEoSRpwIKDWQGmlnrat8t03iPqHya5WB9vs0MM8W24Ktl84vsMBWg_5sH-5ZqdXurN1dVnXZyecfZPOBmsikWM5cHoq9dE3uRBpunbNI6jr0yBrau7Y76bonUGQHOuj9zo7zNdzgJJQyK6hheuhrRPyCPtfjwtJh0WuBNgUkKvFrnz1UPkM1ARkI");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-[960px] flex flex-col gap-6">
+<div class="flex flex-col gap-2 pb-4 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs font-bold">토론</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs">자유게시판 &gt; 기술 토론</span>
+</div>
+<h1 class="text-slate-900 dark:text-white text-2xl md:text-3xl font-bold leading-tight">무한 뎁스 댓글 트리 시스템 제안</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">복잡한 대화 흐름을 효율적으로 관리하는 계층형 댓글 시스템의 UX 예시입니다. 대댓글의 깊이가 깊어질 때의 가독성 문제를 해결합니다.</p>
+</div>
+<div class="bg-white dark:bg-[#15202b] rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+<div class="flex justify-between items-center mb-6">
+<span class="text-slate-900 dark:text-white font-bold text-lg">댓글 <span class="text-primary">128</span></span>
+<div class="flex gap-2">
+<button class="text-slate-900 dark:text-white text-sm font-medium hover:text-primary">최신순</button>
+<span class="text-slate-300 dark:text-slate-700">|</span>
+<button class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary">등록순</button>
+<span class="text-slate-300 dark:text-slate-700">|</span>
+<button class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary">추천순</button>
+</div>
+</div>
+<div class="flex gap-4 mb-10">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0" data-alt="Current user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCa0o30baIQ3OLo48b8fZbDaC_2pLW4g9rDSNIb67_Ct5Y117Bs1C8QtvHgAqKxo2bZY6DpiTcYkytW-j2TlggrhMYcc5LS5KxgM2cWWo7Xf8BD1APGLa5S2OhArrmobpywJQnJno8Oj2zzOSyl3L-Dg2ta__WHvxnSwdMB6ewTpk1lZDbw60cAEm2GKEbKK6PuwHEFfPQlCdyKJ1yp4iWrxNHq3RURX_YV8usxtUg8ZwuQiwtYy8AZ2kVvkbT3NX6PZXuONX4bz_Qb");'></div>
+<div class="flex-1 flex flex-col gap-2">
+<textarea class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg p-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-2 focus:ring-primary min-h-[80px] resize-none" placeholder="이 주제에 대한 의견을 남겨주세요..."></textarea>
+<div class="flex justify-end">
+<button class="bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-bold py-2 px-4 rounded-lg transition-colors">
+                            댓글 작성
+                        </button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="group/comment relative">
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 cursor-pointer hover:ring-2 hover:ring-primary/50 transition-all" data-alt="User avatar male" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBr6fYe5u1XgxsCfc5AS9zvP3_0WVeDMrAjPQIlgZrLYhnePwnT6uP_tXRPM8R6rBTYAg16uWqGkIIjXcnFQtXNxYusKdNNgHsJfyIOa_BGziedO1-ekoIIFyh1OeIf0HNoKIPvtUi3VuxmlqIDPIwisvRoOKhfMOBOk3AC_hLbNxfm0DZGb7tQIbJycaZFFjDowaaFF6Ile_2dYJ5ysBXbjD3-PN5d-iOkl7y6DU6CeVHXZDdal-t_KNkjI8A7j0lSMlhFVXnpFBlI");'></div>
+<div class="w-[2px] h-full bg-indigo-100 dark:bg-indigo-900/30 mt-2 group-hover/comment:bg-indigo-300 dark:group-hover/comment:bg-indigo-700 transition-colors cursor-pointer rounded-full" title="스레드 접기"></div>
+</div>
+<div class="flex-1 pb-2">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-slate-900 dark:text-white text-sm font-bold cursor-pointer hover:underline">김철수</span>
+<span class="bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 text-[10px] px-1.5 py-0.5 rounded border border-indigo-100 dark:border-indigo-800 font-medium">작성자</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 2시간 전</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-3">
+                                이 주제에 대해 정말 흥미로운 점이 많네요. 특히 3번째 문단의 내용이 인상깊습니다. 무한 뎁스를 구현할 때 가장 중요한 것은 성능 최적화라고 생각합니다. Virtual Scrolling을 적용하는 것은 어떨까요?
+                            </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-primary transition-colors">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">45</span>
+</div>
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">답글 15</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-xs font-medium">신고</button>
+</div>
+</div>
+</div>
+<div class="pl-6 md:pl-10 mt-2 relative">
+<div class="absolute left-[19px] md:left-[35px] top-[-20px] w-4 h-6 border-b-2 border-l-2 border-indigo-100 dark:border-indigo-900/30 rounded-bl-xl"></div>
+<div class="group/subcomment flex gap-3">
+<div class="flex flex-col items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 shrink-0 cursor-pointer" data-alt="User avatar female" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA587j564p3x7TWbAlVQ_QpWavH3xu0Ms9tpMvk6bcBF9lHflctTNIj9F3BOPOfY141an6KcwAf3KC7-qc8vaTUUew92edceQkqsRgjcGsOkTS6-l0tjQyWVTHPTUdgGb7oahPdILrAjVebZiJpyB43ScVSNDAeIA3lFShETEaKpYnGHSY1Gm5Xo4tAieewWmxU83Ye2GxadGZN0rCw42lYkFzpEqFKOyQSKcyAUg-rs8AK_jmVryXlem08sDNB3UVjc9c1wwgFlOZo");'></div>
+<div class="w-[2px] h-full bg-indigo-100 dark:bg-indigo-900/30 mt-2 group-hover/subcomment:bg-indigo-300 dark:group-hover/subcomment:bg-indigo-700 transition-colors cursor-pointer rounded-full"></div>
+</div>
+<div class="flex-1 pb-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-slate-900 dark:text-white text-sm font-bold cursor-pointer hover:underline">이영희</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 1시간 전</span>
+</div>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-2">
+                                    저도 동감합니다! 혹시 관련 자료를 더 찾아보셨나요? React Window 같은 라이브러리를 쓰면 좋겠네요.
+                                </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-primary">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">12</span>
+</div>
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-primary">chat_bubble</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">답글 3</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pl-6 md:pl-9 mt-2 relative">
+<div class="absolute left-[15px] md:left-[17px] top-[-20px] w-4 h-6 border-b-2 border-l-2 border-indigo-100 dark:border-indigo-900/30 rounded-bl-xl"></div>
+<div class="group/deepcomment flex gap-3">
+<div class="flex flex-col items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-7 shrink-0 cursor-pointer" data-alt="User avatar male 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWQlW56jCA6viwwsZZ_de1NpFT-03haUT5B8ug_Gmlmgd9tceYwBdpWeXEYGHsUcjMXe8wqzJHrWiRJvbE9sZMp2JInP8TdXtIrPLXtBXF0rsXGeBahU8DrFw6HEgs2_CjT1QnqpHKUOSqraEE0CRLdFLW-lSkdoc7R5HF5gW5Wvw38BDSxLJpk9sLPrCHz5nU9hZ320GiUPlek3BWCK2NI_ucleaUuUyDIPKQxNfZzoMZp_65gF-GYW_b_nvul3c3eSTG5o-HuPdW");'></div>
+<div class="w-[2px] h-full bg-indigo-100 dark:bg-indigo-900/30 mt-2 group-hover/deepcomment:bg-indigo-300 dark:group-hover/deepcomment:bg-indigo-700 transition-colors cursor-pointer rounded-full"></div>
+</div>
+<div class="flex-1 pb-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-slate-900 dark:text-white text-sm font-bold cursor-pointer hover:underline">박준형</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 45분 전</span>
+</div>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-2">
+<span class="text-primary bg-primary/10 px-1 rounded text-xs font-medium mr-1">@이영희</span>
+                                        네 맞습니다. 다만 구조가 복잡해지면 상태 관리가 까다로울 수 있어서 Recoil이나 Jotai 같은 아토믹 패턴도 고려해보세요.
+                                    </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-primary">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">5</span>
+</div>
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-slate-400 group-hover:text-primary">chat_bubble</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">답글 2</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pl-6 md:pl-8 mt-2 relative">
+<div class="absolute left-[13px] md:left-[13px] top-[-20px] w-4 h-6 border-b-2 border-l-2 border-indigo-100 dark:border-indigo-900/30 rounded-bl-xl"></div>
+<button class="w-full relative overflow-hidden flex flex-col items-stretch gap-1.5 p-3 group bg-indigo-50/50 dark:bg-indigo-900/10 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-xl transition-all border border-indigo-100 dark:border-indigo-800/50">
+<div class="absolute bottom-0 left-0 h-1 bg-indigo-200 dark:bg-indigo-800 w-full opacity-50">
+<div class="h-full bg-primary w-[20%] rounded-r-full"></div>
+</div>
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-white dark:bg-indigo-900/50 text-primary flex items-center justify-center shadow-sm border border-indigo-100 dark:border-indigo-800 group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</div>
+<div class="flex flex-col items-start">
+<span class="text-sm font-bold text-indigo-900 dark:text-indigo-100">대댓글 12개 더보기</span>
+<span class="text-[11px] text-indigo-500 dark:text-indigo-400 font-medium">현재 3개 / 총 15개 답글</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-3">
+<div class="size-7 rounded-full ring-2 ring-white dark:ring-[#1a2632] bg-cover bg-center shadow-sm z-30" data-alt="Commenter avatar 1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAr0SjpC0AFAaK9gxZhQwqe4PZccxR7Lye7uvlzWVA4MPx86ElJ8O8HpuiDYNUQWxpVbK-bzBYFWzZXJ6n_RQ2noDpTRDN5w_rO-U5g2s39k5Utyii_J4kkLkEgZ0jXaH05VfItcDba7n-ZnX6JBJwboJmaJ0uqjBjtloq2FzV4w_e1hWQt9o_uxpvnKmw2w44BXJ51_l6zBYoWvC8CeFYcv6K7DZeN_g9wc5sjZFPrCvgSTgZ5W5DOgZ6EOx103dLhSlEhKCsqSFvV");'></div>
+<div class="size-7 rounded-full ring-2 ring-white dark:ring-[#1a2632] bg-cover bg-center shadow-sm z-20" data-alt="Commenter avatar 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAMTRASbWTR7XZlWSTmYcwzzwj0KFJ-xgrOvh_VglyTuVHHBBPa75TKvjl-DaKF6NRRYENHlRkSneW-EjmX5-BCjDBTmbXMbzb6xwIcbta5mOErAQEpriOFO86d8uZOP8ZVgpuDd6i8AEC69UPNmqyOsnN_TWGGnB713DdopmVPyPvSN1J0RJWvth9-pVRlEujwuGMZQ2QdhDCRcGZ_txKWyZDOAqIOcRHvS36xKSGCbdNusVX3IIik2ycLmyyPwy51p0VGZP6QUBaQ");'></div>
+<div class="size-7 rounded-full ring-2 ring-white dark:ring-[#1a2632] bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center text-[10px] font-bold text-indigo-600 dark:text-indigo-200 shadow-sm z-10">+10</div>
+</div>
+<span class="material-symbols-outlined text-indigo-400 dark:text-indigo-500 text-lg group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="group/comment relative">
+<div class="flex gap-3 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex flex-col items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 cursor-pointer" data-alt="User avatar male 3" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBq4j2y7UH6S7FU3pOyM0rhnei0hQoeVFD6bYaHHYXp7e-miCDEaSYeZxyzPlYdRFxBLk-dw6YNR44OKhQ_TEpQG0bmH2xkR_8I--SvlPcvqtKOKlxb55WuAi9i_qQsJKCKliMCNYTfIY87PlAls6_3LpG2KuK5s_d-WHtJU9jXQ6QDXeC5yX1NcaAg-lvglfWgAboYgUgbknhgqoGB3vGk4AC8kBrzI_7jfrVbOWmjQ-xCK78Pq3YtOzBnr6j40rHveEmuktKwVN6R");'></div>
+<div class="w-[2px] h-full bg-indigo-200 dark:bg-indigo-900/40 mt-2 rounded-full"></div>
+</div>
+<div class="flex-1 pb-2">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-slate-900 dark:text-white text-sm font-bold">최민수</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 3시간 전</span>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined text-[18px]">unfold_more</span>
+</button>
+</div>
+<div class="flex items-center gap-2">
+<p class="text-slate-700 dark:text-slate-300 text-sm truncate max-w-[300px] italic text-slate-400">
+                                    댓글이 접혀있습니다.
+                                </p>
+<span class="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-indigo-100 dark:border-indigo-800">
+                                    답글 8개
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<div class="group/comment relative">
+<div class="flex gap-3">
+<div class="flex flex-col items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shrink-0 cursor-pointer" data-alt="User avatar female 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBuHElN8HZy_FNC7q9KMciD6Fr3LWUWCdRY0nwG13X2RbcrBtaZBu0NhtOKVYzimCZJlALRKM1ZpOrVeO4svaY4HKs6VFCEfFiKkUOVl7a9QCOrOAdnIbwkj9OBMSzju23qBBXVU0gwistGByHuRoiDOxmORteipHzWAogM2hEffIk9e6evwjjur13SFD_wTLEFnwkUJ5-SkO_njrfcN76N4hlVjIrjzlV5uepX7r9XcNkM9yvtdKGcq-XcM8Q_thgZrUKu8PC0QPDx");'></div>
+</div>
+<div class="flex-1 pb-2">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-slate-900 dark:text-white text-sm font-bold cursor-pointer hover:underline">정다은</span>
+<span class="text-slate-400 dark:text-slate-500 text-xs">• 5시간 전</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-3">
+                                좋은 정보 감사합니다! 스크랩 해두고 나중에 다시 읽어봐야겠어요.
+                            </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-primary transition-colors">thumb_up</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">82</span>
+</div>
+<div class="flex items-center gap-1.5 group cursor-pointer">
+<span class="material-symbols-outlined text-[18px] text-slate-400 group-hover:text-primary transition-colors">chat_bubble</span>
+<span class="text-slate-500 dark:text-slate-400 text-xs font-medium group-hover:text-primary">답글 0</span>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 text-xs font-medium">신고</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md:hidden sticky bottom-4 z-40 flex justify-center">
+<button class="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-3 rounded-full shadow-lg font-bold text-sm">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                댓글 쓰기
+            </button>
+</div>
+</div>
+</main>
+
+</body></html>

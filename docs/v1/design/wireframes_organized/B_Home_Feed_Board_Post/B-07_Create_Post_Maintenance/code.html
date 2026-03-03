@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 게시글 작성 (점검 모드)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.toggle-checkbox:checked {
+            right: 0;
+            border-color: #137fec;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #137fec;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased overflow-x-hidden min-h-screen flex flex-col">
+<div class="layout-container flex h-full grow flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b] px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="h-full w-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Cluverse</h2>
+</div>
+<label class="hidden md:flex flex-col min-w-40 !h-10 w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group focus-within:ring-2 ring-primary/50 transition-all">
+<div class="text-slate-400 dark:text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 h-full placeholder:text-slate-400 dark:placeholder:text-slate-500 px-4 pl-2 text-sm font-normal leading-normal" placeholder="검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="hidden lg:flex items-center gap-9">
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">커뮤니티</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">그룹 찾기</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">내 그룹</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">채팅</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-slate-100 dark:bg-slate-800 p-2 rounded-full text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-white dark:ring-slate-700 shadow-md cursor-pointer" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCLJQKUyIZPxEQw-tRL9CTGAB4s5iwQTWKIcRAKO1Zt2qh8g6aYHr3L9Lp2DmCHmaf1rw8MGcWg1MQO7FZECz25zaIDPUK9DQZFH-NRUr9WWRozQA3W51fzBo5HGwaBwvQ_j27xnVkFfejiVswVqVqC5nhMbraRFyh7tpRaA9cUrGy4TdiugCG1ukM-JgyX0pH5AnM-CRO1ZGykibbDhrV1nAy7sm_xHHpoHIUMEBZgHoo5qdPDpKiXG4GGBaMJJzfHtmWWh38ngykh");'></div>
+</div>
+</div>
+</header>
+<div class="bg-amber-50 dark:bg-amber-900/30 border-b border-amber-200 dark:border-amber-800 px-4 py-3">
+<div class="max-w-4xl mx-auto flex items-start gap-3">
+<div class="text-amber-500 dark:text-amber-400 mt-0.5">
+<span class="material-symbols-outlined icon-filled">warning</span>
+</div>
+<div>
+<h3 class="text-amber-900 dark:text-amber-100 font-semibold text-sm">서비스 점검 및 읽기 전용 모드 안내</h3>
+<p class="text-amber-800 dark:text-amber-200/80 text-sm mt-1">
+                현재 시스템 안정화를 위한 정기 점검이 진행 중입니다. 이 기간 동안은 <span class="font-bold underline">게시글 작성 및 수정이 제한</span>되며, 기존 게시물 열람만 가능합니다.
+                <br class="hidden sm:block"/>이용에 불편을 드려 죄송합니다. 최대한 빠른 시간 내에 서비스를 정상화하겠습니다.
+            </p>
+</div>
+</div>
+</div>
+<main class="flex-1 flex justify-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-4xl bg-white dark:bg-[#15202b] rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden relative">
+<div class="px-8 pt-8 pb-4 border-b border-slate-100 dark:border-slate-800 opacity-60">
+<div class="flex flex-wrap gap-2 items-center mb-2">
+<a class="text-primary hover:text-blue-600 hover:underline text-sm font-medium transition-colors pointer-events-none" href="#">코딩 스터디 그룹</a>
+<span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">일반 게시판</span>
+</div>
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">게시글 작성</h1>
+</div>
+<div class="p-8 space-y-8">
+<div class="space-y-3 opacity-60 relative group cursor-not-allowed">
+<label class="block text-slate-900 dark:text-slate-100 text-base font-semibold" for="post-title">제목</label>
+<div class="relative">
+<input class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 px-4 py-3 pl-10 text-base shadow-sm cursor-not-allowed select-none" disabled="" id="post-title" placeholder="점검 중에는 입력할 수 없습니다" type="text"/>
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">lock</span>
+</div>
+</div>
+</div>
+<div class="space-y-3 opacity-60 cursor-not-allowed">
+<label class="block text-slate-900 dark:text-slate-100 text-base font-semibold" for="post-content">내용</label>
+<div class="relative">
+<div class="flex items-center gap-1 p-2 border border-b-0 border-slate-300 dark:border-slate-700 rounded-t-lg bg-slate-100 dark:bg-slate-800/80 pointer-events-none select-none">
+<button class="p-1.5 text-slate-400 rounded cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">format_bold</span>
+</button>
+<button class="p-1.5 text-slate-400 rounded cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">format_italic</span>
+</button>
+<button class="p-1.5 text-slate-400 rounded cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">format_underlined</span>
+</button>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="p-1.5 text-slate-400 rounded cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">image</span>
+</button>
+<button class="p-1.5 text-slate-400 rounded cursor-not-allowed">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</button>
+</div>
+<div class="relative">
+<textarea class="w-full min-h-[320px] rounded-b-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 px-4 py-3 text-base resize-none cursor-not-allowed select-none" disabled="" id="post-content" placeholder=""></textarea>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 pointer-events-none">
+<span class="material-symbols-outlined text-[48px] mb-2 text-slate-300 dark:text-slate-600">lock_clock</span>
+<span class="text-sm text-slate-500 dark:text-slate-500">현재 서비스 점검 중으로 내용을 작성할 수 없습니다.</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 opacity-50 cursor-not-allowed">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 rounded-lg cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                            파일 첨부
+                         </button>
+<span class="text-xs text-slate-400 dark:text-slate-500">업로드 기능이 일시 중지되었습니다</span>
+</div>
+</div>
+<div class="bg-slate-50 dark:bg-[#111a23] p-8 border-t border-slate-200 dark:border-slate-800">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 opacity-50 pointer-events-none select-none">
+<div class="flex items-start gap-3">
+<div class="relative inline-block w-12 mr-2 align-middle select-none mt-1 opacity-50 cursor-not-allowed">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-not-allowed border-slate-300" disabled="" id="public-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-not-allowed" for="public-toggle"></label>
+</div>
+<div>
+<label class="block text-sm font-semibold text-slate-500 dark:text-slate-400" for="public-toggle">외부 공개 (비활성)</label>
+<div class="flex items-center gap-1.5 mt-1 text-slate-500 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-xs font-medium w-fit">
+<span class="material-symbols-outlined text-[14px]">info</span>
+<span>비공개 그룹에서는 게시글을 외부로 공유할 수 없습니다</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end items-center gap-3">
+<button class="px-6 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+                            뒤로가기
+                        </button>
+<button class="px-8 py-2.5 rounded-lg bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-semibold cursor-not-allowed flex items-center gap-2" disabled="">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>등록 불가</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#15202b] py-6 text-center text-slate-500 dark:text-slate-500 text-sm">
+            © 2024 Cluverse. All rights reserved.
+        </footer>
+</div>
+
+</body></html>

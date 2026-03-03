@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 팔로잉 피드</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "sans": ["Spline Sans", "Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-[#15152a]/90 backdrop-blur-md px-6 py-3 transition-colors duration-200">
+<div class="flex items-center gap-8 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Cluverse</h2>
+</div>
+<!-- Search Bar -->
+<div class="hidden md:flex flex-1 max-w-md">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full p-2.5 pl-10 text-sm text-slate-900 border-none rounded-lg bg-slate-100 dark:bg-slate-800 dark:placeholder-slate-400 dark:text-white focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-[#1a1a35] transition-all" placeholder="학교, 친구, 그룹 검색..." type="text"/>
+</div>
+</div>
+<!-- Nav Links & Profile -->
+<div class="flex flex-1 justify-end gap-6 items-center">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">홈</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">커뮤니티</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">그룹</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">채팅</a>
+<a class="relative text-sm font-medium hover:text-primary transition-colors" href="#">
+                        알림
+                        <span class="absolute -top-1 -right-1 flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+</a>
+</nav>
+<button class="hidden sm:flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-bold py-2 px-4 rounded-lg transition-colors shadow-sm shadow-primary/30">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>글쓰기</span>
+</button>
+<div class="relative group cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-transparent group-hover:ring-primary transition-all">
+<img alt="사용자 프로필" class="w-full h-full object-cover" data-alt="User profile picture placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXSzkhXg97Zmejw6WAyZyJ5d27-0XJyWNerCZNopRUHvB-mbrFLRCdtcWwdfgJeZ9Ynu_m4wnUumjiryUnR36YTL4MWf7Fjee-44OJXvu0aTuT9mq_ttQR-a_jMr77PBojqesNhyLZz4UeEFbdmDALy0nJMBgj1X_dSvl0bgCdhz8NGBjdX_sWeWaMxXPeRgpiZAuxyvM6s6791DH5f41E5kNTe_SmOn2GKJb515dBDDNs1mxvCsBlujIzKUZDQcpuqBdGSftoP6Bw"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+<!-- Left Sidebar (Sticky) -->
+<aside class="hidden lg:block w-64 shrink-0 sticky top-24 h-fit space-y-6">
+<div class="bg-white dark:bg-[#15152a] rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex flex-col items-center text-center">
+<div class="relative mb-3">
+<img alt="나의 프로필" class="w-20 h-20 rounded-full object-cover border-4 border-slate-50 dark:border-[#1e1e30]" data-alt="My profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4EsiUhZc4rdS_OjPt8TACavGlQh6WXYqM8wcHrDUzuj-tXS0918pXp8zwQPkAsbxQQHqvd8-f4TBUO-Hkt02QGDhoovOrR6SLhacnlQyPrnw_Dtsz8U9fvaxrdUqu_qPPlSXOkWsTSqMK06Z7kf60wig5JX33XJTk14gzcGQ9F_82AS4ZtXsUxEztfcuPDQUL-Lxs7vDNyJ9xRImS3_L0Yg3jlJNFpfQ0DbBNUuMIpla3zNQ62FG-FRRRL5gGbHcNqE9hQNJKBXrm"/>
+<div class="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1 border-2 border-white dark:border-[#15152a]" title="서울대학교">
+<span class="material-symbols-outlined text-white text-[14px] leading-none">school</span>
+</div>
+</div>
+<h3 class="font-bold text-lg dark:text-white">김철수</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4">서울대학교 · 컴퓨터공학부</p>
+<div class="flex justify-center gap-6 w-full border-t border-slate-100 dark:border-slate-800 pt-4">
+<div class="flex flex-col">
+<span class="text-xs text-slate-500 uppercase font-semibold">팔로잉</span>
+<span class="font-bold text-lg text-primary">142</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-slate-500 uppercase font-semibold">팔로워</span>
+<span class="font-bold text-lg text-slate-900 dark:text-white">856</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-[#15152a] rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<h4 class="font-bold text-slate-900 dark:text-white mb-4 text-sm">내 그룹 바로가기</h4>
+<ul class="space-y-3">
+<li>
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">전국 대학생 코딩 연합</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">camera_alt</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-emerald-600 transition-colors">사진 동아리 '빛'</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">book_2</span>
+</div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-orange-600 transition-colors">독서토론 A반</span>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Center Feed -->
+<div class="flex-1 max-w-2xl w-full mx-auto flex flex-col gap-6">
+<!-- Feed Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-2">
+<div>
+<h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">팔로잉 피드</h1>
+<p class="text-slate-500 dark:text-slate-400">내가 팔로우한 친구들의 최신 소식을 확인하세요.</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-bold py-2.5 px-4 rounded-lg transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+<span>팔로우 관리</span>
+</button>
+</div>
+<!-- Filter Tabs -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="shrink-0 px-4 py-2 bg-primary text-white rounded-full text-sm font-semibold shadow-md shadow-primary/20">
+                    전체 활동
+                </button>
+<button class="shrink-0 px-4 py-2 bg-white dark:bg-[#15152a] text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-800 transition-colors">
+                    새 게시글
+                </button>
+<button class="shrink-0 px-4 py-2 bg-white dark:bg-[#15152a] text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-800 transition-colors">
+                    댓글 활동
+                </button>
+<button class="shrink-0 px-4 py-2 bg-white dark:bg-[#15152a] text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full text-sm font-medium border border-slate-200 dark:border-slate-800 transition-colors">
+                    좋아요한 글
+                </button>
+</div>
+<!-- Post 1: Image Post -->
+<article class="bg-white dark:bg-[#15152a] rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="p-5 pb-3 flex items-start justify-between">
+<div class="flex gap-3">
+<div class="relative">
+<img alt="이영희 프로필" class="w-12 h-12 rounded-full object-cover" data-alt="Profile picture of Lee Young-hee" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmIgB3lN2ejdDg_qT9n573HU6ZRHVCpPWA9QQb8X7dOmxDNYvUxnxnYdBZgBhvR9DNjbdfacZkAVaZHvP5Q74K2mFzXBsacV0DrVB6hK8q8nQdH_zLlvtXBwYExbL9X-xLAOaDAET0x5c6Gy3OS-4pSDKKMCxq9-NHgCBCKe166dp8aZsVtRYO7gZxlMRxa3uIxembyLXflqaZLX23X_KcdZJntBorPwH2XzjuYqPsA09v7GP86NccW6ugsR415oGuMIfjCk_T9AO0"/>
+<div class="absolute -bottom-1 -right-1 bg-red-800 rounded-full p-0.5 border-2 border-white dark:border-[#15152a]" title="고려대학교">
+<span class="material-symbols-outlined text-white text-[12px] w-4 h-4 flex items-center justify-center bg-red-800 rounded-full">school</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-slate-900 dark:text-white">이영희</h3>
+<span class="bg-red-50 text-red-700 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase dark:bg-red-900/30 dark:text-red-300">고려대</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+<span>30분 전</span>
+<span>·</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">public</span> 전체 공개</span>
+</div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="px-5 py-2">
+<p class="text-slate-800 dark:text-slate-200 text-base leading-relaxed">
+                        중간고사 기간이라 도서관 자리 잡기 너무 힘드네요 ㅠㅠ 다들 열공하세요! 📚🔥<br/>
+                        #중간고사 #도서관 #열공
+                    </p>
+</div>
+<div class="mt-3">
+<img alt="도서관 사진" class="w-full h-64 sm:h-80 object-cover" data-alt="Library interior with students studying" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXhG9OyV0GMdihynwNwpfM03fdxeQwWs_5odGsRj8hJ1gbN5LFAYzN-62iaIPPD1rEec6CeP0tXFMQWWhbcKDSAp0RLgqVHTZSQTrX_YptR0ZY9dPJV4NzhcTse6uZWcMwQzsrYVf7-vwDHhf00cJ0CE0vHtDPJYAYtsiKb5lAtbRn0TdQMI543a451CqbH2DhneW5LrkVOKg4jpJK6clSthdhltGHGTQoe2_zHwxO2tWQe1Hd2P6mE60aDPRZ_c9kulXYO1fyafJI"/>
+</div>
+<div class="px-5 py-3 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/50">
+<div class="flex gap-4">
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined group-hover:fill-current" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="text-sm font-medium">124</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="text-sm font-medium">18</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</article>
+<!-- Post 2: Text only, Comment Activity -->
+<article class="bg-white dark:bg-[#15152a] rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm p-5 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+<div class="flex items-center gap-2 mb-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px] text-primary">chat</span>
+<span>박지성님이 댓글을 남겼습니다</span>
+</div>
+<div class="flex gap-3 mb-3">
+<div class="relative shrink-0">
+<img alt="박지성 프로필" class="w-10 h-10 rounded-full object-cover" data-alt="Profile picture of Park Ji-sung" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4QRNbxtnpl9_A56LZkkiJWAaYdjOdEw-CxqWGx1bxaLOgZz9dCOj0IjUMbH5UvL1axViJCOk4aZTEgRstZbjJa4aPI582LDoXLKGN-DSDOPg0s7qvUhuwZ_R0iVI02GaJQYQ5dkH7euWmXQ_FlKp7HFcNHHbdZGSuraNIZizSZOstIg1Tp7t5EkugNSsRwVAPDvVR7262hwcYGvOtodjSWgrDjcvRedCbZGhbi1qRkzl8GWHo3ws28RKOAYqOaaQ4uNcoSJ5qGbhL"/>
+<div class="absolute -bottom-1 -right-1 bg-blue-900 rounded-full p-0.5 border-2 border-white dark:border-[#15152a]" title="연세대학교">
+<span class="material-symbols-outlined text-white text-[10px] w-3 h-3 flex items-center justify-center bg-blue-900 rounded-full">school</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="bg-slate-50 dark:bg-[#1a1a30] p-4 rounded-2xl rounded-tl-none">
+<div class="flex items-center gap-2 mb-1">
+<h3 class="font-bold text-slate-900 dark:text-white text-sm">박지성</h3>
+<span class="text-xs text-slate-500">2시간 전</span>
+</div>
+<p class="text-slate-800 dark:text-slate-200 text-sm">저도 참가하고 싶습니다! 백엔드 개발 경험 있습니다. DM 드릴게요.</p>
+</div>
+<!-- Original Context -->
+<div class="mt-3 pl-4 border-l-2 border-slate-200 dark:border-slate-700">
+<p class="text-xs text-slate-500 mb-1">원문: 김철수 (서울대학교)</p>
+<p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-1">이번 주말에 있을 연합 해커톤 같이 나갈 팀원 구합니다! 프론트엔드...</p>
+</div>
+</div>
+</div>
+</article>
+<!-- Post 3: Short Text update -->
+<article class="bg-white dark:bg-[#15152a] rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm p-5 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+<div class="flex items-start justify-between mb-3">
+<div class="flex gap-3">
+<div class="relative">
+<img alt="최현우 프로필" class="w-12 h-12 rounded-full object-cover" data-alt="Profile picture of Choi Hyun-woo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANdWQ6d9r-N5rfuEA_RDPNcSmSszz7Q-1xxesrHvrO4GdrtyN9pksBZi_s0MOFhSBDJab_C8GSjabUG-tZzA13J55vv9N0sHTjSrcSjf7ljksNjZY7rmOEqSvWUpIv3PbBC0FLpxg3CB4G_Z2eHPD2veEpomMYZ7OIQ67VKSFEY_PvnU4B8m-DnAulHet0Jc_26j0v3vhnAxkIbBvanEAr_nyCavPatiaxO4tgtvPighOhdlFsTbTs68eQD0ZtdMXTMhj-9xO9NwNB"/>
+<div class="absolute -bottom-1 -right-1 bg-green-700 rounded-full p-0.5 border-2 border-white dark:border-[#15152a]" title="이화여자대학교">
+<span class="material-symbols-outlined text-white text-[12px] w-4 h-4 flex items-center justify-center bg-green-700 rounded-full">school</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-bold text-slate-900 dark:text-white">최현우</h3>
+<span class="bg-green-50 text-green-700 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase dark:bg-green-900/30 dark:text-green-300">이화여대</span>
+</div>
+<div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+<span>5시간 전</span>
+</div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="pl-[60px]">
+<p class="text-slate-800 dark:text-slate-200 text-lg font-medium mb-4">
+                        졸업작품 전시회 드디어 끝났습니다! 와주신 분들 모두 감사해요 🎓✨
+                    </p>
+<div class="flex gap-4">
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined group-hover:fill-current text-[20px]" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="text-sm font-medium">256</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-sm font-medium">42</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Loading Spinner -->
+<div class="py-8 flex justify-center">
+<span class="material-symbols-outlined animate-spin text-primary text-3xl">progress_activity</span>
+</div>
+</div>
+<!-- Right Sidebar (Recommendations) -->
+<aside class="hidden xl:block w-80 shrink-0 sticky top-24 h-fit space-y-6">
+<!-- Search bar for mobile/smaller screens place here if responsive design needed different structure, but for this layout kept in header. -->
+<!-- Recommended Friends -->
+<div class="bg-white dark:bg-[#15152a] rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-bold text-slate-900 dark:text-white">추천 친구</h4>
+<a class="text-xs font-semibold text-primary hover:underline" href="#">모두 보기</a>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="추천 친구 1" class="w-10 h-10 rounded-full object-cover" data-alt="Recommendation friend 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2xKDAzzf5UtucsG_JVsi7qJL8np5KCE7zMZCn5bPSzpBhSfWKaw6tjOG9M9kdiwv0h3lWUNCQJS0TW4pKd4AxGN0y_4Pk3BHmhREu4QmwLeIH2OZu7wCN_vKitfd6c6s0lEM5H5EvEIhUuUhBcuIFPS9nK-i5cOiYA9iKpVIDxtavUMs5hsB59LODmr49UtZMbEq4k3ktfMvqSnF6nxwFQkDO568-a0Zk7bXR6iamPTCsBFYkrbLyGa3iMridYWZDj6JqjhDNAw0F"/>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">정민수</p>
+<p class="text-xs text-slate-500">한양대 · 공과대학</p>
+</div>
+</div>
+<button class="text-primary hover:bg-indigo-50 dark:hover:bg-indigo-900/20 p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</li>
+<li class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="추천 친구 2" class="w-10 h-10 rounded-full object-cover" data-alt="Recommendation friend 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcJMn6ZYCwzxpYWSC4gNVa8dhmx4CujG74gVkfEcOkJrvqnZIxe4dTRUZRoAFCjwHa15qoeXSLfUAmTBA5pa6EK1HVovsMEu66LbtpvcXd-WiFpGBuqi1e0H2o-F6bKF1xNKICcJxg9W_DE1rBWviE0zfxeNVZ2aKvsvV9eUhsxJFWO0CNPcWbtcOgHPpChw9OjOmpdpAm0DcGNSQLv9EOaVnLIK5-Scjxyh1fWg8l_uSCocpPR7CA4blHHpjS8-GtqlH1ogxh3q_C"/>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">김지영</p>
+<p class="text-xs text-slate-500">성균관대 · 경영대학</p>
+</div>
+</div>
+<button class="text-primary hover:bg-indigo-50 dark:hover:bg-indigo-900/20 p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</li>
+<li class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="추천 친구 3" class="w-10 h-10 rounded-full object-cover" data-alt="Recommendation friend 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeur8_Gy9nlBSOyBFkuyoEx19d4r-ljeiOx-pnp_3BRukR7v5RtqxOWhhkpcy3xyZMwzUkYmM7sT-kcWRSznGe4g-Wcln33xlfHINNAMWtJqFfw7fDoKOy5J5ycTpizD0NKTYnh5W52-tGGoWeeRZvy92eeefwYPGjAp_W_J2BZHmP56KEqqV_wzhnvGBnL8hbGJAf7NjHEWsPsiem4adO87bKP9rJPDm8OAyjSVSGQojJzI0PpBA-TJr53KcA_gEN6_-m_1L7Zxvd"/>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">David Kim</p>
+<p class="text-xs text-slate-500">KAIST · 전산학부</p>
+</div>
+</div>
+<button class="text-primary hover:bg-indigo-50 dark:hover:bg-indigo-900/20 p-1.5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</button>
+</li>
+</ul>
+</div>
+<!-- Trending Topics -->
+<div class="bg-white dark:bg-[#15152a] rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800">
+<h4 class="font-bold text-slate-900 dark:text-white mb-4">실시간 인기 태그</h4>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors" href="#">#중간고사</a>
+<a class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors" href="#">#축제라인업</a>
+<a class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors" href="#">#연합동아리</a>
+<a class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors" href="#">#학식맛집</a>
+<a class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full hover:bg-primary hover:text-white transition-colors" href="#">#취업준비</a>
+</div>
+</div>
+<footer class="text-xs text-slate-400 dark:text-slate-600 px-2">
+<p>© 2024 Cluverse. All rights reserved.</p>
+<div class="flex gap-2 mt-1">
+<a class="hover:underline" href="#">이용약관</a> · <a class="hover:underline" href="#">개인정보처리방침</a>
+</div>
+</footer>
+</aside>
+</main>
+</body></html>

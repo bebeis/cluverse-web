@@ -1,0 +1,94 @@
+.commentContainer {
+  display: flex;
+  padding: 12px 0;
+  border-bottom: 1px solid #F1F5F9;
+  position: relative;
+}
+
+.avatarWrapper {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.contentWrapper {
+  flex-grow: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.authorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+.schoolName {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.content {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #334155;
+  margin: 0 0 8px 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.time {
+  font-size: 12px;
+  color: #94A3B8;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.actionBtn:hover {
+  color: #3B82F6;
+}
+
+.loadMoreBtn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3B82F6;
+  cursor: pointer;
+  padding: 12px 0 0 0;
+  display: block;
+}
+
+.loadMoreBtn:hover {
+  text-decoration: underline;
+}
+
+.childrenContainer {
+  margin-top: 12px;
+  margin-left: 12px; /* Indent for children */
+  padding-left: 12px;
+  border-left: 2px solid #E2E8F0;
+}

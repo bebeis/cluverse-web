@@ -1,0 +1,42 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.icon {
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.school {
+  background-color: #E8F4FF;
+  color: #0056B3;
+  border: 1px solid #BFE0FF;
+}
+
+.major {
+  background-color: #F0EDFF;
+  color: #4A3AFF;
+}
+
+.interest {
+  background-color: #F2F2F2;
+  color: #555555;
+}
+
+.customRole {
+  background-color: #FFF4E5;
+  color: #D36C00;
+  border-radius: 4px;
+}
+
+.status {
+  background-color: #E6F8ED;
+  color: #008749;
+}

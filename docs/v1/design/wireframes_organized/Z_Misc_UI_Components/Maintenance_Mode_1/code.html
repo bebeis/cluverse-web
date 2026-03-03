@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 서비스 점검 중</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2632",
+                        "text-main": "#0d141b",
+                        "text-sub": "#4c739a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Spline Sans", "Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Spline Sans', 'Noto Sans KR', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex h-full grow flex-col group/design-root">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-surface-light dark:bg-surface-dark px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-4 text-text-main dark:text-white" href="#">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</a>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full relative">
+<div class="text-text-sub absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-main dark:text-slate-100 focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-text-sub px-4 pl-10 text-sm font-normal leading-normal transition-all" placeholder="검색" value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden lg:flex items-center gap-9">
+<a class="text-text-main dark:text-slate-200 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">커뮤니티</a>
+<a class="text-text-main dark:text-slate-200 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">내 모임</a>
+<a class="text-text-main dark:text-slate-200 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">대학별 게시판</a>
+<a class="text-text-main dark:text-slate-200 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">이벤트</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em] shadow-sm">
+<span class="truncate">로그인</span>
+</button>
+</div>
+</header>
+<div class="bg-amber-100 dark:bg-amber-900/30 border-b border-amber-200 dark:border-amber-800 px-4 py-3 flex items-center justify-center gap-2 text-amber-800 dark:text-amber-200">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<p class="text-sm font-medium leading-normal text-center">현재 서버 점검 중으로 읽기 기능만 가능합니다. (예상 종료 시간 15:00)</p>
+</div>
+<main class="layout-container flex grow flex-col w-full max-w-[960px] mx-auto px-4 sm:px-10 py-8">
+<div class="flex flex-col gap-6">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-text-main dark:text-white text-3xl font-bold leading-tight">전체 게시글</h1>
+<p class="text-text-sub dark:text-slate-400 text-sm font-normal">다양한 대학의 친구들과 소통해보세요!</p>
+</div>
+<div class="group relative inline-block">
+<button class="flex cursor-not-allowed items-center justify-center rounded-lg h-10 px-5 bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 text-sm font-medium leading-normal transition-colors" disabled="">
+<span class="material-symbols-outlined mr-2 text-[18px]">edit</span>
+<span class="truncate">글쓰기 (점검중)</span>
+</button>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                            점검 중에는 글을 작성할 수 없습니다.
+                        </div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<article class="flex flex-col sm:flex-row gap-4 bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow cursor-pointer">
+<div class="shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg w-full sm:w-[100px] aspect-square bg-slate-200" data-alt="Concert stage with lights" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAB7FD-GRWQvRxzyLypUEccLSEGpUVWyYYq5wuuKWk9Sw3OokzQBQXOzArJVzTgVH90WyGQZfq8KJwaWkXcBXtKLx7JxMxLum0qhSKN8b5XaLqxlsOvnVT-4-xJaLsAjtf9knuszBijUHth-ZBvFZjEI36MKwJ2obMM3BPwxXQ5v0YxFvsEgynn6atdJr4xTg9w2KXfeCIp8hKg5Ue9aLh0B9xs03qqgkAma1UtbznyfqGUIZ7WyoQg_daz1NGM5ZIE6cBpNRtadzGq");'></div>
+</div>
+<div class="flex flex-1 flex-col justify-between gap-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-primary/10 text-primary text-xs px-2 py-0.5 rounded font-medium">자유게시판</span>
+<span class="text-xs text-text-sub dark:text-slate-400">서울대학교</span>
+</div>
+<h3 class="text-text-main dark:text-slate-100 text-lg font-bold leading-tight line-clamp-1">이번 축제 라인업 대박이네요</h3>
+<p class="text-text-sub dark:text-slate-400 text-sm font-normal line-clamp-2">작년보다 훨씬 좋은 것 같아요. 특히 마지막 날 공연이 기대됩니다. 다들 누구 보러 가시나요? 저는 개인적으로...</p>
+</div>
+<div class="flex items-center justify-between mt-2 sm:mt-0 pt-2 border-t border-slate-50 dark:border-slate-700/50 sm:border-0 sm:pt-0">
+<div class="flex items-center gap-5 text-xs text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">favorite</span>
+<span class="font-medium">124</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">chat_bubble</span>
+<span class="font-medium">32</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">visibility</span>
+<span class="font-medium">1.2k</span>
+</span>
+</div>
+<span class="text-xs text-text-sub dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    10분 전
+                                </span>
+</div>
+</div>
+</article>
+<article class="flex flex-col sm:flex-row gap-4 bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow cursor-pointer">
+<div class="shrink-0">
+<div class="bg-center bg-no-repeat bg-cover rounded-lg w-full sm:w-[100px] aspect-square bg-slate-200" data-alt="Python code on monitor" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBnCX47wL26Jw4Sl7gpmDQWbnfdHCi_Kvhi_fix8-yXY5JR3msk1zBnMRyYnYdH46pgWuhqK5tn-A0nVbGcYckGiqDFgBwKBxuOWH_Lwl2a44G8P1JBaxm27_t1vQTHOSqaE_cl7Sqw_MZ75pR-jxTBMuU7lyl-E1_CGgTKtzKnPgelp9VbIN6COWDMp7HuZPW2YSLyo3quYLmHZEIZNbf2-yoIaA_U2t7UB41gukJ4Rf5ojgNwdk9z5Yd3no0AqycrONg3TukL-U-2");'></div>
+</div>
+<div class="flex flex-1 flex-col justify-between gap-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs px-2 py-0.5 rounded font-medium">스터디/모임</span>
+<span class="text-xs text-text-sub dark:text-slate-400">고려대학교</span>
+</div>
+<h3 class="text-text-main dark:text-slate-100 text-lg font-bold leading-tight line-clamp-1">알고리즘 스터디 모집합니다 (Python)</h3>
+<p class="text-text-sub dark:text-slate-400 text-sm font-normal line-clamp-2">매주 토요일 강남역 부근에서 진행할 예정입니다. 초보자도 환영해요! 백준 골드 이상 목표로 하시는 분들 환영합니다.</p>
+</div>
+<div class="flex items-center justify-between mt-2 sm:mt-0 pt-2 border-t border-slate-50 dark:border-slate-700/50 sm:border-0 sm:pt-0">
+<div class="flex items-center gap-5 text-xs text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">favorite</span>
+<span class="font-medium">45</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">chat_bubble</span>
+<span class="font-medium">18</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">visibility</span>
+<span class="font-medium">450</span>
+</span>
+</div>
+<span class="text-xs text-text-sub dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    35분 전
+                                </span>
+</div>
+</div>
+</article>
+<article class="flex flex-col sm:flex-row gap-4 bg-surface-light dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex flex-1 flex-col justify-between gap-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs px-2 py-0.5 rounded font-medium">질문답변</span>
+<span class="text-xs text-text-sub dark:text-slate-400">연세대학교</span>
+</div>
+<h3 class="text-text-main dark:text-slate-100 text-lg font-bold leading-tight line-clamp-1">이번 학기 수강신청 팁 좀 알려주세요 ㅠㅠ</h3>
+<p class="text-text-sub dark:text-slate-400 text-sm font-normal line-clamp-2">1학년 신입생인데 수강신청 너무 떨려요. PC방 가는게 필수인가요? 서버 시간은 어디서 보나요?</p>
+</div>
+<div class="flex items-center justify-between mt-4 sm:mt-0 pt-2 border-t border-slate-50 dark:border-slate-700/50 sm:border-0 sm:pt-0">
+<div class="flex items-center gap-5 text-xs text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1.5 hover:text-pink-500 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">favorite</span>
+<span class="font-medium">8</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">chat_bubble</span>
+<span class="font-medium">56</span>
+</span>
+<span class="flex items-center gap-1.5 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+<span class="material-symbols-outlined text-[18px] font-light">visibility</span>
+<span class="font-medium">890</span>
+</span>
+</div>
+<span class="text-xs text-text-sub dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    1시간 전
+                                </span>
+</div>
+</div>
+</article>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-center gap-6 mb-10 py-4">
+<button class="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all border border-slate-100 dark:border-slate-700 min-w-[100px] cursor-not-allowed opacity-70" disabled="">
+<div class="p-3 bg-pink-50 dark:bg-pink-900/20 rounded-full group-hover:bg-pink-100 dark:group-hover:bg-pink-900/30 transition-colors">
+<span class="material-symbols-outlined text-pink-500 text-[28px] icon-filled">favorite</span>
+</div>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">좋아요 124</span>
+</button>
+<button class="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all border border-slate-100 dark:border-slate-700 min-w-[100px] cursor-not-allowed opacity-70" disabled="">
+<div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+<span class="material-symbols-outlined text-blue-500 text-[28px]">bookmark</span>
+</div>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">스크랩 45</span>
+</button>
+<button class="group flex flex-col items-center gap-2 p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all border border-slate-100 dark:border-slate-700 min-w-[100px] cursor-not-allowed opacity-70" disabled="">
+<div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-full group-hover:bg-slate-100 dark:group-hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-slate-500 text-[28px]">share</span>
+</div>
+<span class="text-sm font-semibold text-slate-600 dark:text-slate-300">공유하기</span>
+</button>
+</div>
+<h4 class="text-sm font-bold text-text-sub dark:text-slate-400 mb-4">댓글 작성 (비활성화 예시)</h4>
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex gap-4 opacity-60 pointer-events-none select-none">
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-slate-400 text-[24px]">person</span>
+</div>
+<div class="flex-1">
+<div class="w-full h-24 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-3 text-slate-400 text-sm flex items-center justify-center">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[20px]">cloud_off</span>
+<span>점검 중에는 댓글을 작성할 수 없습니다.</span>
+</div>
+</div>
+<div class="flex justify-end mt-2">
+<button class="bg-slate-300 dark:bg-slate-700 text-slate-500 rounded-lg px-4 py-2 text-sm font-bold shadow-sm" disabled="">등록</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-6">
+<button class="text-sm text-text-sub dark:text-slate-400 font-medium hover:text-primary transition-colors flex items-center gap-1 py-2 px-4 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                    더 보기 <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</main>
+</div>
+
+</body></html>

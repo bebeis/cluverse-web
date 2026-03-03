@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse UI Components</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3F51B5", // Indigo from brand guide
+                        "secondary": "#00E5FF", // Mint from brand guide
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen text-slate-900 dark:text-slate-100 antialiased selection:bg-secondary/30">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/90 backdrop-blur-md dark:bg-[#15202b]/90 px-10 py-3 shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100 group cursor-pointer">
+<div class="size-9 rounded-xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/30 group-hover:scale-105 transition-transform duration-300">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em] group-hover:text-primary transition-colors">Cluverse</h2>
+</div>
+<div class="hidden lg:flex items-center gap-1">
+<a class="px-4 py-2 rounded-lg text-slate-900 dark:text-slate-100 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all" href="#">홈</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all" href="#">그룹</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all" href="#">이벤트</a>
+<a class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-all" href="#">프로필</a>
+</div>
+</div>
+<div class="flex flex-1 justify-end gap-5">
+<div class="relative group hidden sm:block">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-full h-full ring-1 ring-slate-200 dark:ring-slate-700 bg-slate-50 dark:bg-slate-800 focus-within:ring-2 focus-within:ring-primary focus-within:bg-white dark:focus-within:bg-slate-900 transition-all shadow-sm">
+<div class="text-slate-400 dark:text-slate-500 flex border-none items-center justify-center pl-4 rounded-l-full border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-full text-slate-900 dark:text-slate-100 focus:outline-0 border-none bg-transparent h-full placeholder:text-slate-400 px-3 text-sm font-normal leading-normal" placeholder="그룹 검색..." value=""/>
+</div>
+</label>
+</div>
+<button class="hidden sm:flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-primary hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 text-white text-sm font-bold transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="truncate">게시글 작성</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-slate-100 dark:ring-slate-700 hover:ring-secondary transition-all cursor-pointer shadow-sm" data-alt="User profile picture placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiablVcm0_tGdsSWa_oFVkFM4HAAi147zrPu6xsEskfyoSI2h8kBLOdbdiqXezUGiFszqQHXccjYzkKYtHx4SBLQIHCNFUSJHRrjPxh1n4q6r6XISLEtmFFvo9fMBFMTAa09NoAdi4My6IAZPtQZd5aMC7ZrmzLYnsmdj-PKICaN0hm9dUHpuN_bS2QjDK2g0iXqq-gbZ7x10AbKwKtOSAvGvw6TRo9kbfpDZ1UQ66v9dZRkXKCaZ5ad0UHHQF5nxhVlZTkhYncptN");'></div>
+</div>
+</header>
+<main class="p-8 lg:p-12 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="flex flex-col gap-4">
+<h3 class="text-sm uppercase tracking-wider text-primary font-bold mb-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> 1. 게시글 옵션 메뉴
+            </h3>
+<div class="relative bg-white dark:bg-[#15202b] p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm h-72 flex items-start justify-center overflow-visible">
+<div class="absolute top-6 right-6">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-500 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+<div class="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-[#1e2936] rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 dark:border-slate-700 overflow-hidden z-20 animate-in fade-in zoom-in-95 duration-200 ring-1 ring-slate-900/5">
+<div class="p-1.5 space-y-0.5">
+<button class="group w-full text-left px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-red-500 rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-red-500 transition-colors">flag</span>
+                                신고
+                            </button>
+<button class="group w-full text-left px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-primary transition-colors">visibility_off</span>
+                                숨기기
+                            </button>
+<div class="h-px bg-slate-100 dark:bg-slate-700 my-1 mx-2"></div>
+<button class="group w-full text-left px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-primary rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400 group-hover:text-primary transition-colors">share</span>
+                                공유
+                            </button>
+</div>
+</div>
+</div>
+<p class="text-slate-400 text-sm italic mt-16 text-center px-4">세련된 아이콘과 부드러운 호버 효과가 적용된 드롭다운 메뉴입니다.</p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h3 class="text-sm uppercase tracking-wider text-primary font-bold mb-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> 2. 게시판 필터
+            </h3>
+<div class="bg-white dark:bg-[#15202b] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg p-6 w-full max-w-sm">
+<div class="flex items-center justify-between mb-6">
+<h4 class="text-lg font-bold text-slate-900 dark:text-slate-100">게시판 필터</h4>
+<button class="text-xs font-semibold text-primary hover:text-primary/80 hover:underline">초기화</button>
+</div>
+<div class="mb-6">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">정렬 기준</p>
+<div class="flex flex-col gap-2">
+<label class="relative flex items-center p-3 rounded-xl border border-primary bg-primary/5 cursor-pointer transition-all shadow-sm ring-1 ring-primary/20">
+<span class="text-sm font-bold text-primary flex-1">최신순</span>
+<div class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<input checked="" class="peer sr-only" name="sort" type="radio"/>
+</label>
+<label class="relative flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 cursor-pointer transition-all group">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 flex-1 group-hover:text-slate-900 dark:group-hover:text-white">조회순</span>
+<div class="w-5 h-5 rounded-full border-2 border-slate-300 group-hover:border-slate-400 transition-colors"></div>
+<input class="peer sr-only" name="sort" type="radio"/>
+</label>
+<label class="relative flex items-center p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 cursor-pointer transition-all group">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 flex-1 group-hover:text-slate-900 dark:group-hover:text-white">댓글많은순</span>
+<div class="w-5 h-5 rounded-full border-2 border-slate-300 group-hover:border-slate-400 transition-colors"></div>
+<input class="peer sr-only" name="sort" type="radio"/>
+</label>
+</div>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">카테고리</p>
+<div class="flex flex-wrap gap-2">
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold border border-primary bg-primary text-white shadow-md shadow-primary/20 transition-all transform active:scale-95">
+                                질문
+                            </span>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary peer-checked:font-bold peer-checked:shadow-md peer-checked:shadow-primary/20 transition-all transform active:scale-95">
+                                정보
+                            </span>
+</label>
+<label class="cursor-pointer group">
+<input class="peer sr-only" type="checkbox"/>
+<span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary peer-checked:font-bold peer-checked:shadow-md peer-checked:shadow-primary/20 transition-all transform active:scale-95">
+                                후기
+                            </span>
+</label>
+</div>
+</div>
+<div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 active:translate-y-0">
+                        필터 적용
+                    </button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h3 class="text-sm uppercase tracking-wider text-primary font-bold mb-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> 3. 커스텀 직책 생성기
+            </h3>
+<div class="bg-white dark:bg-[#15202b] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg p-6 w-full max-w-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">badge</span>
+                        커스텀 직책 생성
+                    </h3>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 p-1 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">직책 이름</label>
+<div class="relative">
+<input class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder:text-slate-400 text-sm" placeholder="예: 시니어 멤버" type="text" value="시니어 멤버"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">edit</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">배지 색상</label>
+<div class="grid grid-cols-5 gap-3">
+<button class="w-full aspect-square rounded-lg bg-indigo-500 ring-2 ring-offset-2 ring-primary dark:ring-offset-[#15202b] shadow-sm transform scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-rose-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-orange-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-amber-400 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-emerald-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-cyan-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-blue-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-purple-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-pink-500 ring-2 ring-offset-2 ring-transparent hover:ring-slate-300 dark:ring-offset-[#15202b] focus:ring-primary hover:scale-110 transition-transform"></button>
+<button class="w-full aspect-square rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 border border-slate-300 dark:border-slate-600 hover:bg-slate-200 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+</div>
+<div class="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-bold text-slate-400 uppercase">미리보기</span>
+</div>
+<div class="flex items-center gap-3 bg-white dark:bg-[#1e2936] p-3 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-600 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCiablVcm0_tGdsSWa_oFVkFM4HAAi147zrPu6xsEskfyoSI2h8kBLOdbdiqXezUGiFszqQHXccjYzkKYtHx4SBLQIHCNFUSJHRrjPxh1n4q6r6XISLEtmFFvo9fMBFMTAa09NoAdi4My6IAZPtQZd5aMC7ZrmzLYnsmdj-PKICaN0hm9dUHpuN_bS2QjDK2g0iXqq-gbZ7x10AbKwKtOSAvGvw6TRo9kbfpDZ1UQ66v9dZRkXKCaZ5ad0UHHQF5nxhVlZTkhYncptN"); background-size: cover;'></div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-semibold text-slate-900 dark:text-slate-200">User Name</span>
+<span class="inline-flex self-start px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                    시니어 멤버
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-3">
+<button class="flex-1 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm">취소</button>
+<button class="flex-1 py-3 px-4 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 active:translate-y-0 text-sm">직책 생성</button>
+</div>
+</div>
+</div>
+<div class="md:col-span-2 lg:col-span-3 flex flex-col gap-4 items-center">
+<h3 class="text-sm uppercase tracking-wider text-primary font-bold mb-2 self-start md:self-center flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> 4. 가입 확인 모달
+            </h3>
+<div class="relative w-full max-w-lg bg-white dark:bg-[#15202b] rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-2xl p-10 text-center overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-secondary"></div>
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="mx-auto w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 ring-4 ring-primary/5">
+<span class="material-symbols-outlined text-primary text-4xl">send</span>
+</div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-3">지원서를 제출하시겠습니까?</h2>
+<p class="text-slate-500 dark:text-slate-400 mb-10 max-w-sm mx-auto leading-relaxed text-sm">
+<span class="font-bold text-primary">"사진 동호회"</span>에 가입 신청을 하려고 합니다.<br/>
+                    이 작업은 완료 후에는 취소할 수 없습니다.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="w-full sm:w-auto min-w-[140px] py-3.5 px-6 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        돌아가기
+                    </button>
+<button class="w-full sm:w-auto min-w-[140px] py-3.5 px-6 rounded-xl bg-secondary hover:bg-secondary/90 text-slate-900 font-bold shadow-[0_4px_14px_0_rgba(0,229,255,0.39)] transition-all transform hover:-translate-y-1 active:translate-y-0">
+                        네, 제출합니다
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+<div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px] opacity-60"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-[700px] h-[700px] bg-secondary/10 rounded-full blur-[100px] opacity-50"></div>
+</div>
+
+</body></html>

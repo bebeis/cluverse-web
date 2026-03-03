@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 트렌딩 및 북마크</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2513ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121022",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e1b36",
+                        "text-main-light": "#0f0d1b",
+                        "text-main-dark": "#f8f8fc",
+                        "text-sub-light": "#524c9a",
+                        "text-sub-dark": "#a09ccf",
+                        "mint": "#00d4b5",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: "Spline Sans", "Noto Sans KR", sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark min-h-screen flex flex-col font-display overflow-x-hidden">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-[#e8e7f3] dark:border-[#2d2a4a] px-4 md:px-10 py-3">
+<div class="max-w-7xl mx-auto flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-8">
+<!-- Logo -->
+<a class="flex items-center gap-3 text-text-main-light dark:text-text-main-dark" href="#">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Cluverse</h2>
+</a>
+<!-- Search Bar -->
+<div class="hidden md:flex min-w-[320px]">
+<div class="relative w-full group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-text-sub-light dark:text-text-sub-dark">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg leading-5 bg-[#f0f0f5] dark:bg-[#2d2a4a] text-text-main-light dark:text-text-main-dark placeholder-text-sub-light dark:placeholder-text-sub-dark focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm" placeholder="검색어를 입력하세요 (예: 수강신청, 동아리)" type="text"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4 md:gap-8">
+<!-- Navigation Links -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">커뮤니티</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">그룹</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">이벤트</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">마이페이지</a>
+</nav>
+<!-- Auth Buttons -->
+<div class="flex items-center gap-3">
+<button class="hidden sm:flex h-9 px-4 items-center justify-center rounded-lg bg-surface-light dark:bg-[#2d2a4a] border border-[#e8e7f3] dark:border-[#3e3b5e] hover:bg-[#f0f0f5] dark:hover:bg-[#3e3b5e] text-text-main-light dark:text-text-main-dark text-sm font-bold transition-colors">
+                        로그인
+                    </button>
+<button class="h-9 px-4 flex items-center justify-center rounded-lg bg-primary text-white hover:bg-primary/90 text-sm font-bold shadow-sm shadow-primary/30 transition-all">
+                        회원가입
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-5xl mx-auto px-4 md:px-6 py-8">
+<!-- Page Header -->
+<div class="mb-8">
+<h1 class="text-3xl md:text-4xl font-bold mb-3 text-text-main-light dark:text-text-main-dark">트렌딩 및 북마크</h1>
+<p class="text-text-sub-light dark:text-text-sub-dark text-base md:text-lg">캠퍼스의 핫한 소식과 내가 저장한 유용한 글들을 확인하세요.</p>
+</div>
+<!-- Tab Navigation -->
+<div class="flex border-b border-[#d1cfe7] dark:border-[#2d2a4a] mb-6">
+<a class="px-6 py-3 border-b-2 border-primary text-primary font-bold text-sm tracking-wide" href="#">
+                실시간 트렌딩
+            </a>
+<a class="px-6 py-3 border-b-2 border-transparent text-text-sub-light dark:text-text-sub-dark hover:text-text-main-light dark:hover:text-text-main-dark font-medium text-sm tracking-wide transition-colors" href="#">
+                내 북마크
+            </a>
+</div>
+<!-- Filters -->
+<div class="flex flex-wrap gap-2 mb-8">
+<button class="h-9 px-4 rounded-full bg-primary text-white text-sm font-medium shadow-sm transition-transform active:scale-95">
+                전체
+            </button>
+<button class="h-9 px-4 rounded-full bg-surface-light dark:bg-[#2d2a4a] border border-[#e8e7f3] dark:border-[#3e3b5e] text-text-main-light dark:text-text-main-dark text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors">
+                질문
+            </button>
+<button class="h-9 px-4 rounded-full bg-surface-light dark:bg-[#2d2a4a] border border-[#e8e7f3] dark:border-[#3e3b5e] text-text-main-light dark:text-text-main-dark text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors">
+                정보
+            </button>
+<button class="h-9 px-4 rounded-full bg-surface-light dark:bg-[#2d2a4a] border border-[#e8e7f3] dark:border-[#3e3b5e] text-text-main-light dark:text-text-main-dark text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors">
+                자유수다
+            </button>
+<button class="h-9 px-4 rounded-full bg-surface-light dark:bg-[#2d2a4a] border border-[#e8e7f3] dark:border-[#3e3b5e] text-text-main-light dark:text-text-main-dark text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors">
+                취업/진로
+            </button>
+</div>
+<!-- Trending List -->
+<div class="space-y-4">
+<!-- Item 1 (Highlighted) -->
+<div class="group relative flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-light dark:bg-[#1e1b36] shadow-sm hover:shadow-md border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="shrink-0 flex items-start pt-1">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-mint/10 text-mint font-bold text-xl font-display">
+                        1
+                    </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/10 text-primary">
+                            정보
+                        </span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">10분 전</span>
+</div>
+<h3 class="text-lg font-bold mb-2 text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors line-clamp-1">
+                        이번 학기 수강신청 꿀팁 공유합니다! (절대 실패 안 함)
+                    </h3>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark mb-3 line-clamp-2">
+                        수강신청 대란 속에서 살아남는 법, 저만의 노하우를 공개합니다. 서버 시간 확인부터 광클 팁까지, 신입생 분들은 꼭 읽어보세요. 1학년 필수 교양 잡는 법 포함입니다.
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4 text-xs text-text-sub-light dark:text-text-sub-dark font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+                                김철수
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                                120
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                                45
+                            </span>
+</div>
+<button class="text-text-sub-light dark:text-text-sub-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px] fill-current">bookmark</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:block shrink-0 w-24 h-24 rounded-lg bg-gray-200 dark:bg-gray-700 overflow-hidden">
+<img alt="Students studying together" class="w-full h-full object-cover" data-alt="University campus students discussion group" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD52ol4v9sy-gpsluidZRHAugxKJiYpHMkAUbcjZu0CqAadK3lqaQaDz0-z6UugLj-KWaFKwgGG5RwSrUQj_zPca8FXNOmTXAvRtYzXCrUye5RIsOA9LSKdc3fGa9G1jvvdQmQkGEQ7-OA9qNNHi8pGlVq04feNtvvKeBL7cN1-8Sf3P9ahHpwr4_JjuypOCltSIBK83lxtiKH9DZvoEfxdpVtGTGU8GawdFIhJjY7uCDN20-yqLnF1lKrZ7-yAiE-9vSLG_sx72X-0"/>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group relative flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-light dark:bg-[#1e1b36] shadow-sm hover:shadow-md border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="shrink-0 flex items-start pt-1">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-mint/10 text-mint font-bold text-xl font-display">
+                        2
+                    </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
+                            HOT
+                        </span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">35분 전</span>
+</div>
+<h3 class="text-lg font-bold mb-2 text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors line-clamp-1">
+                        오늘 학식 메뉴 추천 좀 해주세요 🍜
+                    </h3>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark mb-3 line-clamp-2">
+                        1학관이랑 2학관 중에서 어디가 더 맛있나요? 오늘 돈가스 나온다는데 드셔보신 분 후기 좀 부탁드려요! 배고파 죽겠어요...
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4 text-xs text-text-sub-light dark:text-text-sub-dark font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+                                익명
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                                85
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                                32
+                            </span>
+</div>
+<button class="text-text-sub-light dark:text-text-sub-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group relative flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-light dark:bg-[#1e1b36] shadow-sm hover:shadow-md border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="shrink-0 flex items-start pt-1">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-mint/10 text-mint font-bold text-xl font-display">
+                        3
+                    </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                            질문
+                        </span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">1시간 전</span>
+</div>
+<h3 class="text-lg font-bold mb-2 text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors line-clamp-1">
+                        교환학생 준비하는데 토플 점수 어느 정도 받아야 할까요?
+                    </h3>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark mb-3 line-clamp-2">
+                        미국 쪽 생각하고 있는데, 안정권 점수가 궁금합니다. 지금 80점 정도 나오는데 학원 다니는 게 나을까요? 경험자분들의 조언 부탁드립니다.
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4 text-xs text-text-sub-light dark:text-text-sub-dark font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+                                글로벌도전
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                                56
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                                18
+                            </span>
+</div>
+<button class="text-text-sub-light dark:text-text-sub-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:block shrink-0 w-24 h-24 rounded-lg bg-gray-200 dark:bg-gray-700 overflow-hidden">
+<img alt="Study books and coffee" class="w-full h-full object-cover" data-alt="Books and study materials on desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeKgc5anBGjMiTG--mHYAWo0pG_BGVs99CRaZhbbsxmRZXlq8468uQ026MtDvbf0NMw3JCin-4TUleD9zt0p7QeBY5mfpE6dUGelwp6My0ppHgisHfBUIsN5CKFoaVSzMptgbF0IY8jYkjbKQ0nm5aInzYogsVtyFZIJIIVbbGc0waBfOtsUzcYGqckKzgxuzB8o5KhjZXPGMJ3HMjGXEe3VR9kgnFsi5IOvVK1TlVZEpZ3-BmXUf7RfY1mTfkkXBiiTIwklpbhqI7"/>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group relative flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-light dark:bg-[#1e1b36] shadow-sm hover:shadow-md border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="shrink-0 flex items-start pt-1">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 font-bold text-xl font-display">
+                        4
+                    </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+                            동아리
+                        </span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">2시간 전</span>
+</div>
+<h3 class="text-lg font-bold mb-2 text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors line-clamp-1">
+                        사진 동아리 '포커스' 신입 부원 모집합니다! 📸
+                    </h3>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark mb-3 line-clamp-2">
+                        카메라가 없어도 괜찮아요! 사진을 사랑하는 마음만 있다면 누구나 환영합니다. 매주 출사 나가고 전시회도 열어요. 뒤풀이 필참 아님!
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4 text-xs text-text-sub-light dark:text-text-sub-dark font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+                                포커스회장
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                                42
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                                12
+                            </span>
+</div>
+<button class="text-text-sub-light dark:text-text-sub-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="group relative flex flex-col sm:flex-row gap-5 p-5 rounded-xl bg-surface-light dark:bg-[#1e1b36] shadow-sm hover:shadow-md border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+<div class="shrink-0 flex items-start pt-1">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 font-bold text-xl font-display">
+                        5
+                    </div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                            장터
+                        </span>
+<span class="text-xs text-text-sub-light dark:text-text-sub-dark">3시간 전</span>
+</div>
+<h3 class="text-lg font-bold mb-2 text-text-main-light dark:text-text-main-dark group-hover:text-primary transition-colors line-clamp-1">
+                        전공 서적 팝니다 (미적분학, 일반물리학)
+                    </h3>
+<p class="text-sm text-text-sub-light dark:text-text-sub-dark mb-3 line-clamp-2">
+                        필기감 거의 없는 S급입니다. 반값에 넘겨요. 쪽지 주세요. 쿨거래시 네고 가능합니다.
+                    </p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4 text-xs text-text-sub-light dark:text-text-sub-dark font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">account_circle</span>
+                                팝니다
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">favorite</span>
+                                28
+                            </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+                                5
+                            </span>
+</div>
+<button class="text-text-sub-light dark:text-text-sub-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:block shrink-0 w-24 h-24 rounded-lg bg-gray-200 dark:bg-gray-700 overflow-hidden">
+<img alt="Textbooks stacked" class="w-full h-full object-cover" data-alt="Stacked textbooks on table" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9TnI4mZoKwiFY17cCDIM6CiYz4a48O8XPWooPLR1jkkuUVwtrUvrkk46hDb7iDUM2MmOGXyvFuQ_naIyzn5UbznOJiB_peZJiIfAWwrj1LDwgW0eQhXH_cdWRLPP_zKgvQOLZyfInF80GiaH72zUcCA9a2pFyidNxTTJ4Il-fVOmENN04aHvJTUOfRqY1N5qeTgophuc-UFOW_XHOIBZDIN2a-H-CIIMKldDEit-CH_1m5w4AzPBo5n3KxmIr1WCB4ESXYE3EtdX9"/>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-8 text-center">
+<button class="px-6 py-2.5 rounded-lg border border-[#d1cfe7] dark:border-[#3e3b5e] bg-transparent text-text-sub-light dark:text-text-sub-dark font-medium hover:bg-surface-light dark:hover:bg-[#2d2a4a] hover:text-primary transition-colors">
+                더 보기
+            </button>
+</div>
+</main>
+<!-- Footer (Simple) -->
+<footer class="mt-auto py-8 bg-surface-light dark:bg-surface-dark border-t border-[#e8e7f3] dark:border-[#2d2a4a]">
+<div class="max-w-5xl mx-auto px-6 text-center text-text-sub-light dark:text-text-sub-dark text-sm">
+<p>© 2024 Cluverse. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

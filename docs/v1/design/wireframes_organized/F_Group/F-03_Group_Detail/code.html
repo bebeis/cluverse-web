@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - Group Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "primary-dark": "#0fb863",
+                        "background-light": "#f8fcfa",
+                        "background-dark": "#102219",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3326",
+                        "text-main": "#0d1b14",
+                        "text-sub": "#4c9a73",
+                        "border-color": "#e7f3ed",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Spline Sans', 'Noto Sans KR', sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-slate-100 min-h-screen flex flex-col font-display antialiased">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 flex w-full items-center justify-between border-b border-border-color bg-surface-light/80 backdrop-blur-md px-6 py-3 dark:border-white/10 dark:bg-surface-dark/90 lg:px-10">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 text-text-main dark:text-white hover:opacity-80 transition-opacity" href="#">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Cluverse</h2>
+</a>
+<div class="hidden md:flex flex-col min-w-64 max-w-sm">
+<div class="flex w-full items-center rounded-lg bg-background-light dark:bg-white/5 border border-border-color dark:border-white/10 px-3 py-2 transition-colors focus-within:border-primary">
+<span class="material-symbols-outlined text-text-sub dark:text-slate-400">search</span>
+<input class="ml-2 w-full bg-transparent text-sm font-normal text-text-main dark:text-white placeholder:text-text-sub dark:placeholder:text-slate-400 focus:outline-none" placeholder="모임, 학교, 관심사 검색"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden lg:flex items-center gap-8">
+<a class="text-sm font-medium text-text-main dark:text-slate-200 hover:text-primary transition-colors" href="#">홈</a>
+<a class="text-sm font-medium text-text-main dark:text-slate-200 hover:text-primary transition-colors" href="#">커뮤니티</a>
+<a class="text-sm font-medium text-text-main dark:text-slate-200 hover:text-primary transition-colors" href="#">내 모임</a>
+<a class="text-sm font-medium text-text-main dark:text-slate-200 hover:text-primary transition-colors" href="#">메시지</a>
+</nav>
+<div class="flex gap-3">
+<button class="hidden sm:flex h-9 items-center justify-center rounded-lg px-4 text-sm font-bold text-text-main bg-primary hover:bg-primary-dark transition-colors shadow-sm">
+                    로그인
+                </button>
+<button class="hidden sm:flex h-9 items-center justify-center rounded-lg border border-border-color bg-surface-light px-4 text-sm font-bold text-text-main hover:bg-background-light transition-colors dark:bg-white/5 dark:border-white/10 dark:text-white dark:hover:bg-white/10">
+                    회원가입
+                </button>
+<button class="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 py-6 md:px-8 md:py-10">
+<!-- Hero Section -->
+<div class="relative w-full rounded-2xl overflow-hidden shadow-lg group">
+<div class="h-[320px] md:h-[400px] w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Group of friends taking photos with vintage cameras in a sunny park" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBuxMk2q2dLkH55KIxbMb8ZfL4IzH_sB6D6dufTBq6yWJutW91ysbcK2kKf_bIu-rak357HmMSZi4UOfX7MVCjVMGqMSRo-jlQCDllUTmYuyxdlEKWsI4edE65lOzHNxMcSSKFJeq7dHQEvHmh9MnyOFCblBSjflDLHX1dwbubKjBAGtp8AwV76l9zEwwnSzBLcESOKUryLatCdBmPjIpjviFi5DJyiS-ygR8_QAJfZDPmgZz1pgshn5NtH7N2Gw1QXkfEklSwJ9eFY');">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-6 md:p-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex-1 text-white">
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-xs font-semibold text-white border border-white/10">#사진</span>
+<span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-xs font-semibold text-white border border-white/10">#출사</span>
+<span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-xs font-semibold text-white border border-white/10">#대학생</span>
+<span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-xs font-semibold text-white border border-white/10">#친목</span>
+</div>
+<h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-2 drop-shadow-md">사진찍는 사람들</h1>
+<div class="flex items-center text-sm md:text-base font-medium text-slate-200 gap-4">
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">group</span> 멤버 24명</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">location_on</span> 서울/경기 지역</span>
+<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">event</span> 매주 토요일 출사</span>
+</div>
+</div>
+<button class="shrink-0 h-12 px-8 rounded-xl bg-primary text-text-main font-bold text-base hover:bg-primary-dark shadow-[0_0_20px_rgba(19,236,128,0.3)] transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">edit_square</span>
+                    지원하기
+                </button>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Main Feed -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Tab Navigation -->
+<div class="border-b border-border-color dark:border-white/10 flex gap-8">
+<button class="pb-3 border-b-2 border-primary text-text-main dark:text-white font-bold text-lg">게시판</button>
+<button class="pb-3 border-b-2 border-transparent text-text-sub dark:text-slate-400 hover:text-text-main dark:hover:text-slate-200 font-medium text-lg transition-colors">사진첩</button>
+<button class="pb-3 border-b-2 border-transparent text-text-sub dark:text-slate-400 hover:text-text-main dark:hover:text-slate-200 font-medium text-lg transition-colors">일정</button>
+</div>
+<!-- Featured Notice -->
+<section>
+<div class="bg-surface-light dark:bg-surface-dark border border-primary/30 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+<div class="flex items-start justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="bg-primary/10 text-primary-dark dark:text-primary px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider">공지사항</span>
+<span class="text-text-sub dark:text-slate-400 text-xs">2023.10.24</span>
+</div>
+<button class="text-text-sub dark:text-slate-400 hover:text-text-main dark:hover:text-white">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<h3 class="text-xl font-bold text-text-main dark:text-white mb-2 leading-snug hover:text-primary transition-colors cursor-pointer">
+                            📸 11월 첫째주 정기 출사 안내 (남산 공원)
+                        </h3>
+<p class="text-text-main/80 dark:text-slate-300 text-sm leading-relaxed line-clamp-2 mb-4">
+                            안녕하세요 사진찍는 사람들 여러분! 이번 주 출사는 가을 정취를 물씬 느낄 수 있는 남산 공원으로 떠납니다. 
+                            오후 2시에 명동역 3번 출구에서 집결하여 천천히 걸어 올라갈 예정이니 늦지 않게 와주세요.
+                        </p>
+<div class="flex items-center gap-4 text-sm text-text-sub dark:text-slate-400">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>142</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">chat_bubble</span>
+<span>8</span>
+</div>
+<div class="flex -space-x-2 ml-auto">
+<img alt="Member Avatar" class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" data-alt="Avatar of user 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOzXvG21cShh5x-e-H4FuKpBK-RsPOsGKNbBP0CmXx_SP9teUsoRGGAa0600yLVwpp5VF3a9z2IQ13Ao7hgOt-6EqhLwz3ABFCd_5CvoNYEZfUZubw8PnAa7GMrE79FZj6BM8lRqq3G81AU3HQ_KSDa3tSN69Pjjpw85jOC76DEII5RRO3oIbOdLmTOlldDDPPz0KHMwRD-SsA19ly4QyUx77J3h78oDW4iIQOnXI6_5yHZe2oDkD4eMXtkqMOWfP93RDpdVQ-G9BV"/>
+<img alt="Member Avatar" class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" data-alt="Avatar of user 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqUl4gDHxS_YBMYrxmHjY43RzVSIuqK9YdV1kFdwYLfkZC5-oA30F53o-4wHRt1Ba3bdfn1sqqYY8c3hTzjgQTsdOptZK7CLzbPfKfR5F8OPXRrCHLOYKT6bgfu0pkcRmYLc_zNi5zMU2WHayQfqwep8VBLlUs_Y_qAPyhGWptod0W7JQWhzKUOjFdaQ0kgXQ6K1484ImWp-NkFwxRfuTln_yumk0EHhP5wMkUC8urQwU5RMWXmOfbqXkx140oCLiZMMwYrbcmXSZT"/>
+<img alt="Member Avatar" class="w-6 h-6 rounded-full border-2 border-white dark:border-surface-dark" data-alt="Avatar of user 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-1dKsf-4FEVGq2IXskIQ45h9rKn7Hq9I2jDD81bjIG4ZdGsebBa_OumYySf6xJWXMgXoU4h-WQVfrZnyTrJ-ma7x9ulUxR6PWCqixDw8Ye4sqCEXh002nLpiU0krSVr9QBjQCTz6P5v1l92_tPEbRoO_Vp0RNVdlctUJOXhxajQHt3eBkcdvN8sUrMtSS3-zdLSkDFdtTkqhHEnmiK49858SOO-IqcQ8g2JU6QMLCT_hOj9MzY6S2pyrRyJayo0vHwXz932ZN87ol"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Post List -->
+<section class="space-y-4">
+<!-- Post Item 1 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 border border-border-color dark:border-white/5 hover:border-primary/50 transition-colors shadow-sm cursor-pointer">
+<div class="flex gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<img alt="User Avatar" class="w-5 h-5 rounded-full" data-alt="Avatar of post author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcJEKnMA3Yeow27drciwZR33V_S5Iumzwl-RkUD49WyWk4Y3emj6DPTGQFzWjh2IcI3hOHQQYHqCMEN-6fwwWC3ZVltSA-xIfM90dsXdnuF0PyKshMbUQaPsi-XtbHfbrbsDD9Rkl3kV4787qchOCfUPGXvw_rZvo2s9aW03tHFE6ej0w61uW3NjjlpuZ705yv9LKZU9KSKPe3h9LEOdLTTHx8oSVbjjiCwxEECpviPfzNpf4XzeijBjH6KWAIWOxZPbvwnOvMIrZV"/>
+<span class="text-sm font-semibold text-text-main dark:text-white">김민수</span>
+<span class="text-xs text-text-sub dark:text-slate-500">• 2시간 전</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white mb-2 group-hover:text-primary transition-colors">지난주 한강 출사 사진 공유합니다!</h4>
+<p class="text-sm text-text-main/70 dark:text-slate-400 line-clamp-2">
+                                    날씨가 너무 좋아서 색감이 정말 예쁘게 나왔네요. 보정본 몇 장 올려봅니다. 
+                                    특히 노을 질 때 찍은 사진들이 마음에 드네요. 다들 고생하셨습니다!
+                                </p>
+</div>
+<div class="w-24 h-24 shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
+<img alt="Post thumbnail" class="w-full h-full object-cover" data-alt="Sunset photo by the river" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeCdI290fsmFhwGwaxgZ-KR-vhePMAMUFHdnbrb2fkt8NfG699OuR6dAs7bdFZPpNvQN7UX34k8VxWxNCwn7GYHSGD4cHZll_Ihtc-N2obrpcPhgvlP03qCnMIpB_nDxIgQzUPjJueDbXqPalpWMrAXBEqv7gSSWrD_LJKwVYOxU9luMl4Jh7DnliT5DQSUIUjYBM2T7CywlUSqV1Ojf2LzsQuyi-K2r8n_lo4y_52RdLaK9NqJ1sxGqqig9f-N1T-uNTE2l4D2sOd"/>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-3 pt-3 border-t border-border-color dark:border-white/5 text-xs font-medium text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 24</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat_bubble</span> 5</span>
+</div>
+</div>
+<!-- Post Item 2 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 border border-border-color dark:border-white/5 hover:border-primary/50 transition-colors shadow-sm cursor-pointer">
+<div class="flex gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<img alt="User Avatar" class="w-5 h-5 rounded-full" data-alt="Avatar of post author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBROFE8wxsow63TMegbCMuoxM2bMIon7cZPzUq1THQnYLUleBHamCIraz_HrqSiPAfcms6afEOFOTU6GEaT8qtfuZ5OA7TU-NSwXjVDjjaULv2Ccr8GNqx39y5_iJ2AaUZITMOZsVaxonY1VLmwlNRiT3CXH6UFvV7qOtE1VjtjsnZ1LhC_6TsHJOt1vknyi48a0x5EzNtftyo5o6sDcUYn6BzhwMwpg9PxIW-Vf_0ioycDVBd9tpIYaVJEiNazjQkugp1Xbk8pCEyu"/>
+<span class="text-sm font-semibold text-text-main dark:text-white">이하은</span>
+<span class="text-xs text-text-sub dark:text-slate-500">• 5시간 전</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white mb-2 group-hover:text-primary transition-colors">필름 카메라 입문하려고 하는데 추천 부탁드려요</h4>
+<p class="text-sm text-text-main/70 dark:text-slate-400 line-clamp-2">
+                                    자동카메라부터 시작하는게 좋을까요 아니면 수동으로 바로 입문해도 괜찮을까요?
+                                    예산은 20만원 정도로 생각하고 있습니다. 선배님들의 조언 부탁드립니다 🙇‍♀️
+                                </p>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-3 pt-3 border-t border-border-color dark:border-white/5 text-xs font-medium text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 12</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat_bubble</span> 18</span>
+</div>
+</div>
+<!-- Post Item 3 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-xl p-5 border border-border-color dark:border-white/5 hover:border-primary/50 transition-colors shadow-sm cursor-pointer">
+<div class="flex gap-4">
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1.5">
+<img alt="User Avatar" class="w-5 h-5 rounded-full" data-alt="Avatar of post author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi9X8bq20r7GKL6uxHV7ZU-De9Vgc4FwKPRNikaFzmqoyaMWDntLaYvK5Zwz9tMHG3m7fnfUHnqE4EI15hVQYeJAucpCHwuuFRNft0i0jzOlBMA2rel0lEZS1I2CpRsAOxBM9hgHXulUyXtTS_yX4NS8jDXywYjWqpSlq5zoOzk3gOc3xKUJZwq5n5S7OqSntnUYNA07rdzEZI4Xl5Wpse1h2C5lObB0c3tJNXCYalp_jukgyHoZae8my6Kd1y82P3vLIxZpCvzf5o"/>
+<span class="text-sm font-semibold text-text-main dark:text-white">박지훈</span>
+<span class="text-xs text-text-sub dark:text-slate-500">• 1일 전</span>
+</div>
+<h4 class="text-lg font-bold text-text-main dark:text-white mb-2 group-hover:text-primary transition-colors">혹시 렌즈 중고거래 하실 분 계신가요?</h4>
+<p class="text-sm text-text-main/70 dark:text-slate-400 line-clamp-2">
+                                    소니 50mm f1.8 렌즈 판매합니다. 상태 S급이고 박스 풀셋입니다.
+                                    관심 있으신 분 댓글이나 쪽지 주세요! 직거래 선호합니다.
+                                </p>
+</div>
+<div class="w-24 h-24 shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
+<img alt="Post thumbnail" class="w-full h-full object-cover" data-alt="Camera lens product shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEpkJaXXx0uBR-q5YPVkv0Qo9tXZZwfFNXZzWFs80s9zVe3gXXrh1qybSZ1G6fMh3Ry0aaU094D9-n-PggaDF_9dNSNyPio0tqSvwkMQenkMGIkLN5vr8CijzEZCmR2ADKwb1v70qKuB-c1wB3Gm0LBBWM79O7MfazGT87YgBlwAUX599TvAwhxd58WfaTtvNLOxMOQsouD8rDJTvWlQWjSfmmEac2LU1vHkojC0-QKOmawswyriY705ZTSPVbl46REiNSaD-uyYAx"/>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-3 pt-3 border-t border-border-color dark:border-white/5 text-xs font-medium text-text-sub dark:text-slate-500">
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 5</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat_bubble</span> 2</span>
+</div>
+</div>
+</section>
+<div class="flex justify-center pt-4">
+<button class="px-6 py-2 rounded-lg bg-surface-light dark:bg-surface-dark border border-border-color dark:border-white/10 text-sm font-semibold text-text-main dark:text-white hover:bg-background-light dark:hover:bg-white/5 transition-colors">
+                        더 보기
+                    </button>
+</div>
+</div>
+<!-- Right Column: Sidebar -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Group Info Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 border border-border-color dark:border-white/5 shadow-sm">
+<h3 class="text-lg font-bold text-text-main dark:text-white mb-4">모임장</h3>
+<div class="flex items-center gap-4 mb-6">
+<img alt="Leader Avatar" class="w-14 h-14 rounded-full ring-2 ring-primary/30 p-0.5" data-alt="Avatar of group leader" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtoHywm8J3vZgZqBvLUm7auvKc1YAj860beRVzn7GIqaoSDwfl3F4NM8_1SRdPE8ej572CyiK5DHWFVhpFIeohMzAVmSI2ZmCCD_3krkJCSQbdD86ilvCbcdHAqOj9cFgqp3_03UI4MD_rPCHrYclXtzL4slQNh097KpqlTPFWyT-J3aMrIBTKbrlpqs1FbqEa8vDZjEskRG2N6hwTcSE_z6P4TwlNLTE0f7G_zVtUzqLJJWzyuvCtSDSeuRyUMOCPobWUR-ibkNWc"/>
+<div>
+<p class="font-bold text-text-main dark:text-white text-base">최성민</p>
+<p class="text-xs text-text-sub dark:text-slate-400">사진학과 18학번 • 캐논 유저</p>
+</div>
+<button class="ml-auto w-8 h-8 flex items-center justify-center rounded-full bg-background-light dark:bg-white/5 text-text-main dark:text-slate-300 hover:text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+<div class="w-full h-px bg-border-color dark:bg-white/10 mb-6"></div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-text-main dark:text-white">멤버 <span class="text-primary ml-1">24</span></h3>
+<a class="text-xs font-semibold text-text-sub hover:text-primary transition-colors" href="#">모두 보기</a>
+</div>
+<div class="grid grid-cols-5 gap-3 mb-4">
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-mUiyII2PlVKlMF1Uxla2Gp9cMqzy-aXs9lJQJg2xlCPDl4CzTKYWcCwS7_XqUuZ99XXsHf8GeAt7a-ammaA6OtXFxI4ZCTQMaykWXMvmO-9J1kL7-2XDiPXl1L4mbt6Q5qNJEZsWbqxB-_MQPPQPeJw5OQafYPcEktJSY6s8qQ5XaT6eKYri0k6MajAHsGytWf6dkpiAxYP5j2NSwkszLT-gQOHvqjjZH6jurgR93sluNGKXMpWIWqSd0FKYf_PQtTRC70XSqbtb"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt0VC7Bwt1udZv99KoVJbRHPhX7uN-JM9kOqlO_akhpdp0wo9be3SwTIdlrwRp7stiSDGhjZFxeKnba5cbgBQoaJLQy1h19RvOMuudNf8Gaa7zCcmujYwwWxLvzQsF1ZTlwitX0AS0RPduhR2Igm6CAJeQwnRBi85hWm7on9vcX3n35DMH8hqV8ZnlbhGnHeqn1eG85MyugE9gxn3VedUxwjpPto-wX2vVivXeg_E53qTeqiE0vOOg06rCdZHP2oygQWqu3lgMo910"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATQwLNNNuSx5hpxufJyCe6jFb3zWoQuTW3JPJQcfrmeeN2Jm3PA1peE4NedJUpUcD_eSk7hK5PHhMhORiMVWi-lY_Nv4KGerEqyc0WDm3RwN5dfciOlkzmvm-ErAXnhG7zC08lbkSKCEQR5Gaw3dYxGY8Pn0_sB5Zd4xYdWfZpkGl0kSyHIPJBParBRV57_ASaABvqwAfwPxvXxMg4lusibzak0hKFFTcVryYAelu8htMqcVZpwyaDQXKqBPr8igc3VIOZKGq3pTJL"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALYv24gduYptqSAZzIjsc1bI97taY5AERVD27yhnCO6kWOvZZoYlV4SpANSn4IgqioxtmJBItj-XWnoUvY5HCScbZwqiH9enfJr4NFc2w4eiE0svXsUASfcxIppusJMknLIJPP_k3JrB0LR_tWtUPFTTcR-QffvXdh2QDm85bLaP59uUx06_8yfbyAcqgCygdKNUVFRnRDnJyXaf3H8UhiO-TMmVgKwd1GKmdn-1qec_WwvL-u20xIjNI45TxDBl2SNm3Ac7MrT2LF"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyBL-c0qel6CavEVUhRTS9o2hrE2KjVJn_u3_Ahms8y0W3Sxas5XjjmTL5yXkjgN7InwonvdP4S-JePfGPF3V1aVaRMZbbmqrwVAA4EKQd1gF54OIzriqupN1H-XSE2YfWh9PxAzi8RZmfJOk6R9NEWArAzO-t0UwCsQ4iHaOaqUcS1ZWXkQ-ZF8vFStF8fsx9E5W9OsGBEkf2EQJwkvI4TdLPy6omH21RxfuNgJHjC_2O-eUSfwhpPuxY8LiCYZ7b8ov5roqbzfPB"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGs-PqutHN6y8q-_DHpD6BEf5fLQKVBjSaO2ACYESJRtRcoL5Q5XU1n7i4T9tCo4ysOgcGTfsEyiMvuc5FNFJLc5X77x4izMErfPZews6lncKmG6gtVQj4S-EcA9IZJv8QlhvLTQ4k1jFsinygeS0CQb9PgyjQ9zDM1LMYxwqTJfIh4qvTLBjzHqV3qJDFZuPSQku2a8cArVbXpX_MPNhhTZN2-8dI-VpDD2HJTMzH7C2WGgFIfWUf031PsSwec7rgqFZJMAmpaJGK"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 7" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbglEYsP4byNWV6r_r_uR5Gzz7iY9k_iED2JKda98HRmTYRVuHM6-7Qw_lWN-EzjzkwRrTlijBHnjNVk58oZckpE_rjEjAEFOjBHA5KE2u5M-jxI2w4bQKLGNdk0d9d2HYo1wf-LSV1Is2vbL1X9Y23TQTQYpMMYsVnVv__bFtDxte6cCPMNB5fa_itSQXFE34_yNQQS755AeDii2PvxAL175yow4pm49w1IskfTLCDQiotjeXGDrU0iHIqj0eDpiy_3HbpgrRp_xb"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxW1F3V4FRLlP-ZkENeM_rLkBRk0jvR5S92fa_4o0PwBwzno0tGF9LQTuSMSLsUAYnvXwE7eHAia1-xOfaFKBgGkUb3vvo_87dXCjcew_yUeLSR_YV2HBnYDLeq3Lg7u-fDa5n6y_TirczQZYf4yG2KrO3rRjCBxNbIHSGBgh1k_alh8QWyB1CD5jyPlnyoJiYls7ZAuWT7XXdQEp-ThAIGAwsezrr41imk-17K9hZACvgX033L6uzH3es6DJn8RrTRnjvt-i76GGM"/>
+<img alt="Member" class="w-full aspect-square rounded-lg object-cover bg-slate-100" data-alt="Avatar of member 9" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR1MfXvixgf0a3t4DsIq9tXj0sR-vn-1osIwjAp4HaqsrGXM5Jv8K7SSVB-lk1KEk2ttu80KdsDGDZqgqgJqElpcoCJSLrBQeuKhdm8RJ7m9XeBJWwArrbZgYzwbPQvlBhZN4RzMRmpzLx4sLpwhJpAY4SfYwdUtGkRq_HztOdMikPU4eeAlUlKYFfDCFEbPwB2YT4LFctFIxxuKpKgYmPwteC0RTZiEr8IJMwAT6gOTHtY8DZ2p31CARt0Sh0zfn6-KlVNkfAKSZC"/>
+<div class="w-full aspect-square rounded-lg bg-background-light dark:bg-white/5 flex items-center justify-center text-xs font-bold text-text-sub dark:text-slate-400 border border-dashed border-border-color dark:border-white/20">
+                            +15
+                        </div>
+</div>
+</div>
+<!-- Recent Activities or Gallery Preview -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 border border-border-color dark:border-white/5 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold text-text-main dark:text-white">최근 활동 사진</h3>
+<a class="text-xs font-semibold text-text-sub hover:text-primary transition-colors" href="#">더 보기</a>
+</div>
+<div class="grid grid-cols-2 gap-2 rounded-lg overflow-hidden">
+<div class="aspect-[4/3] bg-slate-100">
+<img alt="Recent activity" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="Hiker standing on a mountain peak" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYlqGWWat4Q5qfJ79xDABrltboErJyWtmv-shErt-A0oIQ-dXLOYURNEFchnmgVtINpnxmVcn85DccmQFRlg2ACbvYkHo5HREn3nB5sM7alsH6E3o1QhPX1O6_bq7tbuwUfAKZqGzFqrI2A-SYsIFFu-UcB-YnPbjd7r-dTZiwabCkC6b-8bS_AtnHKXiTXBuYEmYMhllj1NaBrnSjpUMxE-8Vb8VpPfz906md3CoC_gG6foX8eYJrI8fUJaoFTdYmi9m-PUdTGQdW"/>
+</div>
+<div class="aspect-[4/3] bg-slate-100">
+<img alt="Recent activity" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="Close up of a flower" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb7sIE2lV4ifK8zEPWhVo7_r4HZoB4Fe4bLeK9o3Oc8gZEcDb3o2QmlmvL2OvrV_JR8k-QbDk_pH3npfKvUZ_S5DVu8uoib0v52KZMeZJbvmc22FJGFkEWocWDJnp-VCiuR8q0fBV-IYh9VadQ9OxoW8WFLbiuh3Su7Uctjj-jRT-ALMTEshI8HfnsFoNXNwGHjUI94ptS22W_SMitvTiC4SgA7NyL939r3xbA2s3v8aOgDTjd4uDB9QZqB_rdRHvC71PnJYYWfguS"/>
+</div>
+<div class="aspect-[4/3] bg-slate-100">
+<img alt="Recent activity" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="Group of people holding cameras" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWduQGlRuCzaAcs0QEB-w_DaQ9x_Y5xVkbWpE3Z_l5jrv0giFltOHEx84-KkPLy9sVGxsxQqi9VWzxB7WOlc-SJmX-k0i8jtN_8VVRFI57XCZfWdZeG58qTUrvHdI4BQU9fEa6aw68Kez-6-Eyr57DEAyGltfK-030s8NpWqK_FSQruQxSJR-ZAjkTk8bWqsiZ-KOLOhEXWEivGeVkgi2OVVBJfJdN2aS4Tv4BLGHc1UQblzO8uUgxbyOSPePE3HkUXENCvgdYOFbq"/>
+</div>
+<div class="aspect-[4/3] bg-slate-100">
+<img alt="Recent activity" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="City street night photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcqMiEafCsSrtWWh2GMOCXHFhrCNMy-TwAVRh5tCTCeKbe84NrthUipAn-rWPohSL8jllLtAjp1Jv_7SaeRx2919mbmiWgfKMSOx4KeHLVTCvrxUVgCOFGBYn3zNZPORVpRDwCbL_qZO6VtqJVdZjYnQwB_q8NOHLUlsRBapyKZ8FzbKuezJz5ypB0JY4uGJkDs6Y5p18ATF8K6pyyEu_GSp88MiS04PeJ7N8SXnOu_GqAvCgQSIqnFVvn-Z17vgNIJ3bCR0cH8Yxl"/>
+</div>
+</div>
+</div>
+<!-- Quick Tags -->
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 rounded-full bg-background-light dark:bg-white/5 border border-border-color dark:border-white/10 text-xs font-medium text-text-sub dark:text-slate-400 hover:border-primary hover:text-primary transition-colors cursor-pointer">#DSLR</span>
+<span class="px-3 py-1.5 rounded-full bg-background-light dark:bg-white/5 border border-border-color dark:border-white/10 text-xs font-medium text-text-sub dark:text-slate-400 hover:border-primary hover:text-primary transition-colors cursor-pointer">#미러리스</span>
+<span class="px-3 py-1.5 rounded-full bg-background-light dark:bg-white/5 border border-border-color dark:border-white/10 text-xs font-medium text-text-sub dark:text-slate-400 hover:border-primary hover:text-primary transition-colors cursor-pointer">#필름카메라</span>
+<span class="px-3 py-1.5 rounded-full bg-background-light dark:bg-white/5 border border-border-color dark:border-white/10 text-xs font-medium text-text-sub dark:text-slate-400 hover:border-primary hover:text-primary transition-colors cursor-pointer">#서울출사</span>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-20 border-t border-border-color dark:border-white/10 bg-surface-light dark:bg-surface-dark py-10">
+<div class="w-full max-w-[1200px] mx-auto px-6 md:px-10 flex flex-col md:flex-row justify-between items-start gap-8">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<div class="size-6 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<span class="text-lg font-bold text-text-main dark:text-white">Cluverse</span>
+</div>
+<p class="text-sm text-text-sub dark:text-slate-500 max-w-xs">
+                    대학생들을 위한 취미 공유 커뮤니티 플랫폼.<br/>
+                    관심사가 같은 친구들을 만나보세요.
+                </p>
+</div>
+<div class="flex gap-12 text-sm text-text-sub dark:text-slate-400">
+<div class="flex flex-col gap-3">
+<span class="font-bold text-text-main dark:text-white mb-1">서비스</span>
+<a class="hover:text-primary" href="#">공지사항</a>
+<a class="hover:text-primary" href="#">자주 묻는 질문</a>
+<a class="hover:text-primary" href="#">고객센터</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-bold text-text-main dark:text-white mb-1">회사</span>
+<a class="hover:text-primary" href="#">팀 소개</a>
+<a class="hover:text-primary" href="#">채용</a>
+<a class="hover:text-primary" href="#">이용약관</a>
+</div>
+</div>
+</div>
+<div class="w-full max-w-[1200px] mx-auto px-6 md:px-10 mt-10 text-xs text-text-sub/50 dark:text-slate-600">
+            © 2024 Cluverse Inc. All rights reserved.
+        </div>
+</footer>
+</body></html>

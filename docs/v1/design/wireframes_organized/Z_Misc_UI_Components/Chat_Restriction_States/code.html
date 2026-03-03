@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>상태별 채팅 제한 디자인 버전</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4f46e5", // Indigo-600 for brand identity as requested
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-hidden h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-indigo-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 shrink-0 z-20 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">diversity_3</span>
+</div>
+<h2 class="text-indigo-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Cluverse</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">커뮤니티</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">모임 찾기</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">내 활동</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="size-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-9 border border-slate-200 dark:border-slate-700" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZNbawN93-Eb0dZVvoTmKeHXQmB_6Fl9CFfdD6TcT15QPmS9vEiP4q39GkvgjOmPrQdZasG0x8EvUah6ksCOw_uB_45t043JcSn8GhKI3mWtM3spAKKoSKjrVrNPOCMdDDnvxUEStR2JILb2rCoD48fdzzFATE7CvzAzN0zkmS-KkzwoC_q-v6gwNT9b1QIzwa5Gy_gqcZqaHGFrrzrLzpXXqkoTSfcehb79_L21VZPY9oPQFKtBvelkppKiI-Z3Q1jjSvJR8t-muu");'></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="hidden lg:flex w-80 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+<div class="p-4 border-b border-slate-100 dark:border-slate-800">
+<h3 class="font-bold text-lg mb-4 px-2 text-slate-800 dark:text-white">메시지</h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/50 placeholder-slate-400 text-slate-700 dark:text-slate-200" placeholder="대화방 검색" type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2 space-y-1">
+<div class="flex items-center gap-3 p-3 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 cursor-pointer border-l-4 border-primary">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-cover bg-center" data-alt="Group profile" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0hy2y7QkEg0kHd9WddJ8yLBEdyDiY5K1LKSw1sr8TlJhUwRZ4VROxA63fqQy78Zd_7sTe1k0V7dvJhK5pHvx-ZCr8g3DbyTI7427rKHEDSF-rUHPPm-HvPzFxFDcZNi1gzN8UQdvMH0J6JFuCNUv24HD1MfuSoLbwDQMGFCtrqvjmpg01hMLFfIkOLRrdgkSwaTaZJvhXT3pHLqj2M0GjnhhCuX8ll0sGO9yKX9thD-UjL7yfh0oFQN4-tDt96iV5lmlKE-mz8lvd')"></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="font-bold text-sm truncate text-indigo-900 dark:text-indigo-100">코딩 스터디 모집</h4>
+<span class="text-xs text-indigo-500 font-medium">방금전</span>
+</div>
+<p class="text-xs text-slate-600 dark:text-slate-400 truncate">네, 알겠습니다. 검토해주셔서 감사합니다.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<div class="w-12 h-12 rounded-full bg-cover bg-center" data-alt="Another group profile" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDT14hulQezrsMPOlfw5_ZFx6leVlWQcV846ZWcGtOZ6NBXdgi7ylvoyt2XkMsDUn8dWxA519yRMBpwgdrSJ34zDpYAawCueJs8DbqqWg7gMICYNdDUMPsqihk-q0BNJHShqVqMKwDmc6zjDRErgS1hs9R7p-9dcZjlYlHzHRJJxoFovFgsBWe469FRnUNfyHvrKzdKKUOtWAku58PK4W7BfOWOpd0LC-GnEfjl3XvOIJCMKh_ZKv0ImKQyFYCgvSopLIuZaWnJ3_fX')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="font-medium text-sm truncate text-slate-700 dark:text-slate-200">영화 감상 동아리</h4>
+<span class="text-xs text-slate-400">어제</span>
+</div>
+<p class="text-xs text-slate-500 truncate">다음 모임 장소 공지해드립니다.</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<div class="w-12 h-12 rounded-full bg-cover bg-center" data-alt="Design team profile" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbdCnaJA-hA4AYNjxjwiEkPZN7tzAqQSXdb4ctsC8VyUq2Nt32B1ukF4lTFrZOcHo4uY_hVCJdyuq-DyXsdnFnjfNOUwY09LpfybTHtTaPlB03YUQst3ITTHf-7V6xcM5ceSY48WE648HfSXq1rQi7Gvw4KDx_F9FjhsZtDs2Q2r3bjq-XqRHxAkojAb8J86h-VyDaQFBrXNkzWezg4kmD_DdkDHwGHB_IfpDQSAaEwIvZkyupJ7pRW-lj7IyEmH7naaPvYFIvy3Aa')"></div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h4 class="font-medium text-sm truncate text-slate-700 dark:text-slate-200">UX/UI 포트폴리오 반</h4>
+<span class="text-xs text-slate-400">3일 전</span>
+</div>
+<p class="text-xs text-slate-500 truncate">피드백 부탁드립니다!</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex flex-1 flex-col bg-slate-50 dark:bg-slate-950 relative">
+<div class="flex items-center justify-between px-6 py-4 bg-white dark:bg-slate-900 border-b border-indigo-100 dark:border-slate-800 shadow-sm z-10">
+<div class="flex items-center gap-4">
+<button class="lg:hidden p-1 -ml-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        코딩 스터디 모집
+                        <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700">거절됨</span>
+</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">관리자: 김민수 • 참여 인원 4/6</p>
+</div>
+</div>
+<button class="group flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-red-50 hover:border-red-200 hover:text-red-600 dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-red-900/20 dark:hover:text-red-400 text-slate-600 dark:text-slate-400 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">report</span>
+<span class="text-sm font-medium">채팅방 신고</span>
+</button>
+</div>
+<div class="px-4 pt-6 pb-0 max-w-4xl mx-auto w-full">
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl border border-red-100 dark:border-red-900/30 bg-red-50/50 dark:bg-red-900/10 p-5 shadow-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-red-500 text-xl">cancel</span>
+<p class="text-slate-900 dark:text-white text-base font-bold leading-tight">지원 상태: 거절됨</p>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal leading-normal">
+                        이 모임에 대한 지원이 거절되었습니다. 더 이상 메시지를 보낼 수 없습니다.
+                    </p>
+</div>
+<button class="flex shrink-0 items-center justify-center rounded-lg h-9 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm font-medium transition-colors shadow-sm">
+                    상세 보기
+                </button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-4 py-6 space-y-6 max-w-4xl mx-auto w-full" id="chat-container">
+<div class="flex justify-center">
+<span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/80 text-xs font-medium text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                    2023년 10월 24일
+                </span>
+</div>
+<div class="group flex items-end gap-3 justify-start">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0 ring-2 ring-white dark:ring-slate-900 shadow-sm" data-alt="Admin avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBNiUD_LG5n-i8mOpEWEqt_gBMYXjSZwpOc3E6VYr0BHRPiJr4-L_73wB5J0xR-iNyxeN_-c3JfDuvQPCrNMi1sh4zP1vzDsJ-Izv6FblfjXN78a6jFdYseYAvNuklPEl_j9Uy2uZHWlFgKCKnrudUmqerufvMmZ58FtAjEEHeJkPVdHdBx0J-OO4AHPLdtKOzMuWIBfqqfOaYhtljnEazFgiJbSGuc8jfTf3U4E8-qLFVzfdAvPxpxgAiumVwh_a3HlephKMVTJW6l");'></div>
+<div class="flex flex-col gap-1 items-start max-w-[80%] sm:max-w-[70%]">
+<p class="text-slate-500 dark:text-slate-400 text-[12px] pl-1 mb-0.5">관리자 김민수</p>
+<div class="relative flex items-end gap-2 group/message">
+<div class="px-4 py-3 bg-white dark:bg-slate-800 rounded-2xl rounded-bl-none text-slate-800 dark:text-slate-200 shadow-sm border border-slate-100 dark:border-slate-700">
+<p class="text-base leading-relaxed">
+                                안녕하세요. 지원해주셔서 감사합니다. 
+                                포트폴리오와 자기소개서를 꼼꼼히 검토해보았습니다. 
+                                <br/><br/>
+                                아쉽게도 이번 모집에는 저희가 찾는 방향과 조금 차이가 있어 함께하지 못하게 되었습니다. 
+                                귀한 시간 내어 지원해주셔서 진심으로 감사드립니다.
+                            </p>
+</div>
+<div class="flex flex-col justify-end h-full pb-1">
+<button class="opacity-0 group-hover/message:opacity-100 transition-opacity p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-red-500 mb-1" title="이 메시지 신고">
+<span class="material-symbols-outlined text-[16px] leading-none block">flag</span>
+</button>
+<span class="text-[10px] text-slate-400 min-w-[45px] whitespace-nowrap">오전 10:30</span>
+</div>
+</div>
+</div>
+</div>
+<div class="group flex items-end gap-3 justify-end">
+<div class="flex flex-col gap-1 items-end max-w-[80%] sm:max-w-[70%]">
+<div class="relative flex flex-row-reverse items-end gap-2 group/message">
+<div class="px-4 py-3 bg-primary text-white rounded-2xl rounded-br-none shadow-md">
+<p class="text-base leading-relaxed">네, 알겠습니다. 검토해주셔서 감사합니다.</p>
+</div>
+<div class="flex flex-col justify-end h-full pb-1 items-end">
+<span class="text-[10px] text-slate-400/80 min-w-[45px] text-right mb-1 whitespace-nowrap">오전 10:35</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center py-4">
+<div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-sm">info</span>
+                    관리자에 의해 지원이 거절 처리되었습니다.
+                </div>
+</div>
+</div>
+<div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-4xl mx-auto w-full relative">
+<div class="relative flex items-center w-full">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+<span class="material-symbols-outlined text-slate-400">lock</span>
+</div>
+<input class="block w-full rounded-xl border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800 py-3.5 pl-11 pr-12 text-slate-500 placeholder:text-slate-500 focus:ring-0 sm:text-sm sm:leading-6 cursor-not-allowed font-medium select-none" disabled="" placeholder="지원이 종료되어 메시지를 보낼 수 없습니다" type="text" value=""/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<button class="p-2 rounded-lg text-slate-400 bg-transparent cursor-not-allowed hover:bg-transparent" disabled="">
+<span class="material-symbols-outlined fill-current">send</span>
+</button>
+</div>
+</div>
+<div class="mt-3 flex justify-center gap-4 text-xs text-slate-500 dark:text-slate-400">
+<button class="hover:text-primary hover:underline transition-colors">운영정책</button>
+<span class="text-slate-300 dark:text-slate-600">•</span>
+<button class="hover:text-primary hover:underline transition-colors">고객센터 문의</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

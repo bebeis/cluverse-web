@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 그룹 탐색</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1313ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101022",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-6 lg:px-10 py-3">
+<div class="flex items-center gap-8 w-full max-w-[1280px] mx-auto">
+<div class="flex items-center gap-2 lg:gap-8">
+<a class="flex items-center gap-2 text-slate-900 dark:text-white group" href="#">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] hidden sm:block">Cluverse</h2>
+</a>
+<label class="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full ring-1 ring-slate-200 dark:ring-slate-700 focus-within:ring-2 focus-within:ring-primary transition-all">
+<div class="text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-3 rounded-l-lg">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-400 px-3 pl-2 text-sm font-normal leading-normal" placeholder="그룹 검색..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4 lg:gap-8">
+<div class="hidden lg:flex items-center gap-8">
+<a class="text-slate-900 dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">그룹</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">이벤트</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm font-medium hover:text-primary transition-colors" href="#">커뮤니티</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold shadow-md shadow-primary/20">
+<span class="truncate">그룹 만들기</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-slate-200 dark:border-slate-700 cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuASbMPUWmJjCAD6yNR6vrz8_WXGPtzJNzJ2yHLmLOWWKBtV73qfFewS57YJoNpXXviRZOnmS0Y27QnKhGLcXjSf5yz8aBs8kTCYfLgqjzDMSVamlAnT5J2urTuQOPv6pXXnAXUsAaNWrq0FuXX7O5wJXlKVykUazOx_XntEOB0UhGnW-78pKDWS4SSKDL9MnRUiEJ67ebVdSjfZ9p_vmSw0GAv5BshGb4AdVufS2-eE0HZ5MGtasBEJzjaDiSseg3Dag6TnHN12P5Ya");'></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 px-4 sm:px-6 lg:px-8">
+<div class="layout-content-container flex flex-col w-full max-w-[1280px] flex-1">
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">그룹 탐색</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base md:text-lg font-normal leading-normal max-w-2xl">대학 간의 다음 프로젝트, 동아리 또는 스터디 그룹을 찾아보세요. 같은 관심사를 가진 동료들과 연결되고 함께 성장하세요.</p>
+</div>
+</div>
+<div class="sticky top-[73px] z-40 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm -mx-4 px-4 py-4 mb-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 flex-wrap">
+<div class="flex gap-3 flex-wrap">
+<div class="relative group">
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-4 pr-3 hover:border-primary/50 transition-colors shadow-sm">
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">카테고리: <span class="text-slate-900 dark:text-white font-semibold">전체</span></p>
+<span class="material-symbols-outlined text-slate-500 text-[20px]">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-4 pr-3 hover:border-primary/50 transition-colors shadow-sm">
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">지역: <span class="text-slate-900 dark:text-white font-semibold">서울</span></p>
+<span class="material-symbols-outlined text-slate-500 text-[20px]">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex h-10 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-4 pr-3 hover:border-primary/50 transition-colors shadow-sm">
+<p class="text-slate-700 dark:text-slate-200 text-sm font-medium">활동 방식: <span class="text-slate-900 dark:text-white font-semibold">온/오프라인</span></p>
+<span class="material-symbols-outlined text-slate-500 text-[20px]">expand_more</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="text-xs font-semibold uppercase text-slate-400 tracking-wider">정렬:</span>
+<select class="bg-transparent text-sm font-medium text-slate-700 dark:text-slate-200 border-none focus:ring-0 cursor-pointer pr-8">
+<option>추천순</option>
+<option>최신순</option>
+<option>인기순</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">프로젝트</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Group of people working together on laptops" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCt8-8tOIOEpccRkg5XIIrIwAN02VH4LMv0TqjhuXFarQI13_dUB238LcnOX8PQUmxJYZyvH7zM-ZRZsdLF8MAohE9C_BrTMff7WAxLjr19RvNdtUR7QYhpnF28Fv2AVrOSz1wF5AQvVlqhCO9KecK7DL_NaelBCB_L789DbOx-nYh6uYLfxuqvwg_dRLHrEG-H1kTvyoYJu3NDA1B9s4wiI_4yeEJoQ2OW5NRzg3zhysyC7UqY16Cd1yr690_tzntj7F_j6JIasb0r");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>12/15</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>1.2k</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">AI 연구소</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">딥러닝 모델과 실용적인 응용 프로그램에 대한 공동 연구.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#AI</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#Python</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#연구</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">데이터 과학자</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">동아리</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Art supplies and creative workspace" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCnICQr2qePRDIihWtxVplImbtV0vaYeKTpc-R8CAIOPfomX4zFgfeysQSGezdp95WeaqQ0rMJNe_BiNf5LXWSzQ0axqPtCs7mhXWEGSKauZ9qA4oRtrNsTpIxNGm6L44E1_9Dy28WWykSQCUICJw-yf2op0jdymqnNknRW_-0LUTlOuRWYMgbGju9qfFiD90L4c-4ezAeq5913MeU_in2QNDMMg-ZFeQLj4Dg4ZtnrOevSAVz8ppc3zXBcp6SZQZQvEbkcSt-G-o83");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>28/30</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>840</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">크리에이티브 아트 클럽</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">학생들을 위한 주간 디지털 아트 워크숍 및 공동 전시회.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#디자인</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#예술</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">일반 회원</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">스터디</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Code on screen and algorithm diagrams" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbui9f6BuDqGW9D095tY_F7iaM1MQGDu-8Xg_iPjndPklHYHfEh4p_VT3TXUaZBdrS72k5tvfVEjM2LkMxzJutVTE7IeqFw7_CKVYO5cSOob-Wh_v823nGjQKGSxwLJ_0rgm8UMAjRV9H8uAo8V20w52w9cJp4P_Q00MgtFwaZAdmpgXTwCTAjFYnSNkaCj0T9tuY_4NeAIf_oUZ2JhxGrtVnQogv74jzadaStWnE_fiR6ecPMe0dXKXXOxQUhWvrbdE3sg2IYIjDN");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>4/6</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>2.5k</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">알고 마스터즈</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">코딩 인터뷰를 준비 중이신가요? 매일 진행되는 리트코드 챌린지에 참여하세요.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#알고리즘</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#코딩</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-yellow-500"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">백엔드 개발자</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">프로젝트</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Team brainstorming session" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPf13zOWWofJEQVkTpIoKh73T8Yjow8Fno6bgJKPl1da1YDbOZUXrH25ibKs_M5xwuT8J_VkggJ4FEd1BM6fTuxizmKcTMOPYWqjHTWHzY6grm2Ka5D81uFLJbpWSYZNpIDEOXErOlOj3lU5jZs-hDUlns_PYVB3vNJNczF9ivF5C_yczPJnS-hi4CqnqkcJeVoFJD837RggjqR7PugE4cbASOflMMbGmbTEn-ZkPtkyxtxI073_YnOGIGwOMfogFMSIABHeoChCYv");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>3/5</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>562</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">스타트업 인큐베이터</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">다음 유니콘 기업을 만듭니다. MVP 개발에 열정적인 분들을 찾습니다.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#스타트업</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#비즈니스</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">UI/UX 디자이너</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">동아리</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Hiking group on a mountain trail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCpcjmXQ2rDwpZ8aY0aa8NJ1ngHn6AVqbexNqPKg8cfDGYRsicAqq8xcusYivMiTemsBAlGLo783TaidYzb5JvXw45Dc7xDjKeDMzwxzr4QQHkIHlSKnAEGMqJc81_5fnBu1V29DJ0iwekPZznmlYczQjyCK3q38yYslEFj_m3iN_rr2PylrUnJkbDnmJKC6sry0AGZ0XNI0hU4fGVgSo_EJEbQ7Bcb4lnQKffBUAfAZw3Bd475LrYDNdJBclSyw3hWxJ_yAygIRcuK");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>45/50</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>3.1k</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">주말 등산 모임</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">매주 토요일 아침, 경기도의 아름다운 산들을 탐험하세요.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#아웃도어</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#건강</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">신입 회원</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">프로젝트</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Modern workspace with laptop and coffee" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOR7nCx0N4ZOZ6qpR10xGqLZrJuCfr37F_4MZYcu9tK0DxJJ7pk3DpBeKO83cdGpSfyB-FE4TqzdeOC9wIvY_LWN4LOziLead9mwTR_UOCYrjTH95INkZtih-_AcxUzA7j6ZFGGcOkFFwb6myxLVa7mw56h-MAcpNP4xtHfOAzt3Jh3z0T8pDwdjHZx3RKSe0pSFsUTeAE-MVjdnzpV2uy5KZsHm1ezZMJiXPV0qpWuNLKTy6iOi3TWH_a5ohQ33CuykzD68es0TOF");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>2/4</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>150</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">리액트 네이티브 앱</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">리액트 네이티브를 사용하여 피트니스 트래킹 앱을 함께 만들 파트너를 찾습니다.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#모바일</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#리액트</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">프론트엔드 개발자</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">스터디</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Group discussion around a table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBaalxYzYOuW1fTqzhjcyNJeumQ9IRLD_411SRo972dFPjfn2J_FFaVmiccT43i3Z4G9bY8sq3j2WPmDk1RZMVp1IPe3K0JuKcfXQywwyvW9nU6frDhbTFSWrI9uO6Bx38bdrS9I2-4R2qokqhgrzKnM-twEZolSWmkldpoNqbMSPpBIS8nSHD7UDYkZ0rkFUaSL5_iZknZOvcBBZicQt2k1kGmeCYR6z5JaGLWQEDfhgZPhzJyOWvrM8pzRLOUqwaDfN9JYGl1ODml");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>5/8</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>420</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">영어 회화</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">중급 학습자를 위한 캐주얼 영어 회화 연습.</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#언어</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#글로벌</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-gray-400"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">모집 마감</span>
+</div>
+</div>
+</article>
+<article class="flex flex-col gap-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer">
+<div class="relative aspect-video w-full overflow-hidden">
+<div class="absolute top-3 left-3 z-10">
+<span class="inline-flex items-center rounded-full bg-white/90 dark:bg-slate-900/90 px-2.5 py-0.5 text-xs font-bold text-primary backdrop-blur-md shadow-sm">동아리</span>
+</div>
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-500" data-alt="Musicians playing instruments" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCr-4vxUUksbSAIX1JcWDVVMR7ycPSn40G1lcHlTlnWWrl0TAvW_sUW4_S5JogwUoJOYgddhTJioztvuA_yWtn13wUb3moKEHwv4eoAnuedfqxTVhc8dawEjWkWKZ4elTOBEUmuRYMrMYhtyMlA1153rPGIuE7km4mOgKnTb-kGNoKDDqKllSngN5-Xs9H6vZ60X5gDe5B4_XVfRFXu9MDqjPxNhH6fP8zpQzZpCLZdconqD6G-GrAaEqiGbTETDwSEUSwhh7_E8uTu");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 right-3 flex justify-between items-end text-white">
+<div class="flex items-center gap-1 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] filled">group</span>
+<span>8/10</span>
+</div>
+<div class="flex items-center gap-1 text-xs font-medium opacity-90">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>2.1k</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col p-4 gap-3 flex-1">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">인디 뮤직 잼</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">인디 음악 애호가들을 위한 주간 잼 세션. 모든 악기 환영!</p>
+</div>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#음악</span>
+<span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-600 dark:text-slate-300">#밴드</span>
+</div>
+<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-bold text-slate-700 dark:text-slate-300">모집 중:</span>
+</div>
+<span class="text-xs font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">드러머</span>
+</div>
+</div>
+</article>
+</div>
+<div class="flex items-center justify-center pt-4">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<a class="flex size-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</a>
+<a class="flex size-10 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold shadow-md shadow-primary/20" href="#">1</a>
+<a class="flex size-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">2</a>
+<a class="flex size-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">3</a>
+<span class="flex size-10 items-center justify-center text-slate-400">...</span>
+<a class="flex size-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">12</a>
+<a class="flex size-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cluverse - 관심사 선택</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "brand-indigo": "#3F51B5",
+                        "brand-indigo-hover": "#303F9F",
+                        "brand-indigo-light": "#C5CAE9",
+                        "surface-bg": "#FFFFFF",
+                        "surface-subtle": "#F5F5F5",
+                        "text-main": "#212121",
+                        "text-sub": "#757575",
+                        "border-color": "#E0E0E0",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "body": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F5F5F5; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #BDBDBD; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9E9E9E; 
+        }.peer:checked ~ .selection-ring {
+            border-color: #3F51B5;
+            background-color: rgba(63, 81, 181, 0.1);
+        }
+        .peer:checked ~ .selection-ring p {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .peer:checked ~ .selection-ring .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }.peer:checked ~ .tag-visual {
+            background-color: #3F51B5;
+            border-color: #3F51B5;
+        }
+        .peer:checked ~ .tag-visual p {
+            color: white;
+        }
+        .peer:checked ~ .tag-visual .material-symbols-outlined {
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-surface-bg text-text-main font-display min-h-screen flex flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="w-full border-b border-border-color bg-surface-bg/90 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-[960px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded bg-brand-indigo flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white text-xl">hub</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-text-main">Cluverse</span>
+</div>
+<div class="flex items-center gap-4">
+<p class="text-sm font-medium text-text-sub">2/3 단계</p>
+<div class="w-24 h-2 bg-surface-subtle rounded-full overflow-hidden border border-border-color">
+<div class="h-full bg-brand-indigo w-2/3 rounded-full"></div>
+</div>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 sm:py-12 px-4 sm:px-6">
+<div class="layout-content-container flex flex-col max-w-[720px] flex-1 w-full">
+<div class="flex flex-col gap-2 mb-10 text-center sm:text-left">
+<h1 class="text-3xl sm:text-4xl font-black leading-tight tracking-tight mb-2 text-text-main">어떤 분야에 관심이 있으신가요?</h1>
+<p class="text-text-sub text-lg font-normal leading-relaxed">
+                    선택하신 관심사를 바탕으로 좋아할 만한 동아리와 친구를 추천해 드릴게요.
+                </p>
+<div class="flex items-center gap-2 mt-4 sm:justify-start justify-center">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-brand-indigo/10 text-brand-indigo text-sm font-semibold border border-brand-indigo/20">
+                        3개 선택됨
+                    </span>
+<span class="text-gray-400 text-sm">최소 3개 이상 선택해주세요</span>
+</div>
+</div>
+<div class="flex flex-col gap-10">
+<div class="group">
+<div class="flex items-center gap-3 mb-4 px-1">
+<div class="p-2 rounded-lg bg-surface-subtle text-text-main border border-border-color">
+<span class="material-symbols-outlined text-brand-indigo">terminal</span>
+</div>
+<h3 class="text-xl font-bold text-text-main">IT / 개발</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer relative group/tag">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">웹 개발</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">check</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">앱 개발</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">AI / 머신러닝</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">check</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">데이터 사이언스</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">DevOps</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">블록체인</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+</div>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-4 px-1">
+<div class="p-2 rounded-lg bg-surface-subtle text-text-main border border-border-color">
+<span class="material-symbols-outlined text-brand-indigo">design_services</span>
+</div>
+<h3 class="text-xl font-bold text-text-main">디자인</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer relative group/tag">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">UI/UX 디자인</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">check</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">3D 모델링</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">그래픽 디자인</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">모션 그래픽</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">영상 편집</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+</div>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-4 px-1">
+<div class="p-2 rounded-lg bg-surface-subtle text-text-main border border-border-color">
+<span class="material-symbols-outlined text-brand-indigo">lightbulb</span>
+</div>
+<h3 class="text-xl font-bold text-text-main">기획 / 마케팅</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">서비스 기획</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">퍼포먼스 마케팅</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">콘텐츠 마케팅</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">프로젝트 관리</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+</div>
+</div>
+<div class="group">
+<div class="flex items-center gap-3 mb-4 px-1">
+<div class="p-2 rounded-lg bg-surface-subtle text-text-main border border-border-color">
+<span class="material-symbols-outlined text-brand-indigo">sports_esports</span>
+</div>
+<h3 class="text-xl font-bold text-text-main">취미 / 기타</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">게임</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">독서</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">운동</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">맛집 탐방</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+<label class="cursor-pointer relative group/tag">
+<input class="peer sr-only" type="checkbox"/>
+<div class="tag-visual flex h-10 items-center justify-center gap-x-2 rounded-full border border-border-color bg-surface-subtle px-5 transition-all duration-200 hover:border-brand-indigo hover:bg-white shadow-sm hover:shadow-md">
+<p class="text-text-main text-sm font-medium">영화/드라마</p>
+<span class="material-symbols-outlined text-[18px] text-gray-400 transition-colors">add</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="h-24"></div> 
+</div>
+</main>
+<footer class="fixed bottom-0 left-0 w-full bg-surface-bg/95 backdrop-blur border-t border-border-color p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="max-w-[720px] mx-auto flex items-center justify-between gap-4">
+<button class="px-6 py-3 rounded-xl text-text-sub font-medium hover:bg-surface-subtle hover:text-text-main transition-colors">
+                이전
+            </button>
+<button class="flex-1 sm:flex-none sm:w-64 bg-brand-indigo hover:bg-brand-indigo-hover text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-brand-indigo/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+<span>완료</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+
+</body></html>

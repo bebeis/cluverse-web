@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>마이페이지 및 설정 - Cluverse</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;family=Noto+Sans+KR:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4F46E5","primary-hover": "#4338ca","secondary": "#10b981","background-light": "#f8fafc","background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans KR", "sans-serif"],
+                        "sans": ["Noto Sans KR", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-800 font-display min-h-screen flex flex-col antialiased">
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-md">
+<div class="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-3 group" href="#">
+<div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-white shadow-lg shadow-indigo-200 transition-transform group-hover:scale-105">
+<span class="material-symbols-outlined text-xl">school</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900">Cluverse</span>
+</a>
+<nav class="hidden md:flex items-center gap-1">
+<a class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-indigo-50 rounded-lg transition-colors" href="#">홈</a>
+<a class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-indigo-50 rounded-lg transition-colors" href="#">커뮤니티</a>
+<a class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-indigo-50 rounded-lg transition-colors" href="#">이벤트</a>
+<a class="px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-indigo-50 rounded-lg transition-colors" href="#">메시지</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex relative">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-full border-0 bg-slate-100 py-2 pl-10 pr-4 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 transition-all" placeholder="커뮤니티 검색..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-slate-500 hover:bg-indigo-50 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+<span class="absolute top-2 right-2 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white"></span>
+</button>
+<div class="h-9 w-9 overflow-hidden rounded-full ring-2 ring-slate-100 cursor-pointer hover:ring-primary transition-all" data-alt="User profile avatar small" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4fQtZiic_6KIpDi3_ClryPFA6tDMqydBAMnSj15sNbTa78yPf5qCVGk0X-PAC247IH0uAqBF5d0-mEi_6UoyqsaQcFET8UZB4WQq19P0RjvySJMHoD8NVEJybK1GXQ71TdDahu5MW6LT0EovEuBqh8fM_H7lTQkDcyarEKqSk9XM9rh_dPZEzylAJRj-KNs7M9aq0RmaZztxBUNFeh6NkYhcB2QkS17WnWYV7jsJ4rxQnZPuzKx3syZs-lE06uuuXOoZifGYfQiUD"); background-size: cover; background-position: center;'></div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
+<div class="mb-6 flex items-center text-sm text-slate-500">
+<a class="hover:text-primary hover:underline" href="#">홈</a>
+<span class="material-symbols-outlined mx-2 text-xs text-slate-400">chevron_right</span>
+<span class="font-medium text-primary">마이페이지 및 설정</span>
+</div>
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+<div class="hidden lg:col-span-3 lg:block">
+<nav class="space-y-1 sticky top-24 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+<div class="pb-4 px-3">
+<h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">메뉴</h3>
+</div>
+<a class="flex items-center gap-3 rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary transition-all" href="#">
+<span class="material-symbols-outlined filled">person</span>
+                            내 프로필
+                        </a>
+<a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">security</span>
+                            로그인 및 보안
+                        </a>
+<a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">notifications</span>
+                            알림 설정
+                        </a>
+<a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">language</span>
+                            언어 및 지역
+                        </a>
+<div class="my-4 border-t border-slate-100"></div>
+<a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+                            로그아웃
+                        </a>
+</nav>
+</div>
+<div class="lg:col-span-9 space-y-6">
+<div class="relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm">
+<div class="h-40 w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 relative">
+<div class="absolute inset-0 bg-black/10"></div>
+</div>
+<div class="px-8 pb-8">
+<div class="flex flex-col sm:flex-row items-start sm:items-end justify-between -mt-16 mb-6">
+<div class="flex items-end gap-6">
+<div class="group relative h-32 w-32 rounded-full border-[6px] border-white bg-slate-200 shadow-xl" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBlKSJl4Y8A8WdhbsnjFu-6xfDqiIdwFiQ4YJeRLeoESwQrXmGoK8wXdlBfT1VdUmAVsJBzyZNMu9cr8Q7vVNdUxUsvob6ggUykUhIi49LyvEU1i1wbf7a4q_do-LE7UMlGhIKAICFD19tCmnC0_eq23RaP7bwwCsAIfVS-bTD4rc8NTrKIW_SqSeaOntchyJEkseySaO3CuGiFwnJuFu1d4pb_ocbvoQVIErEG3SXjQS2JVH5gf2PuPcDGQ2lLeyLXzpO46IlKL_m6"); background-size: cover; background-position: center;'>
+<button class="absolute bottom-1 right-1 flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-white shadow-lg hover:bg-primary transition-all border-2 border-white cursor-pointer z-10">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<div class="mb-2 hidden sm:block">
+<h1 class="text-3xl font-bold text-slate-900">김서준</h1>
+<p class="text-slate-500 font-medium">@alex_korea</p>
+</div>
+</div>
+<button class="mt-6 sm:mt-0 flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-200 hover:bg-primary-hover hover:shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+                                    프로필 편집
+                                </button>
+</div>
+<div class="mb-6 sm:hidden">
+<h1 class="text-2xl font-bold text-slate-900">김서준</h1>
+<p class="text-slate-500 font-medium">@alex_korea</p>
+</div>
+<div class="space-y-6">
+<div class="flex flex-wrap gap-3">
+<span class="inline-flex items-center gap-2 rounded-lg bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/10">
+<span class="material-symbols-outlined text-[18px] filled">school</span>
+                                        서울대학교
+                                    </span>
+<span class="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700 ring-1 ring-inset ring-slate-600/10">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+                                        컴퓨터공학과
+                                    </span>
+<span class="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/10">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+                                        경제학과
+                                    </span>
+</div>
+<div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+<p class="text-slate-600 leading-relaxed">
+                                        기술과 시장 역학의 교차점을 탐구하고 있습니다. 여가 시간에는 커뮤니티 도구를 만듭니다. AI나 행동 경제학에 대한 이야기는 언제나 환영입니다! ☕️
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-white p-8 shadow-sm border border-slate-200">
+<div class="mb-6 flex items-center gap-3 pb-4 border-b border-slate-100">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-primary">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-900">프로필 공개 설정</h2>
+<p class="text-xs text-slate-500">다른 사용자에게 보여지는 정보를 관리합니다.</p>
+</div>
+</div>
+<div class="space-y-8">
+<div class="flex items-center justify-between">
+<div class="pr-4">
+<p class="font-semibold text-slate-900 mb-1">전체 공개 프로필</p>
+<p class="text-sm text-slate-500 leading-relaxed">다른 대학의 학생들이 내 프로필을 검색하고 볼 수 있도록 허용합니다.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center shrink-0">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-7 w-12 rounded-full bg-slate-200 after:absolute after:left-[4px] after:top-[4px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all after:content-[''] peer-checked:bg-secondary peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/30"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="pr-4">
+<p class="font-semibold text-slate-900 mb-1">전공 정보 표시</p>
+<p class="text-sm text-slate-500 leading-relaxed">프로필 카드에 주전공 및 복수전공을 배지로 표시합니다.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center shrink-0">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-7 w-12 rounded-full bg-slate-200 after:absolute after:left-[4px] after:top-[4px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all after:content-[''] peer-checked:bg-secondary peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/30"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div class="pr-4">
+<p class="font-semibold text-slate-900 mb-1">연동된 계정 표시</p>
+<p class="text-sm text-slate-500 leading-relaxed">GitHub 및 LinkedIn 등 외부 소셜 프로필 링크를 표시합니다.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center shrink-0">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-7 w-12 rounded-full bg-slate-200 after:absolute after:left-[4px] after:top-[4px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-all after:content-[''] peer-checked:bg-secondary peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-secondary/30"></div>
+</label>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 flex flex-col h-full hover:shadow-md transition-shadow">
+<div class="mb-5 flex items-center justify-between pb-3 border-b border-slate-100">
+<div class="flex items-center gap-3">
+<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-primary">
+<span class="material-symbols-outlined text-[20px]">school</span>
+</div>
+<h2 class="text-lg font-bold text-slate-900">전공 관리</h2>
+</div>
+<button class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">수정</button>
+</div>
+<div class="space-y-4 flex-1">
+<div class="group rounded-xl border border-slate-100 bg-slate-50 p-4 hover:border-indigo-100 hover:bg-indigo-50/50 transition-colors">
+<p class="text-xs font-bold uppercase text-slate-400 mb-2 group-hover:text-indigo-400">주전공</p>
+<div class="flex items-center gap-3 text-slate-800 font-medium">
+<span class="material-symbols-outlined text-xl text-indigo-500">terminal</span>
+                                        컴퓨터공학과
+                                    </div>
+</div>
+<div class="group rounded-xl border border-slate-100 bg-slate-50 p-4 hover:border-emerald-100 hover:bg-emerald-50/50 transition-colors">
+<p class="text-xs font-bold uppercase text-slate-400 mb-2 group-hover:text-emerald-400">복수전공 / 부전공</p>
+<div class="flex items-center gap-3 text-slate-800 font-medium">
+<span class="material-symbols-outlined text-xl text-emerald-500">trending_up</span>
+                                        경제학과
+                                    </div>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 flex flex-col h-full hover:shadow-md transition-shadow">
+<div class="mb-5 flex items-center justify-between pb-3 border-b border-slate-100">
+<div class="flex items-center gap-3">
+<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-pink-50 text-pink-600">
+<span class="material-symbols-outlined text-[20px]">interests</span>
+</div>
+<h2 class="text-lg font-bold text-slate-900">관심 태그 수정</h2>
+</div>
+<button class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors">수정</button>
+</div>
+<div class="flex flex-wrap gap-2 content-start flex-1">
+<span class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary hover:shadow-sm cursor-pointer transition-all">
+                                    #인공지능
+                                </span>
+<span class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary hover:shadow-sm cursor-pointer transition-all">
+                                    #웹개발
+                                </span>
+<span class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary hover:shadow-sm cursor-pointer transition-all">
+                                    #스타트업
+                                </span>
+<span class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary hover:shadow-sm cursor-pointer transition-all">
+                                    #해커톤
+                                </span>
+<span class="inline-flex items-center rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-primary hover:shadow-sm cursor-pointer transition-all">
+                                    #사진촬영
+                                </span>
+<button class="inline-flex items-center justify-center rounded-lg border border-dashed border-slate-300 bg-transparent px-3 py-1.5 text-sm font-medium text-slate-400 hover:border-primary hover:text-primary hover:bg-indigo-50 transition-all">
+<span class="material-symbols-outlined text-[18px] mr-1.5">add_circle</span>
+                                    태그 추가
+                                </button>
+</div>
+</div>
+</div>
+<div class="rounded-2xl bg-white shadow-sm border border-slate-200 overflow-hidden">
+<div class="px-8 py-5 border-b border-slate-100 bg-slate-50/50">
+<h2 class="text-lg font-bold text-slate-900">활동 및 개인정보</h2>
+</div>
+<div class="divide-y divide-slate-100">
+<a class="flex items-center justify-between px-8 py-5 hover:bg-slate-50 transition-colors group" href="#">
+<div class="flex items-center gap-5">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-indigo-50 text-indigo-600 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">post_add</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 group-hover:text-primary transition-colors">내가 쓴 글</p>
+<p class="text-sm text-slate-500 mt-0.5">커뮤니티 기여 활동 확인 및 관리</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-8 py-5 hover:bg-slate-50 transition-colors group" href="#">
+<div class="flex items-center gap-5">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-orange-50 text-orange-600 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 group-hover:text-primary transition-colors">댓글 단 글</p>
+<p class="text-sm text-slate-500 mt-0.5">참여한 토론 및 답글 내역</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-8 py-5 hover:bg-slate-50 transition-colors group" href="#">
+<div class="flex items-center gap-5">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-purple-50 text-purple-600 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">bookmark</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 group-hover:text-primary transition-colors">북마크</p>
+<p class="text-sm text-slate-500 mt-0.5">저장된 이벤트, 게시글 및 기회</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+</a>
+<a class="flex items-center justify-between px-8 py-5 hover:bg-slate-50 transition-colors group" href="#">
+<div class="flex items-center gap-5">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-600 shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">block</span>
+</div>
+<div>
+<p class="font-bold text-slate-900 group-hover:text-primary transition-colors">차단 관리</p>
+<p class="text-sm text-slate-500 mt-0.5">제한한 사용자 관리</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-1 transition-all">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>
