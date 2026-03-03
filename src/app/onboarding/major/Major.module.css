@@ -1,0 +1,386 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f6f8;
+  color: #0e0e1b;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: white;
+  border-bottom: 1px solid #d0d0e7;
+}
+
+@media (min-width: 768px) {
+  .header { padding: 16px 40px; }
+}
+
+.logoArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  color: #4F46E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0e0e1b;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 24px;
+}
+
+.headerLink {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4e4e97;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.headerLink:hover {
+  color: #4F46E5;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+@media (min-width: 640px) {
+  .main { padding: 32px 24px; }
+}
+
+.contentWrapper {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stepperHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stepperStep {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4F46E5;
+  margin: 0;
+}
+
+.stepperDesc {
+  font-size: 12px;
+  color: #4e4e97;
+}
+
+.stepperBar {
+  height: 8px;
+  width: 100%;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stepperProgress {
+  height: 100%;
+  background-color: #4F46E5;
+  width: 33.333333%;
+  border-radius: 9999px;
+}
+
+.titleArea {
+  text-align: center;
+  padding: 16px 0 8px 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0e0e1b;
+  margin: 0 0 12px 0;
+}
+
+@media (min-width: 640px) {
+  .title { font-size: 30px; }
+}
+
+.subtitle {
+  color: #4e4e97;
+  margin: 0;
+}
+
+.formCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(208, 208, 231, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 640px) {
+  .formCard { padding: 32px; }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0e0e1b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.optionalBadge {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4e4e97;
+  background-color: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.inputRel {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 16px;
+  color: #4e4e97;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border-radius: 8px;
+  border: 1px solid #d0d0e7;
+  background-color: #f6f6f8;
+  font-size: 14px;
+  color: #0e0e1b;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgba(78, 78, 151, 0.7);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4F46E5;
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.inputRightIcon {
+  position: absolute;
+  right: 12px;
+  color: #22c55e;
+}
+
+.selectedSchool {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px;
+  background-color: rgba(79, 70, 229, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(79, 70, 229, 0.1);
+}
+
+.schoolLogo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  padding: 4px;
+  overflow: hidden;
+}
+
+.schoolLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.schoolInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.schoolName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0e0e1b;
+}
+
+.schoolLoc {
+  font-size: 12px;
+  color: #4e4e97;
+}
+
+.changeBtn {
+  margin-left: auto;
+  font-size: 12px;
+  color: #4e4e97;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.changeBtn:hover {
+  color: #ef4444;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgba(208, 208, 231, 0.5);
+  width: 100%;
+}
+
+.majorsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .majorsGrid { grid-template-columns: 1fr 1fr; }
+}
+
+.helperBox {
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.helperIcon {
+  color: #4F46E5;
+  margin-top: 2px;
+}
+
+.helperText {
+  font-size: 12px;
+  line-height: 1.625;
+  color: #4e4e97;
+}
+
+.helperText p {
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #0e0e1b;
+}
+
+.helperText ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.helperText li {
+  margin-bottom: 4px;
+}
+
+.actionArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
+}
+
+.nextBtn {
+  width: 100%;
+  background-color: #4F46E5;
+  color: white;
+  font-weight: 700;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 18px;
+  transition: all 0.2s;
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+}
+
+.nextBtn:hover {
+  background-color: #4338CA;
+}
+
+.nextBtn:active {
+  transform: scale(0.99);
+}
+
+.skipBtn {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #4e4e97;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.skipBtn:hover {
+  color: #0e0e1b;
+  text-decoration: underline;
+}

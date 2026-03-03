@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PostCard.module.css';
 import { Badge } from './Badge';
-
+import { Eye, Heart, MessageSquare } from 'lucide-react';
 export interface PostCardProps {
   title: string;
   excerpt: string;
@@ -44,9 +44,9 @@ export const PostCard: React.FC<PostCardProps> = ({
         </div>
         
         <div className={styles.stats}>
-          <span className={styles.statItem}>👁 {views}</span>
-          <span className={styles.statItem}>♥ {likes}</span>
-          <span className={styles.statItem}>💬 {comments}</span>
+          <span className={styles.statItem}><Eye size={14} /> {views}</span>
+          <span className={styles.statItem}><Heart size={14} /> {likes}</span>
+          <span className={styles.statItem}><MessageSquare size={14} /> {comments}</span>
         </div>
       </div>
     </article>

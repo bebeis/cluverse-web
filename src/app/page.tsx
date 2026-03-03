@@ -6,6 +6,7 @@ import { Tabs } from '@/components/ui/Tabs';
 import { PostCard } from '@/components/ui/PostCard';
 import { BottomNav } from '@/components/ui/BottomNav';
 import { FilterChipGroup } from '@/components/ui/FilterChipGroup';
+import { Search, PenSquare } from 'lucide-react';
 
 // Mock Data for demonstration
 const mockPosts = [
@@ -62,7 +63,7 @@ export default function HomePage() {
     { id: 'all', label: '전체' },
     { id: 'subscription', label: '구독한 보드' },
     { id: 'recommend', label: '추천글' },
-    { id: 'hot', label: '인기글🔥' },
+    { id: 'hot', label: '인기글' },
   ];
 
   const filteredPosts = activeFilter === 'all' 
@@ -73,7 +74,7 @@ export default function HomePage() {
     <div style={{ backgroundColor: '#F8FAFC', minHeight: '100vh', paddingBottom: '80px' }}>
       <TopAppBar 
         title="Cluverse 홈" 
-        rightAction={<div style={{ fontSize: '20px', cursor: 'pointer' }}>🔍</div>} 
+        rightAction={<div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}><Search size={22} /></div>} 
       />
       
       <Tabs 
@@ -138,7 +139,7 @@ export default function HomePage() {
         justifyContent: 'center',
         zIndex: 100
       }}>
-        ✍️
+        <PenSquare size={24} color="white" />
       </button>
 
       <BottomNav 

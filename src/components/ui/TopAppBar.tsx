@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './TopAppBar.module.css';
-
+import { ArrowLeft } from 'lucide-react';
 interface TopAppBarProps {
   title: string;
   showBack?: boolean;
@@ -19,7 +19,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({
       <div className={styles.left}>
         {showBack && (
           <button className={styles.iconBtn} onClick={onBack} aria-label="Go back">
-            ←
+            <ArrowLeft size={20} />
           </button>
         )}
       </div>

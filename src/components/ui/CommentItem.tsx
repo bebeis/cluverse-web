@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './CommentItem.module.css';
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
-
+import { Heart } from 'lucide-react';
 export interface CommentItemProps {
   authorNickname: string;
   schoolName: string;
@@ -47,7 +47,9 @@ export const CommentItem: React.FC<CommentItemProps> = ({
         
         <div className={styles.footer}>
           <span className={styles.time}>{timeAgo}</span>
-          <button className={styles.actionBtn}>♥ 좋아요 {likes}</button>
+          <button className={styles.actionBtn} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Heart size={12} /> 좋아요 {likes}
+          </button>
           <button className={styles.actionBtn}>답글 달기</button>
         </div>
         

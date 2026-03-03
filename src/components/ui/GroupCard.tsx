@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './GroupCard.module.css';
 import { Badge } from './Badge';
-
+import { Users } from 'lucide-react';
 export interface GroupCardProps {
   title: string;
   description: string;
@@ -49,7 +49,9 @@ export const GroupCard: React.FC<GroupCardProps> = ({
         </div>
         
         <div className={styles.footer}>
-          <span className={styles.memberCount}>👥 {memberCount}명 참여중</span>
+          <span className={styles.memberCount} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Users size={14} /> {memberCount}명 참여중
+          </span>
         </div>
       </div>
     </article>
