@@ -1,0 +1,540 @@
+/* ── Page ──────────────────────────── */
+.page { display: flex; flex-direction: column; gap: 40px; padding-top: 32px; }
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+@media (min-width: 768px) {
+  .pageHeader { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+}
+
+.pageHeaderLeft { max-width: 640px; }
+
+.adminLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4051B5;
+  margin-bottom: 4px;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #111218;
+  margin: 0;
+}
+
+@media (min-width: 768px) { .pageTitle { font-size: 34px; } }
+
+.pageSubtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 4px 0 0;
+  max-width: 600px;
+}
+
+.tabsBar {
+  display: flex;
+  gap: 4px;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.tabActive {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: white;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111218;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border: none;
+  cursor: pointer;
+}
+
+.tabInactive {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabInactive:hover { background: rgba(255,255,255,0.5); color: #374151; }
+
+/* ── Grid ──────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 1200px) {
+  .grid { grid-template-columns: 7fr 5fr; gap: 48px; }
+}
+
+/* ── Section Card ──────────────────── */
+.sectionCard {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.sectionNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #EEF2FF;
+  color: #4051B5;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111218;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin: 2px 0 0;
+}
+
+/* ── Form ──────────────────────────── */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .formGrid2 { grid-template-columns: 1fr 1fr; }
+}
+
+.formLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+
+.formInput {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: #F8FAFC;
+  font-size: 14px;
+  color: #111218;
+  transition: all 0.2s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #4051B5;
+  box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.1);
+}
+
+.formInput::placeholder { color: #9CA3AF; }
+
+.formTextarea {
+  composes: formInput;
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.6;
+  font-family: inherit;
+}
+
+.formDateWrap { position: relative; }
+
+.formDateIcon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #4051B5;
+  pointer-events: none;
+}
+
+.formDateInput {
+  composes: formInput;
+  padding-left: 40px;
+  cursor: pointer;
+}
+
+.formDateHint {
+  font-size: 12px;
+  color: #6B7280;
+  margin-top: 8px;
+}
+
+/* ── Question Card ─────────────────── */
+.questions { display: flex; flex-direction: column; gap: 20px; }
+
+.questionCard {
+  position: relative;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.questionCard:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-color: rgba(64, 81, 181, 0.4);
+}
+
+.questionActions {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  gap: 4px;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+.questionCard:hover .questionActions { opacity: 1; }
+
+.questionActionBtn {
+  padding: 8px;
+  border-radius: 8px;
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.questionActionBtn:hover { background: #F1F5F9; color: #4051B5; }
+.questionActionBtnDanger:hover { background: #FEF2F2; color: #EF4444; }
+
+.questionMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.questionNum {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #F1F5F9;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4B5563;
+}
+
+.questionRequired {
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: #FEF2F2;
+  font-size: 11px;
+  font-weight: 700;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+}
+
+.questionType {
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: #F8FAFC;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+}
+
+.questionText {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 16px;
+}
+
+.questionPlaceholder {
+  height: 96px;
+  width: 100%;
+  border-radius: 8px;
+  border: 2px dashed #E5E7EB;
+  background: #FAFBFC;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #9CA3AF;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── Add Question ──────────────────── */
+.addQuestionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px;
+  border: 2px dashed rgba(64, 81, 181, 0.3);
+  border-radius: 12px;
+  background: rgba(64, 81, 181, 0.02);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.addQuestionBtn:hover {
+  border-color: #4051B5;
+  background: rgba(64, 81, 181, 0.06);
+}
+
+.addQuestionInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.addQuestionIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  color: #4051B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.addQuestionBtn:hover .addQuestionIcon { transform: scale(1.1); }
+
+.addQuestionLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4051B5;
+}
+
+.addQuestionHint {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+/* ── Preview (Right Column) ────────── */
+.previewCol { display: flex; flex-direction: column; gap: 24px; }
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.previewTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.previewBadge {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B7280;
+  background: #F1F5F9;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* ── Phone Frame ───────────────────── */
+.phoneFrame {
+  border-radius: 32px;
+  background: #111827;
+  padding: 8px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.phoneInner {
+  border-radius: 24px;
+  background: white;
+  overflow: hidden;
+  height: 680px;
+  display: flex;
+  flex-direction: column;
+}
+
+.phoneStatusBar {
+  height: 28px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  padding-top: 8px;
+}
+
+.phoneTime { font-size: 10px; font-weight: 700; color: #111218; }
+
+.phoneStatusDots { display: flex; gap: 4px; }
+.phoneStatusDot { width: 12px; height: 12px; border-radius: 50%; background: #111218; opacity: 0.2; }
+
+.phoneContent {
+  flex: 1;
+  overflow-y: auto;
+  background: #F8FAFC;
+}
+
+.phoneHero {
+  height: 128px;
+  background: linear-gradient(135deg, #4051B5, #7c3aed);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+  position: relative;
+}
+
+.phoneHeroBadge {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+  font-size: 10px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.phoneHeroTitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.phoneBody { padding: 20px; display: flex; flex-direction: column; gap: 24px; }
+
+.phoneInfoChips { display: flex; gap: 8px; }
+
+.phoneChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #F1F5F9;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  font-size: 12px;
+  font-weight: 500;
+  color: #4B5563;
+}
+
+.phoneSubmitBtn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #4051B5;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.3);
+}
+
+.phoneHint {
+  font-size: 10px;
+  color: #9CA3AF;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.phoneHomeIndicator {
+  position: relative;
+  margin: 0 auto 4px;
+  width: 128px;
+  height: 4px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 9999px;
+}
+
+/* ── Footer Actions ──────────────── */
+.footerActions {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.footerBtnSecondary {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.footerBtnSecondary:hover { background: #F8FAFC; }
+
+.footerBtnPrimary {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  background: #4051B5;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.3);
+  transition: all 0.2s;
+}
+
+.footerBtnPrimary:hover {
+  background: #303F9F;
+  transform: translateY(-1px);
+}
