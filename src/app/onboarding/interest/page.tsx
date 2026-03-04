@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from './Interest.module.css';
+import { AuthHeader } from '@/components/ui/AuthHeader';
 import { 
   Network, 
   Terminal, 

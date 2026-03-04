@@ -1,0 +1,380 @@
+/* ── Header ─────────────────────────── */
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 640px) {
+  .pageHeader {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.titleBlock {}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.025em;
+  margin-bottom: 4px;
+}
+
+@media (min-width: 768px) {
+  .pageTitle { font-size: 32px; }
+}
+
+.pageDesc {
+  color: #6B7280;
+  font-size: 15px;
+}
+
+.manageBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: #F3F4F6;
+  border: none;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.manageBtn:hover {
+  background: #E5E7EB;
+  color: #4051B5;
+}
+
+/* ── Filter Tabs ────────────────────── */
+.filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 28px;
+  scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar { display: none; }
+
+.filterBtn {
+  flex-shrink: 0;
+  height: 38px;
+  padding: 0 20px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  border: 1px solid #E5E7EB;
+  color: #4B5563;
+  transition: all 0.2s;
+}
+
+.filterBtn:hover {
+  border-color: rgba(64, 81, 181, 0.4);
+  color: #4051B5;
+}
+
+.filterBtnActive {
+  background: #4051B5;
+  color: white;
+  border-color: #4051B5;
+  box-shadow: 0 4px 6px rgba(64, 81, 181, 0.25);
+}
+
+/* ── Feed ────────────────────────────── */
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Card (base) ─────────────────────── */
+.card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: all 0.25s;
+}
+
+.card:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.07);
+  border-color: rgba(64, 81, 181, 0.15);
+}
+
+/* ── Author Row ──────────────────────── */
+.authorRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 20px 12px;
+}
+
+.author {
+  display: flex;
+  gap: 12px;
+}
+
+.avatarWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.schoolBadge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  color: white;
+}
+
+.authorInfo {}
+
+.authorName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authorName h3 {
+  font-weight: 700;
+  font-size: 15px;
+  color: #111827;
+}
+
+.schoolTag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.authorMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+.moreBtn {
+  padding: 4px;
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.moreBtn:hover {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+/* ── Body Text ───────────────────────── */
+.bodyText {
+  padding: 0 20px 12px;
+  font-size: 15px;
+  color: #1F2937;
+  line-height: 1.6;
+}
+
+.bodyText .tags {
+  color: #4051B5;
+  font-weight: 500;
+}
+
+/* ── Image ───────────────────────────── */
+.bodyImage {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+/* ── Actions Bar ─────────────────────── */
+.actionsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.actionsLeft {
+  display: flex;
+  gap: 16px;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.actionBtn:hover {
+  color: #4051B5;
+}
+
+.shareBtn {
+  composes: actionBtn;
+}
+
+/* ── Comment Activity Card ───────────── */
+.activityLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4051B5;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.commentBody {
+  padding: 12px 20px 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.commentAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.commentBubble {
+  flex: 1;
+}
+
+.bubble {
+  background: #F3F4F6;
+  border-radius: 16px;
+  border-top-left-radius: 4px;
+  padding: 14px 18px;
+}
+
+.bubbleHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.bubbleHeader h4 {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111827;
+}
+
+.bubbleHeader span {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.bubbleText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* ── Original Context ────────────────── */
+.originalContext {
+  margin-top: 12px;
+  padding-left: 14px;
+  border-left: 2px solid #E5E7EB;
+}
+
+.originalLabel {
+  font-size: 12px;
+  color: #9CA3AF;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.originalText {
+  font-size: 13px;
+  color: #6B7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Inline Card ─────────────────────── */
+.inlineBody {
+  padding: 0 20px 8px 72px;
+}
+
+.inlineText {
+  font-size: 17px;
+  font-weight: 500;
+  color: #1F2937;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.inlineActions {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 4px;
+}
+
+/* ── Loader ──────────────────────────── */
+.loader {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #E5E7EB;
+  border-top-color: #4051B5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

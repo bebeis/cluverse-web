@@ -1,0 +1,61 @@
+import React from 'react';
+import Link from 'next/link';
+import { Search, Bell, MessageCircle, GraduationCap } from 'lucide-react';
+import styles from './Header.module.css';
+
+export default function Header() {
+  return (
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        {/* Logo and Title */}
+        <Link href="/" className={styles.leftContainer}>
+          <div className={styles.logoIcon}>
+            <GraduationCap size={20} strokeWidth={2.5} />
+          </div>
+          <h1 className={styles.title}>Cluverse</h1>
+        </Link>
+
+        {/* Search Bar */}
+        <div className={styles.centerContainer}>
+          <div className={styles.searchWrapper}>
+            <div className={styles.searchIcon}>
+              <Search size={18} />
+            </div>
+            <input 
+              className={styles.searchInput} 
+              placeholder="관심사, 학교, 모임 검색" 
+              type="text" 
+            />
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className={styles.rightContainer}>
+          <nav className={styles.navLinks}>
+            <Link href="/" className={`${styles.navLink} ${styles.navLinkActive}`}>홈</Link>
+            <Link href="/board" className={styles.navLink}>게시판</Link>
+            <Link href="/club" className={styles.navLink}>동아리</Link>
+            <Link href="/event" className={styles.navLink}>이벤트</Link>
+          </nav>
+
+          <button className={styles.iconBtn}>
+            <Bell size={22} />
+            <span className={styles.badge}></span>
+          </button>
+          
+          <button className={styles.iconBtn}>
+            <MessageCircle size={22} />
+          </button>
+          
+          <div className={styles.profileWrapper}>
+            <img 
+              alt="User Profile" 
+              className={styles.profileImg} 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHeKp5Uew-jj2oA5kn632aeUx7BEWgEFk_2eIZBuoHfnKnpZNDUjvbniBTjsrvn2C9BCc69WAEr0x2D_ZoBmXEdy76dh-W7VdK7Wqq4tZ2__0dPUGhtvK3Lhq4eRLOHpN38tYU7JKB-JDnTeX3q5zT5aIrYu72XZp531Sm7aAxj66dyQsUKE3iOTVgZeeD-2LN7XFapW2Ipwh2UMk-8dqzuLHaDU-3A4Yl9b85UP-_jIe2vkyE-pnqXyUG0IV1pdNKGIheQmbr573X"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
