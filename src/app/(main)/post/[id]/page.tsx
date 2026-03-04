@@ -1,10 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './PostDetail.module.css';
-import { ChevronRight, UserPlus, MoreVertical, Heart, MessageCircle, Bookmark, Share2, Palette, User } from 'lucide-react';
+import { ChevronRight, UserPlus, MoreVertical, Heart, MessageCircle, Bookmark, Share2, Palette, User, Flag } from 'lucide-react';
+import ReportModal from '@/components/report/ReportModal';
 
 export default function PostDetailPage() {
+  const [showReport, setShowReport] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <div className={styles.container}>
       {/* Breadcrumb */}
@@ -44,9 +59,32 @@ export default function PostDetailPage() {
             <button className={styles.followBtn}>
               <UserPlus size={16} /> 팔로우
             </button>
-            <button className={styles.moreBtn}>
-              <MoreVertical size={20} />
-            </button>
+            <div style={{ position: 'relative' }} ref={menuRef}>
+              <button className={styles.moreBtn} onClick={() => setShowMenu(!showMenu)}>
+                <MoreVertical size={20} />
+              </button>
+              {showMenu && (
+                <div style={{
+                  position: 'absolute', right: 0, top: '100%', marginTop: 4,
+                  background: 'white', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
+                  border: '1px solid #E5E7EB', padding: '6px 0', minWidth: 160, zIndex: 50,
+                }}>
+                  <button
+                    onClick={() => { setShowMenu(false); setShowReport(true); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      width: '100%', padding: '10px 16px', background: 'none',
+                      border: 'none', fontSize: 14, fontWeight: 600,
+                      color: '#EF4444', cursor: 'pointer',
+                    }}
+                    onMouseOver={e => (e.currentTarget.style.background = '#FEF2F2')}
+                    onMouseOut={e => (e.currentTarget.style.background = 'none')}
+                  >
+                    <Flag size={16} /> 신고하기
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -252,6 +290,14 @@ export default function PostDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={showReport}
+        onClose={() => setShowReport(false)}
+        targetType="게시글"
+        targetTitle="이번 AI 해커톤 공모전 팀원 구합니다!"
+      />
     </div>
   );
 }

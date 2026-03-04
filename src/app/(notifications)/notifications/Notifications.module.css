@@ -1,0 +1,495 @@
+/* ── Page Header ──────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.pageHeaderLeft {}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111218;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.settingsBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111218;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settingsBtn:hover {
+  border-color: #4051B5;
+  color: #4051B5;
+}
+
+/* ── Tabs ─────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #E5E7EB;
+  padding-bottom: 0;
+  overflow-x: auto;
+}
+
+.tabBtn {
+  padding: 10px 16px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tabBtn:hover { color: #111218; }
+
+.tabBtnActive {
+  composes: tabBtn;
+  color: #4051B5;
+  border-bottom-color: #4051B5;
+}
+
+/* ── Mark All Read ────────────────── */
+.markAllRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.markAllBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4051B5;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.markAllBtn:hover { color: #303F9F; }
+
+/* ── Notification List ────────────── */
+.notifList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notifCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.notifCard:hover {
+  border-color: rgba(64, 81, 181, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.notifCardUnread {
+  composes: notifCard;
+  background: #F8F9FF;
+  border-color: rgba(64, 81, 181, 0.15);
+}
+
+.notifCardRejected {
+  composes: notifCard;
+  background: #FFF5F5;
+  border-color: rgba(239,68,68,0.15);
+}
+
+/* ── Icon Circle ─────────────────── */
+.notifIcon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.notifIconComment { background: #EEF2FF; color: #4051B5; }
+.notifIconApprove { background: #ECFDF5; color: #059669; }
+.notifIconAnnounce { background: #FFF7ED; color: #EA580C; }
+.notifIconFollow { background: #F3E8FF; color: #7C3AED; }
+.notifIconPost { background: #EFF6FF; color: #2563EB; }
+.notifIconReject { background: #FEF2F2; color: #EF4444; }
+
+/* ── Content ─────────────────────── */
+.notifBody { flex: 1; min-width: 0; }
+
+.notifTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.notifTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.notifUnreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4051B5;
+  flex-shrink: 0;
+}
+
+.notifDesc {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+.notifQuote {
+  font-size: 13px;
+  color: #4B5563;
+  font-style: italic;
+  padding: 8px 12px;
+  background: #F1F5F9;
+  border-radius: 8px;
+  border-left: 3px solid #D1D5DB;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.notifRejectReason {
+  font-size: 13px;
+  color: #EF4444;
+  background: #FEF2F2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.notifActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.notifActionBtn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.notifActionPrimary {
+  composes: notifActionBtn;
+  background: #4051B5;
+  color: white;
+  border: none;
+}
+
+.notifActionPrimary:hover {
+  background: #303F9F;
+}
+
+.notifActionSecondary {
+  composes: notifActionBtn;
+  background: white;
+  color: #111218;
+  border: 1px solid #E5E7EB;
+}
+
+.notifActionSecondary:hover {
+  border-color: #4051B5;
+  color: #4051B5;
+}
+
+/* ── Right side ──────────────────── */
+.notifMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.notifTime {
+  font-size: 12px;
+  color: #9CA3AF;
+  white-space: nowrap;
+}
+
+.notifReadBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #D1D5DB;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.notifReadBtn:hover {
+  border-color: #4051B5;
+  color: #4051B5;
+}
+
+.notifReadBtnDone {
+  composes: notifReadBtn;
+  border-color: #4051B5;
+  color: #4051B5;
+  background: #EEF2FF;
+}
+
+/* ── Load More ───────────────────── */
+.loadMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.loadMoreBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 28px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111218;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.loadMoreBtn:hover { background: #F8FAFC; }
+
+/* ── Settings Panel (Overlay) ──── */
+.settingsOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 120px;
+}
+
+.settingsPanel {
+  width: 400px;
+  max-width: 90vw;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.settingsPanelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.settingsPanelTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.settingsPanelSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+.settingsCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F1F5F9;
+  color: #6B7280;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settingsCloseBtn:hover { background: #E2E8F0; color: #111218; }
+
+.settingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settingsItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  transition: background 0.15s;
+}
+
+.settingsItem:hover { background: #F8FAFC; }
+
+.settingsItemIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settingsItemIconComment { background: #EEF2FF; color: #4051B5; }
+.settingsItemIconGroup { background: #ECFDF5; color: #059669; }
+.settingsItemIconAnnounce { background: #FFF7ED; color: #EA580C; }
+.settingsItemIconFollow { background: #F3E8FF; color: #7C3AED; }
+.settingsItemIconMarketing { background: #F1F5F9; color: #6B7280; }
+
+.settingsItemInfo { flex: 1; }
+
+.settingsItemTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.settingsItemDesc {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+/* ── Toggle switch ────────────── */
+.toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #D1D5DB;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+  flex-shrink: 0;
+}
+
+.toggleOn { background: #4051B5; }
+
+.toggleKnob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.toggleKnobOn { left: 22px; }
+
+.settingsReset {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.settingsResetBtn {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.settingsResetBtn:hover { color: #4051B5; }
+
+/* ── Empty state ──────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #EEF2FF;
+  color: #4051B5;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 4px;
+}
+
+.emptyDesc {
+  font-size: 14px;
+  color: #6B7280;
+}
