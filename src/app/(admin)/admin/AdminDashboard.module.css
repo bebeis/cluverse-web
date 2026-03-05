@@ -1,0 +1,703 @@
+/* ── Page Header ──────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111218;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+.updateTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #F1F5F9;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* ── Stats Grid ──────────────────── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.statCard {
+  padding: 24px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid #E5E7EB;
+}
+
+.statCardPrimary {
+  composes: statCard;
+  background: linear-gradient(135deg, #4051B5, #5C6BC0);
+  border: none;
+  color: white;
+}
+
+.statTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statIconBlue { background: #EEF2FF; color: #4051B5; }
+.statIconGreen { background: #ECFDF5; color: #059669; }
+.statIconPurple { background: #F3E8FF; color: #7C3AED; }
+.statIconWhite { background: rgba(255,255,255,0.2); color: white; }
+
+.statChange {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.statChangeUp { color: #059669; }
+.statChangeUpWhite { color: rgba(255,255,255,0.9); }
+
+.statLabel {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+
+.statCardPrimary .statLabel { color: rgba(255,255,255,0.8); }
+
+.statValue {
+  font-size: 32px;
+  font-weight: 800;
+  color: #111218;
+  letter-spacing: -0.02em;
+}
+
+.statCardPrimary .statValue { color: white; }
+
+.statProgress {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ── Layout Grid ─────────────────── */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+}
+
+/* ── Chart Card ──────────────────── */
+.card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 28px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.cardSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 2px;
+}
+
+.cardSelect {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111218;
+  background: white;
+  cursor: pointer;
+}
+
+/* ── Chart ────────────────────────── */
+.chartContainer {
+  height: 240px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  padding-top: 24px;
+}
+
+.chartBar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.chartBarInner {
+  width: 48px;
+  border-radius: 8px 8px 0 0;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.chartBarInner:hover {
+  opacity: 0.85;
+}
+
+.chartBarLabel {
+  font-size: 12px;
+  color: #9CA3AF;
+  font-weight: 600;
+}
+
+.chartBarToday {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111218;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* ── Report Table ────────────────── */
+.tableCard {
+  composes: card;
+  margin-top: 24px;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tableTabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tableTabBtn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tableTabBtn:hover { background: #F6F6F8; }
+
+.tableTabBtnActive {
+  composes: tableTabBtn;
+  background: #111218;
+  color: white;
+  border-color: #111218;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 12px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.table td {
+  padding: 14px 12px;
+  font-size: 14px;
+  color: #111218;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: middle;
+}
+
+.table tr:hover td { background: #FAFBFC; }
+
+.tableTarget {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tableTargetDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tableTargetDotRed { background: #EF4444; }
+.tableTargetDotBlue { background: #3B82F6; }
+.tableTargetDotPurple { background: #8B5CF6; }
+
+.tableTargetInfo {}
+
+.tableTargetId {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.tableTargetPreview {
+  font-size: 12px;
+  color: #9CA3AF;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+.tableUser {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tableUserAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B7280;
+}
+
+.tableReason {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.tableTime {
+  font-size: 13px;
+  color: #9CA3AF;
+  font-weight: 600;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statusNew { background: #FEF2F2; color: #EF4444; }
+.statusReview { background: #EFF6FF; color: #2563EB; }
+.statusDone { background: #ECFDF5; color: #059669; }
+
+/* ── Right Panel — Report Detail ── */
+.detailPanel {
+  composes: card;
+  position: sticky;
+  top: 100px;
+}
+
+.detailBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.detailNewBadge {
+  background: #EF4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.detailId {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.detailDate {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.detailTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111218;
+  margin-bottom: 16px;
+}
+
+.detailSectionLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.detailLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4051B5;
+  cursor: pointer;
+}
+
+.detailLink:hover { text-decoration: underline; }
+
+/* ── Reported Content Preview ──── */
+.reportedContent {
+  background: #FAFBFC;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.reportedUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.reportedAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6B7280;
+}
+
+.reportedName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.reportedWarningBadge {
+  background: #FEF2F2;
+  color: #EF4444;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.reportedDate {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.reportedText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+}
+
+/* ── Reporter info ───────────────── */
+.reporterInfo {
+  display: flex;
+  gap: 24px;
+  padding: 12px 16px;
+  background: #F6F6F8;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.reporterCol {}
+
+.reporterColLabel {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.reporterColValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reporterColValueRed { color: #EF4444; }
+
+/* ── Action Section ──────────────── */
+.actionSection {
+  margin-bottom: 20px;
+}
+
+.actionSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 12px;
+}
+
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.actionCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.actionCard:hover {
+  border-color: rgba(64, 81, 181, 0.3);
+}
+
+.actionCardSelected {
+  composes: actionCard;
+  border-color: #4051B5;
+  background: #EEF2FF;
+}
+
+.actionCardDanger {
+  composes: actionCard;
+  border-color: #EF4444;
+  background: #FEF2F2;
+}
+
+.actionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.actionIconWarn { background: #FEF3C7; color: #D97706; }
+.actionIconBlind { background: #F1F5F9; color: #475569; }
+.actionIconBan { background: #FEF2F2; color: #EF4444; }
+
+.actionInfo { flex: 1; }
+
+.actionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.actionDesc {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.actionRadio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #D1D5DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.actionRadioChecked {
+  composes: actionRadio;
+  border-color: #4051B5;
+  background: #4051B5;
+}
+
+.actionRadioDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* ── Ban Duration Buttons ────────── */
+.banDuration {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #FEF2F2;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.banDurationBtn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #FECACA;
+  background: white;
+  font-size: 13px;
+  font-weight: 700;
+  color: #EF4444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.banDurationBtn:hover {
+  background: #FEF2F2;
+}
+
+.banDurationBtnActive {
+  composes: banDurationBtn;
+  background: #111218;
+  color: white;
+  border-color: #111218;
+}
+
+/* ── Admin Memo ──────────────────── */
+.memoSection {
+  margin-bottom: 20px;
+}
+
+.memoLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6B7280;
+  margin-bottom: 8px;
+}
+
+.memoTextarea {
+  width: 100%;
+  min-height: 64px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  font-size: 13px;
+  font-family: inherit;
+  color: #111218;
+  resize: vertical;
+}
+
+.memoTextarea:focus {
+  outline: none;
+  border-color: #4051B5;
+}
+
+.memoTextarea::placeholder { color: #D1D5DB; }
+
+/* ── Footer Actions ──────────────── */
+.detailFooter {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.dismissBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.dismissBtn:hover { background: #F6F6F8; }
+
+.confirmBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #4051B5;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.confirmBtn:hover { background: #303F9F; }

@@ -1,0 +1,268 @@
+/* ── Admin Layout ──────────────────── */
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #F6F6F8;
+  color: #111218;
+}
+
+/* ── Sidebar ──────────────────────── */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #1A1D2E;
+  color: #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebarLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 20px 12px;
+}
+
+.sidebarLogoIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #4051B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.sidebarLogoText {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.sidebarLogoSub {
+  font-size: 12px;
+  color: #64748B;
+  padding: 0 20px 20px;
+}
+
+/* ── Nav Groups ──────────────────── */
+.navGroup {
+  padding: 8px 12px;
+}
+
+.navGroupLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748B;
+  padding: 8px 8px 4px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #94A3B8;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  position: relative;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #E2E8F0;
+}
+
+.navItemActive {
+  composes: navItem;
+  background: #4051B5;
+  color: white;
+  font-weight: 600;
+}
+
+.navItemActive:hover {
+  background: #4051B5;
+}
+
+.navBadge {
+  margin-left: auto;
+  background: #EF4444;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ── Sidebar Footer ──────────────── */
+.sidebarFooter {
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.adminProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+}
+
+.adminAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4051B5, #7C3AED);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.adminInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.adminName {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+.adminRole {
+  font-size: 11px;
+  color: #64748B;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #94A3B8;
+}
+
+/* ── Main Area ───────────────────── */
+.mainArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Bar ─────────────────────── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: white;
+  border-bottom: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #F6F6F8;
+  border-radius: 10px;
+  width: 360px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.searchBar:focus-within {
+  border-color: #4051B5;
+  background: white;
+}
+
+.searchBarInput {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  flex: 1;
+  color: #111218;
+}
+
+.searchBarInput::placeholder {
+  color: #9CA3AF;
+}
+
+.topBarActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topBarBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #E5E7EB;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.topBarBtn:hover {
+  border-color: #4051B5;
+  color: #4051B5;
+}
+
+.topBarBtnDot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #EF4444;
+}
+
+/* ── Content ─────────────────────── */
+.content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}

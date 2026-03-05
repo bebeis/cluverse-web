@@ -1,0 +1,612 @@
+/* ── Breadcrumb ──────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 24px;
+}
+
+.breadcrumbLink {
+  color: #6B7280;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.breadcrumbLink:hover { color: #4051B5; }
+
+.breadcrumbCurrent {
+  color: #111218;
+  font-weight: 600;
+  background: #EEF2FF;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* ── Page Layout ─────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Report Card ─────────────────── */
+.reportCard {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 32px;
+}
+
+.reportCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.reportStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #FEF2F2;
+  color: #EF4444;
+}
+
+.reportDate {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin-left: 12px;
+}
+
+.reportId {
+  font-size: 13px;
+  color: #6B7280;
+  background: #F1F5F9;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.reportTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111218;
+  margin-bottom: 8px;
+}
+
+.reportMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reportReporter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.reportOriginalLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4051B5;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.reportOriginalLink:hover { text-decoration: underline; }
+
+/* ── Content Timeline ────────────── */
+.timelineSection {
+  margin-top: 28px;
+}
+
+.timelineSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 16px;
+}
+
+.timelineSectionMeta {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  margin-left: auto;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #E5E7EB;
+}
+
+.timelineItem {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.timelineItem:last-child { padding-bottom: 0; }
+
+.timelineDot {
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  border: 2px solid white;
+}
+
+.timelineDotReported {
+  composes: timelineDot;
+  background: #EF4444;
+}
+
+.timelineDotWarning {
+  composes: timelineDot;
+  background: #F59E0B;
+}
+
+.timelineComment {
+  background: #F6F6F8;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.timelineCommentReported {
+  composes: timelineComment;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+}
+
+.timelineCommentHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.timelineAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B7280;
+}
+
+.timelineAvatarReported {
+  composes: timelineAvatar;
+  background: #FEE2E2;
+  color: #EF4444;
+}
+
+.timelineName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.timelineAuthorBadge {
+  font-size: 11px;
+  font-weight: 700;
+  background: #E5E7EB;
+  color: #6B7280;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.timelineReportedBadge {
+  font-size: 11px;
+  font-weight: 700;
+  background: #FEF2F2;
+  color: #EF4444;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.timelineTime {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-left: auto;
+}
+
+.timelineText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.timelineHighlight {
+  color: #EF4444;
+  font-weight: 700;
+}
+
+.timelinePostMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+/* ── Sanction History ────────────── */
+.sanctionCard {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 28px;
+  margin-top: 24px;
+}
+
+.sanctionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sanctionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.sanctionUserId {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.sanctionLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4051B5;
+  cursor: pointer;
+}
+
+.sanctionLink:hover { text-decoration: underline; }
+
+.sanctionTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sanctionTable th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+  padding: 10px 12px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.sanctionTable td {
+  padding: 12px;
+  font-size: 14px;
+  color: #111218;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.sanctionBadge {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sanctionWarn { background: #FEF3C7; color: #D97706; }
+.sanctionBan { background: #FEF2F2; color: #EF4444; }
+
+.warningAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+}
+
+.warningAlertIcon { color: #EF4444; flex-shrink: 0; margin-top: 2px; }
+
+.warningAlertTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #EF4444;
+}
+
+.warningAlertText {
+  font-size: 13px;
+  color: #B91C1C;
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+/* ── Right Panel ─────────────────── */
+.actionPanel {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 28px;
+  position: sticky;
+  top: 100px;
+}
+
+.actionPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.actionPanelTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.actionPanelDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4051B5;
+}
+
+/* ── Memo ─────────────────────────── */
+.memoLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6B7280;
+  margin-bottom: 8px;
+}
+
+.memoTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111218;
+  resize: vertical;
+  margin-bottom: 24px;
+}
+
+.memoTextarea:focus {
+  outline: none;
+  border-color: #4051B5;
+}
+
+.memoTextarea::placeholder { color: #D1D5DB; }
+
+/* ── Sanction Actions ────────────── */
+.sanctionSectionLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+  text-align: center;
+  margin: 20px 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sanctionActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sanctionActionBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  text-align: left;
+}
+
+.sanctionActionDanger {
+  composes: sanctionActionBtn;
+  background: #EF4444;
+  color: white;
+}
+
+.sanctionActionDanger:hover { background: #DC2626; }
+
+.sanctionActionWarn {
+  composes: sanctionActionBtn;
+  background: white;
+  color: #EF4444;
+  border: 1px solid #FECACA;
+}
+
+.sanctionActionWarn:hover { background: #FEF2F2; }
+
+.sanctionActionDismiss {
+  composes: sanctionActionBtn;
+  background: white;
+  color: #111218;
+  border: 1px solid #E5E7EB;
+}
+
+.sanctionActionDismiss:hover { background: #F6F6F8; }
+
+.sanctionActionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sanctionActionInfo { flex: 1; }
+
+.sanctionActionTitle { font-size: 15px; font-weight: 700; }
+
+.sanctionActionDesc {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* ── Audit Log ───────────────────── */
+.auditLog {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 28px;
+  margin-top: 24px;
+  position: sticky;
+  top: calc(100px + 480px + 24px);
+}
+
+.auditLogTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111218;
+  margin-bottom: 20px;
+}
+
+.auditTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auditEntry {
+  display: flex;
+  gap: 12px;
+}
+
+.auditDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.auditDotBlue { background: #3B82F6; }
+.auditDotGreen { background: #059669; }
+
+.auditContent { flex: 1; }
+
+.auditContentHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.auditActor {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.auditTime {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.auditBadge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.auditBadgeAuto { background: #ECFDF5; color: #059669; }
+.auditBadgeStatus { background: #EFF6FF; color: #2563EB; }
+.auditBadgeNew { background: #F1F5F9; color: #475569; }
+
+.auditDesc {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+.auditDescHighlight {
+  font-weight: 700;
+  color: #EF4444;
+}
+
+.auditDescHighlightBlue {
+  font-weight: 700;
+  color: #2563EB;
+}
+
+.auditMore {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.auditMoreBtn {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.auditMoreBtn:hover { color: #4051B5; }

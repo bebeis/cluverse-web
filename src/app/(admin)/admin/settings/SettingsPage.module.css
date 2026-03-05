@@ -1,0 +1,286 @@
+/* ── Page Header ──────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111218;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #4051B5;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.saveBtn:hover { background: #303F9F; }
+
+/* ── Layout ──────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── Section Nav ─────────────────── */
+.sectionNav {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionNavItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.sectionNavItem:hover { background: #F6F6F8; color: #111218; }
+
+.sectionNavItemActive {
+  composes: sectionNavItem;
+  background: #EEF2FF;
+  color: #4051B5;
+  font-weight: 700;
+}
+
+/* ── Content Area ────────────────── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Settings Card ───────────────── */
+.card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 28px;
+}
+
+.cardHeader {
+  margin-bottom: 24px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111218;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+/* ── Form Fields ─────────────────── */
+.fieldGroup {
+  margin-bottom: 20px;
+}
+
+.fieldGroup:last-child { margin-bottom: 0; }
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111218;
+  font-family: inherit;
+}
+
+.fieldInput:focus { outline: none; border-color: #4051B5; }
+.fieldInput::placeholder { color: #D1D5DB; }
+
+.fieldTextarea {
+  composes: fieldInput;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── Toggle Row ──────────────────── */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.toggleRow:last-child { border-bottom: none; }
+
+.toggleInfo { flex: 1; }
+
+.toggleLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+}
+
+.toggleDesc {
+  font-size: 12px;
+  color: #6B7280;
+  margin-top: 2px;
+}
+
+.toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #D1D5DB;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.toggleActive {
+  composes: toggle;
+  background: #4051B5;
+}
+
+.toggleDot {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggleActive .toggleDot {
+  transform: translateX(20px);
+}
+
+/* ── Select ──────────────────────── */
+.selectInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111218;
+  background: white;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.selectInput:focus { outline: none; border-color: #4051B5; }
+
+/* ── Danger Zone ─────────────────── */
+.dangerCard {
+  composes: card;
+  border-color: #FECACA;
+}
+
+.dangerBtn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #FECACA;
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: #EF4444;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dangerBtn:hover { background: #FEF2F2; }
+
+/* ── Status Indicator ────────────── */
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #ECFDF5;
+  margin-bottom: 20px;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #059669;
+}
+
+.statusText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #059669;
+}
+
+.statusTime {
+  font-size: 12px;
+  color: #6B7280;
+  margin-left: auto;
+}

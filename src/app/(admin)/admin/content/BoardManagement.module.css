@@ -1,0 +1,628 @@
+/* ── Page Header ──────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.pageHeaderLeft {}
+
+.pageRefBadges {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.refBadge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #EEF2FF;
+  color: #4051B5;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+.pageActions {
+  display: flex;
+  gap: 12px;
+}
+
+.historyBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111218;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.historyBtn:hover { border-color: #4051B5; color: #4051B5; }
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #4051B5;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.saveBtn:hover { background: #303F9F; }
+
+/* ── Tab Nav ─────────────────────── */
+.tabNav {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid #E5E7EB;
+  padding-bottom: 0;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+}
+
+.tabBtn:hover { color: #111218; }
+
+.tabBtnActive {
+  composes: tabBtn;
+  color: #4051B5;
+  border-bottom-color: #4051B5;
+  font-weight: 700;
+}
+
+/* ── Main Layout ─────────────────── */
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+}
+
+/* ── Toolbar ─────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #F1F5F9;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.toolbarLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbarActions {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbarBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111218;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.toolbarBtn:hover { border-color: #4051B5; color: #4051B5; }
+
+.toolbarBtnDelete {
+  composes: toolbarBtn;
+  color: #EF4444;
+  border-color: #FECACA;
+}
+
+.toolbarBtnDelete:hover { background: #FEF2F2; }
+
+.dragHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Tree ──────────────────────── */
+.treeCard {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 24px;
+}
+
+.treeTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.treeTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111218;
+}
+
+/* ── Tree Node ───────────────────── */
+.treeNode {
+  padding: 4px 0;
+}
+
+.treeNodeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.treeNodeRow:hover { background: #F6F6F8; }
+
+.treeNodeRowSelected {
+  composes: treeNodeRow;
+  background: #EEF2FF;
+  border: 1px solid #C7D2FE;
+}
+
+.treeNodeRowActive {
+  composes: treeNodeRow;
+}
+
+.treeToggle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.treeToggleOpen {
+  transform: rotate(0deg);
+}
+
+.treeToggleClosed {
+  transform: rotate(-90deg);
+}
+
+.treeIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.treeIconRoot { background: #EEF2FF; color: #4051B5; }
+.treeIconFolder { background: #FEF3C7; color: #D97706; }
+.treeIconLeaf { background: #F1F5F9; color: #6B7280; }
+
+.treeLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111218;
+  flex: 1;
+}
+
+.treeMeta {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.treeBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.treeBadgeAdmin { background: #EEF2FF; color: #4051B5; }
+.treeBadgeActive { background: #ECFDF5; color: #059669; }
+.treeBadgeCount { background: #F1F5F9; color: #6B7280; }
+
+.treeCheck {
+  color: #4051B5;
+}
+
+.treeChildren {
+  padding-left: 36px;
+  border-left: 2px solid #F1F5F9;
+  margin-left: 20px;
+}
+
+/* ── Right Panel: Board Detail ──── */
+.detailPanel {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detailCard {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  padding: 24px;
+}
+
+.selectedBadge {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #EEF2FF;
+  color: #4051B5;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.detailName {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.detailId {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 2px;
+  margin-bottom: 16px;
+}
+
+.detailFieldLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6B7280;
+  margin-bottom: 6px;
+}
+
+.detailFieldInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111218;
+  margin-bottom: 16px;
+}
+
+.detailFieldInput:focus {
+  outline: none;
+  border-color: #4051B5;
+}
+
+.detailStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detailStatBox {
+  padding: 14px;
+  border-radius: 10px;
+  background: #F6F6F8;
+}
+
+.detailStatLabel {
+  font-size: 12px;
+  color: #9CA3AF;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.detailStatValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.detailToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.detailToggleLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111218;
+}
+
+.toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #D1D5DB;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggleActive {
+  composes: toggle;
+  background: #4051B5;
+}
+
+.toggleDot {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggleActive .toggleDot {
+  transform: translateX(20px);
+}
+
+.detailViewBtn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111218;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.detailViewBtn:hover { border-color: #4051B5; color: #4051B5; }
+
+/* ── School Registration ────────── */
+.schoolCard {
+  composes: detailCard;
+}
+
+.schoolCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.schoolCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111218;
+}
+
+.schoolStep {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6B7280;
+}
+
+.schoolFieldLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #EF4444;
+  margin-bottom: 6px;
+}
+
+.schoolFieldLabelNormal {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 6px;
+}
+
+.schoolInput {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111218;
+  margin-bottom: 16px;
+}
+
+.schoolInput::placeholder { color: #D1D5DB; }
+
+.schoolInput:focus {
+  outline: none;
+  border-color: #4051B5;
+}
+
+/* ── Logo upload ──────────────────── */
+.logoUpload {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px dashed #D1D5DB;
+  margin-bottom: 16px;
+  background: #FAFBFC;
+}
+
+.logoUploadIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+}
+
+.logoUploadText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111218;
+}
+
+.logoUploadHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+/* ── Domain Allowlist ────────────── */
+.domainLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111218;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.domainLabelHint {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.domainInputRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.domainInput {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #111218;
+}
+
+.domainInput:focus { outline: none; border-color: #4051B5; }
+
+.domainAddBtn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #4051B5;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.domainTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.domainTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #EEF2FF;
+  color: #4051B5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.domainTagRemove {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.domainCount {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 16px;
+}
+
+.schoolSubmitBtn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: #4051B5;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.schoolSubmitBtn:hover { background: #303F9F; }
