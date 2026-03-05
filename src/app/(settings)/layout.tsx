@@ -13,7 +13,7 @@ export default function SettingsGroupLayout({ children }: { children: React.Reac
         {children}
       </main>
       <div className="lg:hidden">
-        <BottomNav activeTab="mypage" onTabChange={() => {}} />
+        <BottomNav />
       </div>
     </div>
   );

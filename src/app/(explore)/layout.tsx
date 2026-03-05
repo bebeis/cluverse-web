@@ -14,7 +14,7 @@ export default function ExploreLayout({ children }: { children: React.ReactNode 
       </main>
 
       <div className="lg:hidden">
-        <BottomNav activeTab="explore" onTabChange={() => {}} />
+        <BottomNav />
       </div>
     </div>
   );

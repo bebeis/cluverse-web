@@ -13,7 +13,7 @@ export default function NotificationsLayout({ children }: { children: React.Reac
         {children}
       </main>
       <div className="lg:hidden">
-        <BottomNav activeTab="notifications" onTabChange={() => {}} />
+        <BottomNav />
       </div>
     </div>
   );

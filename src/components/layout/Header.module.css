@@ -147,6 +147,7 @@
 }
 
 .iconBtn {
+  text-decoration: none;
   padding: 8px;
   border-radius: 9999px;
   color: #6B7280;
@@ -176,6 +177,8 @@
 }
 
 .profileWrapper {
+  display: inline-block;
+  text-decoration: none;
   width: 32px;
   height: 32px;
   border-radius: 50%;

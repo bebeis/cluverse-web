@@ -14,7 +14,7 @@ export default function GroupLayout({ children }: { children: React.ReactNode })
       </main>
 
       <div className="lg:hidden">
-        <BottomNav activeTab="group" onTabChange={() => {}} />
+        <BottomNav />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './HomePage.module.css';
-import { PenTool } from 'lucide-react';
+import { PenTool, Flame, MessageSquare, Music, BookOpen, ShoppingBag } from 'lucide-react';
 import { PostCard } from '@/components/ui/PostCard';
 
 const mockPosts = [
@@ -68,11 +68,11 @@ export default function HomePage() {
 
       <div className={styles.tagsContainer}>
         <button className={`${styles.tagBtn} ${styles.tagBtnActive}`}>전체</button>
-        <button className={styles.tagBtn}>🔥 인기글</button>
-        <button className={styles.tagBtn}>💬 자유게시판</button>
-        <button className={styles.tagBtn}>🎸 동아리 모집</button>
-        <button className={styles.tagBtn}>📚 스터디</button>
-        <button className={styles.tagBtn}>🥕 중고장터</button>
+        <button className={styles.tagBtn}><Flame size={16} className={styles.tagIcon} /> 인기글</button>
+        <button className={styles.tagBtn}><MessageSquare size={16} className={styles.tagIcon} /> 자유게시판</button>
+        <button className={styles.tagBtn}><Music size={16} className={styles.tagIcon} /> 동아리 모집</button>
+        <button className={styles.tagBtn}><BookOpen size={16} className={styles.tagIcon} /> 스터디</button>
+        <button className={styles.tagBtn}><ShoppingBag size={16} className={styles.tagIcon} /> 중고장터</button>
       </div>
 
       <div className={styles.feedContainer}>

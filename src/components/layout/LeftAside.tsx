@@ -1,9 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Home, Heart, Users, Calendar, Rss } from 'lucide-react';
 import styles from './LeftAside.module.css';
 
 export default function LeftAside() {
+  const pathname = usePathname();
+
   return (
     <aside className={styles.container}>
       <div className={styles.box}>
@@ -43,31 +46,31 @@ export default function LeftAside() {
       <div className={styles.menuBox}>
         <ul className={styles.menuList}>
           <li>
-            <Link href="/" className={`${styles.menuItem} ${styles.menuItemActive}`}>
+            <Link href="/" className={`${styles.menuItem} ${pathname === '/' ? styles.menuItemActive : ''}`}>
               <Home size={20} />
               홈 피드
             </Link>
           </li>
           <li>
-            <Link href="/following" className={styles.menuItem}>
+            <Link href="/following" className={`${styles.menuItem} ${pathname?.startsWith('/following') ? styles.menuItemActive : ''}`}>
               <Rss size={20} />
               팔로잉 피드
             </Link>
           </li>
           <li>
-            <Link href="/bookmarks" className={styles.menuItem}>
+            <Link href="/bookmarks" className={`${styles.menuItem} ${pathname?.startsWith('/bookmarks') ? styles.menuItemActive : ''}`}>
               <Heart size={20} />
               관심 게시글
             </Link>
           </li>
           <li>
-            <Link href="/groups" className={styles.menuItem}>
+            <Link href="/groups" className={`${styles.menuItem} ${pathname?.startsWith('/groups') ? styles.menuItemActive : ''}`}>
               <Users size={20} />
               내 동아리
             </Link>
           </li>
           <li>
-            <Link href="/calendar" className={styles.menuItem}>
+            <Link href="/calendar" className={`${styles.menuItem} ${pathname?.startsWith('/calendar') ? styles.menuItemActive : ''}`}>
               <Calendar size={20} />
               내 일정
             </Link>

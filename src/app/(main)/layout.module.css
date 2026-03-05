@@ -50,11 +50,15 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
 }
 
 @media (min-width: 1024px) {
   .centerColumn {
     grid-column: span 6 / span 6;
+  }
+  .centerColumnExpanded {
+    grid-column: span 9 / span 9;
   }
 }
 

@@ -52,7 +52,7 @@ export default function RightAside() {
       <div className={styles.box}>
         <div className={styles.headerRow}>
           <h3 className={styles.title}>추천 모임</h3>
-          <Link href="/groups" className={styles.linkBtn}>더보기</Link>
+          <Link href="/explore/groups" className={styles.linkBtn}>더보기</Link>
         </div>
         
         <div className={styles.groupList}>
