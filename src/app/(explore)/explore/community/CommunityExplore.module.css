@@ -1,5 +1,243 @@
-/* ── Page ───────────────────────────── */
-.page {
+/* ── Layout ─────────────────────────── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    flex-direction: row;
+    gap: 32px;
+  }
+}
+
+/* ── Sidebar ────────────────────────── */
+.sidebar {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .sidebar { width: 260px; }
+}
+
+.sideTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.sideSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+/* Accordion Group */
+.accordionList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accordionItem {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.accordionHeader:hover {
+  background: #F9FAFB;
+}
+
+.accordionLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accordionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.accordionName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.accordionNameInactive {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.accordionChevron {
+  transition: transform 0.3s;
+  color: #9CA3AF;
+}
+
+.accordionChevronOpen {
+  transform: rotate(180deg);
+}
+
+.accordionBody {
+  border-top: 1px solid #F3F4F6;
+  background: rgba(249,250,251,0.5);
+}
+
+/* Sub accordion */
+.subHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 10px 56px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  transition: background 0.2s;
+}
+
+.subHeader:hover {
+  background: #F3F4F6;
+}
+
+.subChevron {
+  transition: transform 0.3s;
+  color: #9CA3AF;
+}
+
+.subChevronOpen {
+  transform: rotate(180deg);
+}
+
+.subBodyList {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+  background: rgba(243,244,246,0.3);
+}
+
+.subLink {
+  position: relative;
+  display: block;
+  padding: 10px 16px 10px 64px;
+  font-size: 14px;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.subLink:hover {
+  color: #111827;
+  background: rgba(229,231,235,0.5);
+}
+
+.subLinkActive {
+  composes: subLink;
+  font-weight: 700;
+  color: #4051B5;
+  background: rgba(64, 81, 181, 0.06);
+}
+
+.subLinkActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #4051B5;
+  border-radius: 0 99px 99px 0;
+}
+
+.newBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  height: 18px;
+  border-radius: 4px;
+  background: rgba(64, 81, 181, 0.1);
+  color: #4051B5;
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* Tip Card */
+.tipCard {
+  background: rgba(64, 81, 181, 0.04);
+  border: 1px solid rgba(64, 81, 181, 0.1);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tipTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4051B5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tipDesc {
+  font-size: 12px;
+  color: #4B5563;
+  line-height: 1.6;
+}
+
+.tipBtn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px;
+  background: white;
+  color: #4051B5;
+  border: 1px solid rgba(64, 81, 181, 0.2);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tipBtn:hover {
+  border-color: rgba(64, 81, 181, 0.5);
+  box-shadow: 0 2px 8px rgba(64, 81, 181, 0.08);
+}
+
+/* ── Main Content ──────────────────── */
+.main {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;

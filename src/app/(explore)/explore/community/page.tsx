@@ -18,7 +18,51 @@ import {
   Heart,
   Send,
   MoreHorizontal,
+  Lightbulb,
+  Cpu,
+  Briefcase,
+  Coffee,
+  Globe,
 } from 'lucide-react';
+
+/* ── Categories Data ──────────────────── */
+const categories = [
+  {
+    name: 'IT / Tech',
+    icon: <Cpu size={18} />,
+    color: '#4f46e5',
+    subs: [
+      { name: '개발', items: ['프론트엔드', '백엔드', '모바일', 'AI/데이터'] },
+      { name: '디자인', items: ['UI/UX', '인터랙션'] },
+    ]
+  },
+  {
+    name: '커리어',
+    icon: <Briefcase size={18} />,
+    color: '#10B981',
+    subs: [
+      { name: '취업준비', items: ['자소서/면접', '포트폴리오', '인턴십'] },
+      { name: '시험/자격증', items: ['기사자격증', '어학', '고시'] },
+    ]
+  },
+  {
+    name: '라이프',
+    icon: <Coffee size={18} />,
+    color: '#F59E0B',
+    subs: [
+      { name: '취미 / 여가', items: ['운동/스포츠', '음악/악기', '여행', '독서'] },
+      { name: '생활', items: ['자취꿀팁', '재테크', '맛집탐방'] },
+    ]
+  },
+  {
+    name: '기타/자유',
+    icon: <Globe size={18} />,
+    color: '#6B7280',
+    subs: [
+      { name: '이야기', items: ['자유게시판', '비밀게시판'] },
+    ]
+  }
+];
 
 /* ── Post Mock Data ──────────────────── */
 const posts = [
@@ -89,80 +133,165 @@ const tagColors: Record<string, { bg: string; color: string }> = {
 /* ── Component ─────────────────────────── */
 export default function CommunityExplorePage() {
   const [selectedPost, setSelectedPost] = useState<number | null>(null);
+  const [openCategory, setOpenCategory] = useState(0);
+  const [openSub, setOpenSub] = useState(0);
   const post = posts.find(p => p.id === selectedPost);
 
   return (
-    <div className={styles.page}>
-      {/* Breadcrumbs */}
-      <nav className={styles.breadcrumbs}>
-        <a href="/explore">탐색</a>
-        <ChevronRight size={14} />
-        <span className={styles.breadcrumbActive}>커뮤니티</span>
-      </nav>
-
-      {/* Title Section */}
-      <div className={styles.titleSection}>
-        <div className={styles.titleWrap}>
-          <h1>커뮤니티 게시판</h1>
-          <p>자유롭게 의견을 나누고, 정보를 공유하고, 질문하세요.</p>
+    <div className={styles.layout}>
+      {/* Sidebar */}
+      <aside className={styles.sidebar}>
+        <div>
+          <h1 className={styles.sideTitle}>관심사 탐색</h1>
+          <p className={styles.sideSubtitle}>관심있는 주제를 선택하세요.</p>
         </div>
-        <div className={styles.titleActions}>
-          <button className={styles.filterBtn}>
-            <Filter size={16} />
-            필터
-          </button>
-          <button className={styles.followingBtn}>
-            <Rss size={16} />
-            팔로잉
-          </button>
-        </div>
-      </div>
 
-      {/* Post List */}
-      <div className={styles.postList}>
-        {posts.map(p => {
-          const tc = tagColors[p.tag] || { bg: '#F3F4F6', color: '#4B5563' };
-          return (
-            <article
-              key={p.id}
-              className={styles.postCard}
-              onClick={() => setSelectedPost(p.id)}
-            >
-              {/* Vote Col */}
-              <div className={styles.voteCol}>
-                <button className={styles.voteBtn}><ChevronUp size={20} /></button>
-                <span className={styles.voteCount}>{p.votes}</span>
-                <button className={`${styles.voteBtn} ${styles.voteBtnDown}`}><ChevronDown size={20} /></button>
-              </div>
-              {/* Content */}
-              <div className={styles.postContent}>
-                <div className={styles.postMeta}>
-                  <div className={styles.postAvatar} style={{ background: tc.bg }} />
-                  <span className={styles.postAuthor}>{p.author}</span>
-                  <span className={styles.postTime}>{p.time}</span>
-                  <span className={styles.postTag} style={{ background: tc.bg, color: tc.color }}>{p.tag}</span>
+        <div className={styles.accordionList}>
+          {categories.map((cat, ci) => (
+            <div key={cat.name} className={styles.accordionItem}>
+              <div
+                className={styles.accordionHeader}
+                onClick={() => setOpenCategory(openCategory === ci ? -1 : ci)}
+              >
+                <div className={styles.accordionLeft}>
+                  <div
+                    className={styles.accordionIcon}
+                    style={{ background: ci === openCategory ? cat.color : '#F3F4F6', color: ci === openCategory ? 'white' : '#6B7280' }}
+                  >
+                    {cat.icon}
+                  </div>
+                  <span className={ci === openCategory ? styles.accordionName : styles.accordionNameInactive}>
+                    {cat.name}
+                  </span>
                 </div>
-                <h3 className={styles.postTitle}>{p.title}</h3>
-                <p className={styles.postPreview}>{p.preview}</p>
-                <div className={styles.postActions}>
-                  <button className={styles.actionBtn}>
-                    <MessageCircle size={14} />
-                    {p.comments}개 댓글
-                  </button>
-                  <button className={styles.actionBtn}>
-                    <Bookmark size={14} />
-                    {p.bookmarks}
-                  </button>
-                  <button className={styles.actionBtn}>
-                    <Share2 size={14} />
-                    공유
-                  </button>
-                </div>
+                <ChevronDown
+                  size={18}
+                  className={`${styles.accordionChevron} ${openCategory === ci ? styles.accordionChevronOpen : ''}`}
+                />
               </div>
-            </article>
-          );
-        })}
-      </div>
+              {openCategory === ci && (
+                <div className={styles.accordionBody}>
+                  {cat.subs.map((sub, si) => (
+                    <div key={sub.name}>
+                      <div
+                        className={styles.subHeader}
+                        onClick={() => setOpenSub(openSub === si ? -1 : si)}
+                      >
+                        <span>{sub.name}</span>
+                        <ChevronDown
+                          size={16}
+                          className={`${styles.subChevron} ${openSub === si ? styles.subChevronOpen : ''}`}
+                        />
+                      </div>
+                      {openSub === si && (
+                        <div className={styles.subBodyList}>
+                          {sub.items.map((item, ii) => (
+                            <a
+                              key={item}
+                              className={ii === 0 ? styles.subLinkActive : styles.subLink}
+                            >
+                              {item}
+                              {ii === 0 && ci === 0 && si === 0 && (
+                                <span className={styles.newBadge}>NEW</span>
+                              )}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Tip */}
+        <div className={styles.tipCard}>
+          <div className={styles.tipTitle}>
+            <Lightbulb size={16} />
+            새로운 커뮤니티
+          </div>
+          <p className={styles.tipDesc}>
+            원하는 주제의 커뮤니티가 없다면 직접 개설해서 운영해보세요!
+          </p>
+          <button className={styles.tipBtn}>커뮤니티 만들기</button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <section className={styles.main}>
+        {/* Breadcrumbs */}
+        <nav className={styles.breadcrumbs}>
+          <a href="/explore">탐색</a>
+          <ChevronRight size={14} />
+          <span className={styles.breadcrumbActive}>커뮤니티</span>
+        </nav>
+
+        {/* Title Section */}
+        <div className={styles.titleSection}>
+          <div className={styles.titleWrap}>
+            <h1>커뮤니티 게시판</h1>
+            <p>자유롭게 의견을 나누고, 정보를 공유하고, 질문하세요.</p>
+          </div>
+          <div className={styles.titleActions}>
+            <button className={styles.filterBtn}>
+              <Filter size={16} />
+              필터
+            </button>
+            <button className={styles.followingBtn}>
+              <Rss size={16} />
+              팔로잉
+            </button>
+          </div>
+        </div>
+
+        {/* Post List */}
+        <div className={styles.postList}>
+          {posts.map(p => {
+            const tc = tagColors[p.tag] || { bg: '#F3F4F6', color: '#4B5563' };
+            return (
+              <article
+                key={p.id}
+                className={styles.postCard}
+                onClick={() => setSelectedPost(p.id)}
+              >
+                {/* Vote Col */}
+                <div className={styles.voteCol}>
+                  <button className={styles.voteBtn}><ChevronUp size={20} /></button>
+                  <span className={styles.voteCount}>{p.votes}</span>
+                  <button className={`${styles.voteBtn} ${styles.voteBtnDown}`}><ChevronDown size={20} /></button>
+                </div>
+                {/* Content */}
+                <div className={styles.postContent}>
+                  <div className={styles.postMeta}>
+                    <div className={styles.postAvatar} style={{ background: tc.bg }} />
+                    <span className={styles.postAuthor}>{p.author}</span>
+                    <span className={styles.postTime}>{p.time}</span>
+                    <span className={styles.postTag} style={{ background: tc.bg, color: tc.color }}>{p.tag}</span>
+                  </div>
+                  <h3 className={styles.postTitle}>{p.title}</h3>
+                  <p className={styles.postPreview}>{p.preview}</p>
+                  <div className={styles.postActions}>
+                    <button className={styles.actionBtn}>
+                      <MessageCircle size={14} />
+                      {p.comments}개 댓글
+                    </button>
+                    <button className={styles.actionBtn}>
+                      <Bookmark size={14} />
+                      {p.bookmarks}
+                    </button>
+                    <button className={styles.actionBtn}>
+                      <Share2 size={14} />
+                      공유
+                    </button>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Modal Overlay */}
       {selectedPost !== null && post && (
