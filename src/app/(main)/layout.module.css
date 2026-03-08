@@ -60,6 +60,9 @@
   .centerColumnExpanded {
     grid-column: span 9 / span 9;
   }
+  .centerColumnFull {
+    grid-column: span 12 / span 12;
+  }
 }
 
 .rightColumn {
