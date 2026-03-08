@@ -4,11 +4,13 @@ import React from 'react';
 import styles from './HomePage.module.css';
 import { PenTool, Flame, MessageSquare, Music, BookOpen, ShoppingBag } from 'lucide-react';
 import { PostCard } from '@/components/ui/PostCard';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const mockPosts = [
   {
     id: 1,
-    title: '이번 주말 한강에서 보드게임 피크닉 하실 분! 🎲',
+    title: '이번 주말 한강에서 보드게임 피크닉 하실 분!',
     excerpt: '날씨도 풀렸는데 반포 한강공원에서 치맥하면서 보드게임 해요! 루미큐브랑 스플랜더 챙겨갈게요. 타 학교 친구들도 환영합니다 :)',
     authorNickname: '박현우',
     schoolName: '연세대학교',
@@ -51,6 +53,8 @@ const mockPosts = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+  
   return (
     <>
       <div className={styles.bannerGroup}>
@@ -58,8 +62,8 @@ export default function HomePage() {
           <h2 className={styles.bannerHeadline}>오늘의 캠퍼스 라이프, <br/>Cluverse에서 시작하세요!</h2>
           <p className={styles.bannerSubline}>타 학교 친구들과 교류하고, 새로운 취미를 발견해보세요.</p>
           <div className={styles.bannerBtnsRow}>
-            <button className={styles.btnSolid}>동아리 찾기</button>
-            <button className={styles.btnGlass}>친구 초대하기</button>
+            <Link href="/explore/groups" className={styles.btnSolid}>동아리 찾기</Link>
+            <button className={styles.btnGlass} onClick={() => alert('친구 초대 링크가 복사되었습니다.')}>친구 초대하기</button>
           </div>
         </div>
         <div className={styles.glowTopRight}></div>
@@ -79,6 +83,7 @@ export default function HomePage() {
         {mockPosts.map(post => (
           <PostCard
             key={post.id}
+            id={post.id}
             title={post.title}
             excerpt={post.excerpt}
             authorNickname={post.authorNickname}
@@ -93,7 +98,7 @@ export default function HomePage() {
         ))}
       </div>
 
-      <button className={styles.fabBtn} aria-label="글쓰기">
+      <button className={styles.fabBtn} aria-label="글쓰기" onClick={() => router.push('/write')}>
         <PenTool size={24} />
       </button>
     </>

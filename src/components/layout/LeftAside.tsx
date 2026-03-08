@@ -1,11 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Home, Heart, Users, Calendar, Rss } from 'lucide-react';
 import styles from './LeftAside.module.css';
 
 export default function LeftAside() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <aside className={styles.container}>
@@ -39,7 +40,7 @@ export default function LeftAside() {
             </div>
           </div>
           
-          <button className={styles.editBtn}>내 정보 수정</button>
+          <button className={styles.editBtn} onClick={() => router.push('/settings/profile')}>내 정보 수정</button>
         </div>
       </div>
 

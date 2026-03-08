@@ -1,7 +1,10 @@
+'use client';
+
 import React from 'react';
 import styles from './PostCard.module.css';
 import { Badge } from './Badge';
 import { Eye, Heart, MessageSquare } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 export interface PostCardProps {
   title: string;
   excerpt: string;
@@ -13,6 +16,7 @@ export interface PostCardProps {
   comments: number;
   category: string;
   isAnonymous?: boolean;
+  id?: number | string;
 }
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -26,9 +30,22 @@ export const PostCard: React.FC<PostCardProps> = ({
   comments,
   category,
   isAnonymous = false,
+  id,
 }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (id) {
+      router.push(`/post/${id}`);
+    }
+  };
+
   return (
-    <article className={styles.card}>
+    <article 
+      className={styles.card} 
+      onClick={handleClick}
+      style={{ cursor: id ? 'pointer' : 'default' }}
+    >
       <div className={styles.header}>
         <Badge variant="interest" label={category} />
         <span className={styles.time}>{timeAgo}</span>

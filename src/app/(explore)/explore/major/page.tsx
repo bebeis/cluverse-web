@@ -18,6 +18,7 @@ import {
   FlaskConical,
   Palette,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 /* ── Sidebar Data ──────────────────────── */
 const faculties = [
@@ -160,6 +161,7 @@ export default function MajorExplorePage() {
   const [activeChip, setActiveChip] = useState('전체');
 
   const chips = ['전체', '질문', '정보', '후기'];
+  const router = useRouter();
 
   return (
     <div className={styles.layout}>
@@ -259,7 +261,7 @@ export default function MajorExplorePage() {
                 컴퓨터공학 전공생들과 전공 지식, 진로 고민, 학교 생활을 공유해보세요.
               </p>
             </div>
-            <button className={styles.writeBtn}>
+            <button className={styles.writeBtn} onClick={() => router.push('/write')}>
               <PenLine size={18} />
               글쓰기
             </button>
@@ -284,7 +286,7 @@ export default function MajorExplorePage() {
         </div>
 
         {/* Mobile Write */}
-        <button className={styles.writeBtnMobile}>
+        <button className={styles.writeBtnMobile} onClick={() => router.push('/write')}>
           <PenLine size={18} />
           새 글 작성하기
         </button>

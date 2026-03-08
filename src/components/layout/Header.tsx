@@ -17,14 +17,18 @@ export default function Header() {
 
         {/* Search Bar */}
         <div className={styles.centerContainer}>
-          <div className={styles.searchWrapper}>
+          <div 
+            className={styles.searchWrapper}
+            onClick={() => alert('검색 기능은 준비 중입니다.')}
+          >
             <div className={styles.searchIcon}>
               <Search size={18} />
             </div>
             <input 
               className={styles.searchInput} 
               placeholder="관심사, 학교, 모임 검색" 
-              type="text" 
+              type="text"
+              readOnly
             />
           </div>
         </div>

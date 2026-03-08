@@ -399,7 +399,7 @@ export default function CommunityExplorePage() {
                           <span className={styles.commentTime}>15분 전</span>
                         </div>
                         <p className={styles.commentText}>
-                          감사합니다! 꾸준히 해보겠습니다 💪
+                          감사합니다! 꾸준히 해보겠습니다
                         </p>
                       </div>
                     </div>

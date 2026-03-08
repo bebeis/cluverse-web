@@ -38,9 +38,10 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
           }
           const Icon = item.icon!;
           const isActive = pathname === item.href;
+          const uniqueKey = item.href === '#' ? `hash-${item.label}` : item.href;
           return (
             <Link
-              key={item.href}
+              key={uniqueKey}
               href={item.href!}
               className={isActive ? styles.navItemActive : styles.navItem}
             >
