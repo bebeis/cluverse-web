@@ -176,6 +176,131 @@ export type BlockedMember = {
   blockedAt: string;
 };
 
+export type CommentAuthor = {
+  memberId: number | null;
+  nickname: string;
+  profileImageUrl: string | null;
+};
+
+export type Comment = {
+  commentId: number;
+  postId: number;
+  parentCommentId: number | null;
+  depth: number;
+  content: string;
+  status: string;
+  isAnonymous: boolean;
+  isMine: boolean;
+  likedByMe: boolean;
+  blockedAuthor: boolean;
+  likeCount: number;
+  replyCount: number;
+  author: CommentAuthor;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CommentPage = {
+  comments: Comment[];
+  offset: number;
+  limit: number;
+  hasNext: boolean;
+};
+
+export type GroupRole = {
+  groupRoleId: number;
+  title: string;
+  displayOrder: number;
+};
+
+export type GroupMember = {
+  memberId: number;
+  nickname: string;
+  profileImageUrl: string | null;
+  role: string;
+  customTitleId: number | null;
+  customTitle: string | null;
+  joinedAt: string;
+  isMe: boolean;
+};
+
+export type RecruitmentPosition = {
+  name: string;
+  count: number;
+};
+
+export type RecruitmentFormItem = {
+  formItemId?: number;
+  question: string;
+  questionType: string;
+  isRequired: boolean;
+  options: string[];
+  displayOrder: number;
+};
+
+export type RecruitmentSummary = {
+  recruitmentId: number;
+  groupId: number;
+  title: string;
+  positions: RecruitmentPosition[];
+  deadline: string;
+  status: string;
+  applicationCount: number;
+  createdAt: string;
+};
+
+export type RecruitmentDetail = RecruitmentSummary & {
+  authorId: number;
+  authorNickname: string;
+  description: string;
+  requirements: string;
+  duration: string;
+  goal: string;
+  processDescription: string;
+  formItems: RecruitmentFormItem[];
+  updatedAt: string;
+};
+
+export type RecruitmentListPage = {
+  recruitments: RecruitmentSummary[];
+  page: number;
+  size: number;
+  hasNext: boolean;
+};
+
+export type RecruitmentApplicationAnswer = {
+  formItemId: number;
+  question: string;
+  answer: string;
+};
+
+export type RecruitmentApplication = {
+  applicationId: number;
+  recruitmentId: number;
+  groupId: number;
+  recruitmentTitle: string;
+  applicantId: number;
+  applicantNickname: string;
+  applicantProfileImageUrl: string | null;
+  position: string;
+  portfolioUrl: string | null;
+  status: string;
+  reviewedBy: number | null;
+  reviewerNickname: string | null;
+  reviewedAt: string | null;
+  latestReviewNote: string | null;
+  answers: RecruitmentApplicationAnswer[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type RecruitmentApplicationListPage = {
+  applications: RecruitmentApplication[];
+  page: number;
+  size: number;
+  hasNext: boolean;
+};
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetchApi(path, init);
   const payload = (await response.json().catch(() => null)) as ApiEnvelope<T> | null;
@@ -356,7 +481,10 @@ export const cluverseApi = {
     return request<null>(`/api/v1/posts/${postId}/bookmarks`, { method: 'DELETE' });
   },
   likePost(postId: number) {
-    return request<null>(`/api/v1/posts/${postId}/likes`, { method: 'POST' });
+    return request<{ postId: number; liked: boolean }>(`/api/v1/posts/${postId}/likes`, { method: 'POST' });
+  },
+  unlikePost(postId: number) {
+    return request<{ postId: number; liked: boolean }>(`/api/v1/posts/${postId}/likes`, { method: 'DELETE' });
   },
   getBoards(input: { type?: string; keyword?: string; parentBoardId?: number; depth?: number; activeOnly?: boolean }) {
     const params = new URLSearchParams();
@@ -413,5 +541,131 @@ export const cluverseApi = {
   },
   getGroup(groupId: number) {
     return request<GroupDetail>(`/api/v1/groups/${groupId}`);
+  },
+  getGroupMembers(groupId: number) {
+    return request<GroupMember[]>(`/api/v1/groups/${groupId}/members`);
+  },
+  updateGroupMember(groupId: number, memberId: number, input: { role: string; customTitleId: number | null; reason: string }) {
+    return request<GroupMember>(`/api/v1/groups/${groupId}/members/${memberId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(input),
+    });
+  },
+  transferGroupOwner(groupId: number, input: { newOwnerMemberId: number; reason: string }) {
+    return request<GroupDetail>(`/api/v1/groups/${groupId}/owner-transfer`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  getGroupRoles(groupId: number) {
+    return request<GroupRole[]>(`/api/v1/groups/${groupId}/roles`);
+  },
+  createGroupRole(groupId: number, input: { title: string; displayOrder: number }) {
+    return request<GroupRole>(`/api/v1/groups/${groupId}/roles`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  updateGroupRole(groupId: number, roleId: number, input: { title: string; displayOrder: number }) {
+    return request<GroupRole>(`/api/v1/groups/${groupId}/roles/${roleId}`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    });
+  },
+  deleteGroupRole(groupId: number, roleId: number) {
+    return request<null>(`/api/v1/groups/${groupId}/roles/${roleId}`, { method: 'DELETE' });
+  },
+  getComments(input: { postId: number; parentCommentId?: number; offset?: number; limit?: number }) {
+    const params = new URLSearchParams({
+      postId: String(input.postId),
+      offset: String(input.offset ?? 0),
+      limit: String(input.limit ?? 20),
+    });
+    if (input.parentCommentId !== undefined) {
+      params.set('parentCommentId', String(input.parentCommentId));
+    }
+    return request<CommentPage>(`/api/v1/comments?${params.toString()}`);
+  },
+  createComment(postId: number, input: { parentCommentId: number | null; content: string; isAnonymous: boolean }) {
+    return request<Comment>(`/api/v1/comments?postId=${postId}`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  deleteComment(commentId: number) {
+    return request<{ postId: number; commentId: number; status: string }>(`/api/v1/comments/${commentId}`, { method: 'DELETE' });
+  },
+  likeComment(commentId: number) {
+    return request<{ postId: number; commentId: number; liked: boolean }>(`/api/v1/comments/${commentId}/likes`, { method: 'POST' });
+  },
+  unlikeComment(commentId: number) {
+    return request<{ postId: number; commentId: number; liked: boolean }>(`/api/v1/comments/${commentId}/likes`, { method: 'DELETE' });
+  },
+  getRecruitments(input: { groupId: number; status?: string; recruitingOnly?: boolean; page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      groupId: String(input.groupId),
+      page: String(input.page ?? 1),
+      size: String(input.size ?? 20),
+    });
+    if (input.status) {
+      params.set('status', input.status);
+    }
+    if (input.recruitingOnly !== undefined) {
+      params.set('recruitingOnly', String(input.recruitingOnly));
+    }
+    return request<RecruitmentListPage>(`/api/v1/recruitments?${params.toString()}`);
+  },
+  createRecruitment(groupId: number, input: {
+    title: string;
+    description: string;
+    positions: RecruitmentPosition[];
+    requirements: string;
+    duration: string;
+    goal: string;
+    processDescription: string;
+    deadline: string;
+    formItems: RecruitmentFormItem[];
+  }) {
+    return request<RecruitmentDetail>(`/api/v1/recruitments?groupId=${groupId}`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  getRecruitment(recruitmentId: number) {
+    return request<RecruitmentDetail>(`/api/v1/recruitments/${recruitmentId}`);
+  },
+  getRecruitmentApplications(recruitmentId: number, input?: { status?: string; page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      page: String(input?.page ?? 1),
+      size: String(input?.size ?? 20),
+    });
+    if (input?.status && input.status !== 'ALL') {
+      params.set('status', input.status);
+    }
+    return request<RecruitmentApplicationListPage>(
+      `/api/v1/recruitments/${recruitmentId}/applications?${params.toString()}`,
+    );
+  },
+  createRecruitmentApplication(recruitmentId: number, input: {
+    position: string;
+    portfolioUrl: string | null;
+    answers: Array<{ formItemId: number; answer: string }>;
+  }) {
+    return request<RecruitmentApplication>(`/api/v1/recruitments/${recruitmentId}/applications`, {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  getRecruitmentApplication(recruitmentId: number, applicationId: number) {
+    return request<RecruitmentApplication>(`/api/v1/recruitments/${recruitmentId}/applications/${applicationId}`);
+  },
+  updateRecruitmentApplicationStatus(recruitmentId: number, applicationId: number, input: { status: string; note: string }) {
+    return request<RecruitmentApplication>(
+      `/api/v1/recruitments/${recruitmentId}/applications/${applicationId}/status`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(input),
+      },
+    );
   },
 };

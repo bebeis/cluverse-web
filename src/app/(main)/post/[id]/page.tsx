@@ -1,303 +1,217 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { Bookmark, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { ApiError, Comment, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './PostDetail.module.css';
-import { ChevronRight, UserPlus, MoreVertical, Heart, MessageCircle, Bookmark, Share2, Palette, User, Flag } from 'lucide-react';
-import ReportModal from '@/components/report/ReportModal';
 
 export default function PostDetailPage() {
-  const [showReport, setShowReport] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const params = useParams<{ id: string }>();
+  const postId = Number(params.id);
+  const [post, setPost] = useState<FeedPost | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [authRequired, setAuthRequired] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pendingLike, setPendingLike] = useState(false);
+  const [pendingBookmark, setPendingBookmark] = useState(false);
+
+  const safeComments = useMemo(() => comments.slice(0, 3), [comments]);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setShowMenu(false);
+    if (!Number.isFinite(postId)) {
+      setError('잘못된 게시글 ID입니다.');
+      return;
+    }
+
+    Promise.all([
+      cluverseApi.getPost(postId),
+      cluverseApi.getComments({ postId, offset: 0, limit: 3 }),
+    ])
+      .then(([postResult, commentResult]) => {
+        setPost(postResult);
+        setComments(commentResult.comments);
+        setAuthRequired(false);
+        setError(null);
+      })
+      .catch(caught => {
+        setPost(null);
+        setComments([]);
+        if (caught instanceof ApiError && caught.statusCode === 401) {
+          setAuthRequired(true);
+          setError(null);
+          return;
+        }
+        setError(caught instanceof Error ? caught.message : '게시글을 불러오지 못했습니다.');
+      });
+  }, [postId]);
+
+  const handleLike = async () => {
+    if (!post || pendingLike) {
+      return;
+    }
+
+    setPendingLike(true);
+    try {
+      if (post.liked) {
+        await cluverseApi.unlikePost(post.postId);
+        setPost(current => current ? { ...current, liked: false, likeCount: Math.max(0, current.likeCount - 1) } : current);
+      } else {
+        await cluverseApi.likePost(post.postId);
+        setPost(current => current ? { ...current, liked: true, likeCount: current.likeCount + 1 } : current);
       }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    } finally {
+      setPendingLike(false);
+    }
+  };
+
+  const handleBookmark = async () => {
+    if (!post || pendingBookmark) {
+      return;
+    }
+
+    setPendingBookmark(true);
+    try {
+      if (post.bookmarked) {
+        await cluverseApi.unbookmarkPost(post.postId);
+        setPost(current => current ? { ...current, bookmarked: false, bookmarkCount: Math.max(0, current.bookmarkCount - 1) } : current);
+      } else {
+        await cluverseApi.bookmarkPost(post.postId);
+        setPost(current => current ? { ...current, bookmarked: true, bookmarkCount: current.bookmarkCount + 1 } : current);
+      }
+    } finally {
+      setPendingBookmark(false);
+    }
+  };
 
   return (
-    <div className={styles.container}>
-      {/* Breadcrumb */}
-      <nav className={styles.breadcrumb}>
-        <a href="#" className={styles.breadcrumbLink}>커뮤니티</a>
-        <span className={styles.breadcrumbSep}><ChevronRight size={14} /></span>
-        <a href="#" className={styles.breadcrumbLink}>자유게시판</a>
-        <span className={styles.breadcrumbSep}><ChevronRight size={14} /></span>
-        <span className={styles.breadcrumbCurrent}>게시글 상세</span>
-      </nav>
+    <AuthRequiredOverlay active={authRequired}>
+      <div className={styles.container}>
+        {post ? (
+          <>
+            <nav className={styles.breadcrumb}>
+              <Link href="/" className={styles.breadcrumbLink}>홈</Link>
+              <span className={styles.breadcrumbCurrent}>{post.board.name}</span>
+            </nav>
 
-      {/* Article */}
-      <article className={styles.article}>
-        <div className={styles.articleHeader}>
-          <div className={styles.authorArea}>
-            <div className={styles.authorAvatar}>
-              <img 
-                className={styles.avatarImg}
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnW_InPoiRxQtpoE2FMGXleKhqe5Y32A9E_aSZe13NsP-q4iLgoBkK-KJrjw-c56Dy4MuHPDU2R6aYavRkaZXLJbZ-ODBCT8hkZ5PmqRyyk5yxPkuzEJIEMgLmPc8Qiy6DqGgZDpq0wPizVLFmrHnXKfDWkZgmogK1mfxgu7OKcFloHxfS1czTmpy0Fq44jUM46q5ReHbMx9A5OJaL3dS7RwDC6eKnYSDW1111FhSDLI_6GAUYt-nncjmyxFW84TIA-NplqdLDrtyF"
-                alt="Author"
-              />
-              <div className={styles.schoolBadge}>SNU</div>
-            </div>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className={styles.authorName}>김클루</span>
-                <span className={styles.authorDept}>컴퓨터공학부 21</span>
+            <article className={styles.article}>
+              <div className={styles.articleHeader}>
+                <div className={styles.authorArea}>
+                  <div className={styles.authorAvatar}>
+                    {post.author.profileImageUrl ? (
+                      <img className={styles.avatarImg} src={post.author.profileImageUrl} alt={post.author.nickname} />
+                    ) : (
+                      <div className={styles.avatarImg} />
+                    )}
+                    <div className={styles.schoolBadge}>{post.board.name.slice(0, 3)}</div>
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span className={styles.authorName}>{post.isAnonymous ? '익명' : post.author.nickname}</span>
+                      <span className={styles.authorDept}>{post.category}</span>
+                    </div>
+                    <div className={styles.authorMeta}>
+                      <span>{formatRelativeTime(post.createdAt)}</span>
+                      <span style={{ color: '#D1D5DB' }}>•</span>
+                      <span>조회 {post.viewCount}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className={styles.authorMeta}>
-                <span>10분 전</span>
-                <span style={{ color: '#D1D5DB' }}>•</span>
-                <span>조회 1.2k</span>
-              </div>
-            </div>
-          </div>
-          <div className={styles.headerActions}>
-            <button className={styles.followBtn}>
-              <UserPlus size={16} /> 팔로우
-            </button>
-            <div style={{ position: 'relative' }} ref={menuRef}>
-              <button className={styles.moreBtn} onClick={() => setShowMenu(!showMenu)}>
-                <MoreVertical size={20} />
-              </button>
-              {showMenu && (
-                <div style={{
-                  position: 'absolute', right: 0, top: '100%', marginTop: 4,
-                  background: 'white', borderRadius: 12, boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-                  border: '1px solid #E5E7EB', padding: '6px 0', minWidth: 160, zIndex: 50,
-                }}>
-                  <button
-                    onClick={() => { setShowMenu(false); setShowReport(true); }}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 10,
-                      width: '100%', padding: '10px 16px', background: 'none',
-                      border: 'none', fontSize: 14, fontWeight: 600,
-                      color: '#EF4444', cursor: 'pointer',
-                    }}
-                    onMouseOver={e => (e.currentTarget.style.background = '#FEF2F2')}
-                    onMouseOut={e => (e.currentTarget.style.background = 'none')}
-                  >
-                    <Flag size={16} /> 신고하기
+
+              <div className={styles.articleBody}>
+                <div className={styles.tags}>
+                  <span className={styles.tagGeneral}>{post.board.name}</span>
+                  <span className={styles.tagGeneral}>{post.category}</span>
+                </div>
+
+                <h1 className={styles.postTitle}>{post.title}</h1>
+                <p className={styles.postContent}>{post.content || post.contentPreview}</p>
+
+                {post.imageUrls?.length ? (
+                  <div className={styles.imageGrid}>
+                    {post.imageUrls.map(imageUrl => (
+                      <div key={imageUrl} className={styles.gridImg}>
+                        <img src={imageUrl} alt="" />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
+                {!!post.tags.length && (
+                  <div className={styles.hashTags}>
+                    {post.tags.map(tag => (
+                      <span key={tag} className={styles.hashTag}>#{tag}</span>
+                    ))}
+                  </div>
+                )}
+
+                <div className={styles.actionBar}>
+                  <div className={styles.actionBtns}>
+                    <button className={`${styles.actionBtn} ${styles.likeBtn}`} onClick={handleLike} type="button">
+                      <Heart size={22} fill={post.liked ? 'currentColor' : 'none'} /> {post.likeCount}
+                    </button>
+                    <Link href={`/post/${post.postId}/comments`} className={`${styles.actionBtn} ${styles.commentBtn}`}>
+                      <MessageCircle size={22} /> {post.commentCount}
+                    </Link>
+                    <button className={`${styles.actionBtn} ${styles.bookmarkBtn}`} onClick={handleBookmark} type="button">
+                      <Bookmark size={22} fill={post.bookmarked ? 'currentColor' : 'none'} /> {post.bookmarkCount}
+                    </button>
+                  </div>
+                  <button className={styles.shareBtn} type="button">
+                    <Share2 size={18} /> 공유
                   </button>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.articleBody}>
-          <div className={styles.tags}>
-            <span className={styles.tagRecruiting}>모집중</span>
-            <span className={styles.tagGeneral}>공모전</span>
-          </div>
-
-          <h1 className={styles.postTitle}>
-            이번 AI 해커톤 공모전 팀원 구합니다! (디자이너/개발자)
-          </h1>
-
-          <p className={styles.postContent}>
-{`안녕하세요! 이번 2024 대학생 연합 AI 해커톤에 참가할 팀원을 모집하고 있습니다. 
-현재 백엔드 개발자 1명, 기획자 1명 있습니다.
-프론트엔드 개발자 분과 UI/UX 디자이너 분을 간절히 찾고 있습니다.
-수상 경력보다는 열정적으로 끝까지 함께하실 분이면 좋겠습니다!
-매주 토요일 강남역 부근에서 오프라인 회의 가능하신 분 연락주세요.`}
-          </p>
-
-          <div className={styles.imageGrid}>
-            <div className={styles.gridImg}>
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLH9Qt8Ni_2BrcRe1pBGp0MZ6G2SjDgdxkHjcXIjpEVdxj7Xl21GHoDSwaO7NqQrSigUUYYrOLKhard34WCCifA_QdMQI5xidT_Mlv7yS83mq4av9lSONyzZu5hapFwmyw3-mlx54nFVfvPYD-wr8X6gKN457hS6w5GeLMkBak-ZydBOmU4AoK6xfD0_ggVxsEK_8ZieWnm7VaDIDPBnn7P_Hyx0maQ_jm72Lw6Fc14vWyYKBCNayggd1YwWnJ8S7wPI0ucy_X96sM"
-                alt="Hackathon Poster"
-              />
-            </div>
-            <div className={styles.gridImg}>
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuASKGaRn1b_CznRqX3RW47UGAw8NU47w69xXDPBQQevYghawH7Waz3bTb1oLnDRzFFdVMy9-m_iOyPV5OxoC3Y_xOxPWDHj4I2h4K6drWCzu30Zm0iJhGczqNaRXAOP0btgCnkutUijH7vdO_gqCj3Fxzbi4KN-qNl8FJNX7jVF_JdkE45SkkEda5QVlrirq-OuHm8HZtqA0JK24YNO_k6XJv5wH5ol27b3A1q4t65hN46OFUH5IHQNMfDwecWvwudqdzIhzywC35US"
-                alt="Meeting"
-              />
-            </div>
-          </div>
-
-          <div className={styles.hashTags}>
-            <a href="#" className={styles.hashTag}>#해커톤</a>
-            <a href="#" className={styles.hashTag}>#팀원모집</a>
-            <a href="#" className={styles.hashTag}>#AI</a>
-            <a href="#" className={styles.hashTag}>#대학생</a>
-          </div>
-
-          <div className={styles.actionBar}>
-            <div className={styles.actionBtns}>
-              <button className={`${styles.actionBtn} ${styles.likeBtn}`}>
-                <Heart size={22} /> 24
-              </button>
-              <button className={`${styles.actionBtn} ${styles.commentBtn}`}>
-                <MessageCircle size={22} /> 12
-              </button>
-              <button className={`${styles.actionBtn} ${styles.bookmarkBtn}`}>
-                <Bookmark size={22} /> 5
-              </button>
-            </div>
-            <button className={styles.shareBtn}>
-              <Share2 size={18} /> 공유
-            </button>
-          </div>
-        </div>
-      </article>
-
-      {/* Comments */}
-      <section className={styles.commentsSection}>
-        <div className={styles.commentsHeader}>
-          <h3 className={styles.commentsTitle}>
-            댓글 <span className={styles.commentCount}>12</span>
-          </h3>
-          <div className={styles.sortOptions}>
-            <button className={styles.sortOptionActive}>등록순</button>
-            <span className={styles.sortOptionDivider}>|</span>
-            <button className={styles.sortOption}>최신순</button>
-          </div>
-        </div>
-
-        <div className={styles.commentsList}>
-          {/* Comment 1 with replies */}
-          <div className={styles.commentGroup}>
-            <div className={styles.commentThread}></div>
-            <div className={styles.comment}>
-              <div className={styles.commentAvatar}>
-                <img className={styles.commentAvatarImg}
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG2mvZip96mYwypQA54OJjgah7oFHw17G7P6hapYHue85qaQ6Fw01wyicS2v1oWihcij1N-cj1nyqjaGoI2il0jUjmyWcMu8lMqzFnj-9ub0afPiM6JFSg_QGlQQ0QbjRYUp9Bgyf5zOnf9lO_E0NcdWFFy9786eYYG0OG-YBOJc5TW0T2P-UyBS61MfQFwyhEW6hocpVR0dvZulucdVy3AHb3DlBUpMwO181tiqYl7rqiebN86fhFd-8Ar10K_fidk1MBgm0FDZyM"
-                  alt="Avatar"
-                />
               </div>
-              <div className={styles.commentBody}>
-                <div className={styles.commentMeta}>
-                  <div className={styles.commentMetaLeft}>
-                    <span className={styles.commentAuthorName}>코딩하는라이언</span>
-                    <span className={styles.commentSchool}>연세대학교</span>
-                    <span className={styles.commentTime}>5분 전</span>
-                  </div>
-                  <button className={styles.commentMoreBtn}><MoreVertical size={16} /></button>
-                </div>
-                <div className={styles.commentBubble}>
-                  <p className={styles.commentText}>혹시 프론트엔드 기술 스택이 어떻게 되나요? React 사용하시나요?</p>
-                  <div className={styles.commentActions}>
-                    <button className={styles.commentAction}><Heart size={14} /> 좋아요</button>
-                    <button className={styles.commentAction}><MessageCircle size={14} /> 답글 쓰기</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </article>
 
-            {/* Reply from author */}
-            <div className={styles.reply}>
-              <div className={styles.replyConnector}></div>
-              <div className={styles.comment}>
-                <div className={styles.commentAvatar}>
-                  <div className={styles.commentAvatarAuthor}>작성자</div>
-                </div>
-                <div className={styles.commentBody}>
-                  <div className={styles.commentMeta}>
-                    <div className={styles.commentMetaLeft}>
-                      <span className={`${styles.commentAuthorName} ${styles.commentAuthorPrimary}`}>김클루</span>
-                      <span className={styles.commentSchool}>서울대학교</span>
-                      <span className={styles.commentTime}>3분 전</span>
+            <section className={styles.commentsSection}>
+              <div className={styles.commentsHeader}>
+                <h3 className={styles.commentsTitle}>
+                  댓글 <span className={styles.commentCount}>{post.commentCount}</span>
+                </h3>
+                <Link href={`/post/${post.postId}/comments`} className={styles.sortOptionActive}>전체 보기</Link>
+              </div>
+
+              <div className={styles.commentsList}>
+                {safeComments.map(comment => (
+                  <div key={comment.commentId} className={styles.commentGroup}>
+                    <div className={styles.comment}>
+                      <div className={styles.commentAvatar}>
+                        {comment.author.profileImageUrl ? (
+                          <img className={styles.commentAvatarImg} src={comment.author.profileImageUrl} alt={comment.author.nickname} />
+                        ) : (
+                          <div className={styles.commentAvatarImg} />
+                        )}
+                      </div>
+                      <div className={styles.commentBody}>
+                        <div className={styles.commentMeta}>
+                          <div className={styles.commentMetaLeft}>
+                            <span className={styles.commentAuthorName}>{comment.isAnonymous ? '익명' : comment.author.nickname}</span>
+                            <span className={styles.commentTime}>{formatRelativeTime(comment.createdAt)}</span>
+                          </div>
+                        </div>
+                        <div className={styles.commentBubble}>
+                          <p className={styles.commentText}>{comment.content}</p>
+                          <div className={styles.commentActions}>
+                            <span className={styles.commentAction}><Heart size={14} /> {comment.likeCount}</span>
+                            <span className={styles.commentAction}><MessageCircle size={14} /> 답글 {comment.replyCount}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className={`${styles.commentBubble} ${styles.commentBubbleAuthor}`}>
-                    <p className={styles.commentText}>네 맞습니다! React와 TypeScript 사용 예정입니다. Next.js 도입도 고려중이에요.</p>
-                    <div className={styles.commentActions}>
-                      <button className={styles.commentAction} style={{ color: '#4051B5', fontWeight: 700 }}><Heart size={14} fill="currentColor" /> 2</button>
-                      <button className={styles.commentAction}><MessageCircle size={14} /> 답글 쓰기</button>
-                    </div>
-                  </div>
-                </div>
+                ))}
+                {!safeComments.length ? <div className={styles.commentGroup}>첫 댓글을 남겨보세요.</div> : null}
               </div>
-            </div>
-          </div>
+            </section>
+          </>
+        ) : null}
 
-          {/* Comment 2 */}
-          <div className={styles.commentGroup}>
-            <div className={styles.comment}>
-              <div className={styles.commentAvatar}>
-                <div className={styles.commentAvatarIcon} style={{ background: '#F3E8FF', color: '#9333EA' }}>
-                  <Palette size={20} />
-                </div>
-              </div>
-              <div className={styles.commentBody}>
-                <div className={styles.commentMeta}>
-                  <div className={styles.commentMetaLeft}>
-                    <span className={styles.commentAuthorName}>디자인꿈나무</span>
-                    <span className={styles.commentSchool}>홍익대학교</span>
-                    <span className={styles.commentTime}>1시간 전</span>
-                  </div>
-                  <button className={styles.commentMoreBtn}><MoreVertical size={16} /></button>
-                </div>
-                <div className={styles.commentBubble}>
-                  <p className={styles.commentText}>디자이너 지원하고 싶은데 포트폴리오 필수인가요? 아직 학생이라 작업물이 많지 않아서요 ㅠㅠ</p>
-                  <div className={styles.commentActions}>
-                    <button className={styles.commentAction}><Heart size={14} /> 좋아요</button>
-                    <button className={styles.commentAction}><MessageCircle size={14} /> 답글 쓰기</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Comment 3 (Anonymous) */}
-          <div className={styles.commentGroup}>
-            <div className={styles.comment}>
-              <div className={styles.commentAvatar}>
-                <div className={styles.commentAvatarIcon} style={{ background: '#F3F4F6', color: '#9CA3AF' }}>
-                  <User size={22} />
-                </div>
-              </div>
-              <div className={styles.commentBody}>
-                <div className={styles.commentMeta}>
-                  <div className={styles.commentMetaLeft}>
-                    <span className={styles.commentAuthorName} style={{ color: '#6B7280' }}>익명</span>
-                    <span className={styles.commentTime}>2시간 전</span>
-                  </div>
-                  <button className={styles.commentMoreBtn}><MoreVertical size={16} /></button>
-                </div>
-                <div className={styles.commentBubble}>
-                  <p className={styles.commentText}>저번 공모전 대상팀인가요?</p>
-                  <div className={styles.commentActions}>
-                    <button className={styles.commentAction}><Heart size={14} /> 좋아요</button>
-                    <button className={styles.commentAction}><MessageCircle size={14} /> 답글 쓰기</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Fixed Comment Input */}
-      <div className={styles.commentInput}>
-        <div className={styles.commentInputInner}>
-          <div className={styles.inputTopRow}>
-            <label className={styles.anonLabel}>
-              <input type="checkbox" className={styles.anonCheckbox} />
-              <span className={styles.anonText}>익명으로 작성</span>
-            </label>
-            <span className={styles.charCount}>0/300</span>
-          </div>
-          <div className={styles.inputRow}>
-            <textarea className={styles.textarea} placeholder="따뜻한 댓글을 남겨주세요." rows={1} />
-            <button className={styles.submitBtn}>등록</button>
-          </div>
-        </div>
+        {error ? <div className={styles.commentsSection}>{error}</div> : null}
       </div>
-
-      {/* Report Modal */}
-      <ReportModal
-        isOpen={showReport}
-        onClose={() => setShowReport(false)}
-        targetType="게시글"
-        targetTitle="이번 AI 해커톤 공모전 팀원 구합니다!"
-      />
-    </div>
+    </AuthRequiredOverlay>
   );
 }

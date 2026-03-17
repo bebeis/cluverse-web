@@ -1,202 +1,195 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { BookOpen, EyeOff, Save, Send } from 'lucide-react';
+import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { ApiError, cluverseApi } from '@/lib/cluverse-api';
 import styles from './CreatePost.module.css';
-import { Save, Building, ChevronDown, HelpCircle, Info, BarChart3, MessagesSquare, CalendarDays, Bold, Italic, Link as LinkIcon, List, Code, ImagePlus, FileCode, EyeOff, Send, BookOpen, ArrowRight, Lightbulb } from 'lucide-react';
 
-const categories = [
-  { id: 'question', label: '질문', icon: <HelpCircle size={16} /> },
-  { id: 'info', label: '정보', icon: <Info size={16} /> },
-  { id: 'resource', label: '자료', icon: <BarChart3 size={16} /> },
-  { id: 'free', label: '자유주제', icon: <MessagesSquare size={16} /> },
-  { id: 'event', label: '이벤트', icon: <CalendarDays size={16} /> },
-];
+type BoardOption = {
+  boardId: number;
+  name: string;
+  description: string;
+};
 
 export default function CreatePostPage() {
-  const [selectedCat, setSelectedCat] = useState('question');
-  const [isAnon, setIsAnon] = useState(false);
+  const router = useRouter();
+  const [boards, setBoards] = useState<BoardOption[]>([]);
+  const [boardId, setBoardId] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tags, setTags] = useState('');
+  const [category, setCategory] = useState('GENERAL');
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [authRequired, setAuthRequired] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    cluverseApi.getBoards({ activeOnly: true, depth: 2 })
+      .then(result => {
+        setBoards(result.boards.filter(board => board.isWritable).map(board => ({
+          boardId: board.boardId,
+          name: board.name,
+          description: board.description,
+        })));
+        setAuthRequired(false);
+      })
+      .catch(caught => {
+        if (caught instanceof ApiError && caught.statusCode === 401) {
+          setAuthRequired(true);
+          return;
+        }
+        setError(caught instanceof Error ? caught.message : '게시판 목록을 불러오지 못했습니다.');
+      });
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!boardId || !title.trim() || !content.trim()) {
+      setError('게시판, 제목, 내용을 모두 입력하세요.');
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const created = await cluverseApi.createPost({
+        boardId: Number(boardId),
+        category,
+        title: title.trim(),
+        content: content.trim(),
+        tags: tags.split(',').map(tag => tag.trim()).filter(Boolean),
+        isAnonymous,
+        isPinned: false,
+        isExternalVisible: true,
+        imageUrls: [],
+      });
+      router.push(`/post/${created.postId}`);
+    } catch (caught) {
+      if (caught instanceof ApiError && caught.statusCode === 401) {
+        setAuthRequired(true);
+      } else {
+        setError(caught instanceof Error ? caught.message : '게시글을 등록하지 못했습니다.');
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <>
+    <AuthRequiredOverlay active={authRequired}>
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>게시글 작성</h1>
-        <button className={styles.draftBtn}>
-          <Save size={16} /> 임시저장 (2)
+        <button className={styles.draftBtn} type="button">
+          <Save size={16} /> 임시저장은 아직 제공되지 않습니다
         </button>
       </div>
 
       <div className={styles.contentArea}>
         <div className={styles.formSection}>
           <div className={styles.formCard}>
-            {/* Board Select */}
             <div className={styles.formGroup}>
               <label className={styles.label}>게시판 선택</label>
-              <div className={styles.selectWrapper}>
-                <div className={styles.selectIcon}>
-                  <Building size={20} />
-                </div>
-                <select className={styles.select} defaultValue="">
-                  <option value="" disabled>커뮤니티 게시판을 선택하세요...</option>
-                  <option value="cs">컴퓨터 공학 (Computer Science)</option>
-                  <option value="eng">공학 허브 (Engineering Hub)</option>
-                  <option value="arts">예술 &amp; 창작 (Creative Arts)</option>
-                  <option value="biz">경영 &amp; 금융 (Business &amp; Finance)</option>
-                </select>
-                <div className={styles.selectChevron}>
-                  <ChevronDown size={20} />
-                </div>
-              </div>
-            </div>
-
-            {/* Category */}
-            <div className={styles.formGroup}>
-              <p className={styles.label}>카테고리 선택</p>
-              <div className={styles.categoryChips}>
-                {categories.map(cat => (
-                  <label key={cat.id} className={styles.categoryLabel}>
-                    <input 
-                      type="radio" 
-                      name="category" 
-                      className={styles.categoryRadio}
-                      checked={selectedCat === cat.id}
-                      onChange={() => setSelectedCat(cat.id)}
-                    />
-                    <div className={styles.categoryChip}>
-                      {cat.icon}
-                      <span>{cat.label}</span>
-                    </div>
-                  </label>
+              <select className={styles.select} value={boardId} onChange={event => setBoardId(event.target.value)}>
+                <option value="">게시판을 선택하세요</option>
+                {boards.map(board => (
+                  <option key={board.boardId} value={board.boardId}>
+                    {board.name}
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
 
-            {/* Title */}
             <div className={styles.formGroup}>
-              <input 
-                type="text" 
-                className={styles.titleInput} 
-                placeholder="글 제목을 입력하세요" 
+              <label className={styles.label}>카테고리</label>
+              <select className={styles.select} value={category} onChange={event => setCategory(event.target.value)}>
+                <option value="GENERAL">자유</option>
+                <option value="QUESTION">질문</option>
+                <option value="INFORMATION">정보</option>
+                <option value="CAREER">진로</option>
+              </select>
+            </div>
+
+            <div className={styles.formGroup}>
+              <input
+                type="text"
+                className={styles.titleInput}
+                placeholder="글 제목을 입력하세요"
+                value={title}
+                onChange={event => setTitle(event.target.value)}
               />
             </div>
 
-            {/* Editor */}
             <div className={styles.editorWrapper}>
-              <div className={styles.toolbar}>
-                <button className={styles.toolBtn}><Bold size={18} /></button>
-                <button className={styles.toolBtn}><Italic size={18} /></button>
-                <button className={styles.toolBtn}><LinkIcon size={18} /></button>
-                <div className={styles.toolDivider}></div>
-                <button className={styles.toolBtn}><List size={18} /></button>
-                <button className={styles.toolBtn}><Code size={18} /></button>
-              </div>
-              <textarea 
-                className={styles.editorTextarea} 
+              <textarea
+                className={styles.editorTextarea}
                 placeholder="내용을 입력하세요..."
                 rows={12}
+                value={content}
+                onChange={event => setContent(event.target.value)}
               />
-              <div className={styles.editorFooter}>
-                <button className={styles.addImageBtn}>
-                  <ImagePlus size={18} /> 이미지 추가
-                </button>
-                <span className={styles.mdBadge}>
-                  <FileCode size={12} /> Markdown 지원
-                </span>
-              </div>
             </div>
 
-            {/* Anonymous Toggle */}
+            <div className={styles.formGroup} style={{ marginTop: 24 }}>
+              <label className={styles.label}>태그</label>
+              <input
+                type="text"
+                className={styles.titleInput}
+                placeholder="쉼표로 구분해서 입력하세요. 예: 해커톤, 프론트엔드"
+                value={tags}
+                onChange={event => setTags(event.target.value)}
+              />
+            </div>
+
             <div className={styles.anonRow} style={{ marginTop: '32px' }}>
               <div className={styles.anonInfo}>
                 <span className={styles.anonTitle}>
                   <EyeOff size={20} className={styles.anonIcon} />
                   익명으로 게시
                 </span>
-                <span className={styles.anonDesc}>작성자의 이름이 다른 사용자에게 공개되지 않습니다.</span>
+                <span className={styles.anonDesc}>API의 `isAnonymous` 값을 사용합니다.</span>
               </div>
               <label className={styles.toggleLabel}>
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   className={styles.toggleInput}
-                  checked={isAnon}
-                  onChange={() => setIsAnon(!isAnon)}
+                  checked={isAnonymous}
+                  onChange={event => setIsAnonymous(event.target.checked)}
                 />
                 <div className={styles.toggleTrack}></div>
               </label>
             </div>
 
-            {/* Actions */}
+            {error ? <p style={{ color: '#b91c1c', marginTop: 16 }}>{error}</p> : null}
+
             <div className={styles.actionRow}>
-              <button className={styles.cancelBtn}>취소</button>
-              <button className={styles.publishBtn}>
-                <span>게시하기</span>
+              <button className={styles.cancelBtn} onClick={() => router.back()} type="button">취소</button>
+              <button className={styles.publishBtn} onClick={handleSubmit} disabled={submitting} type="button">
+                <span>{submitting ? '게시 중...' : '게시하기'}</span>
                 <Send size={18} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Sidebar */}
         <aside className={styles.sidebar}>
           <div className={styles.guideBox}>
             <div className={styles.guideHeader}>
               <div className={styles.guideIconBox}>
                 <BookOpen size={20} />
               </div>
-              <h3 className={styles.guideTitle}>게시글 작성 가이드</h3>
+              <h3 className={styles.guideTitle}>연동 상태</h3>
             </div>
             <ul className={styles.guideList}>
-              <li className={styles.guideItem}>
-                <span className={styles.guideNum}>1</span>
-                <p>
-                  <strong className={styles.guideItemTitle}>상호 존중하기</strong>
-                  <span className={styles.guideItemDesc}>비방이나 혐오 표현은 엄격히 금지됩니다. 예의를 지켜주세요.</span>
-                </p>
-              </li>
-              <li className={styles.guideItem}>
-                <span className={styles.guideNum}>2</span>
-                <p>
-                  <strong className={styles.guideItemTitle}>주제 준수하기</strong>
-                  <span className={styles.guideItemDesc}>게시판 성격에 맞는 글을 작성해주세요.</span>
-                </p>
-              </li>
-              <li className={styles.guideItem}>
-                <span className={styles.guideNum}>3</span>
-                <p>
-                  <strong className={styles.guideItemTitle}>스팸 금지</strong>
-                  <span className={styles.guideItemDesc}>홍보성 게시글은 지정된 게시판을 이용해주세요.</span>
-                </p>
-              </li>
-              <li className={styles.guideItem}>
-                <span className={styles.guideNum}>4</span>
-                <p>
-                  <strong className={styles.guideItemTitle}>출처 확인</strong>
-                  <span className={styles.guideItemDesc}>뉴스나 자료 공유 시 출처를 명확히 해주세요.</span>
-                </p>
-              </li>
+              <li className={styles.guideItem}>게시판 목록은 `/api/v1/boards`에서 가져옵니다.</li>
+              <li className={styles.guideItem}>게시는 `/api/v1/posts`로 생성합니다.</li>
+              <li className={styles.guideItem}>이미지 업로드 API는 문서에 없어 현재 텍스트 게시만 연결했습니다.</li>
             </ul>
-            <div className={styles.guideFooter}>
-              <a href="#" className={styles.guideLink}>
-                가이드 전문 보기 <ArrowRight size={14} />
-              </a>
-            </div>
-          </div>
-
-          <div className={styles.tipBox}>
-            <div className={styles.tipBg}>
-              <Lightbulb size={100} />
-            </div>
-            <div className={styles.tipContent}>
-              <div className={styles.tipHeader}>
-                <Lightbulb size={24} className={styles.tipIcon} />
-                <h4 className={styles.tipTitle}>꿀팁</h4>
-              </div>
-              <p className={styles.tipText}>
-                명확하고 간결한 제목과 적절한 태그를 사용하면 커뮤니티에서 <strong>3배 더 많은 반응</strong>을 얻을 수 있습니다.
-              </p>
-            </div>
           </div>
         </aside>
       </div>
-    </>
+    </AuthRequiredOverlay>
   );
 }

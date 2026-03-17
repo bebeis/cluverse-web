@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { cluverseApi } from '@/lib/cluverse-api';
 
@@ -27,6 +27,7 @@ export function AuthBootstrapProvider({ children }: { children: React.ReactNode 
   const searchParams = useSearchParams();
   const [authVersion, setAuthVersion] = useState(0);
   const [isAuthBootstrapping, setIsAuthBootstrapping] = useState(false);
+  const processedOauthTokensRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const oauthToken = searchParams.get('oauth_token');
@@ -34,6 +35,14 @@ export function AuthBootstrapProvider({ children }: { children: React.ReactNode 
       setIsAuthBootstrapping(false);
       return;
     }
+
+    if (processedOauthTokensRef.current.has(oauthToken)) {
+      setIsAuthBootstrapping(false);
+      router.replace(buildCleanUrl(pathname, searchParams));
+      return;
+    }
+
+    processedOauthTokensRef.current.add(oauthToken);
 
     let cancelled = false;
 

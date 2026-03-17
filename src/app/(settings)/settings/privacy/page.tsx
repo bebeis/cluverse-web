@@ -1,182 +1,190 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Eye, Globe2, GraduationCap, BookOpen, Wifi, X } from 'lucide-react';
+import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { ApiError, Profile, cluverseApi } from '@/lib/cluverse-api';
 import styles from './Privacy.module.css';
-import {
-  GraduationCap, BookOpen, Wifi,
-  Eye, X, Mail, ShieldCheck,
-  Globe2,
-} from 'lucide-react';
+
+const FIELD_KEYS = {
+  university: 'UNIVERSITY',
+  major: 'MAJOR',
+  online: 'ONLINE_STATUS',
+} as const;
 
 export default function PrivacySettingsPage() {
-  const [showUni, setShowUni] = useState(false);
-  const [showMajor, setShowMajor] = useState(true);
-  const [showOnline, setShowOnline] = useState(true);
-  const [allowMsg, setAllowMsg] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [allowMsg, setAllowMsg] = useState(false);
+  const [authRequired, setAuthRequired] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    cluverseApi.getMyProfile()
+      .then(result => {
+        setProfile(result);
+        setAuthRequired(false);
+      })
+      .catch(caught => {
+        if (caught instanceof ApiError && caught.statusCode === 401) {
+          setAuthRequired(true);
+          return;
+        }
+        setError(caught instanceof Error ? caught.message : '개인정보 설정을 불러오지 못했습니다.');
+      });
+  }, []);
+
+  const visibleFields = useMemo(() => new Set(profile?.visibleFields || []), [profile]);
+
+  const updateVisibility = async (field: string, enabled: boolean) => {
+    if (!profile) {
+      return;
+    }
+
+    const nextFields = new Set(profile.visibleFields);
+    if (enabled) {
+      nextFields.add(field);
+    } else {
+      nextFields.delete(field);
+    }
+
+    const updated = await cluverseApi.updateMyProfile({
+      isPublic: profile.isPublic,
+      visibleFields: Array.from(nextFields),
+    });
+    setProfile(updated);
+  };
+
+  const showUni = visibleFields.has(FIELD_KEYS.university);
+  const showMajor = visibleFields.has(FIELD_KEYS.major);
+  const showOnline = visibleFields.has(FIELD_KEYS.online);
 
   return (
-    <>
-      <div className={styles.header}>
-        <h1>개인정보 보호 설정</h1>
-        <p>다른 사용자에게 내 프로필이 어떻게 보일지 관리하고 상호작용 방식을 설정하세요.</p>
-      </div>
-
-      {/* Profile Visibility */}
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
-          <span className={styles.cardTitle}>Profile Visibility</span>
-          <span className={styles.statusBadge}>
-            <span className={styles.statusDot} />
-            Active
-          </span>
+    <AuthRequiredOverlay active={authRequired}>
+      <>
+        <div className={styles.header}>
+          <h1>개인정보 보호 설정</h1>
+          <p>프로필 공개 범위를 `/api/v1/members/me/profile` 기준으로 저장합니다.</p>
         </div>
-        <div className={styles.cardBody}>
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <div className={styles.settingIcon} style={{ background: '#E0E7FF', color: '#4338CA' }}>
-                <GraduationCap size={22} />
-              </div>
-              <div>
-                <div className={styles.settingName}>Show University Name</div>
-                <div className={styles.settingDesc}>
-                  When disabled, your specific university name (e.g., &quot;Yonsei Univ.&quot;) will be hidden from public view. Instead, a &quot;Verified Student&quot; badge will be shown.
-                </div>
-              </div>
-            </div>
-            <label className={styles.toggle}>
-              <input className={styles.toggleInput} type="checkbox" checked={showUni} onChange={() => setShowUni(!showUni)} />
-              <span className={styles.toggleSlider} />
-            </label>
-          </div>
 
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <div className={styles.settingIcon} style={{ background: '#DBEAFE', color: '#1D4ED8' }}>
-                <BookOpen size={22} />
-              </div>
-              <div>
-                <div className={styles.settingName}>Show Major</div>
-                <div className={styles.settingDesc}>Allow others to see your specific field of study.</div>
-              </div>
-            </div>
-            <label className={styles.toggle}>
-              <input className={styles.toggleInput} type="checkbox" checked={showMajor} onChange={() => setShowMajor(!showMajor)} />
-              <span className={styles.toggleSlider} />
-            </label>
-          </div>
-
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <div className={styles.settingIcon} style={{ background: '#DCFCE7', color: '#15803D' }}>
-                <Wifi size={22} />
-              </div>
-              <div>
-                <div className={styles.settingName}>Show Online Status</div>
-                <div className={styles.settingDesc}>Let others know when you are currently active on Cluverse.</div>
-              </div>
-            </div>
-            <label className={styles.toggle}>
-              <input className={styles.toggleInput} type="checkbox" checked={showOnline} onChange={() => setShowOnline(!showOnline)} />
-              <span className={styles.toggleSlider} />
-            </label>
-          </div>
-        </div>
-        <div className={styles.cardFooter}>
-          <span className={styles.footerNote}>변경사항은 자동으로 저장됩니다</span>
-          <button className={styles.previewBtn} onClick={() => setPreviewOpen(true)}>
-            <Eye size={16} />
-            타인에게 보이는 내 프로필 미리보기
-          </button>
-        </div>
-      </div>
-
-      {/* Messaging Privacy */}
-      <div className={styles.msgCard}>
-        <div className={styles.cardHeader}>
-          <span className={styles.cardTitle}>Messaging Privacy</span>
-        </div>
-        <div className={styles.cardBody}>
-          <div className={styles.msgRow}>
-            <span className={styles.msgLabel}>
-              <Mail size={18} style={{ color: '#9CA3AF' }} />
-              Allow messages from non-verified users
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <span className={styles.cardTitle}>Profile Visibility</span>
+            <span className={styles.statusBadge}>
+              <span className={styles.statusDot} />
+              {profile?.isPublic ? 'Public' : 'Private'}
             </span>
-            <label className={styles.toggle}>
-              <input className={styles.toggleInput} type="checkbox" checked={allowMsg} onChange={() => setAllowMsg(!allowMsg)} />
-              <span className={styles.toggleSlider} />
-            </label>
           </div>
+          <div className={styles.cardBody}>
+            <SettingRow
+              icon={<GraduationCap size={22} />}
+              name="Show University Name"
+              desc="학교명 표시 여부"
+              checked={showUni}
+              onChange={() => updateVisibility(FIELD_KEYS.university, !showUni)}
+            />
+            <SettingRow
+              icon={<BookOpen size={22} />}
+              name="Show Major"
+              desc="전공 표시 여부"
+              checked={showMajor}
+              onChange={() => updateVisibility(FIELD_KEYS.major, !showMajor)}
+            />
+            <SettingRow
+              icon={<Wifi size={22} />}
+              name="Show Online Status"
+              desc="온라인 상태 표시 여부"
+              checked={showOnline}
+              onChange={() => updateVisibility(FIELD_KEYS.online, !showOnline)}
+            />
+          </div>
+          <div className={styles.cardFooter}>
+            <span className={styles.footerNote}>변경사항은 즉시 저장됩니다.</span>
+            <button className={styles.previewBtn} onClick={() => setPreviewOpen(true)} type="button">
+              <Eye size={16} />
+              타인에게 보이는 내 프로필 미리보기
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.msgCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.cardTitle}>Messaging Privacy</span>
+          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.msgRow}>
+              <span className={styles.msgLabel}>Allow messages from non-verified users</span>
+              <label className={styles.toggle}>
+                <input className={styles.toggleInput} type="checkbox" checked={allowMsg} onChange={() => setAllowMsg(!allowMsg)} />
+                <span className={styles.toggleSlider} />
+              </label>
+            </div>
+            <p className={styles.footerNote}>메시지 수신 정책 API는 문서에 없어 현재 UI 상태만 유지합니다.</p>
+          </div>
+        </div>
+
+        {error ? <p style={{ color: '#b91c1c' }}>{error}</p> : null}
+
+        {previewOpen && profile ? (
+          <div className={styles.overlay} onClick={() => setPreviewOpen(false)}>
+            <div className={styles.modal} onClick={event => event.stopPropagation()}>
+              <div className={styles.modalHeader}>
+                <span className={styles.modalTitle}>
+                  <Eye size={18} style={{ color: '#4051B5' }} />
+                  타인에게 보여지는 모습
+                </span>
+                <button className={styles.modalCloseBtn} onClick={() => setPreviewOpen(false)} type="button">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className={styles.modalBody}>
+                <div className={styles.previewCard}>
+                  <div className={styles.previewBadgeTop}>
+                    <Globe2 size={10} /> 공개 프로필
+                  </div>
+                  <div className={styles.previewAvatar}>
+                    {showOnline ? <div className={styles.previewOnline} /> : null}
+                  </div>
+                  <div className={styles.previewName}>{profile.nickname}</div>
+                  <div className={styles.previewVerified}>
+                    {showUni ? profile.university?.universityName ?? '학교 미설정' : '인증된 대학생'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </>
+    </AuthRequiredOverlay>
+  );
+}
+
+function SettingRow({
+  icon,
+  name,
+  desc,
+  checked,
+  onChange,
+}: {
+  icon: React.ReactNode;
+  name: string;
+  desc: string;
+  checked: boolean;
+  onChange: () => void;
+}) {
+  return (
+    <div className={styles.settingRow}>
+      <div className={styles.settingInfo}>
+        <div className={styles.settingIcon}>{icon}</div>
+        <div>
+          <div className={styles.settingName}>{name}</div>
+          <div className={styles.settingDesc}>{desc}</div>
         </div>
       </div>
-
-      {/* Preview Modal */}
-      {previewOpen && (
-        <div className={styles.overlay} onClick={() => setPreviewOpen(false)}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
-            <div className={styles.modalHeader}>
-              <span className={styles.modalTitle}>
-                <Eye size={18} style={{ color: '#4051B5' }} />
-                타인에게 보여지는 모습
-              </span>
-              <button className={styles.modalCloseBtn} onClick={() => setPreviewOpen(false)}>
-                <X size={20} />
-              </button>
-            </div>
-            <div className={styles.modalBody}>
-              <div className={styles.previewCard}>
-                <div className={styles.previewBadgeTop}>
-                  <Globe2 size={10} /> 공개 프로필
-                </div>
-                <div className={styles.previewAvatar}>
-                  {showOnline && <div className={styles.previewOnline} />}
-                </div>
-                <div className={styles.previewName}>김지민</div>
-                <div className={styles.previewVerified}>
-                  <ShieldCheck size={14} />
-                  {showUni ? '서울대학교' : '인증된 대학생'}
-                </div>
-                <div className={styles.previewStats}>
-                  <div className={styles.previewStatItem}>
-                    <span className={styles.previewStatNum}>12</span>
-                    <span className={styles.previewStatLabel}>게시글</span>
-                  </div>
-                  <div className={styles.previewStatDivider} />
-                  <div className={styles.previewStatItem}>
-                    <span className={styles.previewStatNum}>48</span>
-                    <span className={styles.previewStatLabel}>팔로잉</span>
-                  </div>
-                  <div className={styles.previewStatDivider} />
-                  <div className={styles.previewStatItem}>
-                    <span className={styles.previewStatNum}>156</span>
-                    <span className={styles.previewStatLabel}>팔로워</span>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.infoAlert}>
-                <Eye size={18} style={{ color: '#3B82F6', flexShrink: 0, marginTop: 2 }} />
-                <div className={styles.infoAlertText}>
-                  <span className={styles.infoAlertBold}>
-                    {showUni ? '학교명이 공개됩니다' : '학교명 숨김 설정이 적용되었습니다.'}
-                  </span>
-                  {showUni
-                    ? '다른 사용자들에게 학교명이 프로필에 표시됩니다.'
-                    : "다른 사용자들에게는 학교명 대신 '인증된 대학생' 배지가 표시됩니다."
-                  }
-                </div>
-              </div>
-            </div>
-            <div className={styles.modalFooter}>
-              <button className={styles.btnSecondary} onClick={() => setPreviewOpen(false)}>
-                다시 설정하기
-              </button>
-              <button className={styles.btnPrimary} onClick={() => setPreviewOpen(false)}>
-                확인
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+      <label className={styles.toggle}>
+        <input className={styles.toggleInput} type="checkbox" checked={checked} onChange={onChange} />
+        <span className={styles.toggleSlider} />
+      </label>
+    </div>
   );
 }

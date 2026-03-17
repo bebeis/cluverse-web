@@ -3,9 +3,20 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Calendar.module.css';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
+import { fetchApi } from '@/lib/fetchApi';
+
+type CalendarEvent = {
+  id: number;
+  date: string;
+  title: string;
+  description: string;
+};
+
+type CalendarEventsData = {
+  upcoming: CalendarEvent[];
+};
 
 const fetchEventsApi = async () => {
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
   const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
   const mockData = {
@@ -18,11 +29,11 @@ const fetchEventsApi = async () => {
   if (USE_MOCK) return mockData;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/v1/calendar/events`);
+    const res = await fetchApi('/api/v1/calendar/events');
     if (!res.ok) throw new Error('Calendar API request failed');
     const json = await res.json();
     return json.data;
-  } catch (error) {
+  } catch {
     console.warn("API 연동 실패로 Mock 데이터를 반환합니다. (api-requirements.md 참고)");
     return mockData;
   }
@@ -30,7 +41,7 @@ const fetchEventsApi = async () => {
 
 export default function CalendarPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [eventsData, setEventsData] = useState<any>(null);
+  const [eventsData, setEventsData] = useState<CalendarEventsData | null>(null);
   
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   
@@ -87,7 +98,7 @@ export default function CalendarPage() {
       <div className={styles.upcomingSection}>
         <h3 className={styles.sectionTitle}>다가오는 일정</h3>
         <div className={styles.upcomingList}>
-          {eventsData?.upcoming?.map((evt: any) => (
+          {eventsData?.upcoming?.map((evt) => (
             <div key={evt.id} className={styles.upcomingCard}>
               <div className={styles.upcomingDate}>{evt.date}</div>
               <div className={styles.upcomingInfo}>
