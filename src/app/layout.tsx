@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from 'react';
 import { AuthBootstrapProvider } from '@/components/auth/AuthBootstrapContext';
+import { AuthRefreshBoundary } from '@/components/auth/AuthRefreshBoundary';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Suspense fallback={children}>
-          <AuthBootstrapProvider>{children}</AuthBootstrapProvider>
+          <AuthBootstrapProvider>
+            <AuthRefreshBoundary>{children}</AuthRefreshBoundary>
+          </AuthBootstrapProvider>
         </Suspense>
       </body>
     </html>

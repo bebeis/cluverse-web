@@ -162,8 +162,26 @@ export type MemberMajor = {
   majorType: string;
 };
 
+export type MajorNode = {
+  majorId: number;
+  boardId: number;
+  name: string;
+  parentId: number | null;
+  depth: number;
+  displayOrder: number;
+};
+
 export type MemberInterest = {
   interestId: number;
+};
+
+export type InterestNode = {
+  interestId: number;
+  boardId: number;
+  name: string;
+  category: string;
+  parentId: number | null;
+  displayOrder: number;
 };
 
 export type BlockedMember = {
@@ -401,6 +419,17 @@ export const cluverseApi = {
   },
   getMyInterests() {
     return request<MemberInterest[]>('/api/v1/members/me/interests');
+  },
+  getMajors(parentMajorId?: number) {
+    const params = new URLSearchParams();
+    if (parentMajorId !== undefined) {
+      params.set('parentMajorId', String(parentMajorId));
+    }
+    const query = params.toString();
+    return request<MajorNode[]>(`/api/v1/majors${query ? `?${query}` : ''}`);
+  },
+  getInterests() {
+    return request<InterestNode[]>('/api/v1/interests');
   },
   addInterest(interestId: number) {
     return request<MemberInterest>('/api/v1/members/me/interests', {

@@ -1,84 +1,131 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronDown, Star, PenLine, Eye, Heart, MessageCircle, Lightbulb, Cpu } from 'lucide-react';
-import { cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './MajorExplore.module.css';
-
-type ExploreBoard = {
-  boardId: number;
-  name: string;
-  description: string;
-  depth?: number;
-};
 
 export default function MajorExplorePage() {
   const router = useRouter();
-  const [boards, setBoards] = useState<ExploreBoard[]>([]);
-  const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
+  const [rootMajors, setRootMajors] = useState<MajorNode[]>([]);
+  const [childrenByParent, setChildrenByParent] = useState<Record<number, MajorNode[]>>({});
+  const [selectedMajorId, setSelectedMajorId] = useState<number | null>(null);
   const [posts, setPosts] = useState<FeedPost[]>([]);
 
   useEffect(() => {
-    cluverseApi.getBoards({ type: 'DEPARTMENT', depth: 2, activeOnly: true })
-      .then(result => {
-        setBoards(result.boards);
-        setSelectedBoardId(result.boards[0]?.boardId ?? null);
+    const fetchTree = async () => {
+      const roots = [...await cluverseApi.getMajors()].sort((a, b) => a.displayOrder - b.displayOrder);
+      const nextChildren: Record<number, MajorNode[]> = {};
+
+      const walk = async (nodes: MajorNode[]) => {
+        await Promise.all(nodes.map(async node => {
+          const children = [...await cluverseApi.getMajors(node.majorId)].sort((a, b) => a.displayOrder - b.displayOrder);
+          if (children.length) {
+            nextChildren[node.majorId] = children;
+            await walk(children);
+          }
+        }));
+      };
+
+      await walk(roots);
+      return { roots, nextChildren };
+    };
+
+    fetchTree()
+      .then(({ roots, nextChildren }) => {
+        setRootMajors(roots);
+        setChildrenByParent(nextChildren);
+        setSelectedMajorId(roots[0]?.majorId ?? null);
       })
       .catch(() => {
-        setBoards([]);
-        setSelectedBoardId(null);
+        setRootMajors([]);
+        setChildrenByParent({});
+        setSelectedMajorId(null);
       });
   }, []);
 
+  const majorMap = useMemo(() => {
+    const map = new Map<number, MajorNode>();
+    rootMajors.forEach(major => map.set(major.majorId, major));
+    Object.values(childrenByParent).flat().forEach(major => map.set(major.majorId, major));
+    return map;
+  }, [childrenByParent, rootMajors]);
+
+  const selectedMajor = selectedMajorId ? majorMap.get(selectedMajorId) || null : null;
+
   useEffect(() => {
-    if (!selectedBoardId) {
+    if (!selectedMajor?.boardId) {
       return;
     }
-    cluverseApi.getPosts({ boardId: selectedBoardId, sort: 'LATEST', page: 1, size: 20 })
+    cluverseApi.getPosts({ boardId: selectedMajor.boardId, sort: 'LATEST', page: 1, size: 20 })
       .then(result => setPosts(result.posts))
       .catch(() => setPosts([]));
-  }, [selectedBoardId]);
+  }, [selectedMajor]);
 
-  const selectedBoard = boards.find(board => board.boardId === selectedBoardId) || null;
+  const renderChildLinks = (parentId: number, level = 0): React.ReactNode => {
+    const children = childrenByParent[parentId] || [];
+
+    return children.map(child => (
+      <React.Fragment key={child.majorId}>
+        <button
+          className={selectedMajorId === child.majorId ? styles.subLinkActive : styles.subLink}
+          type="button"
+          onClick={() => setSelectedMajorId(child.majorId)}
+          style={{ paddingLeft: `${64 + level * 16}px` }}
+        >
+          {child.name}
+        </button>
+        {renderChildLinks(child.majorId, level + 1)}
+      </React.Fragment>
+    ));
+  };
 
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <div>
           <h1 className={styles.sideTitle}>학과 탐색</h1>
-          <p className={styles.sideSubtitle}>`/api/v1/boards?type=DEPARTMENT` 결과입니다.</p>
+          <p className={styles.sideSubtitle}>`/api/v1/majors` 트리에서 선택한 전공의 `boardId`로 게시글을 조회합니다.</p>
         </div>
 
         <div className={styles.accordionList}>
-          {boards.map(board => (
-            <div key={board.boardId} className={styles.accordionItem}>
-              <button className={styles.accordionHeader} type="button" onClick={() => setSelectedBoardId(board.boardId)}>
-                <div className={styles.accordionLeft}>
-                  <div
-                    className={styles.accordionIcon}
-                    style={{ background: selectedBoardId === board.boardId ? '#4f46e5' : '#F3F4F6', color: selectedBoardId === board.boardId ? 'white' : '#6B7280' }}
-                  >
-                    <Cpu size={18} />
+          {rootMajors.map(major => {
+            const children = childrenByParent[major.majorId] || [];
+            const isSelected = selectedMajorId === major.majorId;
+
+            return (
+              <div key={major.majorId} className={styles.accordionItem}>
+                <button className={styles.accordionHeader} type="button" onClick={() => setSelectedMajorId(major.majorId)}>
+                  <div className={styles.accordionLeft}>
+                    <div
+                      className={styles.accordionIcon}
+                      style={{ background: isSelected ? '#4f46e5' : '#F3F4F6', color: isSelected ? 'white' : '#6B7280' }}
+                    >
+                      <Cpu size={18} />
+                    </div>
+                    <span className={isSelected ? styles.accordionName : styles.accordionNameInactive}>
+                      {major.name}
+                    </span>
                   </div>
-                  <span className={selectedBoardId === board.boardId ? styles.accordionName : styles.accordionNameInactive}>
-                    {board.name}
-                  </span>
-                </div>
-                <ChevronDown size={18} className={styles.accordionChevron} />
-              </button>
-            </div>
-          ))}
+                  {children.length ? <ChevronDown size={18} className={styles.accordionChevron} /> : null}
+                </button>
+                {children.length ? (
+                  <div className={styles.accordionBody}>{renderChildLinks(major.majorId)}</div>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
 
         <div className={styles.tipCard}>
           <div className={styles.tipTitle}>
             <Lightbulb size={16} />
-            학과 보드 탐색
+            전공 보드 탐색
           </div>
-          <p className={styles.tipDesc}>선택한 보드의 실제 게시글은 `/api/v1/posts?boardId=...`로 가져옵니다.</p>
-          <button className={styles.tipBtn} onClick={() => selectedBoardId && router.push(`/board/${encodeURIComponent(selectedBoard?.name || '')}`)}>
+          <p className={styles.tipDesc}>전공 엔티티가 가진 `boardId`로 실제 게시글을 조회합니다.</p>
+          <button className={styles.tipBtn} onClick={() => selectedMajor && router.push(`/board/${encodeURIComponent(selectedMajor.name)}`)}>
             보드 열기
           </button>
         </div>
@@ -89,12 +136,12 @@ export default function MajorExplorePage() {
           <div className={styles.boardTopRow}>
             <div className={styles.boardTitleWrap}>
               <div className={styles.boardTitleRow}>
-                <h1 className={styles.boardTitle}>{selectedBoard?.name || '학과 게시판'}</h1>
+                <h1 className={styles.boardTitle}>{selectedMajor?.name || '학과 게시판'}</h1>
                 <button className={styles.starBtn}>
                   <Star size={24} />
                 </button>
               </div>
-              <p className={styles.boardDesc}>{selectedBoard?.description || '보드를 선택하세요.'}</p>
+              <p className={styles.boardDesc}>{selectedMajor ? `majorId ${selectedMajor.majorId} · boardId ${selectedMajor.boardId}` : '전공을 선택하세요.'}</p>
             </div>
             <button className={styles.writeBtn} onClick={() => router.push('/write')}>
               <PenLine size={18} />

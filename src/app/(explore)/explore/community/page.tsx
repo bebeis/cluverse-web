@@ -1,78 +1,104 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Eye, Heart, MessageCircle, Filter, Rss, Cpu } from 'lucide-react';
-import { cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { ChevronRight, Eye, Heart, MessageCircle, Filter, Rss, Cpu, ChevronDown } from 'lucide-react';
+import { cluverseApi, FeedPost, InterestNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './CommunityExplore.module.css';
 
-type ExploreBoard = {
-  boardId: number;
-  name: string;
-  description: string;
-  depth?: number;
-};
-
 export default function CommunityExplorePage() {
-  const [boards, setBoards] = useState<ExploreBoard[]>([]);
-  const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
+  const [interests, setInterests] = useState<InterestNode[]>([]);
+  const [selectedInterestId, setSelectedInterestId] = useState<number | null>(null);
   const [posts, setPosts] = useState<FeedPost[]>([]);
 
   useEffect(() => {
-    cluverseApi.getBoards({ type: 'INTEREST', depth: 2, activeOnly: true })
+    cluverseApi.getInterests()
       .then(result => {
-        setBoards(result.boards);
-        setSelectedBoardId(result.boards[0]?.boardId ?? null);
+        const sorted = [...result].sort((a, b) => a.displayOrder - b.displayOrder);
+        setInterests(sorted);
+        setSelectedInterestId(sorted[0]?.interestId ?? null);
       })
       .catch(() => {
-        setBoards([]);
-        setSelectedBoardId(null);
+        setInterests([]);
+        setSelectedInterestId(null);
       });
   }, []);
 
+  const childrenByParent = useMemo(() => {
+    const grouped = new Map<number | null, InterestNode[]>();
+    interests.forEach(interest => {
+      const current = grouped.get(interest.parentId) || [];
+      current.push(interest);
+      current.sort((a, b) => a.displayOrder - b.displayOrder);
+      grouped.set(interest.parentId, current);
+    });
+    return grouped;
+  }, [interests]);
+
+  const rootInterests = childrenByParent.get(null) || childrenByParent.get(0) || interests.filter(item => item.parentId === null);
+  const selectedInterest = interests.find(interest => interest.interestId === selectedInterestId) || null;
+
   useEffect(() => {
-    if (!selectedBoardId) {
+    if (!selectedInterest?.boardId) {
       return;
     }
 
-    cluverseApi.getPosts({ boardId: selectedBoardId, sort: 'LATEST', page: 1, size: 20 })
+    cluverseApi.getPosts({ boardId: selectedInterest.boardId, sort: 'LATEST', page: 1, size: 20 })
       .then(result => setPosts(result.posts))
       .catch(() => setPosts([]));
-  }, [selectedBoardId]);
+  }, [selectedInterest]);
 
-  const selectedBoard = boards.find(board => board.boardId === selectedBoardId) || null;
+  const renderChildLinks = (parentId: number, level = 0): React.ReactNode => {
+    const children = childrenByParent.get(parentId) || [];
+
+    return children.map(child => (
+      <React.Fragment key={child.interestId}>
+        <button
+          type="button"
+          className={selectedInterestId === child.interestId ? styles.subLinkActive : styles.subLink}
+          onClick={() => setSelectedInterestId(child.interestId)}
+          style={{ paddingLeft: `${64 + level * 16}px` }}
+        >
+          {child.name}
+        </button>
+        {renderChildLinks(child.interestId, level + 1)}
+      </React.Fragment>
+    ));
+  };
 
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
         <div>
           <h1 className={styles.sideTitle}>관심사 탐색</h1>
-          <p className={styles.sideSubtitle}>`/api/v1/boards?type=INTEREST` 결과입니다.</p>
+          <p className={styles.sideSubtitle}>`/api/v1/interests` 트리에서 선택한 관심사의 `boardId`로 게시글을 조회합니다.</p>
         </div>
 
         <div className={styles.accordionList}>
-          {boards.map(board => (
-            <button
-              key={board.boardId}
-              className={styles.accordionItem}
-              type="button"
-              onClick={() => setSelectedBoardId(board.boardId)}
-            >
-              <div className={styles.accordionHeader}>
-                <div className={styles.accordionLeft}>
-                  <div
-                    className={styles.accordionIcon}
-                    style={{ background: selectedBoardId === board.boardId ? '#4f46e5' : '#F3F4F6', color: selectedBoardId === board.boardId ? 'white' : '#6B7280' }}
-                  >
-                    <Cpu size={18} />
+          {rootInterests.map(interest => {
+            const children = childrenByParent.get(interest.interestId) || [];
+            const isSelected = selectedInterestId === interest.interestId;
+
+            return (
+              <div key={interest.interestId} className={styles.accordionItem}>
+                <button className={styles.accordionHeader} type="button" onClick={() => setSelectedInterestId(interest.interestId)}>
+                  <div className={styles.accordionLeft}>
+                    <div
+                      className={styles.accordionIcon}
+                      style={{ background: isSelected ? '#4f46e5' : '#F3F4F6', color: isSelected ? 'white' : '#6B7280' }}
+                    >
+                      <Cpu size={18} />
+                    </div>
+                    <span className={isSelected ? styles.accordionName : styles.accordionNameInactive}>
+                      {interest.name}
+                    </span>
                   </div>
-                  <span className={selectedBoardId === board.boardId ? styles.accordionName : styles.accordionNameInactive}>
-                    {board.name}
-                  </span>
-                </div>
+                  {children.length ? <ChevronDown size={18} className={styles.accordionChevron} /> : null}
+                </button>
+                {children.length ? <div className={styles.accordionBody}>{renderChildLinks(interest.interestId)}</div> : null}
               </div>
-            </button>
-          ))}
+            );
+          })}
         </div>
       </aside>
 
@@ -85,8 +111,8 @@ export default function CommunityExplorePage() {
 
         <div className={styles.titleSection}>
           <div className={styles.titleWrap}>
-            <h1>{selectedBoard?.name || '커뮤니티 게시판'}</h1>
-            <p>{selectedBoard?.description || '보드를 선택하면 실제 게시글 목록을 불러옵니다.'}</p>
+            <h1>{selectedInterest?.name || '관심사 커뮤니티'}</h1>
+            <p>{selectedInterest ? `${selectedInterest.category} 카테고리 · boardId ${selectedInterest.boardId}` : '관심사를 선택하세요.'}</p>
           </div>
           <div className={styles.titleActions}>
             <button className={styles.filterBtn}>
