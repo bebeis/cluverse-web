@@ -1,68 +1,70 @@
-import React from 'react';
-import styles from './Groups.module.css';
-import { Users, MoreVertical, Plus } from 'lucide-react';
+'use client';
 
-const myGroups = [
-  {
-    id: 1,
-    name: '시네마 천국',
-    category: '문화/예술',
-    role: '멤버',
-    memberCount: 24,
-    unreadMessages: 3,
-    coverUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB9LgkF6xirT-mqqGsr-bdm6wtRs7ilEtQK4WyIRICXDr6EfyuSDPuBYg8Cx6XRN1htEzo0fgJ7d8uaMehw1rM0PHK2xbt0UE4OO17RcbHpOgPccTeQbW_lhgHfBA69Y0M5kzTPy-vkn1BH1mZOBZ--tdGnKuCkqb7uSzaUuOR8VrRk15n6rcg2NTZwJd_UCjLz_qUGa0faW_Nu15nZsR35kt_O7a6HKbk1i50GDGuNcJqOnHM0wxAVyGk5Fkv8iVcY2ScZdgV-JSlx'
-  },
-  {
-    id: 2,
-    name: '프론트엔드 딥다이브',
-    category: 'IT/개발',
-    role: '운영자',
-    memberCount: 8,
-    unreadMessages: 0,
-    coverUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaLlSuEloXdjIbiw9qVt9vGpNSzxeoP7g2m9tTTl6AVmyAzSCCYMt_2bqbE9-xMHtNNOfVZ9sX_eecTgJ94HeJS5trxbd9V9mGV-UtXQi95U3Csv9zh2wtP6d46IMUPKgKhSJUWQsikTNRTPuG9ZAwg7eoWKTlmhgLDbRomJbLUhh3zUOZX9XU1eEAdk64VVulVB9wutDU9EELj8SvYW-kJBjLNAcMTQzoFPjHn6zhEpAVZzr5wXYdnCNbXMwdY2g71YoS7hb_J9lE'
-  }
-];
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Users, MoreVertical, Plus } from 'lucide-react';
+import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { ApiError, cluverseApi, GroupSummary } from '@/lib/cluverse-api';
+import styles from './Groups.module.css';
 
 export default function GroupsPage() {
+  const [groups, setGroups] = useState<GroupSummary[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [authRequired, setAuthRequired] = useState(false);
+
+  useEffect(() => {
+    cluverseApi.getMyGroups()
+      .then(data => {
+        setGroups(data);
+        setAuthRequired(false);
+      })
+      .catch(caught => {
+        setAuthRequired(caught instanceof ApiError && caught.statusCode === 401);
+        setError(caught instanceof Error ? caught.message : '그룹 목록을 불러오지 못했습니다.');
+      });
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <AuthRequiredOverlay active={authRequired}>
+      <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerTitles}>
           <h1 className={styles.title}>내 동아리</h1>
-          <p className={styles.subtitle}>내가 가입했거나 관리하는 동아리/소모임입니다.</p>
+          <p className={styles.subtitle}>`/api/v1/groups/me` 결과를 표시합니다.</p>
         </div>
-        <button className={styles.createBtn}>
-          <Plus size={18} /> 그룹 만들기
-        </button>
+        <Link href="/explore/groups" className={styles.createBtn}>
+          <Plus size={18} /> 그룹 찾기
+        </Link>
       </header>
 
+      {error ? <p style={{ color: '#b91c1c' }}>{error}</p> : null}
+
       <div className={styles.groupGrid}>
-        {myGroups.map((group) => (
-          <div key={group.id} className={styles.groupCard}>
+        {groups.map(group => (
+          <Link key={group.groupId} href={`/group/${group.groupId}`} className={styles.groupCard}>
             <div className={styles.coverImageWrapper}>
-              <img src={group.coverUrl} alt={group.name} className={styles.coverImage} />
-              {group.unreadMessages > 0 && (
-                <div className={styles.badge}>{group.unreadMessages}</div>
-              )}
+              <img src={group.coverImageUrl || '/images/groups/photography-club-cover.png'} alt={group.name} className={styles.coverImage} />
+              {group.openRecruitmentCount > 0 ? <div className={styles.badge}>{group.openRecruitmentCount}</div> : null}
             </div>
             <div className={styles.content}>
               <div className={styles.cardHeader}>
                 <span className={styles.category}>{group.category}</span>
-                <button className={styles.moreBtn}><MoreVertical size={16} /></button>
+                <button className={styles.moreBtn} type="button"><MoreVertical size={16} /></button>
               </div>
               <h3 className={styles.groupName}>{group.name}</h3>
               <div className={styles.metaRow}>
-                <span className={group.role === '운영자' ? styles.roleAdmin : styles.roleMember}>
-                  {group.role}
+                <span className={group.myRole === 'OWNER' || group.myRole === 'ADMIN' ? styles.roleAdmin : styles.roleMember}>
+                  {group.myRole || '멤버'}
                 </span>
                 <span className={styles.memberCount}>
                   <Users size={14} /> {group.memberCount}명
                 </span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-    </div>
+      </div>
+    </AuthRequiredOverlay>
   );
 }

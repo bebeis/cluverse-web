@@ -27,7 +27,17 @@
   * `POST /api/v1/chats/{chatId}/messages`: 새로운 메시지 전송 기능
   * `PUT /api/v1/chats/{chatId}/read`: 채팅방 읽음 처리
 
-## 4. 메인 피드 (Feed) 화면
+## 4. 알림 (Notifications) 화면
+현재 알림 목록을 조회하거나 읽음 처리할 API가 없어 정적 Mock 데이터로 처리했습니다.
+
+* **추가 필요 API**
+  * `GET /api/v1/notifications`: 내 알림 목록 조회 (타입별 필터링, 페이징 지원)
+  * `POST /api/v1/notifications/read-all`: 모든 알림 읽음 처리
+  * `PATCH /api/v1/notifications/{notificationId}/read`: 특정 알림 읽음 처리
+* **응답 필드 예시**
+  * `notificationId`, `type` (COMMENT/APPROVE/REJECT/FOLLOW/ANNOUNCE), `title`, `content`, `isRead`, `createdAt`, `targetUrl`
+
+## 5. 메인 피드 (Feed) 화면
 최신 API 문서에 피드 전용 API(`GET /api/v1/feeds/home` 등)가 추가된 것을 확인하고 연동을 진행했습니다. 그러나 피드의 `PostCard` 렌더링에 필수적인 작성자 소속(학교) 정보가 응답 데이터에서 누락되어 해당 부분만 모킹 처리했습니다.
 
 * **추가/수정 필요 필드**

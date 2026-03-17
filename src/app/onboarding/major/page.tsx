@@ -1,157 +1,175 @@
 'use client';
 
-import React from 'react';
-import { AuthHeader } from '@/components/ui/AuthHeader';
-import styles from './Major.module.css';
-import { BookOpen, GraduationCap, Library, CheckCircle2, Info, ArrowRight, ShieldCheck } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { AuthHeader } from '@/components/ui/AuthHeader';
+import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { ArrowRight, BookOpen, GraduationCap, Info, Library } from 'lucide-react';
+import { ApiError, cluverseApi, University } from '@/lib/cluverse-api';
+import styles from './Major.module.css';
 
 export default function MajorSelectionPage() {
-  return (
-    <div className={styles.container}>
-      {/* Header */}
-      <AuthHeader rightElement={
-          <div className={styles.headerActions}>
-            <a href="#" className={styles.headerLink}>도움말</a>
-            <a href="#" className={styles.headerLink}>나가기</a>
-          </div>
-        } />
+  const router = useRouter();
+  const [keyword, setKeyword] = useState('');
+  const [universities, setUniversities] = useState<University[]>([]);
+  const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
+  const [primaryMajorId, setPrimaryMajorId] = useState('');
+  const [secondaryMajorId, setSecondaryMajorId] = useState('');
+  const [authRequired, setAuthRequired] = useState(false);
 
-      {/* Main Content Area */}
+  useEffect(() => {
+    cluverseApi.getMyProfile().then(profileData => {
+      setSelectedUniversity(profileData.university);
+      setKeyword(profileData.university?.universityName || '');
+      setAuthRequired(false);
+    }).catch(caught => {
+      setAuthRequired(caught instanceof ApiError && caught.statusCode === 401);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (keyword.trim().length < 2 || selectedUniversity?.universityName === keyword.trim()) {
+      return;
+    }
+
+    const timer = window.setTimeout(async () => {
+      try {
+        setUniversities(await cluverseApi.searchUniversities(keyword.trim()));
+      } catch {
+        setUniversities([]);
+      }
+    }, 250);
+
+    return () => window.clearTimeout(timer);
+  }, [keyword, selectedUniversity]);
+
+  const saveMajors = async () => {
+    if (primaryMajorId) {
+      await cluverseApi.addMajor(Number(primaryMajorId), 'PRIMARY');
+    }
+    if (secondaryMajorId) {
+      await cluverseApi.addMajor(Number(secondaryMajorId), 'DOUBLE_MAJOR');
+    }
+    router.push('/onboarding/interest');
+  };
+
+  return (
+    <AuthRequiredOverlay active={authRequired}>
+      <div className={styles.container}>
+      <AuthHeader
+        rightElement={
+          <div className={styles.headerActions}>
+            <Link href="/" className={styles.headerLink}>나가기</Link>
+          </div>
+        }
+      />
+
       <main className={styles.main}>
         <div className={styles.contentWrapper}>
-          
-          {/* Stepper */}
           <div className={styles.stepper}>
             <div className={styles.stepperHeader}>
               <p className={styles.stepperStep}>Step 1/3</p>
               <span className={styles.stepperDesc}>학교 및 전공 선택</span>
             </div>
             <div className={styles.stepperBar}>
-              <div className={styles.stepperProgress}></div>
+              <div className={styles.stepperProgress} />
             </div>
           </div>
 
-          {/* Title Section */}
           <div className={styles.titleArea}>
             <h1 className={styles.title}>소속 학교와 전공을 알려주세요</h1>
-            <p className={styles.subtitle}>정확한 정보를 입력하면 학교 인증과 커뮤니티 매칭이 쉬워집니다.</p>
+            <p className={styles.subtitle}>전공 lookup API가 문서에 없어 현재는 전공 ID 직접 입력 방식으로 연결했습니다.</p>
           </div>
 
-          {/* Form Section */}
           <div className={styles.formCard}>
-            
-            {/* School Search */}
             <div className={styles.inputGroup}>
-              <label htmlFor="school-search" className={styles.inputLabel}>
-                학교 검색
-              </label>
+              <label htmlFor="school-search" className={styles.inputLabel}>학교 검색</label>
               <div className={styles.inputRel}>
-                <div className={styles.inputIcon}>
-                  <GraduationCap size={20} />
-                </div>
-                <input 
-                  type="text" 
-                  id="school-search" 
-                  placeholder="학교명을 입력하세요 (예: 한국대학교)" 
-                  defaultValue="한국대학교"
+                <div className={styles.inputIcon}><GraduationCap size={20} /></div>
+                <input
+                  type="text"
+                  id="school-search"
+                  placeholder="학교명을 입력하세요"
+                  value={keyword}
+                  onChange={e => {
+                    setKeyword(e.target.value);
+                    setSelectedUniversity(null);
+                    setUniversities([]);
+                  }}
                   className={styles.input}
                 />
-                <div className={styles.inputRightIcon}>
-                  <CheckCircle2 size={20} />
-                </div>
               </div>
-              
-              {/* Selected School Badge Preview */}
-              <div className={styles.selectedSchool}>
-                <div className={styles.schoolLogo}>
-                  <img 
-                    src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=40&auto=format&fit=crop" 
-                    alt="University Logo" 
-                  />
+              {universities.length > 0 ? (
+                <div style={{ display: 'grid', gap: 8, marginTop: 12 }}>
+                  {universities.map(university => (
+                    <button
+                      key={university.universityId}
+                      type="button"
+                      className={styles.changeBtn}
+                      onClick={() => {
+                        setSelectedUniversity(university);
+                        setKeyword(university.universityName);
+                        setUniversities([]);
+                      }}
+                    >
+                      {university.universityName}
+                    </button>
+                  ))}
                 </div>
-                <div className={styles.schoolInfo}>
-                  <span className={styles.schoolName}>한국대학교</span>
-                  <span className={styles.schoolLoc}>Seoul, Korea</span>
+              ) : null}
+
+              {selectedUniversity ? (
+                <div className={styles.selectedSchool}>
+                  <div className={styles.schoolInfo}>
+                    <span className={styles.schoolName}>{selectedUniversity.universityName}</span>
+                    <span className={styles.schoolLoc}>ID {selectedUniversity.universityId}</span>
+                  </div>
                 </div>
-                <button type="button" className={styles.changeBtn}>변경</button>
-              </div>
+              ) : null}
             </div>
 
-            <div className={styles.divider}></div>
+            <div className={styles.divider} />
 
-            {/* Major Inputs */}
             <div className={styles.majorsGrid}>
-              
-              {/* Main Major */}
               <div className={styles.inputGroup}>
-                <label htmlFor="main-major" className={styles.inputLabel}>
-                  주전공 <span className={styles.required}>*</span>
-                </label>
+                <label htmlFor="main-major" className={styles.inputLabel}>주전공 ID</label>
                 <div className={styles.inputRel}>
-                  <div className={styles.inputIcon}>
-                    <BookOpen size={20} />
-                  </div>
-                  <input 
-                    type="text" 
-                    id="main-major" 
-                    placeholder="학과/학부 입력" 
-                    className={styles.input}
-                  />
+                  <div className={styles.inputIcon}><BookOpen size={20} /></div>
+                  <input type="number" id="main-major" placeholder="예: 100" className={styles.input} value={primaryMajorId} onChange={e => setPrimaryMajorId(e.target.value)} />
                 </div>
               </div>
 
-              {/* Double/Minor Major */}
               <div className={styles.inputGroup}>
-                <label htmlFor="sub-major" className={styles.inputLabel}>
-                  복수/부전공
-                  <span className={styles.optionalBadge}>선택사항</span>
-                </label>
+                <label htmlFor="sub-major" className={styles.inputLabel}>복수/부전공 ID</label>
                 <div className={styles.inputRel}>
-                  <div className={styles.inputIcon}>
-                    <Library size={20} />
-                  </div>
-                  <input 
-                    type="text" 
-                    id="sub-major" 
-                    placeholder="학과/학부 입력" 
-                    className={styles.input}
-                  />
+                  <div className={styles.inputIcon}><Library size={20} /></div>
+                  <input type="number" id="sub-major" placeholder="예: 200" className={styles.input} value={secondaryMajorId} onChange={e => setSecondaryMajorId(e.target.value)} />
                 </div>
               </div>
-
             </div>
 
-            {/* Helper info */}
             <div className={styles.helperBox}>
-              <div className={styles.helperIcon}>
-                <Info size={20} />
-              </div>
+              <div className={styles.helperIcon}><Info size={20} /></div>
               <div className={styles.helperText}>
-                <p>입력 가이드</p>
+                <p>제한사항</p>
                 <ul>
-                  <li>재학 증명서에 기재된 정확한 학교명과 전공명을 입력해주세요.</li>
-                  <li>아직 전공이 정해지지 않은 경우 '학부' 또는 '자율전공'으로 입력 가능합니다.</li>
+                  <li>현재 API 문서에는 전공 검색/목록 조회 엔드포인트가 없습니다.</li>
+                  <li>멤버 전공 등록 API만 공개되어 있어 ID 기반 입력으로 연결했습니다.</li>
                 </ul>
               </div>
             </div>
 
-            {/* Action Button */}
             <div className={styles.actionArea}>
-              <button type="button" className={styles.nextBtn}>
-                다음 단계로 
+              <button type="button" className={styles.nextBtn} onClick={saveMajors}>
+                다음 단계로
                 <ArrowRight size={24} />
               </button>
-              <button type="button" className={styles.skipBtn}>
-                나중에 입력하기
-              </button>
             </div>
-
           </div>
-
         </div>
       </main>
-    </div>
+      </div>
+    </AuthRequiredOverlay>
   );
 }
