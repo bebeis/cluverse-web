@@ -1,16 +1,45 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Calendar.module.css';
 import { ChevronLeft, ChevronRight, Plus, X } from 'lucide-react';
 
+const fetchEventsApi = async () => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+  const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+  const mockData = {
+    upcoming: [
+      { id: 1, date: "10.24 (목)", title: "스터디 모임", description: "오후 6:00 · 강남 토즈" },
+      { id: 2, date: "10.28 (월)", title: "과제 제출 마감", description: "오후 11:59 · 온라인" }
+    ]
+  };
+
+  if (USE_MOCK) return mockData;
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/calendar/events`);
+    if (!res.ok) throw new Error('Calendar API request failed');
+    const json = await res.json();
+    return json.data;
+  } catch (error) {
+    console.warn("API 연동 실패로 Mock 데이터를 반환합니다. (api-requirements.md 참고)");
+    return mockData;
+  }
+};
+
 export default function CalendarPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [eventsData, setEventsData] = useState<any>(null);
   
   const days = ['일', '월', '화', '수', '목', '금', '토'];
   
   // Dummy data for simple display
   const currentMonth = "2024년 10월";
+
+  useEffect(() => {
+    fetchEventsApi().then(data => setEventsData(data));
+  }, []);
   
   return (
     <div className={styles.container}>
@@ -58,20 +87,15 @@ export default function CalendarPage() {
       <div className={styles.upcomingSection}>
         <h3 className={styles.sectionTitle}>다가오는 일정</h3>
         <div className={styles.upcomingList}>
-          <div className={styles.upcomingCard}>
-            <div className={styles.upcomingDate}>10.24 (목)</div>
-            <div className={styles.upcomingInfo}>
-              <h4>스터디 모임</h4>
-              <p>오후 6:00 · 강남 토즈</p>
+          {eventsData?.upcoming?.map((evt: any) => (
+            <div key={evt.id} className={styles.upcomingCard}>
+              <div className={styles.upcomingDate}>{evt.date}</div>
+              <div className={styles.upcomingInfo}>
+                <h4>{evt.title}</h4>
+                <p>{evt.description}</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.upcomingCard}>
-            <div className={styles.upcomingDate}>10.28 (월)</div>
-            <div className={styles.upcomingInfo}>
-              <h4>과제 제출 마감</h4>
-              <p>오후 11:59 · 온라인</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
