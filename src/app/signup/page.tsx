@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BookOpen, CheckCircle2, Lock, Mail, User } from 'lucide-react';
 import { AuthHeader } from '@/components/ui/AuthHeader';
-import { cluverseApi, University } from '@/lib/cluverse-api';
+import { cluverseApi, Term, University } from '@/lib/cluverse-api';
 import styles from './Signup.module.css';
 
 export default function SignupPage() {
@@ -17,8 +17,48 @@ export default function SignupPage() {
   const [keyword, setKeyword] = useState('');
   const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
   const [universities, setUniversities] = useState<University[]>([]);
+  const [terms, setTerms] = useState<Term[]>([]);
+  const [agreedTermsIds, setAgreedTermsIds] = useState<number[]>([]);
+  const [termsLoading, setTermsLoading] = useState(true);
+  const [termsError, setTermsError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadTerms = async () => {
+      try {
+        setTermsLoading(true);
+        setTermsError(null);
+        const nextTerms = await cluverseApi.getTerms();
+
+        if (!active) {
+          return;
+        }
+
+        setTerms(nextTerms);
+        setAgreedTermsIds([]);
+      } catch (caught) {
+        if (!active) {
+          return;
+        }
+
+        setTerms([]);
+        setTermsError(caught instanceof Error ? caught.message : '약관 목록을 불러오지 못했습니다.');
+      } finally {
+        if (active) {
+          setTermsLoading(false);
+        }
+      }
+    };
+
+    void loadTerms();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (keyword.trim().length < 2 || selectedUniversity?.universityName === keyword.trim()) {
@@ -51,6 +91,24 @@ export default function SignupPage() {
       return;
     }
 
+    if (termsLoading) {
+      setError('약관 목록을 불러오는 중입니다.');
+      return;
+    }
+
+    if (terms.length === 0) {
+      setError('약관 목록을 불러오지 못해 회원가입을 진행할 수 없습니다.');
+      return;
+    }
+
+    const requiredTermsIds = terms.filter(term => term.required).map(term => term.termsId);
+    const hasAllRequiredTerms = requiredTermsIds.every(termsId => agreedTermsIds.includes(termsId));
+
+    if (!hasAllRequiredTerms) {
+      setError('필수 약관에 모두 동의해 주세요.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -59,7 +117,7 @@ export default function SignupPage() {
         password,
         nickname,
         universityId: selectedUniversity.universityId,
-        agreedTermsIds: [1, 2, 3],
+        agreedTermsIds,
       });
       await cluverseApi.login(email, password);
       router.replace('/onboarding/major');
@@ -69,6 +127,12 @@ export default function SignupPage() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const toggleTermAgreement = (termsId: number) => {
+    setAgreedTermsIds(current =>
+      current.includes(termsId) ? current.filter(id => id !== termsId) : [...current, termsId],
+    );
   };
 
   return (
@@ -113,7 +177,7 @@ export default function SignupPage() {
           <div className={styles.rightSide}>
             <div className={styles.formContainer}>
               <h2 className={styles.welcomeTitle}>회원가입</h2>
-              <p className={styles.welcomeDesc}>API 문서 기준으로 `agreedTermsIds: [1, 2, 3]`을 전송합니다.</p>
+              <p className={styles.welcomeDesc}>API 문서 기준으로 약관 목록을 조회한 뒤 선택한 `termsId` 배열을 전송합니다.</p>
               {error ? <div className={styles.errorBox}>{error}</div> : null}
 
               <form onSubmit={handleSubmit}>
@@ -189,13 +253,38 @@ export default function SignupPage() {
                 </div>
 
                 <div className={styles.termsBox}>
-                  <label className={styles.termsLabel}>
-                    <input type="checkbox" className={styles.termsCheckbox} checked readOnly />
-                    <span className={styles.termsText}>필수 약관 1, 2, 3에 동의하고 회원가입을 진행합니다.</span>
-                  </label>
+                  <div className={styles.termsHeader}>
+                    <span className={styles.termsTitle}>약관 동의</span>
+                    {termsLoading ? <span className={styles.termsHint}>불러오는 중...</span> : null}
+                  </div>
+                  {termsError ? <p className={styles.termsError}>{termsError}</p> : null}
+                  {!termsLoading && !termsError && terms.length === 0 ? (
+                    <p className={styles.termsEmpty}>표시할 약관이 없습니다.</p>
+                  ) : null}
+                  {!termsLoading && terms.length > 0 ? (
+                    <div className={styles.termsList}>
+                      {terms.map(term => (
+                        <label key={term.termsId} className={styles.termsLabel}>
+                          <input
+                            type="checkbox"
+                            className={styles.termsCheckbox}
+                            checked={agreedTermsIds.includes(term.termsId)}
+                            onChange={() => toggleTermAgreement(term.termsId)}
+                          />
+                          <span className={styles.termsContent}>
+                            <span className={styles.termsText}>
+                              {term.title}{' '}
+                              {term.required ? <span className={styles.required}>(필수)</span> : <span className={styles.optional}>(선택)</span>}
+                            </span>
+                            <span className={styles.termsMeta}>v{term.version} · 시행일 {term.effectiveAt.slice(0, 10)}</span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
 
-                <button type="submit" className={styles.signupBtn} disabled={submitting}>
+                <button type="submit" className={styles.signupBtn} disabled={submitting || termsLoading || !!termsError}>
                   {submitting ? '가입 중...' : '회원가입'}
                 </button>
               </form>

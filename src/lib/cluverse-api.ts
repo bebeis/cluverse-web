@@ -23,6 +23,16 @@ export type University = {
   universityBadgeImageUrl?: string | null;
 };
 
+export type Term = {
+  termsId: number;
+  termsType: string;
+  title: string;
+  content: string;
+  version: string;
+  required: boolean;
+  effectiveAt: string;
+};
+
 export type Profile = {
   memberId: number;
   nickname: string;
@@ -448,6 +458,9 @@ export const cluverseApi = {
   },
   searchUniversities(keyword: string) {
     return request<University[]>(`/api/v1/universities?keyword=${encodeURIComponent(keyword)}`);
+  },
+  getTerms() {
+    return request<Term[]>('/api/v1/terms');
   },
   getHomeFeed(filter = 'ALL', limit = 20, cursor?: string) {
     const params = new URLSearchParams({ filter, limit: String(limit) });
