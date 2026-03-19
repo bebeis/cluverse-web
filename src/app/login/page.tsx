@@ -33,7 +33,8 @@ export default function LoginPage() {
   };
 
   const redirectSocial = (provider: SocialProvider) => {
-    const redirectUri = buildSocialCallbackUrl(provider, window.location.origin);
+    const origin = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_ORIGIN || window.location.origin;
+    const redirectUri = buildSocialCallbackUrl(provider, origin);
     const authUrl = buildSocialAuthUrl(provider, redirectUri);
     window.location.href = authUrl;
   };
