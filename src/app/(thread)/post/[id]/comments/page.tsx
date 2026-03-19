@@ -102,7 +102,7 @@ export default function CommentTreePage() {
       <div className={styles.page}>
         <div className={styles.postHeader}>
           <div className={styles.breadcrumb}>
-            <span className={styles.breadcrumbTag}>{post?.board.name ?? '게시판'}</span>
+            <span className={styles.breadcrumbTag}>{post?.board?.name ?? '게시판'}</span>
             <span className={styles.breadcrumbPath}>
               <Link href={`/post/${postId}`}>{post?.title ?? '게시글'}</Link>
               <ChevronRight size={14} />
