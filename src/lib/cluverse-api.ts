@@ -373,7 +373,7 @@ export function mapPostCard(post: FeedPost) {
     title: post.title,
     excerpt: post.contentPreview || post.content || '',
     authorNickname: post.author.nickname,
-    schoolName: post.board.name,
+    schoolName: post.board?.name ?? '',
     timeAgo: formatRelativeTime(post.createdAt),
     views: post.viewCount,
     likes: post.likeCount,

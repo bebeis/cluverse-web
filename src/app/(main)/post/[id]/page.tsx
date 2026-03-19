@@ -93,7 +93,7 @@ export default function PostDetailPage() {
           <>
             <nav className={styles.breadcrumb}>
               <Link href="/" className={styles.breadcrumbLink}>홈</Link>
-              <span className={styles.breadcrumbCurrent}>{post.board.name}</span>
+              <span className={styles.breadcrumbCurrent}>{post.board?.name}</span>
             </nav>
 
             <article className={styles.article}>
@@ -105,7 +105,7 @@ export default function PostDetailPage() {
                     ) : (
                       <div className={styles.avatarImg} />
                     )}
-                    <div className={styles.schoolBadge}>{post.board.name.slice(0, 3)}</div>
+                    <div className={styles.schoolBadge}>{post.board?.name?.slice(0, 3)}</div>
                   </div>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -123,7 +123,7 @@ export default function PostDetailPage() {
 
               <div className={styles.articleBody}>
                 <div className={styles.tags}>
-                  <span className={styles.tagGeneral}>{post.board.name}</span>
+                  <span className={styles.tagGeneral}>{post.board?.name}</span>
                   <span className={styles.tagGeneral}>{post.category}</span>
                 </div>
 
