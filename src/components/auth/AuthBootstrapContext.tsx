@@ -1,8 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { cluverseApi } from '@/lib/cluverse-api';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 type AuthBootstrapContextValue = {
   authVersion: number;
@@ -14,62 +12,9 @@ const AuthBootstrapContext = createContext<AuthBootstrapContextValue>({
   isAuthBootstrapping: false,
 });
 
-const buildCleanUrl = (pathname: string, searchParams: URLSearchParams) => {
-  const nextParams = new URLSearchParams(searchParams.toString());
-  nextParams.delete('oauth_token');
-  const nextQuery = nextParams.toString();
-  return nextQuery ? `${pathname}?${nextQuery}` : pathname;
-};
-
 export function AuthBootstrapProvider({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [authVersion, setAuthVersion] = useState(0);
-  const [isAuthBootstrapping, setIsAuthBootstrapping] = useState(false);
-  const processedOauthTokensRef = useRef<Set<string>>(new Set());
-
-  useEffect(() => {
-    const oauthToken = searchParams.get('oauth_token');
-    if (!oauthToken) {
-      setIsAuthBootstrapping(false);
-      return;
-    }
-
-    if (processedOauthTokensRef.current.has(oauthToken)) {
-      setIsAuthBootstrapping(false);
-      router.replace(buildCleanUrl(pathname, searchParams));
-      return;
-    }
-
-    processedOauthTokensRef.current.add(oauthToken);
-
-    let cancelled = false;
-
-    const exchangeOauthToken = async () => {
-      setIsAuthBootstrapping(true);
-
-      try {
-        await cluverseApi.exchangeOauthToken(oauthToken);
-        if (!cancelled) {
-          setAuthVersion(prev => prev + 1);
-        }
-      } catch (error) {
-        console.error('OAuth 세션 교환에 실패했습니다.', error);
-      } finally {
-        if (!cancelled) {
-          setIsAuthBootstrapping(false);
-          router.replace(buildCleanUrl(pathname, searchParams));
-        }
-      }
-    };
-
-    exchangeOauthToken();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [pathname, router, searchParams]);
+  const [authVersion] = useState(0);
+  const [isAuthBootstrapping] = useState(false);
 
   const value = useMemo(
     () => ({ authVersion, isAuthBootstrapping }),

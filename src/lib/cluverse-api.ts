@@ -333,6 +333,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetchApi(path, init);
   const payload = (await response.json().catch(() => null)) as ApiEnvelope<T> | null;
 
+  if (response.status === 401 && typeof window !== 'undefined') {
+    localStorage.removeItem('loggedIn');
+  }
+
   if (!response.ok || !payload) {
     throw new ApiError(payload?.message || `Request failed with status ${response.status}`, response.status);
   }

@@ -7,6 +7,7 @@ import { PenTool, Flame, MessageSquare, Music, BookOpen, ShoppingBag } from 'luc
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { PostCard } from '@/components/ui/PostCard';
 import { ApiError, cluverseApi, mapPostCard } from '@/lib/cluverse-api';
+import { isLoggedIn } from '@/lib/auth';
 import styles from './HomePage.module.css';
 
 const filters = [
@@ -26,6 +27,10 @@ export default function HomePage() {
     let cancelled = false;
 
     const run = async () => {
+      if (!isLoggedIn()) {
+        if (!cancelled) setAuthRequired(true);
+        return;
+      }
       try {
         const feed = await cluverseApi.getHomeFeed(activeFilter, 20);
         if (!cancelled) {

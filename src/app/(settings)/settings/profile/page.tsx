@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from './MyPage.module.css';
 import {
   Camera,
@@ -19,14 +20,20 @@ import {
 } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, MemberInterest, MemberMajor, Profile } from '@/lib/cluverse-api';
+import { isLoggedIn } from '@/lib/auth';
 
 export default function MyPageSettingsPage() {
+  const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [majors, setMajors] = useState<MemberMajor[]>([]);
   const [interests, setInterests] = useState<MemberInterest[]>([]);
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
+    if (!isLoggedIn()) {
+      router.replace('/login');
+      return;
+    }
     cluverseApi.getMyProfile()
       .then(data => {
         setProfile(data);
@@ -38,7 +45,7 @@ export default function MyPageSettingsPage() {
       });
     cluverseApi.getMyMajors().then(setMajors).catch(() => setMajors([]));
     cluverseApi.getMyInterests().then(setInterests).catch(() => setInterests([]));
-  }, []);
+  }, [router]);
 
   if (!profile) {
     return (

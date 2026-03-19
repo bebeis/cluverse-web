@@ -7,6 +7,7 @@ import { Mail, Lock, ArrowRight, BookOpen, Users, ShieldCheck } from 'lucide-rea
 import { AuthHeader } from '@/components/ui/AuthHeader';
 import { cluverseApi } from '@/lib/cluverse-api';
 import { buildSocialAuthUrl, buildSocialCallbackUrl, type SocialProvider } from '@/lib/oauth';
+import { setLoggedIn } from '@/lib/auth';
 import styles from './Login.module.css';
 
 export default function LoginPage() {
@@ -23,6 +24,7 @@ export default function LoginPage() {
 
     try {
       await cluverseApi.login(email, password);
+      setLoggedIn();
       router.replace('/');
       router.refresh();
     } catch (caught) {

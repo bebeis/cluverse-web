@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Bookmark, Heart, MessageCircle, UserCog } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { isLoggedIn } from '@/lib/auth';
 import styles from './Following.module.css';
 
 const scopeMap: Record<string, string> = {
@@ -20,6 +21,10 @@ export default function FollowingFeedPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
+    if (!isLoggedIn()) {
+      setAuthRequired(true);
+      return;
+    }
     cluverseApi.getFollowingFeed(scopeMap[activeFilter], 20)
       .then(result => {
         setPosts(result.posts);

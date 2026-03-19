@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { cluverseApi } from '@/lib/cluverse-api';
+import { setLoggedIn } from '@/lib/auth';
 import { type SocialProvider } from '@/lib/oauth';
 import styles from './Callback.module.css';
 
@@ -45,6 +46,7 @@ export function SocialLoginCallbackClient({ provider }: { provider: string }) {
         });
 
         if (!cancelled) {
+          setLoggedIn();
           router.replace('/');
           router.refresh();
         }

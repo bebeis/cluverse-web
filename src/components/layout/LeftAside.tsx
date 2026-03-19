@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Home, Heart, Users, Calendar, Rss } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, Profile } from '@/lib/cluverse-api';
+import { isLoggedIn } from '@/lib/auth';
 import styles from './LeftAside.module.css';
 
 export default function LeftAside() {
@@ -15,6 +16,10 @@ export default function LeftAside() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
+    if (!isLoggedIn()) {
+      setAuthRequired(true);
+      return;
+    }
     cluverseApi.getMyProfile()
       .then(data => {
         setProfile(data);
