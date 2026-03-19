@@ -366,7 +366,37 @@
 - 보드 랭킹 데이터
 - 콘텐츠 유형 분포 데이터
 
-## 9. 문서에는 있지만 프론트 문서가 오래된 항목
+## 9. 게시글 상세 응답의 `board` 필드 누락
+
+현재 상태
+
+- `GET /api/v1/posts/{postId}` 응답에서 일부 게시글의 `board` 필드가 `null` 또는 누락된 채로 내려옵니다.
+- 프론트에서 `post.board.name`에 접근하면서 런타임 오류가 발생했습니다. (Vercel 배포 환경 `/post/970018`에서 재현)
+
+요구사항
+
+- `board` 필드는 항상 non-null로 내려와야 합니다.
+- 최소 요구 필드: `boardId`, `boardType`, `name`, `parentBoardId`
+
+예시
+
+```json
+{
+  "board": {
+    "boardId": 12,
+    "boardType": "GENERAL",
+    "name": "자유게시판",
+    "parentBoardId": null
+  }
+}
+```
+
+비고
+
+- 동일한 `FeedPost` 타입을 사용하는 피드 목록(`GET /api/v1/feeds/home` 등) 및 `mapPostCard` 함수도 영향을 받습니다.
+- 백엔드에서 수정되기 전까지 프론트는 optional chaining으로 방어 처리했습니다.
+
+## 10. 문서에는 있지만 프론트 문서가 오래된 항목
 
 아래 항목은 공개 API 문서에 이미 존재하므로 "추가 필요 API"로 계속 남겨둘 필요는 없습니다.
 
