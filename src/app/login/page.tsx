@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, BookOpen, Users, ShieldCheck } from 'lucide-react';
 import { AuthHeader } from '@/components/ui/AuthHeader';
 import { cluverseApi } from '@/lib/cluverse-api';
-import { buildSocialCallbackUrl, type SocialProvider } from '@/lib/oauth';
+import { buildSocialAuthUrl, buildSocialCallbackUrl, type SocialProvider } from '@/lib/oauth';
 import styles from './Login.module.css';
 
 export default function LoginPage() {
@@ -33,12 +33,9 @@ export default function LoginPage() {
   };
 
   const redirectSocial = (provider: SocialProvider) => {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://api.cluverse.kro.kr';
     const redirectUri = buildSocialCallbackUrl(provider, window.location.origin);
-    const socialLoginUrl = new URL(`/oauth2/${provider}`, apiBase);
-
-    socialLoginUrl.searchParams.set('redirect_uri', redirectUri);
-    window.location.href = socialLoginUrl.toString();
+    const authUrl = buildSocialAuthUrl(provider, redirectUri);
+    window.location.href = authUrl;
   };
 
   return (
