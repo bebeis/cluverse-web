@@ -1,7 +1,7 @@
-const API_PROXY_BASE = '/api/proxy';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://api.cluverse.kro.kr';
 
 export function getApiBaseUrl(): string {
-  return API_PROXY_BASE;
+  return API_BASE;
 }
 
 export async function fetchApi(path: string, init?: RequestInit): Promise<Response> {
@@ -12,7 +12,7 @@ export async function fetchApi(path: string, init?: RequestInit): Promise<Respon
     headers.set('Content-Type', 'application/json');
   }
 
-  return fetch(`${API_PROXY_BASE}${path}`, {
+  return fetch(`${API_BASE}${path}`, {
     ...init,
     credentials: 'include',
     cache: 'no-store',

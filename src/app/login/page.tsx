@@ -32,7 +32,8 @@ export default function LoginPage() {
   };
 
   const redirectSocial = (provider: 'kakao' | 'google') => {
-    window.location.href = `/api/proxy/oauth2/${provider}`;
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://api.cluverse.kro.kr';
+    window.location.href = `${apiBase}/oauth2/${provider}`;
   };
 
   return (
@@ -55,7 +56,7 @@ export default function LoginPage() {
                 <span className={styles.tagText}>University Hub</span>
               </div>
               <h1 className={styles.title}>대학 간 장벽을 넘는<br />연결, 클루버스</h1>
-              <p className={styles.description}>이메일 로그인과 카카오/구글 OAuth 리다이렉트를 모두 프록시 경유로 연결했습니다.</p>
+              <p className={styles.description}>이메일과 카카오/구글 소셜 계정으로 시작하세요.</p>
               <div className={styles.imageArea}>
                 <img
                   src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop"
