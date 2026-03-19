@@ -280,31 +280,55 @@
 
 .universityDropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   left: 0;
   right: 0;
-  background: white;
+  background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  z-index: 50;
-  max-height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  z-index: 100;
+  max-height: 240px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+  padding: 6px;
+}
+
+.universityDropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.universityDropdown::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
 }
 
 .universityDropdownItem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
   font-size: 14px;
-  color: #334155;
+  font-weight: 500;
+  color: #1e293b;
+  background: none;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.15s;
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+  box-sizing: border-box;
 }
 
 .universityDropdownItem:hover {
-  background-color: #f1f5f9;
+  background-color: #EEF2FF;
+  color: #4F46E5;
+}
+
+.universityDropdownItem + .universityDropdownItem {
+  margin-top: 2px;
 }
 
 .termsBox {

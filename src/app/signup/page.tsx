@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, CheckCircle2, Lock, Mail, User } from 'lucide-react';
+import { BookOpen, Building2, CheckCircle2, Lock, Mail, User } from 'lucide-react';
 import { AuthHeader } from '@/components/ui/AuthHeader';
 import { cluverseApi, Term, University } from '@/lib/cluverse-api';
 import styles from './Signup.module.css';
@@ -228,6 +228,7 @@ export default function SignupPage() {
                               setUniversities([]);
                             }}
                           >
+                            <Building2 size={15} style={{ flexShrink: 0, opacity: 0.55 }} />
                             {university.universityName}
                           </button>
                         ))}
