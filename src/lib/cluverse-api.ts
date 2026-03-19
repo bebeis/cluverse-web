@@ -398,19 +398,13 @@ export const cluverseApi = {
       body: JSON.stringify(input),
     });
   },
-  exchangeOauthToken(token: string) {
-    return request<AuthMember>(`/api/v1/auth/oauth/token?token=${encodeURIComponent(token)}`, {
-      method: 'POST',
-    });
-  },
   exchangeOauthCode(input: {
     provider: 'kakao' | 'google';
     code: string;
-    redirectUri: string;
   }) {
-    return request<AuthMember>('/api/v1/auth/oauth/code', {
+    return request<AuthMember>(`/api/v1/auth/oauth/${input.provider}`, {
       method: 'POST',
-      body: JSON.stringify(input),
+      body: JSON.stringify({ code: input.code }),
     });
   },
   logout() {

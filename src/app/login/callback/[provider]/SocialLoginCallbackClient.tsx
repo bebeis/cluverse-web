@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { cluverseApi } from '@/lib/cluverse-api';
-import { buildSocialCallbackUrl, type SocialProvider } from '@/lib/oauth';
+import { type SocialProvider } from '@/lib/oauth';
 import styles from './Callback.module.css';
 
 const SOCIAL_PROVIDERS: SocialProvider[] = ['kakao', 'google'];
@@ -39,11 +39,9 @@ export function SocialLoginCallbackClient({ provider }: { provider: string }) {
 
     const exchangeOauthCode = async () => {
       try {
-        const redirectUri = buildSocialCallbackUrl(validatedProvider, window.location.origin);
         await cluverseApi.exchangeOauthCode({
           provider: validatedProvider,
           code,
-          redirectUri,
         });
 
         if (!cancelled) {
