@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { AlertCircle, ArrowLeft, Calendar, Clock, Info, Link2, Users } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Calendar, Clock, Link2, Users, ClipboardX } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, RecruitmentDetail, RecruitmentSummary, cluverseApi, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './Apply.module.css';
@@ -20,8 +20,10 @@ export default function ApplicationFormPage() {
   const [authRequired, setAuthRequired] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [loadingRecruitments, setLoadingRecruitments] = useState(true);
 
   useEffect(() => {
+    setLoadingRecruitments(true);
     cluverseApi.getRecruitments({ groupId, recruitingOnly: true, page: 1, size: 20 })
       .then(result => {
         setRecruitments(result.recruitments);
@@ -33,7 +35,8 @@ export default function ApplicationFormPage() {
           return;
         }
         setError(caught instanceof Error ? caught.message : '모집 정보를 불러오지 못했습니다.');
-      });
+      })
+      .finally(() => setLoadingRecruitments(false));
   }, [groupId]);
 
   useEffect(() => {
@@ -104,6 +107,31 @@ export default function ApplicationFormPage() {
     }
   };
 
+  if (!loadingRecruitments && recruitments.length === 0 && !authRequired) {
+    return (
+      <div className={styles.page}>
+        <Link href={`/group/${groupId}`} className={styles.backNav}>
+          <ArrowLeft size={18} />
+          그룹 페이지로 돌아가기
+        </Link>
+        <div className={styles.emptyState}>
+          <div className={styles.emptyStateIcon}>
+            <ClipboardX size={36} />
+          </div>
+          <h2 className={styles.emptyStateTitle}>현재 모집 중인 공고가 없습니다</h2>
+          <p className={styles.emptyStateDesc}>
+            이 그룹은 현재 새 멤버를 모집하고 있지 않아요.<br />
+            나중에 다시 확인해 보세요.
+          </p>
+          <Link href={`/group/${groupId}`} className={styles.emptyStateBtn}>
+            <ArrowLeft size={16} />
+            그룹으로 돌아가기
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <AuthRequiredOverlay active={authRequired}>
       <div className={styles.page}>
@@ -154,10 +182,6 @@ export default function ApplicationFormPage() {
               </option>
             ))}
           </select>
-          <p className={styles.linkHint}>
-            <Info size={14} />
-            라우트에 `recruitmentId`가 없어서 현재 그룹의 오픈 모집글 중 하나를 선택하는 방식으로 연결했습니다.
-          </p>
         </div>
 
         <div className={styles.questions}>

@@ -273,6 +273,65 @@
   gap: 6px;
 }
 
+/* ── Empty State ─────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 72px 24px;
+  gap: 16px;
+}
+
+.emptyStateIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: #EEF2FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4051B5;
+  margin-bottom: 8px;
+}
+
+.emptyStateTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111218;
+  letter-spacing: -0.02em;
+}
+
+.emptyStateDesc {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+.emptyStateBtn {
+  margin-top: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: #4051B5;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(64, 81, 181, 0.25);
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emptyStateBtn:hover {
+  background: #303F9F;
+  transform: translateY(-1px);
+}
+
 /* ── Footer ──────────────────────── */
 .footer {
   margin-top: 40px;

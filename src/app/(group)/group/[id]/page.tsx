@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Users, MapPin, Calendar, SquarePen, Eye, MessageCircle, Heart, Pin } from 'lucide-react';
+import { Users, MapPin, Calendar, SquarePen, Eye, MessageCircle, Heart, Pin, Lock } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { cluverseApi, FeedPost, GroupDetail, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './GroupDetail.module.css';
@@ -68,10 +68,22 @@ export default function GroupDetailPage() {
               <span className={styles.heroMetaItem}><Calendar size={18} /> {group.activityType}</span>
             </div>
           </div>
-          <Link href={`/group/${group.groupId}/apply`} className={styles.applyBtn}>
-            <SquarePen size={18} />
-            지원하기
-          </Link>
+          {group.recruiting ? (
+            <Link href={`/group/${group.groupId}/apply`} className={styles.applyBtn}>
+              <div className={styles.applyBtnDot} />
+              지원하기
+              {group.openRecruitmentCount > 1 && (
+                <span style={{ fontSize: 12, fontWeight: 600, opacity: 0.85 }}>
+                  {group.openRecruitmentCount}개 공고
+                </span>
+              )}
+            </Link>
+          ) : (
+            <div className={styles.closedBadge}>
+              <Lock size={15} />
+              현재 모집 없음
+            </div>
+          )}
         </div>
       </div>
 
