@@ -403,6 +403,16 @@ export const cluverseApi = {
       method: 'POST',
     });
   },
+  exchangeOauthCode(input: {
+    provider: 'kakao' | 'google';
+    code: string;
+    redirectUri: string;
+  }) {
+    return request<AuthMember>('/api/v1/auth/oauth/code', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
   logout() {
     return request<null>('/api/v1/auth/logout', { method: 'POST' });
   },
