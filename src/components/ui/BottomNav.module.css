@@ -50,3 +50,9 @@
 .navItem.active .icon {
   transform: translateY(-2px);
 }
+
+@media (min-width: 768px) {
+  .bottomNav {
+    display: none;
+  }
+}
