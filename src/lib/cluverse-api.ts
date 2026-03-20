@@ -552,7 +552,7 @@ export const cluverseApi = {
     });
   },
   checkNicknameAvailability(nickname: string) {
-    return request<{ available: boolean }>(`/api/v1/members/nickname/check?nickname=${encodeURIComponent(nickname)}`);
+    return request<{ available: boolean }>(`/api/v1/members/nickname/availability?nickname=${encodeURIComponent(nickname)}`);
   },
   updateNickname(nickname: string) {
     return request<Profile>('/api/v1/members/me/nickname', {
