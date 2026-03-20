@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Heart, MessageCircle, Bookmark, Share2, Send } from 'lucide-react';
+import { X, Heart, MessageCircle, Bookmark, Share2, Send, Pencil, Check } from 'lucide-react';
 import { Comment, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './PostModal.module.css';
 
@@ -17,7 +17,17 @@ export function PostModal({ postId, onClose }: PostModalProps) {
   const [pendingLike, setPendingLike] = useState(false);
   const [pendingBookmark, setPendingBookmark] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [currentMemberId, setCurrentMemberId] = useState<number | null>(null);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [editingContent, setEditingContent] = useState('');
+  const [savingEdit, setSavingEdit] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    cluverseApi.getMyProfile()
+      .then(p => setCurrentMemberId(p.memberId))
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!postId) {
@@ -111,6 +121,25 @@ export function PostModal({ postId, onClose }: PostModalProps) {
   const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
       handleSubmitComment();
+    }
+  };
+
+  const startEditComment = (comment: { commentId: number; content: string }) => {
+    setEditingCommentId(comment.commentId);
+    setEditingContent(comment.content);
+  };
+
+  const saveEditComment = async (commentId: number) => {
+    if (!editingContent.trim() || savingEdit) return;
+    setSavingEdit(true);
+    try {
+      const updated = await cluverseApi.updateComment(commentId, editingContent.trim());
+      setComments(prev => prev.map(c => c.commentId === commentId ? { ...c, content: updated.content } : c));
+      setEditingCommentId(null);
+    } catch {
+      // silently fail
+    } finally {
+      setSavingEdit(false);
     }
   };
 
@@ -233,8 +262,31 @@ export function PostModal({ postId, onClose }: PostModalProps) {
                         <div className={styles.commentMeta}>
                           <span className={styles.commentAuthor}>{comment.isAnonymous ? '익명' : comment.author.nickname}</span>
                           <span className={styles.commentTime}>{formatRelativeTime(comment.createdAt)}</span>
+                          {currentMemberId && comment.author.memberId === currentMemberId && editingCommentId !== comment.commentId && (
+                            <button className={styles.editCommentBtn} onClick={() => startEditComment(comment)} type="button" aria-label="댓글 수정">
+                              <Pencil size={12} />
+                            </button>
+                          )}
                         </div>
-                        <p className={styles.commentText}>{comment.content}</p>
+                        {editingCommentId === comment.commentId ? (
+                          <div className={styles.commentEditRow}>
+                            <input
+                              className={styles.commentEditInput}
+                              value={editingContent}
+                              onChange={e => setEditingContent(e.target.value)}
+                              onKeyDown={e => { if (e.key === 'Enter') saveEditComment(comment.commentId); if (e.key === 'Escape') setEditingCommentId(null); }}
+                              autoFocus
+                            />
+                            <button className={styles.commentEditSaveBtn} onClick={() => saveEditComment(comment.commentId)} disabled={savingEdit} type="button">
+                              <Check size={12} />
+                            </button>
+                            <button className={styles.commentEditCancelBtn} onClick={() => setEditingCommentId(null)} type="button">
+                              <X size={12} />
+                            </button>
+                          </div>
+                        ) : (
+                          <p className={styles.commentText}>{comment.content}</p>
+                        )}
                         <div className={styles.commentLikes}>
                           <Heart size={12} />
                           <span>{comment.likeCount}</span>

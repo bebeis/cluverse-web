@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import {
-  ApiError, cluverseApi, InterestNode, MajorNode, MemberInterest, MemberMajor, Profile,
+  ApiError, cluverseApi, InterestNode, MajorNode, MemberInterest, MemberMajor, Profile, University,
 } from '@/lib/cluverse-api';
 
 const MAJOR_TYPE_LABELS: Record<string, string> = {
@@ -38,6 +38,10 @@ export default function MajorTagsPage() {
   // School info
   const [entranceYear, setEntranceYear] = useState('');
   const [savingYear, setSavingYear] = useState(false);
+  const [schoolSearch, setSchoolSearch] = useState('');
+  const [searchedSchools, setSearchedSchools] = useState<University[]>([]);
+  const [showSchoolDropdown, setShowSchoolDropdown] = useState(false);
+  const [selectedSchool, setSelectedSchool] = useState<University | null>(null);
 
   const reload = () => {
     cluverseApi.getMyProfile()
@@ -81,13 +85,33 @@ export default function MajorTagsPage() {
   };
 
   const saveEntranceYear = async () => {
-    if (!entranceYear) return;
     setSavingYear(true);
     try {
-      await cluverseApi.updateMyProfile({ entranceYear: Number(entranceYear) });
+      if (selectedSchool && selectedSchool.universityId !== profile?.university?.universityId) {
+        await cluverseApi.updateMyUniversity(selectedSchool.universityId);
+      }
+      if (entranceYear) {
+        await cluverseApi.updateMyProfile({ entranceYear: Number(entranceYear) });
+      }
       reload();
     } finally {
       setSavingYear(false);
+    }
+  };
+
+  const handleSchoolSearch = async (keyword: string) => {
+    setSchoolSearch(keyword);
+    if (!keyword.trim()) {
+      setSearchedSchools([]);
+      setShowSchoolDropdown(false);
+      return;
+    }
+    try {
+      const results = await cluverseApi.searchUniversities(keyword);
+      setSearchedSchools(results);
+      setShowSchoolDropdown(true);
+    } catch {
+      setSearchedSchools([]);
     }
   };
 
@@ -130,8 +154,49 @@ export default function MajorTagsPage() {
           <div className={styles.schoolBody}>
             <div className={styles.schoolDetails}>
               <div className={styles.schoolName}>
-                <h2>{profile?.university?.universityName || '학교 미등록'}</h2>
+                <h2>{selectedSchool?.universityName || profile?.university?.universityName || '학교 미등록'}</h2>
               </div>
+
+              <div className={styles.schoolSearchBox}>
+                <div className={styles.schoolSearchInputWrap}>
+                  <Search size={16} style={{ color: '#9CA3AF', flexShrink: 0 }} />
+                  <input
+                    className={styles.schoolSearchInput}
+                    placeholder="학교명 검색..."
+                    value={schoolSearch}
+                    onChange={e => handleSchoolSearch(e.target.value)}
+                    onFocus={() => { if (searchedSchools.length > 0) setShowSchoolDropdown(true); }}
+                    onBlur={() => setTimeout(() => setShowSchoolDropdown(false), 150)}
+                  />
+                  {selectedSchool && (
+                    <button
+                      className={styles.resetBtn}
+                      style={{ padding: 4 }}
+                      onClick={() => { setSelectedSchool(null); setSchoolSearch(''); }}
+                    >
+                      취소
+                    </button>
+                  )}
+                </div>
+                {showSchoolDropdown && searchedSchools.length > 0 && (
+                  <div className={styles.schoolDropdown}>
+                    {searchedSchools.map(school => (
+                      <button
+                        key={school.universityId}
+                        className={styles.schoolDropdownItem}
+                        onMouseDown={() => {
+                          setSelectedSchool(school);
+                          setSchoolSearch(school.universityName);
+                          setShowSchoolDropdown(false);
+                        }}
+                      >
+                        {school.universityName}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className={styles.schoolInfoGrid}>
                 <div className={styles.schoolInfoItem}>
                   <div className={styles.schoolInfoItemLabel}>입학년도</div>

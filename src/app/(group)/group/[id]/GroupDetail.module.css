@@ -964,6 +964,15 @@
 }
 .recruitManageBtn:hover { border-color: #4051B5; color: #4051B5; }
 
+.recruitIconBtn {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: #F3F4F6; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #6B7280; transition: all 0.15s;
+}
+.recruitIconBtn:hover { background: #E5E7EB; color: #374151; }
+.recruitIconBtnDanger:hover { background: #FEE2E2; color: #EF4444; }
+
 /* ── Member Tab ──────────────────────── */
 .memberManageLink {
   display: flex; align-items: center; gap: 8px;

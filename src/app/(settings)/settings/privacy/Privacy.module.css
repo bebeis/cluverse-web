@@ -312,3 +312,55 @@
   transition: background 0.2s;
 }
 .btnPrimary:hover { background: #303F9F; }
+
+/* ── Password Form ───────────────────── */
+.pwForm {
+  display: flex; flex-direction: column; gap: 8px; max-width: 400px;
+}
+
+.pwLabel {
+  font-size: 13px; font-weight: 600; color: #374151; margin-top: 4px;
+}
+
+.pwInput {
+  padding: 10px 14px; border-radius: 10px;
+  border: 1px solid #E5E7EB; background: #F9FAFB;
+  font-size: 14px; color: #111827;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.pwInput:focus { border-color: #4051B5; background: white; }
+
+.pwError { font-size: 13px; color: #DC2626; }
+.pwSuccess { font-size: 13px; color: #16A34A; }
+
+.pwBtn {
+  margin-top: 4px; padding: 10px 20px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; color: white;
+  background: #4051B5; border: none; cursor: pointer;
+  transition: background 0.2s; align-self: flex-start;
+}
+.pwBtn:hover:not(:disabled) { background: #303F9F; }
+.pwBtn:disabled { background: #D1D5DB; cursor: not-allowed; }
+
+/* ── Delete Card ─────────────────────── */
+.deleteCard {
+  composes: card;
+  border-color: #FEE2E2;
+}
+
+.deleteWarning {
+  font-size: 14px; color: #374151; line-height: 1.6;
+  margin-bottom: 16px;
+  padding: 12px 16px; border-radius: 10px;
+  background: #FEF2F2; border: 1px solid #FECACA;
+}
+
+.deleteBtn {
+  margin-top: 4px; padding: 10px 20px; border-radius: 10px;
+  font-size: 14px; font-weight: 700; color: white;
+  background: #DC2626; border: none; cursor: pointer;
+  transition: background 0.2s; align-self: flex-start;
+}
+.deleteBtn:hover:not(:disabled) { background: #B91C1C; }
+.deleteBtn:disabled { background: #D1D5DB; cursor: not-allowed; }

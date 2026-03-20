@@ -200,6 +200,26 @@ export type InterestNode = {
   displayOrder: number;
 };
 
+export type MemberSummary = {
+  memberId: number;
+  nickname: string;
+  profileImageUrl: string | null;
+  university: University | null;
+};
+
+export type PresignedUrlResponse = {
+  presignedUrl: string;
+  fileUrl: string;
+};
+
+export type PostSearchPage = {
+  posts: FeedPost[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+};
+
 export type BlockedMember = {
   memberId: number;
   nickname: string;
@@ -300,6 +320,16 @@ export type RecruitmentListPage = {
   page: number;
   size: number;
   hasNext: boolean;
+};
+
+export type ApplicationMessage = {
+  messageId: number;
+  applicationId: number;
+  senderId: number;
+  senderNickname: string;
+  senderProfileImageUrl: string | null;
+  content: string;
+  createdAt: string;
 };
 
 export type RecruitmentApplicationAnswer = {
@@ -470,6 +500,50 @@ export const cluverseApi = {
   },
   getMyProfile() {
     return request<Profile>('/api/v1/members/me/profile');
+  },
+  updateMyUniversity(universityId: number) {
+    return request<Profile>('/api/v1/members/me/university', {
+      method: 'PUT',
+      body: JSON.stringify({ universityId }),
+    });
+  },
+  getFollowers(memberId: number) {
+    return request<MemberSummary[]>(`/api/v1/members/${memberId}/followers`);
+  },
+  getFollowing(memberId: number) {
+    return request<MemberSummary[]>(`/api/v1/members/${memberId}/following`);
+  },
+  getMyPosts(input?: { page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      page: String(input?.page ?? 1),
+      size: String(input?.size ?? 20),
+    });
+    return request<{ posts: FeedPost[]; page: number; size: number; hasNext: boolean }>(
+      `/api/v1/members/me/posts?${params.toString()}`,
+    );
+  },
+  changePassword(input: { currentPassword: string; newPassword: string }) {
+    return request<null>('/api/v1/members/me/password', {
+      method: 'PATCH',
+      body: JSON.stringify(input),
+    });
+  },
+  deleteMyAccount() {
+    return request<null>('/api/v1/members/me', { method: 'DELETE' });
+  },
+  getProfileImagePresignedUrl(fileName: string) {
+    return request<PresignedUrlResponse>('/api/v1/members/me/profile-image/presigned-url', {
+      method: 'POST',
+      body: JSON.stringify({ fileName }),
+    });
+  },
+  searchPosts(input: { keyword: string; page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      keyword: input.keyword,
+      page: String(input.page ?? 1),
+      size: String(input.size ?? 20),
+    });
+    return request<PostSearchPage>(`/api/v1/posts/search?${params.toString()}`);
   },
   updateMyProfile(input: Partial<Profile>) {
     return request<Profile>('/api/v1/members/me/profile', {
@@ -737,6 +811,12 @@ export const cluverseApi = {
       body: JSON.stringify(input),
     });
   },
+  updateComment(commentId: number, content: string) {
+    return request<Comment>(`/api/v1/comments/${commentId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ content }),
+    });
+  },
   deleteComment(commentId: number) {
     return request<{ postId: number; commentId: number; status: string }>(`/api/v1/comments/${commentId}`, { method: 'DELETE' });
   },
@@ -779,9 +859,33 @@ export const cluverseApi = {
   getRecruitment(recruitmentId: number) {
     return request<RecruitmentDetail>(`/api/v1/recruitments/${recruitmentId}`);
   },
+  updateRecruitment(recruitmentId: number, input: {
+    title: string;
+    description: string;
+    positions: RecruitmentPosition[];
+    requirements: string;
+    duration: string;
+    goal: string;
+    processDescription: string;
+    deadline: string;
+    formItems: RecruitmentFormItem[];
+  }) {
+    return request<RecruitmentDetail>(`/api/v1/recruitments/${recruitmentId}`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    });
+  },
+  patchRecruitmentStatus(recruitmentId: number, status: 'OPEN' | 'CLOSED') {
+    return request<RecruitmentDetail>(`/api/v1/recruitments/${recruitmentId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  },
+  deleteRecruitment(recruitmentId: number) {
+    return request<null>(`/api/v1/recruitments/${recruitmentId}`, { method: 'DELETE' });
+  },
   getRecruitmentApplications(recruitmentId: number, input?: { status?: string; page?: number; size?: number }) {
     const params = new URLSearchParams({
-      recruitmentId: String(recruitmentId),
       page: String(input?.page ?? 1),
       size: String(input?.size ?? 20),
     });
@@ -789,7 +893,7 @@ export const cluverseApi = {
       params.set('status', input.status);
     }
     return request<RecruitmentApplicationListPage>(
-      `/api/v1/recruitment-applications?${params.toString()}`,
+      `/api/v1/recruitments/${recruitmentId}/applications?${params.toString()}`,
     );
   },
   createRecruitmentApplication(recruitmentId: number, input: {
@@ -797,17 +901,17 @@ export const cluverseApi = {
     portfolioUrl: string | null;
     answers: Array<{ formItemId: number; answer: string }>;
   }) {
-    return request<RecruitmentApplication>(`/api/v1/recruitment-applications?recruitmentId=${recruitmentId}`, {
+    return request<RecruitmentApplication>(`/api/v1/recruitments/${recruitmentId}/apply`, {
       method: 'POST',
       body: JSON.stringify(input),
     });
   },
   getRecruitmentApplication(applicationId: number) {
-    return request<RecruitmentApplication>(`/api/v1/recruitment-applications/${applicationId}`);
+    return request<RecruitmentApplication>(`/api/v1/applications/${applicationId}`);
   },
   updateRecruitmentApplicationStatus(applicationId: number, input: { status: string; note: string }) {
     return request<RecruitmentApplication>(
-      `/api/v1/recruitment-applications/${applicationId}/status`,
+      `/api/v1/applications/${applicationId}/status`,
       {
         method: 'PATCH',
         body: JSON.stringify(input),
@@ -815,7 +919,16 @@ export const cluverseApi = {
     );
   },
   deleteRecruitmentApplication(applicationId: number) {
-    return request<void>(`/api/v1/recruitment-applications/${applicationId}`, { method: 'DELETE' });
+    return request<void>(`/api/v1/applications/${applicationId}`, { method: 'DELETE' });
+  },
+  getApplicationMessages(applicationId: number) {
+    return request<ApplicationMessage[]>(`/api/v1/applications/${applicationId}/messages`);
+  },
+  sendApplicationMessage(applicationId: number, content: string) {
+    return request<ApplicationMessage>(`/api/v1/applications/${applicationId}/messages`, {
+      method: 'POST',
+      body: JSON.stringify({ content }),
+    });
   },
   getBookmarks(input?: { sort?: string; page?: number; size?: number }) {
     const params = new URLSearchParams({

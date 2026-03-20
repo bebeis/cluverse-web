@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import {
   Users, MapPin, Calendar, Eye, MessageCircle, Heart, Pin, Lock, SquarePen,
   Crown, Shield, User as UserIcon, Settings, PlusCircle, FileText, UserCheck,
-  LogOut, Pencil, ChevronRight, X, Trash2, ClipboardList,
+  LogOut, Pencil, ChevronRight, X, Trash2, ClipboardList, StopCircle, PlayCircle,
 } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { PostModal } from '@/components/ui/PostModal';
@@ -48,6 +48,13 @@ export default function GroupDetailPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [editForm, setEditForm] = useState<EditForm | null>(null);
   const [saving, setSaving] = useState(false);
+
+  // 공고 수정 모달
+  const [recruitEditOpen, setRecruitEditOpen] = useState(false);
+  const [recruitEditing, setRecruitEditing] = useState<RecruitmentSummary | null>(null);
+  const [recruitEditTitle, setRecruitEditTitle] = useState('');
+  const [recruitEditDeadline, setRecruitEditDeadline] = useState('');
+  const [recruitSaving, setRecruitSaving] = useState(false);
 
   const reloadGroup = async () => {
     const g = await cluverseApi.getGroup(groupId);
@@ -126,6 +133,52 @@ export default function GroupDetailPage() {
     if (!confirm('정말로 그룹을 나가시겠습니까?')) return;
     await cluverseApi.leaveGroup(groupId);
     router.push('/groups');
+  };
+
+  const openRecruitEdit = (rec: RecruitmentSummary) => {
+    setRecruitEditing(rec);
+    setRecruitEditTitle(rec.title);
+    // deadline을 datetime-local input 형식으로 변환
+    setRecruitEditDeadline(rec.deadline ? rec.deadline.slice(0, 16) : '');
+    setRecruitEditOpen(true);
+  };
+
+  const saveRecruitEdit = async () => {
+    if (!recruitEditing) return;
+    setRecruitSaving(true);
+    try {
+      const detail = await cluverseApi.getRecruitment(recruitEditing.recruitmentId);
+      await cluverseApi.updateRecruitment(recruitEditing.recruitmentId, {
+        title: recruitEditTitle,
+        description: detail.description,
+        positions: detail.positions,
+        requirements: detail.requirements,
+        duration: detail.duration,
+        goal: detail.goal,
+        processDescription: detail.processDescription,
+        deadline: new Date(recruitEditDeadline).toISOString(),
+        formItems: detail.formItems,
+      });
+      const rec = await cluverseApi.getRecruitments({ groupId });
+      setRecruitments(rec.recruitments);
+      setRecruitEditOpen(false);
+    } finally {
+      setRecruitSaving(false);
+    }
+  };
+
+  const toggleRecruitStatus = async (rec: RecruitmentSummary) => {
+    const next = rec.status === 'OPEN' ? 'CLOSED' : 'OPEN';
+    await cluverseApi.patchRecruitmentStatus(rec.recruitmentId, next);
+    setRecruitments(prev => prev.map(r =>
+      r.recruitmentId === rec.recruitmentId ? { ...r, status: next } : r,
+    ));
+  };
+
+  const deleteRecruitment = async (rec: RecruitmentSummary) => {
+    if (!confirm(`"${rec.title}" 공고를 삭제하시겠습니까?`)) return;
+    await cluverseApi.deleteRecruitment(rec.recruitmentId);
+    setRecruitments(prev => prev.filter(r => r.recruitmentId !== rec.recruitmentId));
   };
 
   const kickMember = async (memberId: number, nickname: string) => {
@@ -375,6 +428,23 @@ export default function GroupDetailPage() {
                           지원자 관리
                         </Link>
                       )}
+                      {canManage && (
+                        <div style={{ display: 'flex', gap: 6 }}>
+                          <button className={styles.recruitIconBtn} onClick={() => openRecruitEdit(rec)} title="수정">
+                            <Pencil size={13} />
+                          </button>
+                          <button
+                            className={styles.recruitIconBtn}
+                            onClick={() => toggleRecruitStatus(rec)}
+                            title={rec.status === 'OPEN' ? '마감' : '재개'}
+                          >
+                            {rec.status === 'OPEN' ? <StopCircle size={13} /> : <PlayCircle size={13} />}
+                          </button>
+                          <button className={`${styles.recruitIconBtn} ${styles.recruitIconBtnDanger}`} onClick={() => deleteRecruitment(rec)} title="삭제">
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -552,6 +622,39 @@ export default function GroupDetailPage() {
       </div>
 
       <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
+
+      {/* ── 공고 수정 모달 ── */}
+      {recruitEditOpen && recruitEditing && (
+        <div className={styles.modalOverlay} onClick={() => setRecruitEditOpen(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>공고 수정</h2>
+              <button className={styles.modalClose} onClick={() => setRecruitEditOpen(false)}><X size={20} /></button>
+            </div>
+            <div className={styles.modalBody}>
+              <label className={styles.modalLabel}>공고 제목</label>
+              <input
+                className={styles.modalInput}
+                value={recruitEditTitle}
+                onChange={e => setRecruitEditTitle(e.target.value)}
+              />
+              <label className={styles.modalLabel}>마감일</label>
+              <input
+                className={styles.modalInput}
+                type="datetime-local"
+                value={recruitEditDeadline}
+                onChange={e => setRecruitEditDeadline(e.target.value)}
+              />
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.modalCancelBtn} onClick={() => setRecruitEditOpen(false)}>취소</button>
+              <button className={styles.modalSaveBtn} onClick={saveRecruitEdit} disabled={recruitSaving}>
+                {recruitSaving ? '저장 중...' : '저장'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── 그룹 정보 수정 모달 ── */}
       {editOpen && editForm && (

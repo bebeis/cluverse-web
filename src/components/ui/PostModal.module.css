@@ -450,3 +450,39 @@
 
 .commentSubmitBtn:hover { background: #303F9F; }
 .commentSubmitBtn:disabled { background: #D1D5DB; cursor: not-allowed; }
+
+/* Comment edit */
+.editCommentBtn {
+  background: none; border: none; cursor: pointer;
+  color: #9CA3AF; padding: 2px 4px; border-radius: 4px;
+  display: inline-flex; align-items: center;
+  transition: color 0.15s;
+}
+.editCommentBtn:hover { color: #4051B5; }
+
+.commentEditRow {
+  display: flex; align-items: center; gap: 4px; margin-top: 4px;
+}
+
+.commentEditInput {
+  flex: 1; padding: 6px 10px; border-radius: 8px;
+  border: 1px solid #4051B5; background: white;
+  font-size: 14px; color: #111827; outline: none;
+  font-family: inherit;
+}
+
+.commentEditSaveBtn {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: #4051B5; color: white; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.commentEditSaveBtn:disabled { background: #D1D5DB; cursor: not-allowed; }
+
+.commentEditCancelBtn {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: #F3F4F6; color: #6B7280; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.commentEditCancelBtn:hover { background: #E5E7EB; }

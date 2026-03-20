@@ -488,3 +488,89 @@
   color: #4051B5;
   transform: translateX(4px);
 }
+
+/* ── My Posts List ───────────────────── */
+.myPostsList {
+  padding: 0 32px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.myPostItem {
+  padding: 12px 16px; border-radius: 10px;
+  background: #F9FAFB; border: 1px solid #F3F4F6;
+}
+
+.myPostTitle {
+  font-size: 14px; font-weight: 600; color: #111827;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.myPostMeta {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #9CA3AF;
+}
+
+.myPostMeta span {
+  display: inline-flex; align-items: center; gap: 3px;
+}
+
+.myPostsEmpty {
+  font-size: 13px; color: #9CA3AF; padding: 8px 0;
+}
+
+/* ── Follow Modal ────────────────────── */
+.followOverlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+
+.followModal {
+  background: white; width: 100%; max-width: 400px;
+  border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.followModalHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px; border-bottom: 1px solid #F3F4F6;
+}
+
+.followModalTitle {
+  font-size: 16px; font-weight: 700; color: #111827;
+}
+
+.followModalClose {
+  background: none; border: none; cursor: pointer;
+  color: #9CA3AF; padding: 4px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.followModalClose:hover { background: #F3F4F6; }
+
+.followModalBody {
+  padding: 16px 24px; max-height: 400px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.followItem {
+  display: flex; align-items: center; gap: 12px;
+}
+
+.followAvatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: #E5E7EB; overflow: hidden;
+}
+
+.followName {
+  font-size: 14px; font-weight: 600; color: #111827;
+}
+
+.followUniv {
+  font-size: 12px; color: #9CA3AF; margin-top: 2px;
+}
+
+.followEmpty {
+  font-size: 13px; color: #9CA3AF; text-align: center; padding: 16px 0;
+}

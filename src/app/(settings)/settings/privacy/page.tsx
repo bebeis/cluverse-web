@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Eye, Globe2, GraduationCap, BookOpen, Wifi, X } from 'lucide-react';
+import { Eye, Globe2, GraduationCap, BookOpen, Wifi, X, Lock, AlertTriangle } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, Profile, cluverseApi } from '@/lib/cluverse-api';
 import styles from './Privacy.module.css';
@@ -18,6 +18,18 @@ export default function PrivacySettingsPage() {
   const [allowMsg, setAllowMsg] = useState(false);
   const [authRequired, setAuthRequired] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Password change
+  const [currentPw, setCurrentPw] = useState('');
+  const [newPw, setNewPw] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
+  const [pwError, setPwError] = useState<string | null>(null);
+  const [pwSuccess, setPwSuccess] = useState(false);
+  const [changingPw, setChangingPw] = useState(false);
+
+  // Account deletion
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     cluverseApi.getMyProfile()
@@ -58,6 +70,48 @@ export default function PrivacySettingsPage() {
   const showUni = visibleFields.has(FIELD_KEYS.university);
   const showMajor = visibleFields.has(FIELD_KEYS.major);
   const showOnline = visibleFields.has(FIELD_KEYS.online);
+
+  const handleChangePassword = async () => {
+    setPwError(null);
+    setPwSuccess(false);
+    if (!currentPw || !newPw || !confirmPw) {
+      setPwError('모든 항목을 입력해주세요.');
+      return;
+    }
+    if (newPw !== confirmPw) {
+      setPwError('새 비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    if (newPw.length < 8) {
+      setPwError('비밀번호는 8자 이상이어야 합니다.');
+      return;
+    }
+    setChangingPw(true);
+    try {
+      await cluverseApi.changePassword({ currentPassword: currentPw, newPassword: newPw });
+      setPwSuccess(true);
+      setCurrentPw('');
+      setNewPw('');
+      setConfirmPw('');
+    } catch (e) {
+      setPwError(e instanceof ApiError ? e.message : '비밀번호 변경에 실패했습니다.');
+    } finally {
+      setChangingPw(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmText !== '탈퇴합니다') return;
+    setDeleting(true);
+    try {
+      await cluverseApi.deleteMyAccount();
+      localStorage.removeItem('accessToken');
+      window.location.href = '/';
+    } catch (e) {
+      alert(e instanceof ApiError ? e.message : '회원 탈퇴에 실패했습니다.');
+      setDeleting(false);
+    }
+  };
 
   return (
     <AuthRequiredOverlay active={authRequired}>
@@ -120,6 +174,60 @@ export default function PrivacySettingsPage() {
               </label>
             </div>
             <p className={styles.footerNote}>메시지 수신 정책 API는 문서에 없어 현재 UI 상태만 유지합니다.</p>
+          </div>
+        </div>
+
+        {/* Password Change */}
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <span className={styles.cardTitle}><Lock size={16} style={{ display: 'inline', marginRight: 6 }} />비밀번호 변경</span>
+          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.pwForm}>
+              <label className={styles.pwLabel}>현재 비밀번호</label>
+              <input className={styles.pwInput} type="password" value={currentPw} onChange={e => setCurrentPw(e.target.value)} placeholder="현재 비밀번호" />
+              <label className={styles.pwLabel}>새 비밀번호</label>
+              <input className={styles.pwInput} type="password" value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="새 비밀번호 (8자 이상)" />
+              <label className={styles.pwLabel}>새 비밀번호 확인</label>
+              <input className={styles.pwInput} type="password" value={confirmPw} onChange={e => setConfirmPw(e.target.value)} placeholder="새 비밀번호 재입력" />
+              {pwError && <p className={styles.pwError}>{pwError}</p>}
+              {pwSuccess && <p className={styles.pwSuccess}>비밀번호가 변경되었습니다.</p>}
+              <button className={styles.pwBtn} onClick={handleChangePassword} disabled={changingPw} type="button">
+                {changingPw ? '변경 중...' : '비밀번호 변경'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Account Deletion */}
+        <div className={styles.deleteCard}>
+          <div className={styles.cardHeader}>
+            <span className={styles.cardTitle} style={{ color: '#DC2626' }}>
+              <AlertTriangle size={16} style={{ display: 'inline', marginRight: 6 }} />회원 탈퇴
+            </span>
+          </div>
+          <div className={styles.cardBody}>
+            <p className={styles.deleteWarning}>
+              탈퇴 시 모든 게시글, 댓글, 그룹 정보가 삭제되며 복구할 수 없습니다.<br />
+              계속하려면 아래에 <strong>탈퇴합니다</strong>를 입력하세요.
+            </p>
+            <div className={styles.pwForm}>
+              <input
+                className={styles.pwInput}
+                type="text"
+                value={deleteConfirmText}
+                onChange={e => setDeleteConfirmText(e.target.value)}
+                placeholder="탈퇴합니다"
+              />
+              <button
+                className={styles.deleteBtn}
+                onClick={handleDeleteAccount}
+                disabled={deleteConfirmText !== '탈퇴합니다' || deleting}
+                type="button"
+              >
+                {deleting ? '처리 중...' : '회원 탈퇴'}
+              </button>
+            </div>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './Explore.module.css';
 import {
@@ -8,11 +8,12 @@ import {
   GraduationCap,
   Users,
   ChevronRight,
-  BookOpen,
-  FileText,
-  MessagesSquare,
-  UserCheck,
+  Search,
+  Heart,
+  MessageCircle,
 } from 'lucide-react';
+import { cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { PostModal } from '@/components/ui/PostModal';
 
 const exploreCards = [
   {
@@ -49,6 +50,26 @@ const stats = [
 ];
 
 export default function ExplorePage() {
+  const [keyword, setKeyword] = useState('');
+  const [searchResults, setSearchResults] = useState<FeedPost[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+
+  const handleSearch = async () => {
+    if (!keyword.trim()) return;
+    setSearching(true);
+    setSearched(true);
+    try {
+      const data = await cluverseApi.searchPosts({ keyword: keyword.trim(), page: 1, size: 20 });
+      setSearchResults(data.posts);
+    } catch {
+      setSearchResults([]);
+    } finally {
+      setSearching(false);
+    }
+  };
+
   return (
     <div className={styles.page}>
       {/* Hero */}
@@ -60,6 +81,52 @@ export default function ExplorePage() {
             Cluverse에서 커뮤니티, 학과, 그룹을 탐색하고 새로운 사람들과 연결되세요.
           </p>
         </div>
+      </section>
+
+      {/* Post Search */}
+      <section>
+        <h2 className={styles.sectionTitle}>게시글 검색</h2>
+        <div className={styles.searchBox}>
+          <div className={styles.searchInputWrap}>
+            <Search size={18} className={styles.searchIcon} />
+            <input
+              className={styles.searchInput}
+              placeholder="키워드로 게시글 검색..."
+              value={keyword}
+              onChange={e => setKeyword(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
+            />
+          </div>
+          <button className={styles.searchBtn} onClick={handleSearch} disabled={searching || !keyword.trim()} type="button">
+            {searching ? '검색 중...' : '검색'}
+          </button>
+        </div>
+
+        {searched && (
+          <div className={styles.searchResults}>
+            {searching ? (
+              <p className={styles.searchEmpty}>검색 중...</p>
+            ) : searchResults.length === 0 ? (
+              <p className={styles.searchEmpty}>검색 결과가 없습니다.</p>
+            ) : searchResults.map(post => (
+              <button
+                key={post.postId}
+                className={styles.searchResultItem}
+                onClick={() => setSelectedPostId(post.postId)}
+                type="button"
+              >
+                <div className={styles.searchResultTitle}>{post.title}</div>
+                <div className={styles.searchResultContent}>{post.contentPreview}</div>
+                <div className={styles.searchResultMeta}>
+                  <span>{post.isAnonymous ? '익명' : post.author.nickname}</span>
+                  <span><Heart size={12} /> {post.likeCount}</span>
+                  <span><MessageCircle size={12} /> {post.commentCount}</span>
+                  <span>{formatRelativeTime(post.createdAt)}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Category Navigation */}
@@ -95,6 +162,8 @@ export default function ExplorePage() {
           ))}
         </div>
       </section>
+
+      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
     </div>
   );
 }
