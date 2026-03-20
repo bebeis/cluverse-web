@@ -35,6 +35,8 @@ function CreatePostForm() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const editorRef = useRef<HTMLDivElement>(null);
+  const editorWrapperRef = useRef<HTMLDivElement>(null);
+  const [imgOverlay, setImgOverlay] = useState<{ top: number; left: number; width: number; img: HTMLImageElement } | null>(null);
 
   useEffect(() => {
     cluverseApi.getBoards({ activeOnly: true, depth: 2 })
@@ -59,6 +61,28 @@ function CreatePostForm() {
         setError(caught instanceof Error ? caught.message : '게시판 목록을 불러오지 못했습니다.');
       });
   }, []);
+
+  const handleEditorClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target instanceof HTMLImageElement && editorWrapperRef.current) {
+      const wrapperRect = editorWrapperRef.current.getBoundingClientRect();
+      const imgRect = e.target.getBoundingClientRect();
+      setImgOverlay({
+        top: imgRect.top - wrapperRect.top,
+        left: imgRect.left - wrapperRect.left,
+        width: imgRect.width,
+        img: e.target,
+      });
+    } else {
+      setImgOverlay(null);
+    }
+  };
+
+  const handleDeleteImg = () => {
+    if (imgOverlay) {
+      imgOverlay.img.remove();
+      setImgOverlay(null);
+    }
+  };
 
   const handleImagePaste = async (e: React.ClipboardEvent<HTMLDivElement>) => {
     const items = Array.from(e.clipboardData.items);
@@ -192,7 +216,7 @@ function CreatePostForm() {
               />
             </div>
 
-            <div className={styles.editorWrapper}>
+            <div className={styles.editorWrapper} ref={editorWrapperRef} style={{ position: 'relative' }}>
               <div
                 ref={editorRef}
                 contentEditable
@@ -200,7 +224,18 @@ function CreatePostForm() {
                 className={styles.editorTextarea}
                 data-placeholder="내용을 입력하세요..."
                 onPaste={handleImagePaste}
+                onClick={handleEditorClick}
               />
+              {imgOverlay && (
+                <button
+                  type="button"
+                  className={styles.imgDeleteBtn}
+                  style={{ top: imgOverlay.top + 8, left: imgOverlay.left + imgOverlay.width - 36 }}
+                  onClick={handleDeleteImg}
+                >
+                  ×
+                </button>
+              )}
               {uploading && <div className={styles.uploadingBanner}>이미지 업로드 중...</div>}
             </div>
 

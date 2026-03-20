@@ -128,17 +128,25 @@ export default function PostDetailPage() {
                 </div>
 
                 <h1 className={styles.postTitle}>{post.title}</h1>
-                <p className={styles.postContent}>{post.content || post.contentPreview}</p>
-
-                {post.imageUrls?.length ? (
-                  <div className={styles.imageGrid}>
-                    {post.imageUrls.map(imageUrl => (
-                      <div key={imageUrl} className={styles.gridImg}>
-                        <img src={imageUrl} alt="" />
+                {post.content?.includes('<') ? (
+                  <div
+                    className={styles.postContent}
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                ) : (
+                  <>
+                    <p className={styles.postContent}>{post.content || post.contentPreview}</p>
+                    {post.imageUrls?.length ? (
+                      <div className={styles.imageGrid}>
+                        {post.imageUrls.map(imageUrl => (
+                          <div key={imageUrl} className={styles.gridImg}>
+                            <img src={imageUrl} alt="" />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                ) : null}
+                    ) : null}
+                  </>
+                )}
 
                 {!!post.tags.length && (
                   <div className={styles.hashTags}>
