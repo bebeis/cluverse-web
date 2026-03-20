@@ -2,12 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronLeft, ChevronRight, Users, Eye } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ChevronDown, ChevronLeft, ChevronRight, Plus, Users, Eye } from 'lucide-react';
 import { cluverseApi, GroupSummary } from '@/lib/cluverse-api';
+import CreateGroupModal from '@/components/group/CreateGroupModal';
 import styles from './GroupExplore.module.css';
 
 export default function GroupExplorePage() {
+  const router = useRouter();
   const [groups, setGroups] = useState<GroupSummary[]>([]);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     cluverseApi.getGroups({ page: 1, size: 20 })
@@ -18,8 +22,13 @@ export default function GroupExplorePage() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <h1 className={styles.title}>그룹 탐색</h1>
-        <p className={styles.subtitle}>`/api/v1/groups` 실제 응답으로 렌더링합니다.</p>
+        <div className={styles.headerTop}>
+          <h1 className={styles.title}>그룹 탐색</h1>
+          <button className={styles.createBtn} type="button" onClick={() => setShowCreateModal(true)}>
+            <Plus size={16} /> 그룹 만들기
+          </button>
+        </div>
+        <p className={styles.subtitle}>관심사가 맞는 그룹을 찾거나 직접 만들어 보세요.</p>
       </div>
 
       <div className={styles.filterBar}>
@@ -86,6 +95,16 @@ export default function GroupExplorePage() {
         <button className={styles.pageBtnActive}>1</button>
         <button className={styles.pageBtn}><ChevronRight size={18} /></button>
       </div>
+
+      {showCreateModal && (
+        <CreateGroupModal
+          onClose={() => setShowCreateModal(false)}
+          onCreated={(groupId) => {
+            setShowCreateModal(false);
+            router.push(`/group/${groupId}`);
+          }}
+        />
+      )}
     </div>
   );
 }

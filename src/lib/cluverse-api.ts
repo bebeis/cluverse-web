@@ -586,6 +586,22 @@ export const cluverseApi = {
       `/api/v1/groups?${params.toString()}`,
     );
   },
+  createGroup(input: {
+    name: string;
+    description: string;
+    coverImageUrl: string;
+    category: string;
+    activityType: string;
+    region: string;
+    visibility: string;
+    maxMembers: number;
+    interestIds: number[];
+  }) {
+    return request<GroupDetail>('/api/v1/groups', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
   getMyGroups() {
     return request<GroupSummary[]>('/api/v1/groups/me');
   },
