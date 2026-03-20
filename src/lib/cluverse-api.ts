@@ -798,6 +798,7 @@ export const cluverseApi = {
       `/api/v1/posts/bookmarks?${params.toString()}`,
     );
   },
+  /** from/to는 LocalDateTime 형식: "yyyy-MM-dd'T'HH:mm:ss" */
   getCalendarEvents(input?: { from?: string; to?: string }) {
     const params = new URLSearchParams();
     if (input?.from) params.set('from', input.from);

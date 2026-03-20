@@ -43,8 +43,10 @@ export default function CalendarPage() {
   const [reloadTick, setReloadTick] = useState(0);
 
   useEffect(() => {
-    const from = new Date(year, month, 1).toISOString().slice(0, 10);
-    const to = new Date(year, month + 1, 0).toISOString().slice(0, 10);
+    const from = `${year}-${String(month + 1).padStart(2, '0')}-01T00:00:00`;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const to = `${year}-${pad(month + 1)}-${pad(lastDay)}T23:59:59`;
     cluverseApi.getCalendarEvents({ from, to })
       .then(setCalendarEvents)
       .catch(() => setCalendarEvents([]));
