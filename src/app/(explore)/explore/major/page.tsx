@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Pencil, Sparkles } from 'lucide-react';
-import { PostModal } from '@/components/ui/PostModal';
+import { PostInlineView } from '@/components/ui/PostInlineView';
 import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './MajorExplore.module.css';
 
@@ -216,48 +216,53 @@ export default function MajorExplorePage() {
           </div>
         </div>
 
-        <div className={styles.sectionHeader}>
-          <div>
-            <p className={styles.sectionEyebrow}>Recent Posts</p>
-            <h2 className={styles.sectionTitle}>최신 글</h2>
-          </div>
-          <div className={styles.sectionHeaderRight}>
-            <p className={styles.sectionHint}>{postsLoading ? '게시글을 불러오는 중입니다.' : '선택한 전공 보드의 최신순 목록입니다.'}</p>
-            {selectedMajor?.boardId ? (
-              <Link href={`/post/create?boardId=${selectedMajor.boardId}`} className={styles.writeBtn}>
-                <Pencil size={14} />
-                글쓰기
-              </Link>
-            ) : null}
-          </div>
-        </div>
+        {selectedPostId ? (
+          <PostInlineView postId={selectedPostId} onBack={() => setSelectedPostId(null)} />
+        ) : (
+          <>
+            <div className={styles.sectionHeader}>
+              <div>
+                <p className={styles.sectionEyebrow}>Recent Posts</p>
+                <h2 className={styles.sectionTitle}>최신 글</h2>
+              </div>
+              <div className={styles.sectionHeaderRight}>
+                <p className={styles.sectionHint}>{postsLoading ? '게시글을 불러오는 중입니다.' : '선택한 전공 보드의 최신순 목록입니다.'}</p>
+                {selectedMajor?.boardId ? (
+                  <Link href={`/post/create?boardId=${selectedMajor.boardId}`} className={styles.writeBtn}>
+                    <Pencil size={14} />
+                    글쓰기
+                  </Link>
+                ) : null}
+              </div>
+            </div>
 
-        <div className={styles.postList}>
-          {!postsLoading && posts.length === 0 ? (
-            <div className={styles.emptyCard}>
-              <h3>표시할 게시글이 없습니다</h3>
-              <p>선택한 전공 보드에 아직 글이 없거나 조회에 실패했습니다.</p>
+            <div className={styles.postList}>
+              {!postsLoading && posts.length === 0 ? (
+                <div className={styles.emptyCard}>
+                  <h3>표시할 게시글이 없습니다</h3>
+                  <p>선택한 전공 보드에 아직 글이 없거나 조회에 실패했습니다.</p>
+                </div>
+              ) : null}
+              {posts.map(post => (
+                <div key={post.postId} onClick={() => setSelectedPostId(post.postId)} className={styles.postCard} style={{ cursor: 'pointer' }}>
+                  <div className={styles.postHeader}>
+                    <span className={styles.postCategory}>{post.category}</span>
+                    <span className={styles.postTime}>{formatRelativeTime(post.createdAt)}</span>
+                  </div>
+                  <h3 className={styles.postTitle}>{post.title}</h3>
+                  <p className={styles.postPreview}>{post.contentPreview || post.content || '본문 미리보기가 없습니다.'}</p>
+                  <div className={styles.postFooter}>
+                    <span className={styles.postAuthor}>{post.isAnonymous ? '익명' : post.author.nickname}</span>
+                    <span className={styles.postAction}><Eye size={14} /> {post.viewCount}</span>
+                    <span className={styles.postAction}><Heart size={14} /> {post.likeCount}</span>
+                    <span className={styles.postAction}><MessageCircle size={14} /> {post.commentCount}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-          ) : null}
-          {posts.map(post => (
-            <div key={post.postId} onClick={() => setSelectedPostId(post.postId)} className={styles.postCard} style={{ cursor: 'pointer' }}>
-              <div className={styles.postHeader}>
-                <span className={styles.postCategory}>{post.category}</span>
-                <span className={styles.postTime}>{formatRelativeTime(post.createdAt)}</span>
-              </div>
-              <h3 className={styles.postTitle}>{post.title}</h3>
-              <p className={styles.postPreview}>{post.contentPreview || post.content || '본문 미리보기가 없습니다.'}</p>
-              <div className={styles.postFooter}>
-                <span className={styles.postAuthor}>{post.isAnonymous ? '익명' : post.author.nickname}</span>
-                <span className={styles.postAction}><Eye size={14} /> {post.viewCount}</span>
-                <span className={styles.postAction}><Heart size={14} /> {post.likeCount}</span>
-                <span className={styles.postAction}><MessageCircle size={14} /> {post.commentCount}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+          </>
+        )}
       </section>
-      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
     </div>
   );
 }
