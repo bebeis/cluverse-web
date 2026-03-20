@@ -74,8 +74,7 @@ export default function MyPageSettingsPage() {
   // Visibility
   const [isPublicLocal, setIsPublicLocal] = useState(false);
   const [visibleFieldsLocal, setVisibleFieldsLocal] = useState<string[]>([]);
-  const [visibilitySaving, setVisibilitySaving] = useState(false);
-  const [visibilityMsg, setVisibilityMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
 
   // Followers/following modal
   const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null);
@@ -148,6 +147,8 @@ export default function MyPageSettingsPage() {
         linkPortfolio: editForm.linkPortfolio || null,
         linkInstagram: editForm.linkInstagram || null,
         linkEtc: editForm.linkEtc || null,
+        isPublic: isPublicLocal,
+        visibleFields: visibleFieldsLocal,
       });
       setProfile(updated);
       setEditMsg({ type: 'success', text: '저장되었습니다.' });
@@ -187,22 +188,7 @@ export default function MyPageSettingsPage() {
     }
   };
 
-  const handleSaveVisibility = async () => {
-    setVisibilitySaving(true);
-    setVisibilityMsg(null);
-    try {
-      const updated = await cluverseApi.updateMyProfile({
-        isPublic: isPublicLocal,
-        visibleFields: visibleFieldsLocal,
-      });
-      setProfile(updated);
-      setVisibilityMsg({ type: 'success', text: '저장되었습니다.' });
-    } catch {
-      setVisibilityMsg({ type: 'error', text: '저장에 실패했습니다.' });
-    } finally {
-      setVisibilitySaving(false);
-    }
-  };
+
 
   const toggleVisibleField = (field: string) => {
     setVisibleFieldsLocal(prev =>
@@ -426,17 +412,9 @@ export default function MyPageSettingsPage() {
           </div>
         </div>
 
-        <div className={styles.formActions}>
-          <button className={styles.saveBtn} type="button" onClick={handleSaveProfile} disabled={editSaving}>
-            {editSaving ? '저장 중...' : '저장'}
-          </button>
-          {editMsg && <span className={editMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{editMsg.text}</span>}
-        </div>
-      </div>
+        <div style={{ borderTop: '1px solid #F3F4F6', marginBottom: 24, marginTop: 8 }} />
 
-      {/* Visibility card */}
-      <div className={styles.sectionCard}>
-        <div className={styles.sectionHeader}>
+        <div className={styles.sectionHeader} style={{ marginBottom: 16 }}>
           <div className={styles.sectionIcon}>
             <Eye size={20} />
           </div>
@@ -482,11 +460,11 @@ export default function MyPageSettingsPage() {
           </div>
         </div>
 
-        <div className={styles.formActions} style={{ marginTop: 24 }}>
-          <button className={styles.saveBtn} type="button" onClick={handleSaveVisibility} disabled={visibilitySaving}>
-            {visibilitySaving ? '저장 중...' : '저장'}
+        <div className={styles.formActions} style={{ marginTop: 32 }}>
+          <button className={styles.saveBtn} type="button" onClick={handleSaveProfile} disabled={editSaving}>
+            {editSaving ? '저장 중...' : '저장'}
           </button>
-          {visibilityMsg && <span className={visibilityMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{visibilityMsg.text}</span>}
+          {editMsg && <span className={editMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{editMsg.text}</span>}
         </div>
       </div>
 
