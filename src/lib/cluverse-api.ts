@@ -51,6 +51,8 @@ export type Profile = {
   isBlocked: boolean;
   followerCount: number;
   followingCount: number;
+  postCount?: number;
+  entranceYear?: number | null;
 };
 
 export type AuthMember = {
@@ -170,6 +172,8 @@ export type MemberMajor = {
   memberMajorId: number;
   majorId: number;
   majorType: string;
+  majorName?: string;
+  collegeName?: string;
 };
 
 export type MajorNode = {
@@ -183,6 +187,8 @@ export type MajorNode = {
 
 export type MemberInterest = {
   interestId: number;
+  interestName?: string;
+  category?: string;
 };
 
 export type InterestNode = {
@@ -327,6 +333,54 @@ export type RecruitmentApplicationListPage = {
   page: number;
   size: number;
   hasNext: boolean;
+};
+
+export type CalendarEvent = {
+  eventId: number;
+  title: string;
+  description: string;
+  category: string;
+  startAt: string;
+  endAt: string;
+  location: string | null;
+  allDay: boolean;
+  visibility: string;
+};
+
+export type CampusEvent = {
+  eventId: number;
+  title: string;
+  host: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  thumbnailImageUrl: string | null;
+  summary: string;
+};
+
+export type Notification = {
+  notificationId: number;
+  type: string;
+  title: string;
+  content: string;
+  excerpt: string | null;
+  isRead: boolean;
+  createdAt: string;
+  targetUrl: string | null;
+};
+
+export type NotificationPreferences = {
+  comments: boolean;
+  groupNotifications: boolean;
+  announcements: boolean;
+  follows: boolean;
+  marketing: boolean;
+};
+
+export type ReportReason = {
+  reasonCode: string;
+  label: string;
+  description: string;
 };
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -733,5 +787,109 @@ export const cluverseApi = {
         body: JSON.stringify(input),
       },
     );
+  },
+  getBookmarks(input?: { sort?: string; page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      sort: input?.sort || 'LATEST',
+      page: String(input?.page ?? 1),
+      size: String(input?.size ?? 20),
+    });
+    return request<{ posts: FeedPost[]; page: number; size: number; hasNext: boolean }>(
+      `/api/v1/posts/bookmarks?${params.toString()}`,
+    );
+  },
+  getCalendarEvents(input?: { from?: string; to?: string }) {
+    const params = new URLSearchParams();
+    if (input?.from) params.set('from', input.from);
+    if (input?.to) params.set('to', input.to);
+    const query = params.toString();
+    return request<CalendarEvent[]>(`/api/v1/calendar/events${query ? `?${query}` : ''}`);
+  },
+  getUpcomingCalendarEvents() {
+    return request<CalendarEvent[]>('/api/v1/calendar/events/upcoming');
+  },
+  createCalendarEvent(input: {
+    title: string;
+    description?: string;
+    category: string;
+    startAt: string;
+    endAt: string;
+    location?: string;
+    allDay: boolean;
+    visibility: string;
+  }) {
+    return request<CalendarEvent>('/api/v1/calendar/events', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  updateCalendarEvent(eventId: number, input: {
+    title?: string;
+    description?: string;
+    category?: string;
+    startAt?: string;
+    endAt?: string;
+    location?: string;
+    allDay?: boolean;
+    visibility?: string;
+  }) {
+    return request<CalendarEvent>(`/api/v1/calendar/events/${eventId}`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    });
+  },
+  deleteCalendarEvent(eventId: number) {
+    return request<null>(`/api/v1/calendar/events/${eventId}`, { method: 'DELETE' });
+  },
+  getCampusEvents(input?: { page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      page: String(input?.page ?? 1),
+      size: String(input?.size ?? 20),
+    });
+    return request<{ events: CampusEvent[]; page: number; size: number; hasNext: boolean }>(
+      `/api/v1/events?${params.toString()}`,
+    );
+  },
+  getCampusEvent(eventId: number) {
+    return request<CampusEvent>(`/api/v1/events/${eventId}`);
+  },
+  getReportReasons() {
+    return request<ReportReason[]>('/api/v1/report-reasons');
+  },
+  submitReport(input: {
+    targetType: string;
+    targetId: number;
+    reasonCode: string;
+    detail?: string;
+    evidenceImageUrls?: string[];
+  }) {
+    return request<null>('/api/v1/reports', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+  },
+  getNotifications(input?: { page?: number; size?: number }) {
+    const params = new URLSearchParams({
+      page: String(input?.page ?? 1),
+      size: String(input?.size ?? 20),
+    });
+    return request<{ notifications: Notification[]; page: number; size: number; hasNext: boolean }>(
+      `/api/v1/notifications?${params.toString()}`,
+    );
+  },
+  markAllNotificationsRead() {
+    return request<null>('/api/v1/notifications/read-all', { method: 'POST' });
+  },
+  markNotificationRead(notificationId: number) {
+    return request<null>(`/api/v1/notifications/${notificationId}/read`, { method: 'PATCH' });
+  },
+  getNotificationPreferences() {
+    return request<NotificationPreferences>('/api/v1/notification-preferences');
+  },
+  updateNotificationPreferences(prefs: Partial<NotificationPreferences>) {
+    return request<NotificationPreferences>('/api/v1/notification-preferences', {
+      method: 'PUT',
+      body: JSON.stringify(prefs),
+    });
   },
 };

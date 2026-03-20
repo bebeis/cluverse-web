@@ -85,11 +85,12 @@ export default function MyPageSettingsPage() {
             <span className={styles.badgeSchool}>
               <GraduationCap size={16} />
               {profile.university?.universityName || '학교 미등록'}
+              {profile.entranceYear ? ` ${profile.entranceYear}학번` : ''}
             </span>
             {majors.slice(0, 2).map(major => (
               <span key={major.memberMajorId} className={styles.badgeMajor}>
                 <Terminal size={16} />
-                {major.majorType} #{major.majorId}
+                {major.majorName || `전공 ID ${major.majorId}`}
               </span>
             ))}
           </div>
@@ -151,7 +152,8 @@ export default function MyPageSettingsPage() {
                 <div className={styles.majorItemLabel}>{major.majorType}</div>
                 <div className={styles.majorItemValue}>
                   <Terminal size={18} style={{ color: '#4051B5' }} />
-                  전공 ID {major.majorId}
+                  {major.majorName || `전공 ID ${major.majorId}`}
+                  {major.collegeName ? ` · ${major.collegeName}` : ''}
                 </div>
               </div>
             ))}
@@ -170,7 +172,7 @@ export default function MyPageSettingsPage() {
           </div>
           <div className={styles.tagsWrap}>
             {interests.map(interest => (
-              <span key={interest.interestId} className={styles.tag}>#{interest.interestId}</span>
+              <span key={interest.interestId} className={styles.tag}>#{interest.interestName || interest.interestId}</span>
             ))}
             <Link href="/settings/major-tags#tag-settings" className={styles.tagAdd}>
               <PlusCircle size={14} style={{ marginRight: 4 }} />
@@ -183,7 +185,7 @@ export default function MyPageSettingsPage() {
       <div className={styles.activityCard}>
         <div className={styles.activityHeader}>활동 및 개인정보</div>
         {[
-          { icon: <FileText size={20} />, bg: '#E0E7FF', color: '#4338CA', name: '내가 쓴 글', desc: `팔로워 ${profile.followerCount}` },
+          { icon: <FileText size={20} />, bg: '#E0E7FF', color: '#4338CA', name: '내가 쓴 글', desc: profile.postCount != null ? `게시글 ${profile.postCount}개` : `팔로워 ${profile.followerCount}` },
           { icon: <MessageCircle size={20} />, bg: '#FFEDD5', color: '#EA580C', name: '팔로잉', desc: `팔로잉 ${profile.followingCount}` },
           { icon: <Bookmark size={20} />, bg: '#F3E8FF', color: '#9333EA', name: '북마크', desc: '저장된 글 확인', href: '/bookmarks' },
           { icon: <Ban size={20} />, bg: '#F3F4F6', color: '#4B5563', name: '차단 관리', desc: '차단 사용자 관리', href: '/settings/blocked' },

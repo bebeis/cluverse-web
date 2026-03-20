@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Notifications.module.css';
 import {
   MessageSquare, CheckCircle, Megaphone,
@@ -8,102 +8,9 @@ import {
   Settings2, CheckCheck, ChevronDown, X,
   Bell, BellOff, Mail, Users,
 } from 'lucide-react';
+import { cluverseApi, Notification, NotificationPreferences } from '@/lib/cluverse-api';
 
 type Tab = 'all' | 'comments' | 'groups' | 'announcements' | 'follows';
-
-interface Notification {
-  id: number;
-  type: 'comment' | 'approve' | 'announce' | 'follow' | 'post' | 'reject';
-  title: string;
-  desc: string;
-  quote?: string;
-  rejectReason?: string;
-  time: string;
-  read: boolean;
-  actions?: { label: string; primary?: boolean }[];
-  tab: Tab[];
-}
-
-const notifications: Notification[] = [
-  {
-    id: 1,
-    type: 'comment',
-    title: '새 댓글',
-    desc: '김철수님이 회원님의 게시글에 새로운 댓글을 남겼습니다.',
-    quote: '"정말 유용한 정보네요! 저도 이 그룹에 참여하고 싶습니다. 방법이..."',
-    time: '2분 전',
-    read: false,
-    tab: ['all', 'comments'],
-  },
-  {
-    id: 2,
-    type: 'approve',
-    title: '지원 승인',
-    desc: "'코딩 스터디' 그룹 지원이 승인되었습니다. 환영합니다!",
-    time: '15분 전',
-    read: false,
-    actions: [{ label: '그룹으로 이동', primary: true }],
-    tab: ['all', 'groups'],
-  },
-  {
-    id: 3,
-    type: 'announce',
-    title: '그룹 공지',
-    desc: "'사진 동호회'의 새로운 공지사항이 등록되었습니다.",
-    quote: '이번 주 주말 출사 장소가 변경되었습니다. 확인 부탁드립니다.',
-    time: '1시간 전',
-    read: false,
-    tab: ['all', 'announcements'],
-  },
-  {
-    id: 4,
-    type: 'follow',
-    title: '새 팔로워',
-    desc: '이영희님이 회원님을 팔로우하기 시작했습니다.',
-    time: '2시간 전',
-    read: true,
-    actions: [{ label: '맞팔로우', primary: true }, { label: '프로필 보기' }],
-    tab: ['all', 'follows'],
-  },
-  {
-    id: 5,
-    type: 'comment',
-    title: '대댓글',
-    desc: '박지민님이 대댓글을 남겼습니다.',
-    quote: '"동감합니다. 다음 모임 때 뵙겠습니다!"',
-    time: '3시간 전',
-    read: true,
-    tab: ['all', 'comments'],
-  },
-  {
-    id: 6,
-    type: 'post',
-    title: '새 게시글',
-    desc: '팔로우 중인 사용자가 새 글을 올렸습니다.',
-    time: '3시간 전',
-    read: true,
-    tab: ['all', 'follows'],
-  },
-  {
-    id: 7,
-    type: 'reject',
-    title: '지원 거절',
-    desc: "'고급 알고리즘' 그룹 가입이 거절되었습니다.",
-    rejectReason: '사유: 현재 인원 모집이 마감되었습니다.',
-    time: '3일 전',
-    read: true,
-    tab: ['all', 'groups'],
-  },
-  {
-    id: 8,
-    type: 'post',
-    title: '새 게시글',
-    desc: '팔로우 중인 사용자가 새 글을 올렸습니다.',
-    time: '5시간 전',
-    read: true,
-    tab: ['all', 'follows'],
-  },
-];
 
 const tabs: { key: Tab; label: string }[] = [
   { key: 'all', label: '전체' },
@@ -113,34 +20,50 @@ const tabs: { key: Tab; label: string }[] = [
   { key: 'follows', label: '팔로우' },
 ];
 
+const typeToTab: Record<string, Tab[]> = {
+  COMMENT: ['all', 'comments'],
+  REPLY: ['all', 'comments'],
+  GROUP_APPROVED: ['all', 'groups'],
+  GROUP_REJECTED: ['all', 'groups'],
+  ANNOUNCEMENT: ['all', 'announcements'],
+  FOLLOW: ['all', 'follows'],
+  POST: ['all', 'follows'],
+};
+
+function notifTabs(type: string): Tab[] {
+  return typeToTab[type] ?? ['all'];
+}
+
 const settingsItems = [
-  { id: 'comments', icon: 'comment', title: '댓글/답글 알림', desc: '내 글에 달린 반응', defaultOn: true },
-  { id: 'groups', icon: 'group', title: '그룹 지원 결과', desc: '승인 및 거절 상태', defaultOn: true },
-  { id: 'announcements', icon: 'announce', title: '그룹 공지사항', desc: '중요 공지 푸시', defaultOn: true },
-  { id: 'follows', icon: 'follow', title: '새 팔로워 알림', desc: '누가 나를 팔로우했는지', defaultOn: false },
-  { id: 'marketing', icon: 'marketing', title: '마케팅 정보 수신', desc: '이벤트 및 프로모션', defaultOn: false },
+  { id: 'comments' as keyof NotificationPreferences, icon: 'comment', title: '댓글/답글 알림', desc: '내 글에 달린 반응' },
+  { id: 'groupNotifications' as keyof NotificationPreferences, icon: 'group', title: '그룹 지원 결과', desc: '승인 및 거절 상태' },
+  { id: 'announcements' as keyof NotificationPreferences, icon: 'announce', title: '그룹 공지사항', desc: '중요 공지 푸시' },
+  { id: 'follows' as keyof NotificationPreferences, icon: 'follow', title: '새 팔로워 알림', desc: '누가 나를 팔로우했는지' },
+  { id: 'marketing' as keyof NotificationPreferences, icon: 'marketing', title: '마케팅 정보 수신', desc: '이벤트 및 프로모션' },
 ];
 
 function getNotifIcon(type: string) {
   switch (type) {
-    case 'comment': return <MessageSquare size={20} />;
-    case 'approve': return <CheckCircle size={20} />;
-    case 'announce': return <Megaphone size={20} />;
-    case 'follow': return <UserPlus size={20} />;
-    case 'post': return <FileText size={20} />;
-    case 'reject': return <XCircle size={20} />;
+    case 'COMMENT':
+    case 'REPLY': return <MessageSquare size={20} />;
+    case 'GROUP_APPROVED': return <CheckCircle size={20} />;
+    case 'ANNOUNCEMENT': return <Megaphone size={20} />;
+    case 'FOLLOW': return <UserPlus size={20} />;
+    case 'POST': return <FileText size={20} />;
+    case 'GROUP_REJECTED': return <XCircle size={20} />;
     default: return <Bell size={20} />;
   }
 }
 
 function getNotifIconClass(type: string) {
   switch (type) {
-    case 'comment': return styles.notifIconComment;
-    case 'approve': return styles.notifIconApprove;
-    case 'announce': return styles.notifIconAnnounce;
-    case 'follow': return styles.notifIconFollow;
-    case 'post': return styles.notifIconPost;
-    case 'reject': return styles.notifIconReject;
+    case 'COMMENT':
+    case 'REPLY': return styles.notifIconComment;
+    case 'GROUP_APPROVED': return styles.notifIconApprove;
+    case 'ANNOUNCEMENT': return styles.notifIconAnnounce;
+    case 'FOLLOW': return styles.notifIconFollow;
+    case 'POST': return styles.notifIconPost;
+    case 'GROUP_REJECTED': return styles.notifIconReject;
     default: return styles.notifIconComment;
   }
 }
@@ -167,50 +90,78 @@ function getSettingsIcon(icon: string) {
   }
 }
 
+function formatTime(createdAt: string) {
+  const diff = Date.now() - new Date(createdAt).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return '방금 전';
+  if (minutes < 60) return `${minutes}분 전`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}시간 전`;
+  const days = Math.floor(hours / 24);
+  return `${days}일 전`;
+}
+
 export default function NotificationsPage() {
   const [activeTab, setActiveTab] = useState<Tab>('all');
   const [showSettings, setShowSettings] = useState(false);
-  const [readIds, setReadIds] = useState<Set<number>>(() => {
-    const s = new Set<number>();
-    notifications.filter(n => n.read).forEach(n => s.add(n.id));
-    return s;
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [prefs, setPrefs] = useState<NotificationPreferences>({
+    comments: true,
+    groupNotifications: true,
+    announcements: true,
+    follows: false,
+    marketing: false,
   });
-  const [toggleStates, setToggleStates] = useState<Record<string, boolean>>(() => {
-    const s: Record<string, boolean> = {};
-    settingsItems.forEach(item => { s[item.id] = item.defaultOn; });
-    return s;
-  });
+  const [hasNext, setHasNext] = useState(false);
+  const [page, setPage] = useState(1);
 
-  const filtered = notifications.filter(n => n.tab.includes(activeTab));
+  const loadNotifications = useCallback((p = 1) => {
+    cluverseApi.getNotifications({ page: p, size: 20 })
+      .then(data => {
+        setNotifications(prev => p === 1 ? data.notifications : [...prev, ...data.notifications]);
+        setHasNext(data.hasNext);
+        setPage(p);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    loadNotifications(1);
+    cluverseApi.getNotificationPreferences()
+      .then(setPrefs)
+      .catch(() => {});
+  }, [loadNotifications]);
+
+  const filtered = notifications.filter(n => notifTabs(n.type).includes(activeTab));
 
   const markAllRead = () => {
-    const all = new Set<number>();
-    notifications.forEach(n => all.add(n.id));
-    setReadIds(all);
+    cluverseApi.markAllNotificationsRead()
+      .then(() => setNotifications(prev => prev.map(n => ({ ...n, isRead: true }))))
+      .catch(() => {});
   };
 
-  const toggleRead = (id: number) => {
-    setReadIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const toggleRead = (notif: Notification) => {
+    if (!notif.isRead) {
+      cluverseApi.markNotificationRead(notif.notificationId)
+        .then(() => setNotifications(prev =>
+          prev.map(n => n.notificationId === notif.notificationId ? { ...n, isRead: true } : n),
+        ))
+        .catch(() => {});
+    } else {
+      setNotifications(prev =>
+        prev.map(n => n.notificationId === notif.notificationId ? { ...n, isRead: false } : n),
+      );
+    }
   };
 
-  const toggleSetting = (id: string) => {
-    setToggleStates(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const resetSettings = () => {
-    const s: Record<string, boolean> = {};
-    settingsItems.forEach(item => { s[item.id] = item.defaultOn; });
-    setToggleStates(s);
+  const toggleSetting = (id: keyof NotificationPreferences) => {
+    const updated = { ...prefs, [id]: !prefs[id] };
+    setPrefs(updated);
+    cluverseApi.updateNotificationPreferences(updated).catch(() => {});
   };
 
   return (
     <>
-      {/* Page header */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderLeft}>
           <h1 className={styles.pageTitle}>알림 센터</h1>
@@ -222,7 +173,6 @@ export default function NotificationsPage() {
         </button>
       </div>
 
-      {/* Tabs */}
       <div className={styles.tabs}>
         {tabs.map(t => (
           <button
@@ -235,7 +185,6 @@ export default function NotificationsPage() {
         ))}
       </div>
 
-      {/* Mark all read */}
       <div className={styles.markAllRow}>
         <button className={styles.markAllBtn} onClick={markAllRead}>
           <CheckCheck size={16} />
@@ -243,7 +192,6 @@ export default function NotificationsPage() {
         </button>
       </div>
 
-      {/* Notification list */}
       {filtered.length === 0 ? (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}><BellOff size={28} /></div>
@@ -253,43 +201,30 @@ export default function NotificationsPage() {
       ) : (
         <div className={styles.notifList}>
           {filtered.map(n => {
-            const isRead = readIds.has(n.id);
-            const cardClass = n.type === 'reject'
+            const isRejected = n.type === 'GROUP_REJECTED';
+            const cardClass = isRejected
               ? styles.notifCardRejected
-              : isRead ? styles.notifCard : styles.notifCardUnread;
+              : n.isRead ? styles.notifCard : styles.notifCardUnread;
 
             return (
-              <div key={n.id} className={cardClass}>
+              <div key={n.notificationId} className={cardClass}>
                 <div className={`${styles.notifIcon} ${getNotifIconClass(n.type)}`}>
                   {getNotifIcon(n.type)}
                 </div>
                 <div className={styles.notifBody}>
                   <div className={styles.notifTitleRow}>
                     <span className={styles.notifTitle}>{n.title}</span>
-                    {!isRead && <span className={styles.notifUnreadDot} />}
+                    {!n.isRead && <span className={styles.notifUnreadDot} />}
                   </div>
-                  <p className={styles.notifDesc}>{n.desc}</p>
-                  {n.quote && <div className={styles.notifQuote}>{n.quote}</div>}
-                  {n.rejectReason && <div className={styles.notifRejectReason}>{n.rejectReason}</div>}
-                  {n.actions && (
-                    <div className={styles.notifActions}>
-                      {n.actions.map(a => (
-                        <button
-                          key={a.label}
-                          className={a.primary ? styles.notifActionPrimary : styles.notifActionSecondary}
-                        >
-                          {a.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                  <p className={styles.notifDesc}>{n.content}</p>
+                  {n.excerpt && <div className={styles.notifQuote}>{n.excerpt}</div>}
                 </div>
                 <div className={styles.notifMeta}>
-                  <span className={styles.notifTime}>{n.time}</span>
+                  <span className={styles.notifTime}>{formatTime(n.createdAt)}</span>
                   <button
-                    className={isRead ? styles.notifReadBtnDone : styles.notifReadBtn}
-                    onClick={(e) => { e.stopPropagation(); toggleRead(n.id); }}
-                    title={isRead ? '읽지 않음으로 표시' : '읽음으로 표시'}
+                    className={n.isRead ? styles.notifReadBtnDone : styles.notifReadBtn}
+                    onClick={(e) => { e.stopPropagation(); toggleRead(n); }}
+                    title={n.isRead ? '읽지 않음으로 표시' : '읽음으로 표시'}
                   >
                     <CheckCircle size={14} />
                   </button>
@@ -300,15 +235,15 @@ export default function NotificationsPage() {
         </div>
       )}
 
-      {/* Load more */}
-      <div className={styles.loadMore}>
-        <button className={styles.loadMoreBtn}>
-          이전 알림 더보기
-          <ChevronDown size={16} />
-        </button>
-      </div>
+      {hasNext && (
+        <div className={styles.loadMore}>
+          <button className={styles.loadMoreBtn} onClick={() => loadNotifications(page + 1)}>
+            이전 알림 더보기
+            <ChevronDown size={16} />
+          </button>
+        </div>
+      )}
 
-      {/* Settings Panel */}
       {showSettings && (
         <div className={styles.settingsOverlay} onClick={() => setShowSettings(false)}>
           <div className={styles.settingsPanel} onClick={e => e.stopPropagation()}>
@@ -333,19 +268,13 @@ export default function NotificationsPage() {
                     <div className={styles.settingsItemDesc}>{item.desc}</div>
                   </div>
                   <button
-                    className={`${styles.toggle} ${toggleStates[item.id] ? styles.toggleOn : ''}`}
+                    className={`${styles.toggle} ${prefs[item.id] ? styles.toggleOn : ''}`}
                     onClick={() => toggleSetting(item.id)}
                   >
-                    <div className={`${styles.toggleKnob} ${toggleStates[item.id] ? styles.toggleKnobOn : ''}`} />
+                    <div className={`${styles.toggleKnob} ${prefs[item.id] ? styles.toggleKnobOn : ''}`} />
                   </button>
                 </div>
               ))}
-            </div>
-
-            <div className={styles.settingsReset}>
-              <button className={styles.settingsResetBtn} onClick={resetSettings}>
-                설정을 기본값으로 되돌리기
-              </button>
             </div>
           </div>
         </div>

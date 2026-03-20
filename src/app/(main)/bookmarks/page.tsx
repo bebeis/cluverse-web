@@ -12,9 +12,9 @@ export default function BookmarksPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
-    cluverseApi.getHomeFeed('ALL', 50)
-      .then(feed => {
-        setPosts(feed.posts.filter(post => post.bookmarked).map(mapPostCard));
+    cluverseApi.getBookmarks()
+      .then(data => {
+        setPosts(data.posts.map(mapPostCard));
         setAuthRequired(false);
       })
       .catch(caught => {
@@ -32,7 +32,7 @@ export default function BookmarksPage() {
         </div>
         <div>
           <h1 className={styles.title}>관심 게시글</h1>
-          <p className={styles.subtitle}>북마크 상태가 `true`인 피드 항목을 표시합니다.</p>
+          <p className={styles.subtitle}>북마크한 게시글 목록입니다.</p>
         </div>
       </header>
 

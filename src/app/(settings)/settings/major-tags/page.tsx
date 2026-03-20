@@ -54,7 +54,7 @@ export default function MajorTagsPage() {
       <div className={styles.page}>
       <div className={styles.headerBar}>
         <h1>전공 및 관심 태그 설정</h1>
-        <p>API 문서에는 전공/관심사 lookup 엔드포인트가 없어 현재는 ID 기반 추가/삭제로 연결했습니다.</p>
+        <p>전공 및 관심사를 추가하거나 삭제할 수 있습니다.</p>
       </div>
 
       <div className={styles.schoolCard}>
@@ -88,8 +88,8 @@ export default function MajorTagsPage() {
               <div className={styles.majorInfo}>
                 <div>
                   <span className={styles.majorType}>{major.majorType}</span>
-                  <div className={styles.majorName}>전공 ID {major.majorId}</div>
-                  <div className={styles.majorCollege}>매핑 ID {major.memberMajorId}</div>
+                  <div className={styles.majorName}>{major.majorName || `전공 ID ${major.majorId}`}</div>
+                  {major.collegeName && <div className={styles.majorCollege}>{major.collegeName}</div>}
                 </div>
               </div>
               <div className={styles.majorActions}>
@@ -136,7 +136,8 @@ export default function MajorTagsPage() {
           <div className={styles.selectedTags}>
             {interests.map(interest => (
               <button key={interest.interestId} className={styles.selectedTag} onClick={() => cluverseApi.deleteInterest(interest.interestId).then(reload)}>
-                #{interest.interestId}
+                #{interest.interestName || interest.interestId}
+                {interest.category ? ` (${interest.category})` : ''}
               </button>
             ))}
           </div>
