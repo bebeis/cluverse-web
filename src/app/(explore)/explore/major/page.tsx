@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Pencil, Sparkles } from 'lucide-react';
 import { PostModal } from '@/components/ui/PostModal';
 import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './MajorExplore.module.css';
@@ -221,7 +221,15 @@ export default function MajorExplorePage() {
             <p className={styles.sectionEyebrow}>Recent Posts</p>
             <h2 className={styles.sectionTitle}>최신 글</h2>
           </div>
-          <p className={styles.sectionHint}>{postsLoading ? '게시글을 불러오는 중입니다.' : '선택한 전공 보드의 최신순 목록입니다.'}</p>
+          <div className={styles.sectionHeaderRight}>
+            <p className={styles.sectionHint}>{postsLoading ? '게시글을 불러오는 중입니다.' : '선택한 전공 보드의 최신순 목록입니다.'}</p>
+            {selectedMajor?.boardId ? (
+              <Link href={`/post/create?boardId=${selectedMajor.boardId}`} className={styles.writeBtn}>
+                <Pencil size={14} />
+                글쓰기
+              </Link>
+            ) : null}
+          </div>
         </div>
 
         <div className={styles.postList}>

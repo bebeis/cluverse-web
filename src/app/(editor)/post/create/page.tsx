@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { Suspense, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { BookOpen, EyeOff, Save, Send } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi } from '@/lib/cluverse-api';
@@ -14,7 +14,16 @@ type BoardOption = {
 };
 
 export default function CreatePostPage() {
+  return (
+    <Suspense>
+      <CreatePostForm />
+    </Suspense>
+  );
+}
+
+function CreatePostForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [boards, setBoards] = useState<BoardOption[]>([]);
   const [boardId, setBoardId] = useState('');
   const [title, setTitle] = useState('');
@@ -29,12 +38,17 @@ export default function CreatePostPage() {
   useEffect(() => {
     cluverseApi.getBoards({ activeOnly: true, depth: 2 })
       .then(result => {
-        setBoards(result.boards.filter(board => board.isWritable).map(board => ({
+        const writable = result.boards.filter(board => board.isWritable).map(board => ({
           boardId: board.boardId,
           name: board.name,
           description: board.description,
-        })));
+        }));
+        setBoards(writable);
         setAuthRequired(false);
+        const preselect = searchParams.get('boardId');
+        if (preselect && writable.some(b => b.boardId === Number(preselect))) {
+          setBoardId(preselect);
+        }
       })
       .catch(caught => {
         if (caught instanceof ApiError && caught.statusCode === 401) {

@@ -459,6 +459,31 @@
   color: #64748b;
 }
 
+.sectionHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.writeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #4051B5;
+  color: white;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.writeBtn:hover {
+  background: #303F9F;
+}
+
 .postList {
   display: flex;
   flex-direction: column;
