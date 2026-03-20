@@ -32,13 +32,7 @@ export default function LeftAside() {
   }, []);
 
   if (!profile) {
-    return (
-      <aside className={styles.container}>
-        <AuthRequiredOverlay active={authRequired} title="프로필 기능은 로그인 후 열립니다" description="내 프로필, 팔로잉, 북마크, 그룹 메뉴를 사용하려면 먼저 로그인해 주세요.">
-          <div style={{ minHeight: 420 }} />
-        </AuthRequiredOverlay>
-      </aside>
-    );
+    return null;
   }
 
   return (

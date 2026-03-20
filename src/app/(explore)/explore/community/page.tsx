@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronRight, Eye, Heart, Layers3, MessageCircle, Sparkles } from 'lucide-react';
+import { PostModal } from '@/components/ui/PostModal';
 import { cluverseApi, FeedPost, InterestNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './CommunityExplore.module.css';
 
@@ -14,6 +15,7 @@ export default function CommunityExplorePage() {
   const [treeLoading, setTreeLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   useEffect(() => {
     cluverseApi.getInterests()
@@ -206,7 +208,7 @@ export default function CommunityExplorePage() {
             </div>
           ) : null}
           {posts.map(post => (
-            <Link key={post.postId} href={`/post/${post.postId}`} className={styles.postCard}>
+            <div key={post.postId} onClick={() => setSelectedPostId(post.postId)} className={styles.postCard} style={{ cursor: 'pointer' }}>
               <div className={styles.postHeader}>
                 <span className={styles.postCategory}>{post.category}</span>
                 <span className={styles.postTime}>{formatRelativeTime(post.createdAt)}</span>
@@ -219,10 +221,11 @@ export default function CommunityExplorePage() {
                 <span className={styles.postAction}><Heart size={14} /> {post.likeCount}</span>
                 <span className={styles.postAction}><MessageCircle size={14} /> {post.commentCount}</span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
+      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
     </div>
   );
 }

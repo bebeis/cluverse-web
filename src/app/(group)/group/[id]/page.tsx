@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { Users, MapPin, Calendar, Eye, MessageCircle, Heart, Pin, Lock, SquarePen, Crown, Shield, User as UserIcon } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { PostModal } from '@/components/ui/PostModal';
 import { cluverseApi, FeedPost, GroupDetail, GroupMember, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './GroupDetail.module.css';
 
@@ -26,6 +27,7 @@ export default function GroupDetailPage() {
   const [members, setMembers] = useState<GroupMember[]>([]);
   const [tab, setTab] = useState<Tab>('게시글');
   const [authRequired, setAuthRequired] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   useEffect(() => {
     if (!groupId) return;
@@ -156,7 +158,7 @@ export default function GroupDetailPage() {
                     <Pin size={16} style={{ color: '#4051B5' }} />
                     <span>필독 공지사항</span>
                   </div>
-                  <Link href={`/post/${pinnedPost.postId}`} className={styles.noticeCard}>
+                  <div onClick={() => setSelectedPostId(pinnedPost.postId)} className={styles.noticeCard} style={{ cursor: 'pointer' }}>
                     <div className={styles.noticeAccent} />
                     <div className={styles.noticeHeader}>
                       <div className={styles.noticeHeaderLeft}>
@@ -170,7 +172,7 @@ export default function GroupDetailPage() {
                       <span className={styles.metaItem}><Eye size={14} /> {pinnedPost.viewCount}</span>
                       <span className={styles.metaItem}><MessageCircle size={14} /> {pinnedPost.commentCount}</span>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               )}
 
@@ -189,7 +191,7 @@ export default function GroupDetailPage() {
               ) : (
                 <div className={styles.postList}>
                   {normalPosts.map(post => (
-                    <Link key={post.postId} href={`/post/${post.postId}`} className={styles.postCard}>
+                    <div key={post.postId} onClick={() => setSelectedPostId(post.postId)} className={styles.postCard} style={{ cursor: 'pointer' }}>
                       <div className={styles.postRow}>
                         <div className={styles.postContent}>
                           <div className={styles.postAuthor}>
@@ -213,7 +215,7 @@ export default function GroupDetailPage() {
                         </div>
                         <span className={styles.postFooterViews}><Eye size={14} /> {post.viewCount}</span>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
@@ -332,6 +334,7 @@ export default function GroupDetailPage() {
           )}
         </div>
       </div>
+      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
     </AuthRequiredOverlay>
   );
 }

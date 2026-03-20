@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Sparkles } from 'lucide-react';
+import { PostModal } from '@/components/ui/PostModal';
 import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './MajorExplore.module.css';
 
@@ -17,6 +18,7 @@ export default function MajorExplorePage() {
   const [treeLoading, setTreeLoading] = useState(true);
   const [postsLoading, setPostsLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchTree = async () => {
@@ -230,7 +232,7 @@ export default function MajorExplorePage() {
             </div>
           ) : null}
           {posts.map(post => (
-            <Link key={post.postId} href={`/post/${post.postId}`} className={styles.postCard}>
+            <div key={post.postId} onClick={() => setSelectedPostId(post.postId)} className={styles.postCard} style={{ cursor: 'pointer' }}>
               <div className={styles.postHeader}>
                 <span className={styles.postCategory}>{post.category}</span>
                 <span className={styles.postTime}>{formatRelativeTime(post.createdAt)}</span>
@@ -243,10 +245,11 @@ export default function MajorExplorePage() {
                 <span className={styles.postAction}><Heart size={14} /> {post.likeCount}</span>
                 <span className={styles.postAction}><MessageCircle size={14} /> {post.commentCount}</span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </section>
+      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
     </div>
   );
 }
