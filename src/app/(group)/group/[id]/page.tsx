@@ -3,13 +3,19 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { Users, MapPin, Calendar, Eye, MessageCircle, Heart, Pin, Lock, SquarePen, Crown, Shield, User as UserIcon } from 'lucide-react';
+import {
+  Users, MapPin, Calendar, Eye, MessageCircle, Heart, Pin, Lock, SquarePen,
+  Crown, Shield, User as UserIcon, Settings, PlusCircle, FileText, UserCheck,
+  LogOut, Pencil, ChevronRight, X, Trash2, ClipboardList,
+} from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { PostModal } from '@/components/ui/PostModal';
-import { cluverseApi, FeedPost, GroupDetail, GroupMember, formatRelativeTime } from '@/lib/cluverse-api';
+import {
+  cluverseApi, FeedPost, GroupDetail, GroupMember, RecruitmentSummary, formatRelativeTime,
+} from '@/lib/cluverse-api';
 import styles from './GroupDetail.module.css';
 
-type Tab = '게시글' | '멤버';
+type Tab = '게시글' | '공고' | '멤버';
 
 const ROLE_LABEL: Record<string, string> = { OWNER: '운영자', ADMIN: '관리자', MEMBER: '멤버' };
 const ROLE_ICON: Record<string, React.ReactNode> = {
@@ -18,6 +24,16 @@ const ROLE_ICON: Record<string, React.ReactNode> = {
   MEMBER: <UserIcon size={13} />,
 };
 
+interface EditForm {
+  name: string;
+  description: string;
+  coverImageUrl: string;
+  maxMembers: number;
+  region: string;
+  activityType: string;
+  visibility: string;
+}
+
 export default function GroupDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
@@ -25,9 +41,19 @@ export default function GroupDetailPage() {
   const [group, setGroup] = useState<GroupDetail | null>(null);
   const [posts, setPosts] = useState<FeedPost[]>([]);
   const [members, setMembers] = useState<GroupMember[]>([]);
+  const [recruitments, setRecruitments] = useState<RecruitmentSummary[]>([]);
   const [tab, setTab] = useState<Tab>('게시글');
   const [authRequired, setAuthRequired] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editForm, setEditForm] = useState<EditForm | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const reloadGroup = async () => {
+    const g = await cluverseApi.getGroup(groupId);
+    setGroup(g);
+    return g;
+  };
 
   useEffect(() => {
     if (!groupId) return;
@@ -43,10 +69,15 @@ export default function GroupDetailPage() {
           setPosts([]);
         }
         try {
-          const memberList = await cluverseApi.getGroupMembers(groupId);
-          setMembers(memberList);
+          setMembers(await cluverseApi.getGroupMembers(groupId));
         } catch {
           setMembers([]);
+        }
+        try {
+          const rec = await cluverseApi.getRecruitments({ groupId });
+          setRecruitments(rec.recruitments);
+        } catch {
+          setRecruitments([]);
         }
       })
       .catch(() => {
@@ -57,6 +88,53 @@ export default function GroupDetailPage() {
       });
   }, [groupId]);
 
+  const openEdit = () => {
+    if (!group) return;
+    setEditForm({
+      name: group.name,
+      description: group.description,
+      coverImageUrl: group.coverImageUrl || '',
+      maxMembers: group.maxMembers,
+      region: group.region,
+      activityType: group.activityType,
+      visibility: group.visibility,
+    });
+    setEditOpen(true);
+  };
+
+  const saveEdit = async () => {
+    if (!editForm || !group) return;
+    setSaving(true);
+    try {
+      await cluverseApi.updateGroup(group.groupId, {
+        name: editForm.name,
+        description: editForm.description,
+        coverImageUrl: editForm.coverImageUrl,
+        maxMembers: editForm.maxMembers,
+        region: editForm.region,
+        activityType: editForm.activityType,
+        visibility: editForm.visibility,
+      });
+      setGroup(await cluverseApi.getGroup(groupId));
+      setEditOpen(false);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const leaveGroup = async () => {
+    if (!confirm('정말로 그룹을 나가시겠습니까?')) return;
+    await cluverseApi.leaveGroup(groupId);
+    router.push('/groups');
+  };
+
+  const kickMember = async (memberId: number, nickname: string) => {
+    if (!confirm(`${nickname}님을 그룹에서 내보내시겠습니까?`)) return;
+    await cluverseApi.kickGroupMember(groupId, memberId);
+    setMembers(prev => prev.filter(m => m.memberId !== memberId));
+    reloadGroup();
+  };
+
   if (!group) {
     return (
       <AuthRequiredOverlay active={authRequired}>
@@ -65,12 +143,16 @@ export default function GroupDetailPage() {
     );
   }
 
-  const pinnedPost = posts.find(post => post.isPinned);
-  const normalPosts = posts.filter(post => !post.isPinned);
+  const pinnedPost = posts.find(p => p.isPinned);
+  const normalPosts = posts.filter(p => !p.isPinned);
   const canWrite = group.member && group.boardId;
+  const isOwner = group.myRole === 'OWNER';
+  const canManage = group.myRole === 'OWNER' || group.myRole === 'ADMIN';
+  const isMember = group.member === true;
 
   return (
     <AuthRequiredOverlay active={authRequired}>
+      {/* ── 히어로 ── */}
       <div className={styles.hero}>
         <div className={styles.heroCover} style={{ backgroundImage: `url('${group.coverImageUrl || '/images/groups/photography-club-cover.png'}')` }} />
         <div className={styles.heroGradient} />
@@ -81,29 +163,44 @@ export default function GroupDetailPage() {
                 <span key={interest.interestId} className={styles.heroTag}>#{interest.name}</span>
               ))}
             </div>
-            <h1 className={styles.heroTitle}>{group.name}</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <h1 className={styles.heroTitle}>{group.name}</h1>
+              {isOwner && (
+                <button className={styles.heroEditBtn} onClick={openEdit} title="그룹 정보 수정">
+                  <Pencil size={14} />
+                </button>
+              )}
+            </div>
             <div className={styles.heroMeta}>
               <span className={styles.heroMetaItem}><Users size={18} /> 멤버 {group.memberCount}명</span>
               <span className={styles.heroMetaItem}><MapPin size={18} /> {group.region}</span>
               <span className={styles.heroMetaItem}><Calendar size={18} /> {group.activityType}</span>
             </div>
           </div>
-          {group.recruiting ? (
-            <Link href={`/group/${group.groupId}/apply`} className={styles.applyBtn}>
-              <div className={styles.applyBtnDot} />
-              지원하기
-              {group.openRecruitmentCount > 1 && (
-                <span style={{ fontSize: 12, fontWeight: 600, opacity: 0.85 }}>
-                  {group.openRecruitmentCount}개 공고
-                </span>
-              )}
-            </Link>
-          ) : (
-            <div className={styles.closedBadge}>
-              <Lock size={15} />
-              현재 모집 없음
-            </div>
-          )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
+            {group.recruiting ? (
+              <Link href={`/group/${group.groupId}/apply`} className={styles.applyBtn}>
+                <div className={styles.applyBtnDot} />
+                지원하기
+                {group.openRecruitmentCount > 1 && (
+                  <span style={{ fontSize: 12, fontWeight: 600, opacity: 0.85 }}>
+                    {group.openRecruitmentCount}개 공고
+                  </span>
+                )}
+              </Link>
+            ) : (
+              <div className={styles.closedBadge}>
+                <Lock size={15} />
+                현재 모집 없음
+              </div>
+            )}
+            {canManage && (
+              <Link href={`/group/${groupId}/recruit/create`} className={styles.heroManageBtn}>
+                <PlusCircle size={14} />
+                공고 등록
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
@@ -137,19 +234,28 @@ export default function GroupDetailPage() {
           )}
 
           <div className={styles.tabs}>
-            {(['게시글', '멤버'] as Tab[]).map(t => (
+            {(['게시글', '공고', '멤버'] as Tab[]).map(t => (
               <button
                 key={t}
                 className={tab === t ? styles.tabActive : styles.tabInactive}
                 onClick={() => setTab(t)}
               >
                 {t}
-                {t === '멤버' && <span style={{ marginLeft: 4, fontSize: 13, color: tab === '멤버' ? '#4051B5' : '#9CA3AF' }}>{group.memberCount}</span>}
+                {t === '멤버' && (
+                  <span style={{ marginLeft: 4, fontSize: 13, color: tab === '멤버' ? '#4051B5' : '#9CA3AF' }}>
+                    {group.memberCount}
+                  </span>
+                )}
+                {t === '공고' && recruitments.length > 0 && (
+                  <span style={{ marginLeft: 4, fontSize: 13, color: tab === '공고' ? '#4051B5' : '#9CA3AF' }}>
+                    {recruitments.length}
+                  </span>
+                )}
               </button>
             ))}
           </div>
 
-          {/* 게시글 탭 */}
+          {/* ── 게시글 탭 ── */}
           {tab === '게시글' && (
             <>
               {pinnedPost && (
@@ -177,12 +283,13 @@ export default function GroupDetailPage() {
               )}
 
               {normalPosts.length === 0 && !pinnedPost ? (
-                <div style={{ background: 'white', borderRadius: 12, padding: '48px 24px', textAlign: 'center', border: '1px solid #E5E7EB' }}>
-                  <p style={{ color: '#9CA3AF', fontSize: 14 }}>아직 게시글이 없습니다.</p>
+                <div className={styles.emptyState}>
+                  <SquarePen size={32} style={{ color: '#D1D5DB' }} />
+                  <p>아직 게시글이 없습니다.</p>
                   {canWrite && (
                     <button
                       onClick={() => router.push(`/post/create?boardId=${group.boardId}`)}
-                      style={{ marginTop: 16, padding: '8px 20px', borderRadius: 8, background: '#4051B5', color: 'white', fontWeight: 700, fontSize: 14, border: 'none', cursor: 'pointer' }}
+                      className={styles.emptyStateBtn}
                     >
                       첫 글 작성하기
                     </button>
@@ -222,22 +329,80 @@ export default function GroupDetailPage() {
             </>
           )}
 
-          {/* 멤버 탭 */}
+          {/* ── 공고 탭 ── */}
+          {tab === '공고' && (
+            <div className={styles.recruitList}>
+              {canManage && (
+                <Link href={`/group/${groupId}/recruit/create`} className={styles.recruitCreateBtn}>
+                  <PlusCircle size={16} />
+                  새 공고 등록
+                </Link>
+              )}
+              {recruitments.length === 0 ? (
+                <div className={styles.emptyState}>
+                  <ClipboardList size={32} style={{ color: '#D1D5DB' }} />
+                  <p>등록된 모집 공고가 없습니다.</p>
+                </div>
+              ) : recruitments.map(rec => (
+                <div key={rec.recruitmentId} className={styles.recruitCard}>
+                  <div className={styles.recruitCardBody}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <span className={`${styles.recruitStatus} ${rec.status === 'OPEN' ? styles.recruitStatusOpen : styles.recruitStatusClosed}`}>
+                          {rec.status === 'OPEN' ? '모집 중' : '마감'}
+                        </span>
+                        <h3 className={styles.recruitTitle}>{rec.title}</h3>
+                      </div>
+                      <div className={styles.recruitMeta}>
+                        <span>마감: {new Date(rec.deadline).toLocaleDateString('ko-KR')}</span>
+                        {rec.positions.length > 0 && (
+                          <span>포지션: {rec.positions.map(p => `${p.name} ${p.count}명`).join(', ')}</span>
+                        )}
+                        {canManage && (
+                          <span>지원자 {rec.applicationCount}명</span>
+                        )}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0 }}>
+                      {!isMember && rec.status === 'OPEN' && (
+                        <Link href={`/group/${groupId}/apply`} className={styles.recruitApplyBtn}>
+                          지원하기
+                        </Link>
+                      )}
+                      {canManage && (
+                        <Link href={`/group/${groupId}/manage/applicants`} className={styles.recruitManageBtn}>
+                          <UserCheck size={13} />
+                          지원자 관리
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── 멤버 탭 ── */}
           {tab === '멤버' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {canManage && (
+                <Link href={`/group/${groupId}/manage/roles`} className={styles.memberManageLink}>
+                  <Settings size={14} />
+                  멤버 역할 관리
+                  <ChevronRight size={14} style={{ marginLeft: 'auto' }} />
+                </Link>
+              )}
               {members.length === 0 ? (
                 <p style={{ color: '#9CA3AF', fontSize: 14, padding: '24px 0' }}>멤버 정보를 불러올 수 없습니다.</p>
               ) : members.map(m => (
-                <div key={m.memberId} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 16,
-                  padding: '14px 20px',
-                  background: 'white',
-                  borderRadius: 12,
-                  border: `1px solid ${m.isMe ? 'rgba(64,81,181,0.3)' : '#E5E7EB'}`,
-                  boxShadow: m.isMe ? '0 0 0 2px rgba(64,81,181,0.08)' : undefined,
-                }}>
+                <div
+                  key={m.memberId}
+                  className={styles.memberRow}
+                  style={{
+                    border: m.isMe ? '1px solid rgba(64,81,181,0.3)' : '1px solid #E5E7EB',
+                    boxShadow: m.isMe ? '0 0 0 2px rgba(64,81,181,0.08)' : undefined,
+                  }}
+                >
                   <div style={{
                     width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
@@ -258,6 +423,15 @@ export default function GroupDetailPage() {
                   <span style={{ fontSize: 11, color: '#9CA3AF', flexShrink: 0 }}>
                     {new Date(m.joinedAt).toLocaleDateString('ko-KR', { year: 'numeric', month: 'short' })} 가입
                   </span>
+                  {canManage && !m.isMe && m.role !== 'OWNER' && (
+                    <button
+                      className={styles.kickBtn}
+                      onClick={() => kickMember(m.memberId, m.nickname)}
+                      title="내보내기"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -266,6 +440,40 @@ export default function GroupDetailPage() {
 
         {/* ── 사이드바 ── */}
         <div className={styles.sidebar}>
+          {/* 관리자 패널 */}
+          {canManage && (
+            <div className={styles.adminPanel}>
+              <div className={styles.adminPanelTitle}>
+                <Settings size={15} />
+                그룹 관리
+              </div>
+              <div className={styles.adminActions}>
+                {isOwner && (
+                  <button className={styles.adminActionBtn} onClick={openEdit}>
+                    <Pencil size={15} />
+                    <span>그룹 정보 수정</span>
+                    <ChevronRight size={14} style={{ marginLeft: 'auto', color: '#9CA3AF' }} />
+                  </button>
+                )}
+                <Link href={`/group/${groupId}/recruit/create`} className={styles.adminActionBtn}>
+                  <PlusCircle size={15} />
+                  <span>공고 등록</span>
+                  <ChevronRight size={14} style={{ marginLeft: 'auto', color: '#9CA3AF' }} />
+                </Link>
+                <Link href={`/group/${groupId}/manage/applicants`} className={styles.adminActionBtn}>
+                  <FileText size={15} />
+                  <span>지원자 관리</span>
+                  <ChevronRight size={14} style={{ marginLeft: 'auto', color: '#9CA3AF' }} />
+                </Link>
+                <Link href={`/group/${groupId}/manage/roles`} className={styles.adminActionBtn}>
+                  <UserCheck size={15} />
+                  <span>회원 관리</span>
+                  <ChevronRight size={14} style={{ marginLeft: 'auto', color: '#9CA3AF' }} />
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* 그룹 소개 */}
           <div className={styles.sideCard}>
             <div className={styles.sideCardTitle}>그룹 소개</div>
@@ -332,9 +540,106 @@ export default function GroupDetailPage() {
               </div>
             </div>
           )}
+
+          {/* 그룹 나가기 */}
+          {isMember && !isOwner && (
+            <button className={styles.leaveBtn} onClick={leaveGroup}>
+              <LogOut size={14} />
+              그룹 나가기
+            </button>
+          )}
         </div>
       </div>
+
       <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
+
+      {/* ── 그룹 정보 수정 모달 ── */}
+      {editOpen && editForm && (
+        <div className={styles.modalOverlay} onClick={() => setEditOpen(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h2>그룹 정보 수정</h2>
+              <button className={styles.modalClose} onClick={() => setEditOpen(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className={styles.modalBody}>
+              <label className={styles.modalLabel}>그룹명</label>
+              <input
+                className={styles.modalInput}
+                value={editForm.name}
+                onChange={e => setEditForm({ ...editForm, name: e.target.value })}
+              />
+              <label className={styles.modalLabel}>소개</label>
+              <textarea
+                className={styles.modalTextarea}
+                value={editForm.description}
+                onChange={e => setEditForm({ ...editForm, description: e.target.value })}
+                rows={4}
+              />
+              <label className={styles.modalLabel}>커버 이미지 URL</label>
+              <input
+                className={styles.modalInput}
+                value={editForm.coverImageUrl}
+                onChange={e => setEditForm({ ...editForm, coverImageUrl: e.target.value })}
+                placeholder="https://..."
+              />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label className={styles.modalLabel}>지역</label>
+                  <input
+                    className={styles.modalInput}
+                    value={editForm.region}
+                    onChange={e => setEditForm({ ...editForm, region: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className={styles.modalLabel}>활동 방식</label>
+                  <select
+                    className={styles.modalSelect}
+                    value={editForm.activityType}
+                    onChange={e => setEditForm({ ...editForm, activityType: e.target.value })}
+                  >
+                    <option value="ONLINE">온라인</option>
+                    <option value="OFFLINE">오프라인</option>
+                    <option value="HYBRID">혼합</option>
+                  </select>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div>
+                  <label className={styles.modalLabel}>최대 인원</label>
+                  <input
+                    className={styles.modalInput}
+                    type="number"
+                    value={editForm.maxMembers}
+                    min={1}
+                    onChange={e => setEditForm({ ...editForm, maxMembers: Number(e.target.value) })}
+                  />
+                </div>
+                <div>
+                  <label className={styles.modalLabel}>공개 설정</label>
+                  <select
+                    className={styles.modalSelect}
+                    value={editForm.visibility}
+                    onChange={e => setEditForm({ ...editForm, visibility: e.target.value })}
+                  >
+                    <option value="PUBLIC">공개</option>
+                    <option value="PRIVATE">비공개</option>
+                    <option value="UNIVERSITY_ONLY">우리 학교만</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalFooter}>
+              <button className={styles.modalCancelBtn} onClick={() => setEditOpen(false)}>취소</button>
+              <button className={styles.modalSaveBtn} onClick={saveEdit} disabled={saving}>
+                {saving ? '저장 중...' : '저장'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AuthRequiredOverlay>
   );
 }

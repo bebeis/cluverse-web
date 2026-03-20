@@ -662,6 +662,31 @@ export const cluverseApi = {
   getGroup(groupId: number) {
     return request<GroupDetail>(`/api/v1/groups/${groupId}`);
   },
+  updateGroup(groupId: number, input: {
+    name: string;
+    description: string;
+    coverImageUrl: string;
+    category?: string;
+    activityType: string;
+    region: string;
+    visibility: string;
+    maxMembers: number;
+    interestIds?: number[];
+  }) {
+    return request<GroupDetail>(`/api/v1/groups/${groupId}`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    });
+  },
+  deleteGroup(groupId: number) {
+    return request<null>(`/api/v1/groups/${groupId}`, { method: 'DELETE' });
+  },
+  leaveGroup(groupId: number) {
+    return request<null>(`/api/v1/groups/${groupId}/members/me`, { method: 'DELETE' });
+  },
+  kickGroupMember(groupId: number, memberId: number) {
+    return request<null>(`/api/v1/groups/${groupId}/members/${memberId}`, { method: 'DELETE' });
+  },
   getGroupMembers(groupId: number) {
     return request<GroupMember[]>(`/api/v1/groups/${groupId}/members`);
   },
