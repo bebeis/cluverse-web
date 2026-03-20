@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   User,
   Shield,
@@ -13,6 +13,8 @@ import {
   LogOut,
 } from 'lucide-react';
 import styles from './layout.module.css';
+import { cluverseApi } from '@/lib/cluverse-api';
+import { clearLoggedIn } from '@/lib/auth';
 
 const navItems = [
   { href: '/settings/profile', icon: User, label: '내 프로필' },
@@ -26,6 +28,18 @@ const navItems = [
 
 export default function SettingsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await cluverseApi.logout();
+    } catch {
+      // 서버 오류여도 클라이언트 상태는 초기화
+    } finally {
+      clearLoggedIn();
+      router.replace('/login');
+    }
+  };
 
   return (
     <div className={styles.settingsWrapper}>
@@ -51,8 +65,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
           );
         })}
         <div className={styles.navDivider} />
-        <button className={styles.navLogout}>
-          <LogOut size={18} />
+        <button className={styles.navLogout} onClick={handleLogout} type="button">
+          <LogOut size={16} />
           로그아웃
         </button>
       </nav>
