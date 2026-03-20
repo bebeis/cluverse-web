@@ -545,7 +545,7 @@ export const cluverseApi = {
     });
   },
   getPostImagePresignedUrl(input: { originalFileName: string; contentType: string }) {
-    return request<PostImagePresignedUrlResponse>('/api/v1/posts/images/presigned-url', {
+    return request<PostImagePresignedUrlResponse>('/api/v1/post-images/presigned-urls', {
       method: 'POST',
       body: JSON.stringify(input),
     });
@@ -673,6 +673,22 @@ export const cluverseApi = {
   },
   getPost(postId: number) {
     return request<FeedPost>(`/api/v1/posts/${postId}`);
+  },
+  updatePost(postId: number, input: {
+    boardId: number;
+    category: string;
+    title: string;
+    content: string;
+    tags: string[];
+    isAnonymous: boolean;
+    isPinned: boolean;
+    isExternalVisible: boolean;
+    imageUrls: string[];
+  }) {
+    return request<FeedPost>(`/api/v1/posts/${postId}`, {
+      method: 'PUT',
+      body: JSON.stringify(input),
+    });
   },
   bookmarkPost(postId: number) {
     return request<null>(`/api/v1/posts/${postId}/bookmarks`, { method: 'POST' });
