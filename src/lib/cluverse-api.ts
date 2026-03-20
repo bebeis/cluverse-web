@@ -756,6 +756,7 @@ export const cluverseApi = {
   },
   getRecruitmentApplications(recruitmentId: number, input?: { status?: string; page?: number; size?: number }) {
     const params = new URLSearchParams({
+      recruitmentId: String(recruitmentId),
       page: String(input?.page ?? 1),
       size: String(input?.size ?? 20),
     });
@@ -763,7 +764,7 @@ export const cluverseApi = {
       params.set('status', input.status);
     }
     return request<RecruitmentApplicationListPage>(
-      `/api/v1/recruitments/${recruitmentId}/applications?${params.toString()}`,
+      `/api/v1/recruitment-applications?${params.toString()}`,
     );
   },
   createRecruitmentApplication(recruitmentId: number, input: {
@@ -771,22 +772,25 @@ export const cluverseApi = {
     portfolioUrl: string | null;
     answers: Array<{ formItemId: number; answer: string }>;
   }) {
-    return request<RecruitmentApplication>(`/api/v1/recruitments/${recruitmentId}/applications`, {
+    return request<RecruitmentApplication>(`/api/v1/recruitment-applications?recruitmentId=${recruitmentId}`, {
       method: 'POST',
       body: JSON.stringify(input),
     });
   },
-  getRecruitmentApplication(recruitmentId: number, applicationId: number) {
-    return request<RecruitmentApplication>(`/api/v1/recruitments/${recruitmentId}/applications/${applicationId}`);
+  getRecruitmentApplication(applicationId: number) {
+    return request<RecruitmentApplication>(`/api/v1/recruitment-applications/${applicationId}`);
   },
-  updateRecruitmentApplicationStatus(recruitmentId: number, applicationId: number, input: { status: string; note: string }) {
+  updateRecruitmentApplicationStatus(applicationId: number, input: { status: string; note: string }) {
     return request<RecruitmentApplication>(
-      `/api/v1/recruitments/${recruitmentId}/applications/${applicationId}/status`,
+      `/api/v1/recruitment-applications/${applicationId}/status`,
       {
         method: 'PATCH',
         body: JSON.stringify(input),
       },
     );
+  },
+  deleteRecruitmentApplication(applicationId: number) {
+    return request<void>(`/api/v1/recruitment-applications/${applicationId}`, { method: 'DELETE' });
   },
   getBookmarks(input?: { sort?: string; page?: number; size?: number }) {
     const params = new URLSearchParams({

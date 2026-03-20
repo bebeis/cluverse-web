@@ -91,7 +91,7 @@ export default function ApplicantManagementPage() {
       return;
     }
 
-    const updated = await cluverseApi.updateRecruitmentApplicationStatus(selectedRecruitmentId, selectedApplication.applicationId, {
+    const updated = await cluverseApi.updateRecruitmentApplicationStatus(selectedApplication.applicationId, {
       status,
       note,
     });
