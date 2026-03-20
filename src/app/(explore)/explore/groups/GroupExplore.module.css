@@ -62,10 +62,8 @@
 /* ── Sticky Filter Bar ──────────────── */
 .filterBar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 12px;
   padding: 16px 0;
   border-bottom: 1px solid #E5E7EB;
   position: sticky;
@@ -78,17 +76,66 @@
   padding-right: 4px;
 }
 
+/* ── Search Row ─────────────────────── */
+.searchRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid #E5E7EB;
+  border-radius: 9999px;
+  font-size: 14px;
+  background: white;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+  border-color: rgba(64, 81, 181, 0.5);
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 9999px;
+  background: #4051B5;
+  color: white;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.searchBtn:hover {
+  background: #3344A0;
+}
+
+/* ── Filter Selects ─────────────────── */
 .filterBtns {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.filterDropdown {
-  display: flex;
+.selectWrap {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px 8px 16px;
+}
+
+.filterSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 32px 8px 14px;
   background: white;
   border: 1px solid #E5E7EB;
   border-radius: 9999px;
@@ -100,46 +147,83 @@
   white-space: nowrap;
 }
 
-.filterDropdown:hover {
+.filterSelect:hover {
   border-color: rgba(64, 81, 181, 0.5);
 }
 
-.filterDropdown strong {
+.filterSelectActive {
+  border-color: #4051B5;
+  background: rgba(64, 81, 181, 0.06);
+  color: #4051B5;
   font-weight: 700;
-  color: #111827;
 }
 
-.sortArea {
-  display: none;
-  align-items: center;
-  gap: 8px;
-}
-
-@media (min-width: 640px) {
-  .sortArea { display: flex; }
-}
-
-.sortLabel {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.selectArrow {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
   color: #9CA3AF;
 }
 
-.sortSelect {
-  background: transparent;
-  border: none;
+/* ── Recruitable Toggle ─────────────── */
+.recruitToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 9999px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: #374151;
   cursor: pointer;
-  padding-right: 24px;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-.sortSelect:focus {
-  outline: none;
+.recruitToggle:hover {
+  border-color: rgba(34, 197, 94, 0.5);
 }
+
+.recruitToggleActive {
+  border-color: #22C55E;
+  background: rgba(34, 197, 94, 0.06);
+  color: #16A34A;
+  font-weight: 700;
+}
+
+.recruitDotGreen {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  flex-shrink: 0;
+}
+
+.recruitDotGray {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D1D5DB;
+  flex-shrink: 0;
+}
+
+/* ── Loading / Empty ────────────────── */
+.loading {
+  text-align: center;
+  padding: 64px 0;
+  color: #9CA3AF;
+  font-size: 15px;
+}
+
+.empty {
+  text-align: center;
+  padding: 64px 0;
+  color: #9CA3AF;
+  font-size: 15px;
+}
+
 
 /* ── Card Grid ──────────────────────── */
 .grid {
@@ -372,9 +456,14 @@
   transition: all 0.2s;
 }
 
-.pageBtn:hover {
+.pageBtn:hover:not(:disabled) {
   background: #F3F4F6;
   color: #4051B5;
+}
+
+.pageBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .pageBtnActive {
