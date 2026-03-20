@@ -33,7 +33,7 @@ export default function CalendarPage() {
 
   const categoryMap: Record<string, string> = {
     '개인 일정': 'PERSONAL',
-    '동아리/모임': 'CLUB',
+    '동아리/모임': 'GROUP',
     '학교 행사': 'SCHOOL',
   };
 
