@@ -19,10 +19,27 @@ import {
   X,
   Heart,
   MessageCircle,
+  User,
+  Github,
+  Globe,
+  Instagram,
+  Link as LinkIcon,
 } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, FeedPost, MemberInterest, MemberMajor, MemberSummary, Profile, formatRelativeTime } from '@/lib/cluverse-api';
 import { isLoggedIn } from '@/lib/auth';
+
+const VISIBLE_FIELD_LABELS: Record<string, string> = {
+  BIO: '소개',
+  ENTRANCE_YEAR: '입학년도',
+  LINK_GITHUB: 'GitHub',
+  LINK_NOTION: 'Notion',
+  LINK_PORTFOLIO: '포트폴리오',
+  LINK_INSTAGRAM: 'Instagram',
+  LINK_ETC: '기타 링크',
+  UNIVERSITY: '학교',
+  PROFILE_IMAGE: '프로필 이미지',
+};
 
 export default function MyPageSettingsPage() {
   const router = useRouter();
@@ -34,6 +51,31 @@ export default function MyPageSettingsPage() {
   // Image upload
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+
+  // Profile edit form
+  const [editForm, setEditForm] = useState({
+    bio: '',
+    entranceYear: '',
+    linkGithub: '',
+    linkNotion: '',
+    linkPortfolio: '',
+    linkInstagram: '',
+    linkEtc: '',
+  });
+  const [editSaving, setEditSaving] = useState(false);
+  const [editMsg, setEditMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Nickname
+  const [nicknameInput, setNicknameInput] = useState('');
+  const [nicknameStatus, setNicknameStatus] = useState<'idle' | 'checking' | 'available' | 'taken' | 'error'>('idle');
+  const [nicknameSaving, setNicknameSaving] = useState(false);
+  const [nicknameMsg, setNicknameMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Visibility
+  const [isPublicLocal, setIsPublicLocal] = useState(false);
+  const [visibleFieldsLocal, setVisibleFieldsLocal] = useState<string[]>([]);
+  const [visibilitySaving, setVisibilitySaving] = useState(false);
+  const [visibilityMsg, setVisibilityMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Followers/following modal
   const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null);
@@ -55,6 +97,17 @@ export default function MyPageSettingsPage() {
       .then(data => {
         setProfile(data);
         setAuthRequired(false);
+        setEditForm({
+          bio: data.bio || '',
+          entranceYear: data.entranceYear ? String(data.entranceYear) : '',
+          linkGithub: data.linkGithub || '',
+          linkNotion: data.linkNotion || '',
+          linkPortfolio: data.linkPortfolio || '',
+          linkInstagram: data.linkInstagram || '',
+          linkEtc: data.linkEtc || '',
+        });
+        setIsPublicLocal(data.isPublic);
+        setVisibleFieldsLocal(data.visibleFields || []);
       })
       .catch(caught => {
         setProfile(null);
@@ -81,6 +134,80 @@ export default function MyPageSettingsPage() {
       setUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
     }
+  };
+
+  const handleSaveProfile = async () => {
+    setEditSaving(true);
+    setEditMsg(null);
+    try {
+      const updated = await cluverseApi.updateMyProfile({
+        bio: editForm.bio || null,
+        entranceYear: editForm.entranceYear ? Number(editForm.entranceYear) : null,
+        linkGithub: editForm.linkGithub || null,
+        linkNotion: editForm.linkNotion || null,
+        linkPortfolio: editForm.linkPortfolio || null,
+        linkInstagram: editForm.linkInstagram || null,
+        linkEtc: editForm.linkEtc || null,
+      });
+      setProfile(updated);
+      setEditMsg({ type: 'success', text: '저장되었습니다.' });
+    } catch {
+      setEditMsg({ type: 'error', text: '저장에 실패했습니다.' });
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  const handleCheckNickname = async () => {
+    if (!nicknameInput.trim()) return;
+    setNicknameStatus('checking');
+    setNicknameMsg(null);
+    try {
+      const result = await cluverseApi.checkNicknameAvailability(nicknameInput.trim());
+      setNicknameStatus(result.available ? 'available' : 'taken');
+    } catch {
+      setNicknameStatus('error');
+    }
+  };
+
+  const handleSaveNickname = async () => {
+    if (nicknameStatus !== 'available' || !nicknameInput.trim()) return;
+    setNicknameSaving(true);
+    setNicknameMsg(null);
+    try {
+      const updated = await cluverseApi.updateNickname(nicknameInput.trim());
+      setProfile(updated);
+      setNicknameInput('');
+      setNicknameStatus('idle');
+      setNicknameMsg({ type: 'success', text: '닉네임이 변경되었습니다.' });
+    } catch {
+      setNicknameMsg({ type: 'error', text: '닉네임 변경에 실패했습니다.' });
+    } finally {
+      setNicknameSaving(false);
+    }
+  };
+
+  const handleSaveVisibility = async () => {
+    setVisibilitySaving(true);
+    setVisibilityMsg(null);
+    try {
+      const updated = await cluverseApi.updateMyProfile({
+        isPublic: isPublicLocal,
+        visibleFields: visibleFieldsLocal,
+      });
+      setProfile(updated);
+      setVisibilityMsg({ type: 'success', text: '저장되었습니다.' });
+    } catch {
+      setVisibilityMsg({ type: 'error', text: '저장에 실패했습니다.' });
+    } finally {
+      setVisibilitySaving(false);
+    }
+  };
+
+  const toggleVisibleField = (field: string) => {
+    setVisibleFieldsLocal(prev =>
+      prev.includes(field) ? prev.filter(f => f !== field) : [...prev, field]
+    );
   };
 
   const openFollowModal = async (type: 'followers' | 'following') => {
@@ -124,6 +251,7 @@ export default function MyPageSettingsPage() {
 
   return (
     <AuthRequiredOverlay active={authRequired}>
+      {/* Profile display card */}
       <div className={styles.profileCard}>
         <div className={styles.coverImage}>
           <div className={styles.coverOverlay} />
@@ -141,7 +269,7 @@ export default function MyPageSettingsPage() {
             </div>
             <Link href="/settings/major-tags" className={styles.editProfileBtn}>
               <Edit3 size={16} />
-              프로필 편집
+              전공/태그 편집
             </Link>
           </div>
           <div className={styles.profileName} style={{ marginBottom: 16 }}>
@@ -169,6 +297,144 @@ export default function MyPageSettingsPage() {
         </div>
       </div>
 
+      {/* Profile info edit card */}
+      <div className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionIcon}>
+            <User size={20} />
+          </div>
+          <div>
+            <div className={styles.sectionTitle}>프로필 정보 수정</div>
+            <div className={styles.sectionDesc}>닉네임, 소개, 입학년도, 소셜 링크를 수정합니다.</div>
+          </div>
+        </div>
+
+        {/* Nickname */}
+        <div className={styles.formGroup} style={{ marginBottom: 24 }}>
+          <div className={styles.formLabel}>닉네임 변경</div>
+          <div className={styles.nicknameRow}>
+            <input
+              className={`${styles.formInput} ${styles.nicknameInput}`}
+              type="text"
+              placeholder={profile.nickname}
+              value={nicknameInput}
+              onChange={e => { setNicknameInput(e.target.value); setNicknameStatus('idle'); setNicknameMsg(null); }}
+            />
+            <button
+              className={styles.checkBtn}
+              type="button"
+              onClick={handleCheckNickname}
+              disabled={!nicknameInput.trim() || nicknameStatus === 'checking'}
+            >
+              {nicknameStatus === 'checking' ? '확인 중...' : '중복 확인'}
+            </button>
+            <button
+              className={styles.saveBtn}
+              type="button"
+              onClick={handleSaveNickname}
+              disabled={nicknameStatus !== 'available' || nicknameSaving}
+            >
+              변경
+            </button>
+          </div>
+          {nicknameStatus === 'available' && <p className={styles.statusAvailable}>사용 가능한 닉네임입니다.</p>}
+          {nicknameStatus === 'taken' && <p className={styles.statusTaken}>이미 사용 중인 닉네임입니다.</p>}
+          {nicknameStatus === 'error' && <p className={styles.statusError}>확인에 실패했습니다.</p>}
+          {nicknameMsg && <p className={nicknameMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{nicknameMsg.text}</p>}
+        </div>
+
+        <div style={{ borderTop: '1px solid #F3F4F6', marginBottom: 24 }} />
+
+        {/* Bio + entranceYear */}
+        <div className={styles.formGrid} style={{ marginBottom: 16 }}>
+          <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
+            <div className={styles.formLabel}>소개 (최대 500자)</div>
+            <textarea
+              className={styles.formTextarea}
+              placeholder="자신을 소개해보세요."
+              maxLength={500}
+              value={editForm.bio}
+              onChange={e => setEditForm(f => ({ ...f, bio: e.target.value }))}
+            />
+            <div className={styles.charCount}>{editForm.bio.length} / 500</div>
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}>입학년도</div>
+            <input
+              className={styles.formInput}
+              type="number"
+              placeholder="예: 2022"
+              min={1990}
+              max={2100}
+              value={editForm.entranceYear}
+              onChange={e => setEditForm(f => ({ ...f, entranceYear: e.target.value }))}
+            />
+          </div>
+        </div>
+
+        {/* Social links */}
+        <div className={styles.formGrid} style={{ marginBottom: 24 }}>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}><Github size={13} style={{ display: 'inline', marginRight: 4 }} />GitHub</div>
+            <input
+              className={styles.formInput}
+              type="url"
+              placeholder="https://github.com/username"
+              value={editForm.linkGithub}
+              onChange={e => setEditForm(f => ({ ...f, linkGithub: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}><Globe size={13} style={{ display: 'inline', marginRight: 4 }} />Notion</div>
+            <input
+              className={styles.formInput}
+              type="url"
+              placeholder="https://notion.so/..."
+              value={editForm.linkNotion}
+              onChange={e => setEditForm(f => ({ ...f, linkNotion: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}><Globe size={13} style={{ display: 'inline', marginRight: 4 }} />포트폴리오</div>
+            <input
+              className={styles.formInput}
+              type="url"
+              placeholder="https://..."
+              value={editForm.linkPortfolio}
+              onChange={e => setEditForm(f => ({ ...f, linkPortfolio: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}><Instagram size={13} style={{ display: 'inline', marginRight: 4 }} />Instagram</div>
+            <input
+              className={styles.formInput}
+              type="url"
+              placeholder="https://instagram.com/username"
+              value={editForm.linkInstagram}
+              onChange={e => setEditForm(f => ({ ...f, linkInstagram: e.target.value }))}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <div className={styles.formLabel}><LinkIcon size={13} style={{ display: 'inline', marginRight: 4 }} />기타 링크</div>
+            <input
+              className={styles.formInput}
+              type="url"
+              placeholder="https://..."
+              value={editForm.linkEtc}
+              onChange={e => setEditForm(f => ({ ...f, linkEtc: e.target.value }))}
+            />
+          </div>
+        </div>
+
+        <div className={styles.formActions}>
+          <button className={styles.saveBtn} type="button" onClick={handleSaveProfile} disabled={editSaving}>
+            {editSaving ? '저장 중...' : '저장'}
+          </button>
+          {editMsg && <span className={editMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{editMsg.text}</span>}
+        </div>
+      </div>
+
+      {/* Visibility card */}
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionIcon}>
@@ -176,30 +442,51 @@ export default function MyPageSettingsPage() {
           </div>
           <div>
             <div className={styles.sectionTitle}>프로필 공개 설정</div>
-            <div className={styles.sectionDesc}>현재 서버 저장값을 기준으로 표시합니다.</div>
+            <div className={styles.sectionDesc}>다른 사용자에게 공개할 항목을 선택합니다.</div>
           </div>
         </div>
 
         <div className={styles.toggleRow}>
           <div>
             <div className={styles.toggleLabel}>전체 공개 프로필</div>
-            <div className={styles.toggleDesc}>현재 설정값: {profile.isPublic ? '공개' : '비공개'}</div>
+            <div className={styles.toggleDesc}>비활성화 시 팔로워에게만 프로필이 공개됩니다.</div>
           </div>
           <label className={styles.toggle}>
-            <input className={styles.toggleInput} type="checkbox" checked={profile.isPublic} readOnly />
+            <input
+              className={styles.toggleInput}
+              type="checkbox"
+              checked={isPublicLocal}
+              onChange={e => setIsPublicLocal(e.target.checked)}
+            />
             <span className={styles.toggleSlider} />
           </label>
         </div>
 
-        <div className={styles.toggleRow}>
-          <div>
-            <div className={styles.toggleLabel}>공개 필드 수</div>
-            <div className={styles.toggleDesc}>{profile.visibleFields.join(', ') || '없음'}</div>
+        <div style={{ marginTop: 24 }}>
+          <div className={styles.toggleLabel} style={{ marginBottom: 8 }}>공개 항목 선택</div>
+          <div className={styles.checkboxGrid}>
+            {Object.entries(VISIBLE_FIELD_LABELS).map(([field, label]) => (
+              <label
+                key={field}
+                className={`${styles.checkboxChip} ${visibleFieldsLocal.includes(field) ? styles.checkboxChipActive : ''}`}
+              >
+                <input
+                  type="checkbox"
+                  className={styles.checkboxChipInput}
+                  checked={visibleFieldsLocal.includes(field)}
+                  onChange={() => toggleVisibleField(field)}
+                />
+                {label}
+              </label>
+            ))}
           </div>
-          <label className={styles.toggle}>
-            <input className={styles.toggleInput} type="checkbox" checked={profile.visibleFields.length > 0} readOnly />
-            <span className={styles.toggleSlider} />
-          </label>
+        </div>
+
+        <div className={styles.formActions} style={{ marginTop: 24 }}>
+          <button className={styles.saveBtn} type="button" onClick={handleSaveVisibility} disabled={visibilitySaving}>
+            {visibilitySaving ? '저장 중...' : '저장'}
+          </button>
+          {visibilityMsg && <span className={visibilityMsg.type === 'success' ? styles.savedMsg : styles.errorMsg}>{visibilityMsg.text}</span>}
         </div>
       </div>
 
@@ -253,7 +540,6 @@ export default function MyPageSettingsPage() {
       <div className={styles.activityCard}>
         <div className={styles.activityHeader}>활동 및 개인정보</div>
 
-        {/* 내가 쓴 글 */}
         <button className={styles.activityItem} onClick={loadMyPosts} type="button">
           <div className={styles.activityItemLeft}>
             <div className={styles.activityIcon} style={{ background: '#E0E7FF', color: '#4338CA' }}>
@@ -286,7 +572,6 @@ export default function MyPageSettingsPage() {
           </div>
         )}
 
-        {/* 팔로워 */}
         <button className={styles.activityItem} onClick={() => openFollowModal('followers')} type="button">
           <div className={styles.activityItemLeft}>
             <div className={styles.activityIcon} style={{ background: '#FFEDD5', color: '#EA580C' }}>
@@ -300,7 +585,6 @@ export default function MyPageSettingsPage() {
           <ChevronRight size={20} className={styles.activityArrow} />
         </button>
 
-        {/* 팔로잉 */}
         <button className={styles.activityItem} onClick={() => openFollowModal('following')} type="button">
           <div className={styles.activityItemLeft}>
             <div className={styles.activityIcon} style={{ background: '#FFEDD5', color: '#EA580C' }}>
@@ -341,7 +625,6 @@ export default function MyPageSettingsPage() {
         </Link>
       </div>
 
-      {/* 팔로워/팔로잉 모달 */}
       {followModal && (
         <div className={styles.followOverlay} onClick={() => setFollowModal(null)}>
           <div className={styles.followModal} onClick={e => e.stopPropagation()}>

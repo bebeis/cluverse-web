@@ -551,6 +551,15 @@ export const cluverseApi = {
       body: JSON.stringify(input),
     });
   },
+  checkNicknameAvailability(nickname: string) {
+    return request<{ available: boolean }>(`/api/v1/members/nickname/check?nickname=${encodeURIComponent(nickname)}`);
+  },
+  updateNickname(nickname: string) {
+    return request<Profile>('/api/v1/members/me/nickname', {
+      method: 'PATCH',
+      body: JSON.stringify({ nickname }),
+    });
+  },
   getMyMajors() {
     return request<MemberMajor[]>('/api/v1/members/me/majors');
   },
