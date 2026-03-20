@@ -262,6 +262,20 @@
   color: #9CA3AF;
 }
 
+.editorTextarea:empty::before {
+  content: attr(data-placeholder);
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.uploadingBanner {
+  padding: 8px 24px;
+  font-size: 13px;
+  color: #4051B5;
+  background: rgba(64, 81, 181, 0.06);
+  border-top: 1px solid rgba(64, 81, 181, 0.1);
+}
+
 .editorFooter {
   display: flex;
   align-items: center;

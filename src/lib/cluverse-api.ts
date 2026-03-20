@@ -212,6 +212,13 @@ export type PresignedUrlResponse = {
   fileUrl: string;
 };
 
+export type PostImagePresignedUrlResponse = {
+  fileKey: string;
+  uploadUrl: string;
+  imageUrl: string;
+  expiresAt: string;
+};
+
 export type PostSearchPage = {
   posts: FeedPost[];
   page: number;
@@ -535,6 +542,12 @@ export const cluverseApi = {
     return request<PresignedUrlResponse>('/api/v1/members/me/profile-image/presigned-url', {
       method: 'POST',
       body: JSON.stringify({ fileName }),
+    });
+  },
+  getPostImagePresignedUrl(input: { originalFileName: string; contentType: string }) {
+    return request<PostImagePresignedUrlResponse>('/api/v1/posts/images/presigned-url', {
+      method: 'POST',
+      body: JSON.stringify(input),
     });
   },
   searchPosts(input: { keyword: string; page?: number; size?: number }) {

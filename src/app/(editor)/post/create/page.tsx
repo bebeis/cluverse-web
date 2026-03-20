@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { BookOpen, EyeOff, Save, Send } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
@@ -27,13 +27,14 @@ function CreatePostForm() {
   const [boards, setBoards] = useState<BoardOption[]>([]);
   const [boardId, setBoardId] = useState('');
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const [tags, setTags] = useState('');
   const [category, setCategory] = useState('GENERAL');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [authRequired, setAuthRequired] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const editorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     cluverseApi.getBoards({ activeOnly: true, depth: 2 })
@@ -59,11 +60,66 @@ function CreatePostForm() {
       });
   }, []);
 
+  const handleImagePaste = async (e: React.ClipboardEvent<HTMLDivElement>) => {
+    const items = Array.from(e.clipboardData.items);
+    const imageItem = items.find(item => item.type.startsWith('image/'));
+    if (!imageItem) return;
+
+    e.preventDefault();
+    const blob = imageItem.getAsFile();
+    if (!blob) return;
+
+    setUploading(true);
+    setError(null);
+    try {
+      const ext = blob.type.split('/')[1] || 'png';
+      const { uploadUrl, imageUrl } = await cluverseApi.getPostImagePresignedUrl({
+        originalFileName: `paste-${Date.now()}.${ext}`,
+        contentType: blob.type,
+      });
+
+      await fetch(uploadUrl, {
+        method: 'PUT',
+        body: blob,
+        headers: { 'Content-Type': blob.type },
+      });
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '8px';
+      img.style.marginTop = '8px';
+      img.style.marginBottom = '8px';
+      img.style.display = 'block';
+
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(img);
+        range.setStartAfter(img);
+        range.collapse(true);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } else {
+        editorRef.current?.appendChild(img);
+      }
+    } catch {
+      setError('이미지 업로드에 실패했습니다.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (!boardId || !title.trim() || !content.trim()) {
+    const editorContent = editorRef.current?.innerHTML ?? '';
+    if (!boardId || !title.trim() || !editorContent.trim()) {
       setError('게시판, 제목, 내용을 모두 입력하세요.');
       return;
     }
+
+    const imageUrls = Array.from(editorRef.current?.querySelectorAll('img') ?? [])
+      .map(img => img.src);
 
     setSubmitting(true);
     setError(null);
@@ -73,12 +129,12 @@ function CreatePostForm() {
         boardId: Number(boardId),
         category,
         title: title.trim(),
-        content: content.trim(),
+        content: editorContent,
         tags: tags.split(',').map(tag => tag.trim()).filter(Boolean),
         isAnonymous,
         isPinned: false,
         isExternalVisible: true,
-        imageUrls: [],
+        imageUrls,
       });
       router.push(`/post/${created.postId}`);
     } catch (caught) {
@@ -137,13 +193,15 @@ function CreatePostForm() {
             </div>
 
             <div className={styles.editorWrapper}>
-              <textarea
+              <div
+                ref={editorRef}
+                contentEditable
+                suppressContentEditableWarning
                 className={styles.editorTextarea}
-                placeholder="내용을 입력하세요..."
-                rows={12}
-                value={content}
-                onChange={event => setContent(event.target.value)}
+                data-placeholder="내용을 입력하세요..."
+                onPaste={handleImagePaste}
               />
+              {uploading && <div className={styles.uploadingBanner}>이미지 업로드 중...</div>}
             </div>
 
             <div className={styles.formGroup} style={{ marginTop: 24 }}>
@@ -199,7 +257,7 @@ function CreatePostForm() {
             <ul className={styles.guideList}>
               <li className={styles.guideItem}>게시판 목록은 `/api/v1/boards`에서 가져옵니다.</li>
               <li className={styles.guideItem}>게시는 `/api/v1/posts`로 생성합니다.</li>
-              <li className={styles.guideItem}>이미지 업로드 API는 문서에 없어 현재 텍스트 게시만 연결했습니다.</li>
+              <li className={styles.guideItem}>이미지를 에디터에 붙여넣기(Ctrl+V)하면 `/api/v1/posts/images/presigned-url`을 통해 자동 업로드됩니다.</li>
             </ul>
           </div>
         </aside>
