@@ -9,7 +9,7 @@
 .mainWrapper {
   flex-grow: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1480px;
   margin: 0 auto;
   padding: 32px 16px;
 }
@@ -25,7 +25,7 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: 24px;
 }
 
 @media (min-width: 1024px) {
@@ -41,7 +41,7 @@
 @media (min-width: 1024px) {
   .leftColumn {
     display: block;
-    grid-column: span 3 / span 3;
+    grid-column: span 2 / span 2;
   }
 }
 
@@ -55,10 +55,10 @@
 
 @media (min-width: 1024px) {
   .centerColumn {
-    grid-column: span 6 / span 6;
+    grid-column: span 8 / span 8;
   }
   .centerColumnExpanded {
-    grid-column: span 9 / span 9;
+    grid-column: span 10 / span 10;
   }
   .centerColumnFull {
     grid-column: span 12 / span 12;
@@ -72,6 +72,6 @@
 @media (min-width: 1024px) {
   .rightColumn {
     display: block;
-    grid-column: span 3 / span 3;
+    grid-column: span 2 / span 2;
   }
 }
