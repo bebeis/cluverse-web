@@ -118,7 +118,7 @@ export default function NotificationsPage() {
   const loadNotifications = useCallback((p = 1) => {
     cluverseApi.getNotifications({ page: p, size: 20 })
       .then(data => {
-        setNotifications(prev => p === 1 ? data.notifications : [...prev, ...data.notifications]);
+        setNotifications(prev => p === 1 ? (data?.notifications ?? []) : [...prev, ...(data?.notifications ?? [])]);
         setHasNext(data.hasNext);
         setPage(p);
       })
