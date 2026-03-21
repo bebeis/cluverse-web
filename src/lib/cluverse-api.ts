@@ -674,8 +674,10 @@ export const cluverseApi = {
   getPost(postId: number) {
     return request<FeedPost>(`/api/v1/posts/${postId}`);
   },
+  deletePost(postId: number) {
+    return request<null>(`/api/v1/posts/${postId}`, { method: 'DELETE' });
+  },
   updatePost(postId: number, input: {
-    boardId: number;
     category: string;
     title: string;
     content: string;

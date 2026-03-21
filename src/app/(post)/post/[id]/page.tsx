@@ -2,14 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { Bookmark, Heart, MessageCircle, Share2 } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { Bookmark, Heart, MessageCircle, Pencil, Share2, Trash2 } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, Comment, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './PostDetail.module.css';
 
 export default function PostDetailPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const postId = Number(params.id);
   const [post, setPost] = useState<FeedPost | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -17,6 +18,7 @@ export default function PostDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [pendingLike, setPendingLike] = useState(false);
   const [pendingBookmark, setPendingBookmark] = useState(false);
+  const [myMemberId, setMyMemberId] = useState<number | null>(null);
 
   const safeComments = useMemo(() => comments.slice(0, 3), [comments]);
 
@@ -29,10 +31,12 @@ export default function PostDetailPage() {
     Promise.all([
       cluverseApi.getPost(postId),
       cluverseApi.getComments({ postId, offset: 0, limit: 3 }),
+      cluverseApi.getMyProfile().catch(() => null),
     ])
-      .then(([postResult, commentResult]) => {
+      .then(([postResult, commentResult, profile]) => {
         setPost(postResult);
         setComments(commentResult.comments);
+        setMyMemberId(profile?.memberId ?? null);
         setAuthRequired(false);
         setError(null);
       })
@@ -47,6 +51,16 @@ export default function PostDetailPage() {
         setError(caught instanceof Error ? caught.message : '게시글을 불러오지 못했습니다.');
       });
   }, [postId]);
+
+  const handleDelete = async () => {
+    if (!post || !confirm('게시글을 삭제하시겠습니까?')) return;
+    try {
+      await cluverseApi.deletePost(post.postId);
+      router.back();
+    } catch {
+      setError('게시글 삭제에 실패했습니다.');
+    }
+  };
 
   const handleLike = async () => {
     if (!post || pendingLike) {
@@ -98,6 +112,16 @@ export default function PostDetailPage() {
 
             <article className={styles.article}>
               <div className={styles.articleHeader}>
+                {myMemberId === post.author.memberId && !post.isAnonymous && (
+                  <div className={styles.ownerActions}>
+                    <Link href={`/post/${post.postId}/edit`} className={styles.editBtn}>
+                      <Pencil size={14} /> 수정
+                    </Link>
+                    <button type="button" className={styles.deleteBtn} onClick={handleDelete}>
+                      <Trash2 size={14} /> 삭제
+                    </button>
+                  </div>
+                )}
                 <div className={styles.authorArea}>
                   <div className={styles.authorAvatar}>
                     {post.author.profileImageUrl ? (
