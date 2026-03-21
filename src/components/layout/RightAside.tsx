@@ -1,9 +1,57 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { TrendingUp, Plus } from 'lucide-react';
 import styles from './RightAside.module.css';
 
+interface RecentCommentPost {
+  postId: number;
+  title: string;
+  lastCommentRepliedAt: string;
+}
+
+const PAGE_SIZE = 5;
+
+const MOCK_RECENT_POSTS: RecentCommentPost[] = [
+  { postId: 1, title: '스프링 스터디 모집합니다', lastCommentRepliedAt: '2026-03-21T15:40:00' },
+  { postId: 2, title: 'JPA 질문 있습니다', lastCommentRepliedAt: '2026-03-21T14:10:00' },
+  { postId: 3, title: '중간고사 범위 어디까지예요?', lastCommentRepliedAt: '2026-03-21T13:30:00' },
+  { postId: 4, title: '축제 라인업 아시는 분?', lastCommentRepliedAt: '2026-03-21T12:00:00' },
+  { postId: 5, title: '자취방 양도합니다', lastCommentRepliedAt: '2026-03-21T11:20:00' },
+  { postId: 6, title: '공모전 팀원 구해요', lastCommentRepliedAt: '2026-03-21T10:50:00' },
+  { postId: 7, title: '알고리즘 스터디 같이 해요', lastCommentRepliedAt: '2026-03-21T09:30:00' },
+  { postId: 8, title: '해외봉사 후기 공유합니다', lastCommentRepliedAt: '2026-03-21T08:45:00' },
+  { postId: 9, title: '학식 오늘 뭐 나왔나요', lastCommentRepliedAt: '2026-03-21T08:10:00' },
+  { postId: 10, title: '도서관 자리 현황 어떤가요', lastCommentRepliedAt: '2026-03-21T07:55:00' },
+];
+
 export default function RightAside() {
+  const [recentPosts, setRecentPosts] = useState<RecentCommentPost[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+      try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+        const headers: HeadersInit = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const res = await fetch(`${API_BASE_URL}/api/v1/posts/recent-comment-replied?size=10`, { headers });
+        if (!res.ok) throw new Error('fetch failed');
+        const json = await res.json();
+        setRecentPosts(json.data);
+      } catch {
+        console.warn('API 연동 실패로 Mock 데이터를 반환합니다.');
+        setRecentPosts(MOCK_RECENT_POSTS);
+      }
+    };
+    fetchRecentPosts();
+  }, []);
+
+  const totalPages = Math.ceil(recentPosts.length / PAGE_SIZE);
+  const pagePosts = recentPosts.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+
   return (
     <aside className={styles.container}>
       {/* Trending Keywords Box */}
@@ -95,6 +143,41 @@ export default function RightAside() {
             <button className={styles.addBtn}><Plus size={20} /></button>
           </div>
         </div>
+      </div>
+
+      {/* Recent Commented Posts Box */}
+      <div className={styles.box}>
+        <div className={styles.headerRow}>
+          <h3 className={styles.title}>최근 댓글이 달린 게시글</h3>
+        </div>
+        <ul className={styles.recentPostList}>
+          {pagePosts.map((post) => (
+            <li key={post.postId} className={styles.recentPostItem}>
+              <Link href={`/post/${post.postId}`} className={styles.recentPostLink}>
+                {post.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setCurrentPage((p) => p - 1)}
+              disabled={currentPage === 0}
+            >
+              이전
+            </button>
+            <span className={styles.pageIndicator}>{currentPage + 1} / {totalPages}</span>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setCurrentPage((p) => p + 1)}
+              disabled={currentPage === totalPages - 1}
+            >
+              다음
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.footer}>
