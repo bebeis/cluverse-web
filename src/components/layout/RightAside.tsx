@@ -148,7 +148,8 @@ export default function RightAside() {
       {/* Recent Commented Posts Box */}
       <div className={styles.box}>
         <div className={styles.headerRow}>
-          <h3 className={styles.title}>최근 댓글이 달린 게시글</h3>
+          <h3 className={styles.titleSm}>최근 댓글 달린 글</h3>
+          <span className={styles.pageIndicator}>{currentPage + 1} / {totalPages}</span>
         </div>
         <ul className={styles.recentPostList}>
           {pagePosts.map((post) => (
@@ -159,25 +160,22 @@ export default function RightAside() {
             </li>
           ))}
         </ul>
-        {totalPages > 1 && (
-          <div className={styles.pagination}>
-            <button
-              className={styles.pageBtn}
-              onClick={() => setCurrentPage((p) => p - 1)}
-              disabled={currentPage === 0}
-            >
-              이전
-            </button>
-            <span className={styles.pageIndicator}>{currentPage + 1} / {totalPages}</span>
-            <button
-              className={styles.pageBtn}
-              onClick={() => setCurrentPage((p) => p + 1)}
-              disabled={currentPage === totalPages - 1}
-            >
-              다음
-            </button>
-          </div>
-        )}
+        <div className={styles.pagination}>
+          <button
+            className={styles.pageBtn}
+            onClick={() => setCurrentPage((p) => p - 1)}
+            disabled={currentPage === 0}
+          >
+            이전
+          </button>
+          <button
+            className={styles.pageBtn}
+            onClick={() => setCurrentPage((p) => p + 1)}
+            disabled={currentPage === totalPages - 1}
+          >
+            다음
+          </button>
+        </div>
       </div>
 
       <div className={styles.footer}>

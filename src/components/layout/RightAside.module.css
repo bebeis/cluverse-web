@@ -151,17 +151,28 @@
   background-color: rgba(64, 81, 181, 0.1);
 }
 
+.titleSm {
+  font-weight: 700;
+  color: #111827;
+  font-size: 14px;
+}
+
 .recentPostList {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
 }
 
 .recentPostItem {
   overflow: hidden;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.recentPostItem:last-child {
+  border-bottom: none;
 }
 
 .recentPostLink {
@@ -173,6 +184,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: color 0.2s;
+  padding: 8px 2px;
 }
 
 .recentPostLink:hover {
@@ -182,18 +194,19 @@
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 14px;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .pageBtn {
+  flex: 1;
   font-size: 12px;
   color: #6B7280;
-  background: transparent;
+  background: #F9FAFB;
   border: 1px solid #E5E7EB;
   border-radius: 6px;
-  padding: 3px 10px;
+  padding: 5px 0;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -201,6 +214,7 @@
 .pageBtn:hover:not(:disabled) {
   color: #4051B5;
   border-color: #4051B5;
+  background: rgba(64, 81, 181, 0.05);
 }
 
 .pageBtn:disabled {
@@ -209,7 +223,7 @@
 }
 
 .pageIndicator {
-  font-size: 12px;
+  font-size: 11px;
   color: #9CA3AF;
 }
 
