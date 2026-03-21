@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { PenTool, Flame, MessageSquare, Music, BookOpen, ShoppingBag } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { PostCard } from '@/components/ui/PostCard';
+import { PostModal } from '@/components/ui/PostModal';
 import { ApiError, cluverseApi, mapPostCard } from '@/lib/cluverse-api';
 import { isLoggedIn } from '@/lib/auth';
 import styles from './HomePage.module.css';
@@ -22,6 +23,7 @@ export default function HomePage() {
   const [posts, setPosts] = useState<ReturnType<typeof mapPostCard>[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [authRequired, setAuthRequired] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -87,9 +89,15 @@ export default function HomePage() {
 
       <div className={styles.feedContainer}>
         {posts.map(post => (
-          <PostCard key={post.id} {...post} />
+          <PostCard
+            key={post.id}
+            {...post}
+            onClick={() => setSelectedPostId(Number(post.id))}
+          />
         ))}
       </div>
+
+      <PostModal postId={selectedPostId} onClose={() => setSelectedPostId(null)} />
 
       <button className={styles.fabBtn} aria-label="글쓰기" onClick={() => router.push('/write')}>
         <PenTool size={24} />

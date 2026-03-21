@@ -17,6 +17,7 @@ export interface PostCardProps {
   category: string;
   isAnonymous?: boolean;
   id?: number | string;
+  onClick?: () => void;
 }
 
 export const PostCard: React.FC<PostCardProps> = ({
@@ -31,11 +32,14 @@ export const PostCard: React.FC<PostCardProps> = ({
   category,
   isAnonymous = false,
   id,
+  onClick,
 }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    if (id) {
+    if (onClick) {
+      onClick();
+    } else if (id) {
       router.push(`/post/${id}`);
     }
   };
