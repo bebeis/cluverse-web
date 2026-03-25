@@ -1,7 +1,7 @@
 .container {
   display: none;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 @media (min-width: 1024px) {
@@ -10,18 +10,18 @@
 
 .box {
   background-color: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  border: 1px solid #f3f4f6;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.06));
+  border: 1px solid #F0F1F5;
 }
 
 .menuBox {
   background-color: white;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  border: 1px solid #f3f4f6;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.06));
+  border: 1px solid #F0F1F5;
 }
 
 .profileCenter {
@@ -33,90 +33,114 @@
 
 .avatarWrapper {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+}
+
+.avatarRing {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4051B5, #818CF8);
+  z-index: 0;
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  position: relative;
+  z-index: 1;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #f6f6f8;
+  border: 3px solid white;
+  display: block;
 }
 
 .onlineBadge {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 2px;
+  right: 2px;
+  z-index: 2;
   width: 16px;
   height: 16px;
-  background-color: #22C55E;
+  background: linear-gradient(135deg, #22C55E, #4ADE80);
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2.5px solid white;
+  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.4);
 }
 
 .name {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
   color: #111827;
+  margin-bottom: 2px;
 }
 
 .schoolInfo {
-  font-size: 14px;
-  color: #6B7280;
-  margin-bottom: 16px;
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 14px;
+  line-height: 1.4;
 }
 
 .statsRow {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  padding: 12px 16px;
-  background-color: #F9FAFB;
+  justify-content: space-evenly;
+  background: linear-gradient(135deg, #F8F9FF 0%, #F0F2FF 100%);
   border-radius: 12px;
-  margin-bottom: 16px;
+  padding: 12px 8px;
+  margin-bottom: 14px;
+  border: 1px solid #E8EAFF;
 }
 
 .statItem {
   text-align: center;
+  flex: 1;
 }
 
 .statLabel {
-  font-size: 12px;
-  color: #6B7280;
+  font-size: 11px;
+  color: #9CA3AF;
+  margin-bottom: 2px;
 }
 
 .statValue {
   font-weight: 700;
-  color: #111827;
+  font-size: 16px;
+  color: #4051B5;
 }
 
 .divider {
   width: 1px;
-  background-color: #E5E7EB;
+  background: #E0E3FF;
+  align-self: stretch;
+  margin: 2px 0;
 }
 
 .editBtn {
   width: 100%;
-  padding: 8px 0;
-  background-color: rgba(64, 81, 181, 0.1);
+  padding: 9px 0;
+  background: linear-gradient(135deg, rgba(64,81,181,0.1), rgba(99,102,241,0.1));
   color: #4051B5;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 600;
-  border: none;
+  border: 1px solid rgba(64, 81, 181, 0.2);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  letter-spacing: -0.01em;
 }
 
 .editBtn:hover {
-  background-color: rgba(64, 81, 181, 0.2);
+  background: linear-gradient(135deg, rgba(64,81,181,0.18), rgba(99,102,241,0.18));
+  border-color: rgba(64, 81, 181, 0.35);
+  transform: translateY(-1px);
 }
 
 .menuList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -125,25 +149,30 @@
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 10px 12px;
   border-radius: 12px;
-  color: #4B5563;
+  color: #6B7280;
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.2s;
+  font-size: 14px;
+  transition: all 0.2s;
 }
 
 .menuItem:hover {
   background-color: #F9FAFB;
+  color: #374151;
+  transform: translateX(2px);
 }
 
 .menuItemActive {
-  background-color: rgba(64, 81, 181, 0.1);
+  background: linear-gradient(135deg, rgba(64,81,181,0.12), rgba(99,102,241,0.08));
   color: #4051B5;
   font-weight: 700;
+  border: 1px solid rgba(64, 81, 181, 0.15);
 }
 
 .menuItemActive:hover {
-  background-color: rgba(64, 81, 181, 0.1);
+  background: linear-gradient(135deg, rgba(64,81,181,0.15), rgba(99,102,241,0.1));
+  transform: translateX(2px);
 }

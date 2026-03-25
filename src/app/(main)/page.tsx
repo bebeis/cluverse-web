@@ -59,7 +59,7 @@ export default function HomePage() {
       <div className={styles.bannerGroup}>
         <div className={styles.bannerContent}>
           <h2 className={styles.bannerHeadline}>오늘의 캠퍼스 라이프, <br />Cluverse에서 시작하세요!</h2>
-          <p className={styles.bannerSubline}>홈 피드는 `/api/v1/feeds/home` 필터와 직접 연결됩니다.</p>
+          <p className={styles.bannerSubline}>관심사 기반 커뮤니티, 동아리, 학과 정보를 한 곳에서</p>
           <div className={styles.bannerBtnsRow}>
             <Link href="/explore/groups" className={styles.btnSolid}>동아리 찾기</Link>
             <Link href="/trending" className={styles.btnGlass}>트렌딩 보기</Link>

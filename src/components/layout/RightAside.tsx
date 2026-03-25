@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { TrendingUp, Plus } from 'lucide-react';
+import { Flame, Plus } from 'lucide-react';
 import styles from './RightAside.module.css';
 
 interface RecentCommentPost {
@@ -58,7 +58,7 @@ export default function RightAside() {
       <div className={styles.box}>
         <div className={styles.headerRow}>
           <h3 className={styles.title}>실시간 인기 키워드</h3>
-          <TrendingUp size={16} className={styles.iconTrending} />
+          <Flame size={15} className={styles.iconTrending} />
         </div>
         <ul className={styles.list}>
           <li className={styles.listItem}>
@@ -91,7 +91,7 @@ export default function RightAside() {
               <span className={styles.rankNormal}>5</span>
               <span className={styles.keyword}>공모전 팀원</span>
             </div>
-            <span className={styles.badgeNew}>up</span>
+            <span className={styles.badgeNew}>▲</span>
           </li>
         </ul>
       </div>

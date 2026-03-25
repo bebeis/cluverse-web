@@ -3,13 +3,15 @@
   top: 0;
   z-index: 50;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #E5E7EB;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
 
 .inner {
-  max-width: 1200px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0 16px;
   height: 64px;
@@ -33,32 +35,44 @@
   gap: 8px;
   cursor: pointer;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background-color: #4051B5;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4051B5 0%, #6366F1 100%);
   color: white;
+  box-shadow: 0 2px 8px rgba(64, 81, 181, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leftContainer:hover .logoIcon {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.45);
 }
 
 .title {
-  font-family: var(--font-geist-sans), sans-serif;
-  font-size: 20px;
-  font-weight: 700;
+  font-family: 'Inter', var(--font-geist-sans), sans-serif;
+  font-size: 19px;
+  font-weight: 800;
   color: #111827;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.035em;
+  background: linear-gradient(135deg, #4051B5, #6366F1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .centerContainer {
   display: none;
   flex: 1;
   max-width: 28rem;
-  margin: 0 32px;
+  margin: 0 24px;
 }
 
 @media (min-width: 768px) {
@@ -80,6 +94,11 @@
   align-items: center;
   pointer-events: none;
   color: #9CA3AF;
+  transition: color 0.2s;
+}
+
+.searchWrapper:focus-within .searchIcon {
+  color: #4051B5;
 }
 
 .searchInput {
@@ -87,41 +106,45 @@
   width: 100%;
   padding-left: 40px;
   padding-right: 12px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 1.5px solid transparent;
   border-radius: 12px;
   background-color: #F3F4F6;
   color: #111827;
   font-size: 14px;
   height: 40px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .searchInput:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #4051B5;
+  background: #fff;
+  border-color: #4051B5;
+  box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.12);
 }
 
 .searchInput::placeholder {
-  color: #6B7280;
+  color: #9CA3AF;
 }
 
 .rightContainer {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 @media (min-width: 640px) {
-  .rightContainer { gap: 16px; }
+  .rightContainer { gap: 8px; }
 }
 
 .navLinks {
   display: none;
   align-items: center;
-  gap: 24px;
-  margin-right: 16px;
+  gap: 4px;
+  margin-right: 8px;
 }
 
 @media (min-width: 1024px) {
@@ -129,33 +152,55 @@
 }
 
 .navLink {
+  position: relative;
   white-space: nowrap;
   font-size: 14px;
   font-weight: 500;
   color: #4B5563;
   text-decoration: none;
-  transition: color 0.2s;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 16px;
+  height: 2px;
+  background: #4051B5;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
 }
 
 .navLink:hover {
   color: #4051B5;
+  background: rgba(64, 81, 181, 0.06);
 }
 
 .navLinkActive {
   font-weight: 700;
   color: #4051B5;
+  background: rgba(64, 81, 181, 0.08);
+}
+
+.navLinkActive::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 .iconBtn {
   text-decoration: none;
   padding: 8px;
-  border-radius: 9999px;
+  border-radius: 12px;
   color: #6B7280;
   background: transparent;
   border: none;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,28 +208,43 @@
 
 .iconBtn:hover {
   background-color: #F3F4F6;
+  color: #374151;
+  transform: scale(1.05);
 }
 
 .badge {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 8px;
-  height: 8px;
-  background-color: #EF4444;
+  top: 7px;
+  right: 7px;
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, #EF4444, #F87171);
   border-radius: 50%;
   border: 2px solid white;
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0); }
 }
 
 .profileWrapper {
   display: inline-block;
   text-decoration: none;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: linear-gradient(to top right, #4051B5, #818CF8);
+  background: linear-gradient(135deg, #4051B5, #818CF8);
   padding: 2px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(64, 81, 181, 0.25);
+}
+
+.profileWrapper:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.4);
 }
 
 .profileImg {

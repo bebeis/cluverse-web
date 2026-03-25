@@ -1,16 +1,29 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Search, Bell, MessageCircle, GraduationCap } from 'lucide-react';
 import styles from './Header.module.css';
 
+const navLinks = [
+  { href: '/', label: '홈', exact: true },
+  { href: '/explore/community', label: '관심', exact: false },
+  { href: '/explore/major', label: '학과', exact: false },
+  { href: '/explore/groups', label: '그룹', exact: false },
+  { href: '/event', label: '이벤트', exact: false },
+];
+
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
         {/* Logo and Title */}
         <Link href="/" className={styles.leftContainer}>
           <div className={styles.logoIcon}>
-            <GraduationCap size={20} strokeWidth={2.5} />
+            <GraduationCap size={18} strokeWidth={2.5} />
           </div>
           <h1 className={styles.title}>Cluverse</h1>
         </Link>
@@ -22,7 +35,7 @@ export default function Header() {
             onClick={() => alert('검색 기능은 준비 중입니다.')}
           >
             <div className={styles.searchIcon}>
-              <Search size={18} />
+              <Search size={16} />
             </div>
             <input 
               className={styles.searchInput} 
@@ -36,20 +49,27 @@ export default function Header() {
         {/* Right Section */}
         <div className={styles.rightContainer}>
           <nav className={styles.navLinks}>
-            <Link href="/" className={`${styles.navLink} ${styles.navLinkActive}`}>홈</Link>
-            <Link href="/explore/community" className={styles.navLink}>관심</Link>
-            <Link href="/explore/major" className={styles.navLink}>학과</Link>
-            <Link href="/explore/groups" className={styles.navLink}>그룹</Link>
-            <Link href="/event" className={styles.navLink}>이벤트</Link>
+            {navLinks.map(link => {
+              const isActive = link.exact ? pathname === link.href : pathname?.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           <Link href="/notifications" className={styles.iconBtn}>
-            <Bell size={22} />
+            <Bell size={20} />
             <span className={styles.badge}></span>
           </Link>
           
           <Link href="/messages" className={styles.iconBtn}>
-            <MessageCircle size={22} />
+            <MessageCircle size={20} />
           </Link>
           
           <Link href="/settings/profile" className={styles.profileWrapper}>
