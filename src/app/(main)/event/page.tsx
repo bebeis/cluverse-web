@@ -1,6 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import styles from './Event.module.css';
 import { CalendarDays, MapPin } from 'lucide-react';
+import UnderConstructionModal from '@/components/ui/UnderConstructionModal';
 
 const mockEvents = [
   {
@@ -24,6 +27,8 @@ const mockEvents = [
 ];
 
 export default function EventPage() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -35,7 +40,7 @@ export default function EventPage() {
 
       <div className={styles.eventList}>
         {mockEvents.map((event) => (
-          <div key={event.id} className={styles.eventCard}>
+          <div key={event.id} className={styles.eventCard} onClick={() => setShowModal(true)} style={{ cursor: 'pointer' }}>
             <div className={styles.imageWrapper}>
               {/* Fallback pattern background if image fails */}
               <div className={styles.imageFallback}></div>
@@ -60,6 +65,8 @@ export default function EventPage() {
           </div>
         ))}
       </div>
+
+      {showModal && <UnderConstructionModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }
