@@ -90,6 +90,7 @@ export default function MajorExplorePage() {
           type="button"
           onClick={() => {
             setPostsLoading(true);
+            setSelectedPostId(null);
             setSelectedMajorId(child.majorId);
             const topRootId = level === 0 ? parentId : expandedRootId;
             if (topRootId) {
@@ -153,6 +154,7 @@ export default function MajorExplorePage() {
                   type="button"
                   onClick={() => {
                     setPostsLoading(true);
+                    setSelectedPostId(null);
                     setSelectedMajorId(major.majorId);
                     setExpandedRootId(current => (current === major.majorId ? null : major.majorId));
                   }}

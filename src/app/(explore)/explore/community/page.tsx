@@ -74,6 +74,7 @@ export default function CommunityExplorePage() {
           className={selectedInterestId === child.interestId ? styles.subLinkActive : styles.subLink}
           onClick={() => {
             setPostsLoading(true);
+            setSelectedPostId(null);
             setSelectedInterestId(child.interestId);
             const topRootId = level === 0 ? parentId : expandedRootId;
             if (topRootId) {
@@ -137,6 +138,7 @@ export default function CommunityExplorePage() {
                   type="button"
                   onClick={() => {
                     setPostsLoading(true);
+                    setSelectedPostId(null);
                     setSelectedInterestId(interest.interestId);
                     setExpandedRootId(current => (current === interest.interestId ? null : interest.interestId));
                   }}
