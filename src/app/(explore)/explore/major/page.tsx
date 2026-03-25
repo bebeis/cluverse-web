@@ -2,14 +2,12 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Pencil, Sparkles } from 'lucide-react';
 import { PostInlineView } from '@/components/ui/PostInlineView';
 import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
 import styles from './MajorExplore.module.css';
 
 export default function MajorExplorePage() {
-  const router = useRouter();
   const [rootMajors, setRootMajors] = useState<MajorNode[]>([]);
   const [childrenByParent, setChildrenByParent] = useState<Record<number, MajorNode[]>>({});
   const [selectedMajorId, setSelectedMajorId] = useState<number | null>(null);
@@ -178,11 +176,6 @@ export default function MajorExplorePage() {
           })}
         </div>
 
-        {selectedMajor ? (
-          <button className={styles.boardShortcut} onClick={() => router.push(`/board/${encodeURIComponent(selectedMajor.name)}`)}>
-            전공 보드 열기
-          </button>
-        ) : null}
       </aside>
 
       <section className={styles.main}>
