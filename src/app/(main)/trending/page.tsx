@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { stripHtml } from '@/lib/html-utils';
 import { User, Heart, MessageCircle, Bookmark } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
@@ -63,7 +64,7 @@ export default function TrendingPage() {
                 <span className={styles.metaTime}>{formatRelativeTime(post.createdAt)}</span>
               </div>
               <h3 className={styles.trendTitle}>{post.title}</h3>
-              <p className={styles.trendExcerpt}>{post.contentPreview}</p>
+              <p className={styles.trendExcerpt}>{stripHtml(post.contentPreview ?? '')}</p>
               <div className={styles.statsRow}>
                 <div className={styles.statsLeft}>
                   <span className={styles.statIcon}><User size={14} /> {post.isAnonymous ? '익명' : post.author.nickname}</span>

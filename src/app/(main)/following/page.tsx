@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { stripHtml } from '@/lib/html-utils';
 import { Bookmark, Heart, MessageCircle, UserCog } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
@@ -94,7 +95,7 @@ export default function FollowingFeedPage() {
 
             <div className={styles.bodyText}>
               <h3>{post.title}</h3>
-              <p>{post.contentPreview || post.content}</p>
+              <p>{stripHtml(post.contentPreview || post.content || '')}</p>
             </div>
 
             {post.thumbnailImageUrl ? <img className={styles.bodyImage} src={post.thumbnailImageUrl} alt="" /> : null}

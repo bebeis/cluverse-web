@@ -22,7 +22,7 @@ export default function Header() {
       <div className={styles.inner}>
         {/* Logo and Title */}
         <Link href="/" className={styles.leftContainer}>
-          <div className={styles.logoIcon}>
+          <div className={styles.logoIcon} suppressHydrationWarning>
             <GraduationCap size={18} strokeWidth={2.5} />
           </div>
           <h1 className={styles.title}>Cluverse</h1>

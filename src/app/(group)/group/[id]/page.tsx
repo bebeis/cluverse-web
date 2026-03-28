@@ -13,6 +13,7 @@ import { PostModal } from '@/components/ui/PostModal';
 import {
   cluverseApi, FeedPost, GroupDetail, GroupMember, RecruitmentSummary, formatRelativeTime,
 } from '@/lib/cluverse-api';
+import { stripHtml } from '@/lib/html-utils';
 import styles from './GroupDetail.module.css';
 
 type Tab = '게시글' | '공고' | '멤버';
@@ -326,7 +327,7 @@ export default function GroupDetailPage() {
                       </div>
                     </div>
                     <h3 className={styles.noticeTitle}>{pinnedPost.title}</h3>
-                    <p className={styles.noticeBody}>{pinnedPost.contentPreview || pinnedPost.content}</p>
+                    <p className={styles.noticeBody}>{stripHtml(pinnedPost.contentPreview || pinnedPost.content || '')}</p>
                     <div className={styles.noticeMeta}>
                       <span className={styles.metaItem}><Eye size={14} /> {pinnedPost.viewCount}</span>
                       <span className={styles.metaItem}><MessageCircle size={14} /> {pinnedPost.commentCount}</span>
@@ -360,7 +361,7 @@ export default function GroupDetailPage() {
                             <span className={styles.postAuthorTime}>• {formatRelativeTime(post.createdAt)}</span>
                           </div>
                           <h4 className={styles.postTitle}>{post.title}</h4>
-                          <p className={styles.postExcerpt}>{post.contentPreview || post.content}</p>
+                          <p className={styles.postExcerpt}>{stripHtml(post.contentPreview || post.content || '')}</p>
                         </div>
                         {post.thumbnailImageUrl && (
                           <div className={styles.postThumb}>

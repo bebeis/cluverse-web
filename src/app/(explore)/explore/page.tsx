@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './Explore.module.css';
+import { stripHtml } from '@/lib/html-utils';
 import {
   MessageSquare,
   GraduationCap,
@@ -116,7 +117,7 @@ export default function ExplorePage() {
                 type="button"
               >
                 <div className={styles.searchResultTitle}>{post.title}</div>
-                <div className={styles.searchResultContent}>{post.contentPreview}</div>
+                <div className={styles.searchResultContent}>{stripHtml(post.contentPreview ?? '')}</div>
                 <div className={styles.searchResultMeta}>
                   <span>{post.isAnonymous ? '익명' : post.author.nickname}</span>
                   <span><Heart size={12} /> {post.likeCount}</span>

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { BookOpen, EyeOff, Save, Send } from 'lucide-react';
+import { BookOpen, EyeOff, Send } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { RichEditor } from '@/components/ui/RichEditor';
 import { ApiError, cluverseApi } from '@/lib/cluverse-api';
 import styles from './CreatePost.module.css';
 
@@ -34,9 +35,7 @@ function CreatePostForm() {
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const editorRef = useRef<HTMLDivElement>(null);
-  const editorWrapperRef = useRef<HTMLDivElement>(null);
-  const [imgOverlay, setImgOverlay] = useState<{ top: number; left: number; width: number; img: HTMLImageElement } | null>(null);
+  const [editorContent, setEditorContent] = useState('');
 
   useEffect(() => {
     cluverseApi.getBoards({ activeOnly: true, depth: 2 })
@@ -62,37 +61,7 @@ function CreatePostForm() {
       });
   }, []);
 
-  const handleEditorClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target instanceof HTMLImageElement && editorWrapperRef.current) {
-      const wrapperRect = editorWrapperRef.current.getBoundingClientRect();
-      const imgRect = e.target.getBoundingClientRect();
-      setImgOverlay({
-        top: imgRect.top - wrapperRect.top,
-        left: imgRect.left - wrapperRect.left,
-        width: imgRect.width,
-        img: e.target,
-      });
-    } else {
-      setImgOverlay(null);
-    }
-  };
-
-  const handleDeleteImg = () => {
-    if (imgOverlay) {
-      imgOverlay.img.remove();
-      setImgOverlay(null);
-    }
-  };
-
-  const handleImagePaste = async (e: React.ClipboardEvent<HTMLDivElement>) => {
-    const items = Array.from(e.clipboardData.items);
-    const imageItem = items.find(item => item.type.startsWith('image/'));
-    if (!imageItem) return;
-
-    e.preventDefault();
-    const blob = imageItem.getAsFile();
-    if (!blob) return;
-
+  const handleImagePaste = async (blob: File): Promise<string> => {
     setUploading(true);
     setError(null);
     try {
@@ -101,49 +70,29 @@ function CreatePostForm() {
         originalFileName: `paste-${Date.now()}.${ext}`,
         contentType: blob.type,
       });
-
       await fetch(uploadUrl, {
         method: 'PUT',
         body: blob,
         headers: { 'Content-Type': blob.type },
       });
-
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.style.maxWidth = '100%';
-      img.style.borderRadius = '8px';
-      img.style.marginTop = '8px';
-      img.style.marginBottom = '8px';
-      img.style.display = 'block';
-
-      const selection = window.getSelection();
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(img);
-        range.setStartAfter(img);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      } else {
-        editorRef.current?.appendChild(img);
-      }
+      return imageUrl;
     } catch {
       setError('이미지 업로드에 실패했습니다.');
+      throw new Error('upload failed');
     } finally {
       setUploading(false);
     }
   };
 
   const handleSubmit = async () => {
-    const editorContent = editorRef.current?.innerHTML ?? '';
     if (!boardId || !title.trim() || !editorContent.trim()) {
       setError('게시판, 제목, 내용을 모두 입력하세요.');
       return;
     }
 
-    const imageUrls = Array.from(editorRef.current?.querySelectorAll('img') ?? [])
-      .map(img => img.src);
+    const parser = typeof window !== 'undefined' ? new DOMParser() : null;
+    const doc = parser?.parseFromString(editorContent, 'text/html');
+    const imageUrls = Array.from(doc?.querySelectorAll('img') ?? []).map(img => img.src);
 
     setSubmitting(true);
     setError(null);
@@ -176,9 +125,6 @@ function CreatePostForm() {
     <AuthRequiredOverlay active={authRequired}>
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>게시글 작성</h1>
-        <button className={styles.draftBtn} type="button">
-          <Save size={16} /> 임시저장은 아직 제공되지 않습니다
-        </button>
       </div>
 
       <div className={styles.contentArea}>
@@ -216,27 +162,12 @@ function CreatePostForm() {
               />
             </div>
 
-            <div className={styles.editorWrapper} ref={editorWrapperRef} style={{ position: 'relative' }}>
-              <div
-                ref={editorRef}
-                contentEditable
-                suppressContentEditableWarning
-                className={styles.editorTextarea}
-                data-placeholder="내용을 입력하세요..."
-                onPaste={handleImagePaste}
-                onClick={handleEditorClick}
+            <div className={styles.formGroup}>
+              <RichEditor
+                onChange={setEditorContent}
+                onImagePaste={handleImagePaste}
+                uploading={uploading}
               />
-              {imgOverlay && (
-                <button
-                  type="button"
-                  className={styles.imgDeleteBtn}
-                  style={{ top: imgOverlay.top + 8, left: imgOverlay.left + imgOverlay.width - 36 }}
-                  onClick={handleDeleteImg}
-                >
-                  ×
-                </button>
-              )}
-              {uploading && <div className={styles.uploadingBanner}>이미지 업로드 중...</div>}
             </div>
 
             <div className={styles.formGroup} style={{ marginTop: 24 }}>
@@ -256,7 +187,7 @@ function CreatePostForm() {
                   <EyeOff size={20} className={styles.anonIcon} />
                   익명으로 게시
                 </span>
-                <span className={styles.anonDesc}>API의 `isAnonymous` 값을 사용합니다.</span>
+                <span className={styles.anonDesc}>작성자 정보가 숨겨집니다.</span>
               </div>
               <label className={styles.toggleLabel}>
                 <input
@@ -287,12 +218,12 @@ function CreatePostForm() {
               <div className={styles.guideIconBox}>
                 <BookOpen size={20} />
               </div>
-              <h3 className={styles.guideTitle}>연동 상태</h3>
+              <h3 className={styles.guideTitle}>작성 가이드</h3>
             </div>
             <ul className={styles.guideList}>
-              <li className={styles.guideItem}>게시판 목록은 `/api/v1/boards`에서 가져옵니다.</li>
-              <li className={styles.guideItem}>게시는 `/api/v1/posts`로 생성합니다.</li>
-              <li className={styles.guideItem}>이미지를 에디터에 붙여넣기(Ctrl+V)하면 `/api/v1/posts/images/presigned-url`을 통해 자동 업로드됩니다.</li>
+              <li className={styles.guideItem}>이미지를 에디터에 붙여넣기(Ctrl+V)하면 자동으로 업로드됩니다.</li>
+              <li className={styles.guideItem}>서식 도구로 굵게, 기울임, 목록 등을 사용할 수 있습니다.</li>
+              <li className={styles.guideItem}>태그는 쉼표로 구분해서 입력하세요.</li>
             </ul>
           </div>
         </aside>

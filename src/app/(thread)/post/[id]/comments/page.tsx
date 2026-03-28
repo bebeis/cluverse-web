@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { ChevronRight, Heart, MessageCircle } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
 import { ApiError, Comment, FeedPost, cluverseApi, formatRelativeTime } from '@/lib/cluverse-api';
+import { stripHtml } from '@/lib/html-utils';
 import styles from './CommentTree.module.css';
 
 export default function CommentTreePage() {
@@ -110,7 +111,7 @@ export default function CommentTreePage() {
             </span>
           </div>
           <h1 className={styles.postTitle}>{post?.title ?? '댓글'}</h1>
-          <p className={styles.postDesc}>{post?.contentPreview || post?.content}</p>
+          <p className={styles.postDesc}>{stripHtml(post?.contentPreview || post?.content || '')}</p>
         </div>
 
         <div className={styles.commentsCard}>

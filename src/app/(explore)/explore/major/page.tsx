@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ChevronDown, ChevronRight, Eye, GraduationCap, Heart, Layers3, MessageCircle, Pencil, Sparkles } from 'lucide-react';
 import { PostInlineView } from '@/components/ui/PostInlineView';
 import { cluverseApi, FeedPost, MajorNode, formatRelativeTime } from '@/lib/cluverse-api';
+import { stripHtml } from '@/lib/html-utils';
 import styles from './MajorExplore.module.css';
 
 export default function MajorExplorePage() {
@@ -245,7 +246,7 @@ export default function MajorExplorePage() {
                     <span className={styles.postTime}>{formatRelativeTime(post.createdAt)}</span>
                   </div>
                   <h3 className={styles.postTitle}>{post.title}</h3>
-                  <p className={styles.postPreview}>{post.contentPreview || post.content || '본문 미리보기가 없습니다.'}</p>
+                  <p className={styles.postPreview}>{stripHtml(post.contentPreview || post.content || '') || '본문 미리보기가 없습니다.'}</p>
                   <div className={styles.postFooter}>
                     <span className={styles.postAuthor}>{post.isAnonymous ? '익명' : post.author.nickname}</span>
                     <span className={styles.postAction}><Eye size={14} /> {post.viewCount}</span>

@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { EyeOff, Send } from 'lucide-react';
 import { AuthRequiredOverlay } from '@/components/ui/AuthRequiredOverlay';
+import { RichEditor } from '@/components/ui/RichEditor';
 import { ApiError, cluverseApi } from '@/lib/cluverse-api';
 import styles from '../../create/CreatePost.module.css';
 
@@ -23,9 +24,8 @@ export default function EditPostPage() {
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const editorRef = useRef<HTMLDivElement>(null);
-  const editorWrapperRef = useRef<HTMLDivElement>(null);
-  const [imgOverlay, setImgOverlay] = useState<{ top: number; left: number; width: number; img: HTMLImageElement } | null>(null);
+  const [initialContent, setInitialContent] = useState('');
+  const [editorContent, setEditorContent] = useState('');
 
   useEffect(() => {
     if (!Number.isFinite(postId)) {
@@ -41,9 +41,9 @@ export default function EditPostPage() {
         setIsPinned(post.isPinned);
         setIsExternalVisible(post.isExternalVisible);
         setTags(post.tags.join(', '));
-        if (editorRef.current) {
-          editorRef.current.innerHTML = post.content ?? '';
-        }
+        const content = post.content ?? '';
+        setInitialContent(content);
+        setEditorContent(content);
         setLoading(false);
       })
       .catch(caught => {
@@ -56,37 +56,7 @@ export default function EditPostPage() {
       });
   }, [postId]);
 
-  const handleEditorClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target instanceof HTMLImageElement && editorWrapperRef.current) {
-      const wrapperRect = editorWrapperRef.current.getBoundingClientRect();
-      const imgRect = e.target.getBoundingClientRect();
-      setImgOverlay({
-        top: imgRect.top - wrapperRect.top,
-        left: imgRect.left - wrapperRect.left,
-        width: imgRect.width,
-        img: e.target,
-      });
-    } else {
-      setImgOverlay(null);
-    }
-  };
-
-  const handleDeleteImg = () => {
-    if (imgOverlay) {
-      imgOverlay.img.remove();
-      setImgOverlay(null);
-    }
-  };
-
-  const handleImagePaste = async (e: React.ClipboardEvent<HTMLDivElement>) => {
-    const items = Array.from(e.clipboardData.items);
-    const imageItem = items.find(item => item.type.startsWith('image/'));
-    if (!imageItem) return;
-
-    e.preventDefault();
-    const blob = imageItem.getAsFile();
-    if (!blob) return;
-
+  const handleImagePaste = async (blob: File): Promise<string> => {
     setUploading(true);
     setError(null);
     try {
@@ -100,41 +70,24 @@ export default function EditPostPage() {
         body: blob,
         headers: { 'Content-Type': blob.type },
       });
-      const img = document.createElement('img');
-      img.src = imageUrl;
-      img.style.maxWidth = '100%';
-      img.style.borderRadius = '8px';
-      img.style.marginTop = '8px';
-      img.style.marginBottom = '8px';
-      img.style.display = 'block';
-      const selection = window.getSelection();
-      if (selection && selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(img);
-        range.setStartAfter(img);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      } else {
-        editorRef.current?.appendChild(img);
-      }
+      return imageUrl;
     } catch {
       setError('이미지 업로드에 실패했습니다.');
+      throw new Error('upload failed');
     } finally {
       setUploading(false);
     }
   };
 
   const handleSubmit = async () => {
-    const editorContent = editorRef.current?.innerHTML ?? '';
     if (!title.trim() || !editorContent.trim()) {
       setError('제목과 내용을 입력하세요.');
       return;
     }
 
-    const imageUrls = Array.from(editorRef.current?.querySelectorAll('img') ?? [])
-      .map(img => img.src);
+    const parser = typeof window !== 'undefined' ? new DOMParser() : null;
+    const doc = parser?.parseFromString(editorContent, 'text/html');
+    const imageUrls = Array.from(doc?.querySelectorAll('img') ?? []).map(img => img.src);
 
     setSubmitting(true);
     setError(null);
@@ -192,27 +145,16 @@ export default function EditPostPage() {
               />
             </div>
 
-            <div className={styles.editorWrapper} ref={editorWrapperRef} style={{ position: 'relative' }}>
-              <div
-                ref={editorRef}
-                contentEditable
-                suppressContentEditableWarning
-                className={styles.editorTextarea}
-                data-placeholder="내용을 입력하세요..."
-                onPaste={handleImagePaste}
-                onClick={handleEditorClick}
-              />
-              {imgOverlay && (
-                <button
-                  type="button"
-                  className={styles.imgDeleteBtn}
-                  style={{ top: imgOverlay.top + 8, left: imgOverlay.left + imgOverlay.width - 36 }}
-                  onClick={handleDeleteImg}
-                >
-                  ×
-                </button>
+            <div className={styles.formGroup}>
+              {/* 초기 콘텐츠가 준비된 이후에만 에디터를 마운트합니다 */}
+              {!loading && (
+                <RichEditor
+                  initialValue={initialContent}
+                  onChange={setEditorContent}
+                  onImagePaste={handleImagePaste}
+                  uploading={uploading}
+                />
               )}
-              {uploading && <div className={styles.uploadingBanner}>이미지 업로드 중...</div>}
             </div>
 
             <div className={styles.formGroup} style={{ marginTop: 24 }}>
@@ -232,6 +174,7 @@ export default function EditPostPage() {
                   <EyeOff size={20} className={styles.anonIcon} />
                   익명으로 게시
                 </span>
+                <span className={styles.anonDesc}>작성자 정보가 숨겨집니다.</span>
               </div>
               <label className={styles.toggleLabel}>
                 <input

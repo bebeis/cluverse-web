@@ -5,6 +5,7 @@ import styles from './PostCard.module.css';
 import { Badge } from './Badge';
 import { Eye, Heart, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { stripHtml } from '@/lib/html-utils';
 export interface PostCardProps {
   title: string;
   excerpt: string;
@@ -56,7 +57,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       </div>
       
       <h3 className={styles.title}>{title}</h3>
-      <p className={styles.excerpt}>{excerpt}</p>
+      <p className={styles.excerpt}>{stripHtml(excerpt)}</p>
       
       <div className={styles.footer}>
         <div className={styles.authorInfo}>

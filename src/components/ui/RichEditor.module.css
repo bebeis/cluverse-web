@@ -1,0 +1,158 @@
+.wrapper {
+  border: 1.5px solid #2d2d3a;
+  border-radius: 12px;
+  background: #16161e;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.wrapper:focus-within {
+  border-color: #7c6ef9;
+  box-shadow: 0 0 0 3px rgba(124, 110, 249, 0.12);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2d2d3a;
+  background: #1a1a26;
+  flex-wrap: wrap;
+}
+
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #a0a0b8;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.toolBtn:hover {
+  background: #2d2d3a;
+  color: #e0e0f0;
+}
+
+.toolBtnActive {
+  background: rgba(124, 110, 249, 0.18);
+  color: #9b8cff;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: #2d2d3a;
+  margin: 0 4px;
+}
+
+.uploadingLabel {
+  font-size: 12px;
+  color: #9b8cff;
+  margin-left: 8px;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Tiptap 에디터 영역 */
+.editorContent {
+  min-height: 280px;
+  padding: 16px;
+  color: #e0e0f0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.editorContent :global(.tiptap) {
+  min-height: 240px;
+  outline: none;
+}
+
+.editorContent :global(.tiptap p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: #5a5a78;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+.editorContent :global(.tiptap h2) {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #e8e8ff;
+  margin: 1em 0 0.5em;
+}
+
+.editorContent :global(.tiptap h3) {
+  font-size: 1.15em;
+  font-weight: 600;
+  color: #e8e8ff;
+  margin: 0.8em 0 0.4em;
+}
+
+.editorContent :global(.tiptap strong) {
+  color: #e8e8ff;
+  font-weight: 700;
+}
+
+.editorContent :global(.tiptap ul),
+.editorContent :global(.tiptap ol) {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.editorContent :global(.tiptap li) {
+  margin: 0.2em 0;
+}
+
+.editorContent :global(.tiptap blockquote) {
+  border-left: 3px solid #7c6ef9;
+  margin: 0.8em 0;
+  padding: 0.5em 1em;
+  color: #a0a0b8;
+  background: rgba(124, 110, 249, 0.06);
+  border-radius: 0 8px 8px 0;
+}
+
+.editorContent :global(.tiptap code) {
+  background: #2d2d3a;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 0.9em;
+  color: #9b8cff;
+}
+
+.editorContent :global(.tiptap pre) {
+  background: #1a1a26;
+  border: 1px solid #2d2d3a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  margin: 0.8em 0;
+}
+
+.editorContent :global(.tiptap img) {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+  display: block;
+}
+
+.editorContent :global(.tiptap a) {
+  color: #9b8cff;
+  text-decoration: underline;
+}

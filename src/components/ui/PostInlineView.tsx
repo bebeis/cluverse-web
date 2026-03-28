@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Bookmark, Check, Heart, MessageCircle, Pencil, Send, Share2, X } from 'lucide-react';
 import { Comment, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { removeImgTags } from '@/lib/html-utils';
 import styles from './PostModal.module.css';
 import inlineStyles from './PostInlineView.module.css';
 
@@ -167,7 +168,19 @@ export function PostInlineView({ postId, onBack }: PostInlineViewProps) {
                 <span className={styles.tag}>{post.category}</span>
               </div>
               <h2 className={styles.postTitle}>{post.title}</h2>
-              <p className={styles.postContent}>{post.content || post.contentPreview}</p>
+              {(() => {
+                const content = post.content || post.contentPreview || '';
+                const isHtml = content.includes('<');
+                if (isHtml) {
+                  return (
+                    <div
+                      className={`${styles.postContent} ${styles.postContentHtmlPreview}`}
+                      dangerouslySetInnerHTML={{ __html: removeImgTags(content) }}
+                    />
+                  );
+                }
+                return <p className={styles.postContent}>{content}</p>;
+              })()}
 
               {post.imageUrls?.length ? (
                 <div className={styles.imageGrid}>
