@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Heart, MessageCircle, Bookmark, Share2, Send, Pencil, Check } from 'lucide-react';
 import { Comment, cluverseApi, FeedPost, formatRelativeTime } from '@/lib/cluverse-api';
+import { removeImgTags } from '@/lib/html-utils';
 import styles from './PostModal.module.css';
 
 interface PostModalProps {
@@ -194,7 +195,12 @@ export function PostModal({ postId, onClose }: PostModalProps) {
                   </div>
 
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <p className={styles.postContent}>{post.content || post.contentPreview}</p>
+                  {(() => {
+                    const raw = post.content || post.contentPreview || '';
+                    return raw.includes('<')
+                      ? <div className={styles.postContent} dangerouslySetInnerHTML={{ __html: removeImgTags(raw) }} />
+                      : <p className={styles.postContent}>{raw}</p>;
+                  })()}
 
                   {post.imageUrls?.length ? (
                     <div className={styles.imageGrid}>
