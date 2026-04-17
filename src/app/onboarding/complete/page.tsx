@@ -94,7 +94,7 @@ export default function OnboardingCompletePage() {
               학생 인증하기
               <ArrowRight size={16} strokeWidth={3} />
             </button>
-            <button className={styles.skipBtn} onClick={() => window.location.href='/'}>
+            <button className={styles.skipBtn} onClick={() => window.location.href='/home'}>
               나중에 하기
             </button>
           </div>

@@ -85,7 +85,7 @@ export default function LeftAside() {
         <div className={styles.menuBox}>
           <ul className={styles.menuList}>
             <li>
-              <Link href="/" className={`${styles.menuItem} ${pathname === '/' ? styles.menuItemActive : ''}`}>
+              <Link href="/home" className={`${styles.menuItem} ${pathname === '/home' ? styles.menuItemActive : ''}`}>
                 <Home size={20} />
                 홈 피드
               </Link>

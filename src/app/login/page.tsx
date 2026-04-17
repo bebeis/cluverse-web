@@ -25,7 +25,7 @@ export default function LoginPage() {
     try {
       await cluverseApi.login(email, password);
       setLoggedIn();
-      router.replace('/');
+      router.replace('/home');
       router.refresh();
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : '로그인에 실패했습니다.');

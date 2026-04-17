@@ -60,7 +60,7 @@ export default function MajorSelectionPage() {
       <AuthHeader
         rightElement={
           <div className={styles.headerActions}>
-            <Link href="/" className={styles.headerLink}>나가기</Link>
+            <Link href="/home" className={styles.headerLink}>나가기</Link>
           </div>
         }
       />

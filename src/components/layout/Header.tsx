@@ -7,7 +7,7 @@ import { Search, Bell, MessageCircle, GraduationCap } from 'lucide-react';
 import styles from './Header.module.css';
 
 const navLinks = [
-  { href: '/', label: '홈', exact: true },
+  { href: '/home', label: '홈', exact: true },
   { href: '/explore/community', label: '관심', exact: false },
   { href: '/explore/major', label: '학과', exact: false },
   { href: '/explore/groups', label: '그룹', exact: false },
@@ -21,7 +21,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         {/* Logo and Title */}
-        <Link href="/" className={styles.leftContainer}>
+        <Link href="/home" className={styles.leftContainer}>
           <div className={styles.logoIcon} suppressHydrationWarning>
             <GraduationCap size={18} strokeWidth={2.5} />
           </div>

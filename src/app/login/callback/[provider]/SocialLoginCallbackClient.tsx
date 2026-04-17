@@ -47,7 +47,7 @@ export function SocialLoginCallbackClient({ provider }: { provider: string }) {
 
         if (!cancelled) {
           setLoggedIn();
-          router.replace('/');
+          router.replace('/home');
           router.refresh();
         }
       } catch (caught) {

@@ -17,7 +17,7 @@ export default function WritePage() {
       return;
     }
     alert('게시글이 등록되었습니다!');
-    router.push('/');
+    router.push('/home');
   };
 
   return (

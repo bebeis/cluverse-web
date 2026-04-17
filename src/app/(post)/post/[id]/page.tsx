@@ -106,7 +106,7 @@ export default function PostDetailPage() {
         {post ? (
           <>
             <nav className={styles.breadcrumb}>
-              <Link href="/" className={styles.breadcrumbLink}>홈</Link>
+              <Link href="/home" className={styles.breadcrumbLink}>홈</Link>
               <span className={styles.breadcrumbCurrent}>{post.board?.name}</span>
             </nav>
 
