@@ -2,13 +2,13 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 }
 
 /* ── Hero ────────────────────────────── */
 .hero {
   position: relative;
-  padding: 40px 32px;
+  padding: 24px;
   border-radius: var(--radius-xl);
   background: var(--color-panel);
   color: var(--color-text-primary);
@@ -27,18 +27,18 @@
 }
 
 .heroTitle {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 510;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   margin-bottom: 8px;
 }
 
 @media (min-width: 768px) {
-  .heroTitle { font-size: 36px; }
+  .heroTitle { font-size: 28px; }
 }
 
 .heroSubtitle {
-  font-size: 15px;
+  font-size: 14px;
   opacity: 0.9;
   max-width: 500px;
   line-height: 1.6;
@@ -46,16 +46,16 @@
 
 /* ── Category Grid ──────────────────── */
 .sectionTitle {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 590;
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  margin-bottom: 20px;
+  letter-spacing: 0;
+  margin-bottom: 14px;
 }
 
 .grid {
   display: grid;
-  gap: 20px;
+  gap: 14px;
   grid-template-columns: 1fr;
 }
 
@@ -66,11 +66,11 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 18px;
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: var(--shadow-sm);
@@ -80,21 +80,22 @@
 .card:hover {
   background: var(--color-surface-muted);
   border-color: rgba(113, 112, 255, 0.30);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .cardIcon {
-  width: 48px;
-  height: 48px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-primary);
+  border: 1px solid rgba(113, 112, 255, 0.24);
 }
 
 .cardTitle {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 590;
   color: var(--color-text-primary);
   transition: color 0.2s;
@@ -103,7 +104,7 @@
 .card:hover .cardTitle { color: var(--color-primary); }
 
 .cardDesc {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-muted);
   line-height: 1.5;
 }
@@ -121,7 +122,7 @@
 /* ── Quick Stats ────────────────────── */
 .statsRow {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   grid-template-columns: repeat(2, 1fr);
 }
 
@@ -133,13 +134,13 @@
   background: var(--color-surface-subtle);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 14px;
   text-align: center;
   box-shadow: var(--shadow-sm);
 }
 
 .statNumber {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 510;
   color: var(--color-primary);
 }
@@ -159,7 +160,7 @@
 .searchInputWrap {
   flex: 1; display: flex; align-items: center; gap: 10px;
   background: var(--color-surface-subtle); border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg); padding: 10px 16px;
+  border-radius: var(--radius-lg); padding: 9px 14px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -172,7 +173,7 @@
 .searchInput::placeholder { color: var(--color-text-muted); }
 
 .searchBtn {
-  padding: 10px 20px; border-radius: var(--radius-md);
+  padding: 9px 16px; border-radius: var(--radius-md);
   background: var(--color-primary); color: var(--color-text-primary); border: none;
   font-size: 14px; font-weight: 510; cursor: pointer;
   white-space: nowrap; transition: background 0.2s;
@@ -185,7 +186,7 @@
 }
 
 .searchResultItem {
-  width: 100%; text-align: left; padding: 16px;
+  width: 100%; text-align: left; padding: 14px;
   background: var(--color-surface-subtle); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
   cursor: pointer; transition: box-shadow 0.15s, border-color 0.15s;
 }
@@ -211,5 +212,5 @@
 }
 
 .searchEmpty {
-  font-size: 14px; color: var(--color-text-muted); text-align: center; padding: 24px;
+  font-size: 13px; color: var(--color-text-muted); text-align: center; padding: 20px;
 }

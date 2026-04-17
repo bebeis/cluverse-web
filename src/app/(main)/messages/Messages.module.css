@@ -238,7 +238,7 @@
 }
 
 .messageInputArea {
-  padding: 20px 24px;
+  padding: 14px 16px;
   background: var(--color-surface);
   border-top: 1px solid var(--color-border);
 }
@@ -246,10 +246,10 @@
 .inputWrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: var(--color-surface-hover);
   padding: 8px 16px;
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
 }
 
 .messageInput {

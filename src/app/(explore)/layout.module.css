@@ -9,9 +9,9 @@
 .mainWrapper {
   flex-grow: 1;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 16px;
+  padding: 24px 16px;
 }
 
 @media (min-width: 640px) {
@@ -19,5 +19,5 @@
 }
 
 @media (min-width: 1024px) {
-  .mainWrapper { padding-left: 40px; padding-right: 40px; }
+  .mainWrapper { padding-left: 32px; padding-right: 32px; }
 }

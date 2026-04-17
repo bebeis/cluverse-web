@@ -23,10 +23,10 @@
   --color-text-muted: #8a8f98;
   --color-text-disabled: #62666d;
 
-  --color-success: var(--color-success);
-  --color-success-strong: var(--color-success-strong);
-  --color-warning: var(--color-warning);
-  --color-error: var(--color-error);
+  --color-success: #00d4b5;
+  --color-success-strong: #10b981;
+  --color-warning: #f2c94c;
+  --color-error: #ff5c5c;
 
   /* Shadows */
   --shadow-xs: 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -41,8 +41,8 @@
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
-  --radius-xl: 12px;
-  --radius-2xl: 22px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
   --radius-full: 9999px;
 
   --background: var(--color-bg);
