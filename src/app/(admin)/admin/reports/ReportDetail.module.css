@@ -4,22 +4,22 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 24px;
 }
 
 .breadcrumbLink {
-  color: #6B7280;
+  color: var(--color-text-muted);
   text-decoration: none;
   transition: color 0.15s;
 }
 
-.breadcrumbLink:hover { color: #4051B5; }
+.breadcrumbLink:hover { color: var(--color-primary); }
 
 .breadcrumbCurrent {
-  color: #111218;
+  color: var(--color-text-primary);
   font-weight: 600;
-  background: #EEF2FF;
+  background: rgba(113, 112, 255, 0.12);
   padding: 4px 10px;
   border-radius: 6px;
 }
@@ -34,9 +34,9 @@
 
 /* ── Report Card ─────────────────── */
 .reportCard {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 32px;
 }
 
@@ -55,20 +55,20 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 700;
-  background: #FEF2F2;
-  color: #EF4444;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-error);
 }
 
 .reportDate {
   font-size: 13px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   margin-left: 12px;
 }
 
 .reportId {
   font-size: 13px;
-  color: #6B7280;
-  background: #F1F5F9;
+  color: var(--color-text-muted);
+  background: var(--color-surface-hover);
   padding: 4px 10px;
   border-radius: 6px;
   font-weight: 600;
@@ -77,7 +77,7 @@
 .reportTitle {
   font-size: 24px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 8px;
 }
 
@@ -92,7 +92,7 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .reportOriginalLink {
@@ -101,7 +101,7 @@
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: #4051B5;
+  color: var(--color-primary);
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -119,14 +119,14 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
 }
 
 .timelineSectionMeta {
   font-size: 13px;
   font-weight: 500;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-left: auto;
 }
 
@@ -141,7 +141,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #E5E7EB;
+  background: var(--color-border);
 }
 
 .timelineItem {
@@ -158,30 +158,30 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #D1D5DB;
-  border: 2px solid white;
+  background: var(--color-border-strong);
+  border: 2px solid var(--color-border);
 }
 
 .timelineDotReported {
   composes: timelineDot;
-  background: #EF4444;
+  background: var(--color-error);
 }
 
 .timelineDotWarning {
   composes: timelineDot;
-  background: #F59E0B;
+  background: var(--color-warning);
 }
 
 .timelineComment {
-  background: #F6F6F8;
+  background: var(--color-bg);
   border-radius: 12px;
   padding: 16px;
 }
 
 .timelineCommentReported {
   composes: timelineComment;
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.32);
 }
 
 .timelineCommentHeader {
@@ -195,32 +195,32 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #E5E7EB;
+  background: var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .timelineAvatarReported {
   composes: timelineAvatar;
-  background: #FEE2E2;
-  color: #EF4444;
+  background: rgba(239, 68, 68, 0.18);
+  color: var(--color-error);
 }
 
 .timelineName {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .timelineAuthorBadge {
   font-size: 11px;
   font-weight: 700;
-  background: #E5E7EB;
-  color: #6B7280;
+  background: var(--color-border);
+  color: var(--color-text-muted);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -228,8 +228,8 @@
 .timelineReportedBadge {
   font-size: 11px;
   font-weight: 700;
-  background: #FEF2F2;
-  color: #EF4444;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-error);
   padding: 2px 8px;
   border-radius: 4px;
   display: flex;
@@ -240,18 +240,18 @@
 
 .timelineTime {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   margin-left: auto;
 }
 
 .timelineText {
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
 .timelineHighlight {
-  color: #EF4444;
+  color: var(--color-error);
   font-weight: 700;
 }
 
@@ -261,14 +261,14 @@
   gap: 12px;
   margin-top: 8px;
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 /* ── Sanction History ────────────── */
 .sanctionCard {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 28px;
   margin-top: 24px;
 }
@@ -286,19 +286,19 @@
   gap: 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .sanctionUserId {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
 .sanctionLink {
   font-size: 13px;
   font-weight: 600;
-  color: #4051B5;
+  color: var(--color-primary);
   cursor: pointer;
 }
 
@@ -313,16 +313,16 @@
   text-align: left;
   font-size: 12px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   padding: 10px 12px;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sanctionTable td {
   padding: 12px;
   font-size: 14px;
-  color: #111218;
-  border-bottom: 1px solid #F1F5F9;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-surface-hover);
 }
 
 .sanctionBadge {
@@ -333,8 +333,8 @@
   font-weight: 700;
 }
 
-.sanctionWarn { background: #FEF3C7; color: #D97706; }
-.sanctionBan { background: #FEF2F2; color: #EF4444; }
+.sanctionWarn { background: rgba(234, 179, 8, 0.16); color: var(--color-warning); }
+.sanctionBan { background: rgba(239, 68, 68, 0.12); color: var(--color-error); }
 
 .warningAlert {
   display: flex;
@@ -343,30 +343,30 @@
   margin-top: 16px;
   padding: 14px 16px;
   border-radius: 10px;
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.32);
 }
 
-.warningAlertIcon { color: #EF4444; flex-shrink: 0; margin-top: 2px; }
+.warningAlertIcon { color: var(--color-error); flex-shrink: 0; margin-top: 2px; }
 
 .warningAlertTitle {
   font-size: 14px;
   font-weight: 700;
-  color: #EF4444;
+  color: var(--color-error);
 }
 
 .warningAlertText {
   font-size: 13px;
-  color: #B91C1C;
+  color: var(--color-error);
   margin-top: 2px;
   line-height: 1.5;
 }
 
 /* ── Right Panel ─────────────────── */
 .actionPanel {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 28px;
   position: sticky;
   top: 100px;
@@ -382,21 +382,21 @@
 .actionPanelTitle {
   font-size: 18px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .actionPanelDot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #4051B5;
+  background: var(--color-primary);
 }
 
 /* ── Memo ─────────────────────────── */
 .memoLabel {
   font-size: 13px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 8px;
 }
 
@@ -405,26 +405,26 @@
   min-height: 80px;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 14px;
   font-family: inherit;
-  color: #111218;
+  color: var(--color-text-primary);
   resize: vertical;
   margin-bottom: 24px;
 }
 
 .memoTextarea:focus {
   outline: none;
-  border-color: #4051B5;
+  border-color: var(--color-primary);
 }
 
-.memoTextarea::placeholder { color: #D1D5DB; }
+.memoTextarea::placeholder { color: var(--color-border-strong); }
 
 /* ── Sanction Actions ────────────── */
 .sanctionSectionLabel {
   font-size: 12px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   text-align: center;
   margin: 20px 0 12px;
   text-transform: uppercase;
@@ -455,29 +455,29 @@
 
 .sanctionActionDanger {
   composes: sanctionActionBtn;
-  background: #EF4444;
-  color: white;
+  background: var(--color-error);
+  color: var(--color-text-primary);
 }
 
-.sanctionActionDanger:hover { background: #DC2626; }
+.sanctionActionDanger:hover { background: var(--color-error); }
 
 .sanctionActionWarn {
   composes: sanctionActionBtn;
-  background: white;
-  color: #EF4444;
-  border: 1px solid #FECACA;
+  background: var(--color-surface);
+  color: var(--color-error);
+  border: 1px solid rgba(239, 68, 68, 0.32);
 }
 
-.sanctionActionWarn:hover { background: #FEF2F2; }
+.sanctionActionWarn:hover { background: rgba(239, 68, 68, 0.12); }
 
 .sanctionActionDismiss {
   composes: sanctionActionBtn;
-  background: white;
-  color: #111218;
-  border: 1px solid #E5E7EB;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
 }
 
-.sanctionActionDismiss:hover { background: #F6F6F8; }
+.sanctionActionDismiss:hover { background: var(--color-bg); }
 
 .sanctionActionIcon {
   width: 36px;
@@ -501,9 +501,9 @@
 
 /* ── Audit Log ───────────────────── */
 .auditLog {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 28px;
   margin-top: 24px;
   position: sticky;
@@ -516,7 +516,7 @@
   gap: 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 20px;
 }
 
@@ -535,13 +535,13 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #D1D5DB;
+  background: var(--color-border-strong);
   margin-top: 6px;
   flex-shrink: 0;
 }
 
-.auditDotBlue { background: #3B82F6; }
-.auditDotGreen { background: #059669; }
+.auditDotBlue { background: var(--color-accent); }
+.auditDotGreen { background: var(--color-success); }
 
 .auditContent { flex: 1; }
 
@@ -555,12 +555,12 @@
 .auditActor {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .auditTime {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 .auditBadge {
@@ -571,24 +571,24 @@
   border-radius: 4px;
 }
 
-.auditBadgeAuto { background: #ECFDF5; color: #059669; }
-.auditBadgeStatus { background: #EFF6FF; color: #2563EB; }
-.auditBadgeNew { background: #F1F5F9; color: #475569; }
+.auditBadgeAuto { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.auditBadgeStatus { background: rgba(113, 112, 255, 0.10); color: var(--color-accent); }
+.auditBadgeNew { background: var(--color-surface-hover); color: var(--color-text-secondary); }
 
 .auditDesc {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   line-height: 1.5;
 }
 
 .auditDescHighlight {
   font-weight: 700;
-  color: #EF4444;
+  color: var(--color-error);
 }
 
 .auditDescHighlightBlue {
   font-weight: 700;
-  color: #2563EB;
+  color: var(--color-accent);
 }
 
 .auditMore {
@@ -600,7 +600,7 @@
 .auditMoreBtn {
   font-size: 13px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   background: none;
   border: none;
   cursor: pointer;
@@ -609,4 +609,4 @@
   gap: 4px;
 }
 
-.auditMoreBtn:hover { color: #4051B5; }
+.auditMoreBtn:hover { color: var(--color-primary); }

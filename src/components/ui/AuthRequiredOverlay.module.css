@@ -25,11 +25,11 @@
 
 .panel {
   width: min(420px, 100%);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: rgba(15, 16, 17, 0.9);
   backdrop-filter: blur(16px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+  box-shadow: var(--shadow-xl);
   padding: 28px;
   text-align: center;
 }
@@ -40,24 +40,24 @@
   gap: 8px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(79, 70, 229, 0.1);
-  color: #4338ca;
+  background: rgba(113, 112, 255, 0.14);
+  color: var(--color-accent-dark);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 510;
   margin-bottom: 14px;
 }
 
 .title {
   font-size: 24px;
-  font-weight: 800;
-  color: #0f172a;
+  font-weight: 510;
+  color: var(--color-text-primary);
   margin-bottom: 10px;
 }
 
 .description {
   font-size: 15px;
   line-height: 1.6;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 
 .actions {
@@ -77,16 +77,16 @@
   padding: 0 18px;
   border-radius: 12px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 510;
 }
 
 .primary {
-  background: #4f46e5;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-primary);
 }
 
 .secondary {
-  border: 1px solid #cbd5e1;
-  background: white;
-  color: #0f172a;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-primary);
 }

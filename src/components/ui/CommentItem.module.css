@@ -1,7 +1,7 @@
 .commentContainer {
   display: flex;
   padding: 12px 0;
-  border-bottom: 1px solid #F1F5F9;
+  border-bottom: 1px solid var(--color-border-light);
   position: relative;
 }
 
@@ -29,19 +29,19 @@
 
 .authorName {
   font-size: 14px;
-  font-weight: 600;
-  color: #0F172A;
+  font-weight: 510;
+  color: var(--color-text-primary);
 }
 
 .schoolName {
   font-size: 12px;
-  color: #64748B;
+  color: var(--color-text-muted);
 }
 
 .content {
   font-size: 15px;
   line-height: 1.5;
-  color: #334155;
+  color: var(--color-text-secondary);
   margin: 0 0 8px 0;
 }
 
@@ -53,30 +53,30 @@
 
 .time {
   font-size: 12px;
-  color: #94A3B8;
+  color: var(--color-text-muted);
 }
 
 .actionBtn {
   background: none;
   border: none;
   font-size: 12px;
-  color: #64748B;
-  font-weight: 500;
+  color: var(--color-text-muted);
+  font-weight: 510;
   cursor: pointer;
   padding: 0;
   transition: color 0.2s ease;
 }
 
 .actionBtn:hover {
-  color: #3B82F6;
+  color: var(--color-accent);
 }
 
 .loadMoreBtn {
   background: none;
   border: none;
   font-size: 13px;
-  font-weight: 600;
-  color: #3B82F6;
+  font-weight: 510;
+  color: var(--color-accent);
   cursor: pointer;
   padding: 12px 0 0 0;
   display: block;
@@ -90,5 +90,5 @@
   margin-top: 12px;
   margin-left: 12px; /* Indent for children */
   padding-left: 12px;
-  border-left: 2px solid #E2E8F0;
+  border-left: 2px solid var(--color-border);
 }

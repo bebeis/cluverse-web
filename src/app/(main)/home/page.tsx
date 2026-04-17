@@ -9,7 +9,7 @@ import { PostCard } from '@/components/ui/PostCard';
 import { PostModal } from '@/components/ui/PostModal';
 import { ApiError, cluverseApi, mapPostCard } from '@/lib/cluverse-api';
 import { isLoggedIn } from '@/lib/auth';
-import styles from './HomePage.module.css';
+import styles from '../HomePage.module.css';
 
 const filters = [
   { key: 'ALL', label: '전체', icon: null },

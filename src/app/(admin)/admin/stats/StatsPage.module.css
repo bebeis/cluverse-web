@@ -9,20 +9,20 @@
 .pageTitle {
   font-size: 28px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
 .pageSubtitle {
   font-size: 14px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 4px;
 }
 
 .periodSelector {
   display: flex;
   gap: 4px;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   border-radius: 10px;
   padding: 4px;
 }
@@ -34,17 +34,17 @@
   background: transparent;
   font-size: 13px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.periodBtn:hover { color: #111218; }
+.periodBtn:hover { color: var(--color-text-primary); }
 
 .periodBtnActive {
   composes: periodBtn;
-  background: white;
-  color: #111218;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
@@ -59,15 +59,15 @@
 .statCard {
   padding: 24px;
   border-radius: 14px;
-  background: white;
-  border: 1px solid #E5E7EB;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
 }
 
 .statCardPrimary {
   composes: statCard;
-  background: linear-gradient(135deg, #4051B5, #5C6BC0);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary));
   border: none;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .statTop {
@@ -86,19 +86,19 @@
   justify-content: center;
 }
 
-.statIconBlue { background: #EEF2FF; color: #4051B5; }
-.statIconGreen { background: #ECFDF5; color: #059669; }
-.statIconPurple { background: #F3E8FF; color: #7C3AED; }
-.statIconWhite { background: rgba(255,255,255,0.2); color: white; }
+.statIconBlue { background: rgba(113, 112, 255, 0.12); color: var(--color-primary); }
+.statIconGreen { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.statIconPurple { background: rgba(113, 112, 255, 0.14); color: var(--color-accent); }
+.statIconWhite { background: rgba(255,255,255,0.2); color: var(--color-text-primary); }
 
 .statChange { font-size: 13px; font-weight: 700; }
-.statChangeGreen { color: #059669; }
+.statChangeGreen { color: var(--color-success); }
 .statChangeWhite { color: rgba(255,255,255,0.9); }
 
-.statLabel { font-size: 13px; color: #6B7280; margin-bottom: 4px; }
+.statLabel { font-size: 13px; color: var(--color-text-muted); margin-bottom: 4px; }
 .statCardPrimary .statLabel { color: rgba(255,255,255,0.8); }
-.statValue { font-size: 32px; font-weight: 800; color: #111218; letter-spacing: -0.02em; }
-.statCardPrimary .statValue { color: white; }
+.statValue { font-size: 32px; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em; }
+.statCardPrimary .statValue { color: var(--color-text-primary); }
 
 /* ── Cards Grid ──────────────────── */
 .cardsGrid {
@@ -109,9 +109,9 @@
 }
 
 .card {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 28px;
 }
 
@@ -130,23 +130,23 @@
 .cardTitle {
   font-size: 18px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .cardSubtitle {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
 .cardSelect {
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 13px;
   font-weight: 600;
-  color: #111218;
-  background: white;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
   cursor: pointer;
 }
 
@@ -178,7 +178,7 @@
 
 .chartBarLabel {
   font-size: 11px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
@@ -206,7 +206,7 @@
 
 .lineChartAxisLabel {
   font-size: 11px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
@@ -246,13 +246,13 @@
 .donutLegendLabel {
   flex: 1;
   font-size: 14px;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .donutLegendValue {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 /* ── Ranking Table ───────────────── */
@@ -265,19 +265,19 @@
   text-align: left;
   font-size: 12px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   padding: 10px 12px;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .rankTable td {
   padding: 12px;
   font-size: 14px;
-  color: #111218;
-  border-bottom: 1px solid #F1F5F9;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-surface-hover);
 }
 
-.rankTable tr:hover td { background: #FAFBFC; }
+.rankTable tr:hover td { background: var(--color-surface-muted); }
 
 .rankNumber {
   width: 28px;
@@ -290,10 +290,10 @@
   font-weight: 800;
 }
 
-.rankGold { background: #FEF3C7; color: #D97706; }
-.rankSilver { background: #F1F5F9; color: #6B7280; }
-.rankBronze { background: #FFF7ED; color: #EA580C; }
-.rankNormal { background: #F6F6F8; color: #9CA3AF; }
+.rankGold { background: rgba(234, 179, 8, 0.16); color: var(--color-warning); }
+.rankSilver { background: var(--color-surface-hover); color: var(--color-text-muted); }
+.rankBronze { background: rgba(234, 88, 12, 0.12); color: var(--color-warning); }
+.rankNormal { background: var(--color-bg); color: var(--color-text-muted); }
 
 .trendBadge {
   display: inline-flex;
@@ -305,19 +305,19 @@
   font-weight: 700;
 }
 
-.trendUp { background: #ECFDF5; color: #059669; }
-.trendDown { background: #FEF2F2; color: #EF4444; }
-.trendFlat { background: #F1F5F9; color: #6B7280; }
+.trendUp { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.trendDown { background: rgba(239, 68, 68, 0.12); color: var(--color-error); }
+.trendFlat { background: var(--color-surface-hover); color: var(--color-text-muted); }
 
 .barChart {
   height: 8px;
   border-radius: 4px;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   overflow: hidden;
 }
 
 .barChartFill {
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(90deg, #4051B5, #7C3AED);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
 }

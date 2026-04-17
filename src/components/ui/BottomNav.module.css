@@ -8,12 +8,12 @@
   align-items: center;
   padding: 8px 16px;
   padding-bottom: calc(8px + env(safe-area-inset-bottom));
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(15, 16, 17, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(229, 231, 235, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   z-index: 1000;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.05);
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.32);
 }
 
 .navItem {
@@ -26,9 +26,9 @@
   border: none;
   cursor: pointer;
   padding: 8px 16px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   text-decoration: none;
   position: relative;
 }
@@ -41,7 +41,7 @@
   transform: translateX(-50%) scaleX(0);
   width: 24px;
   height: 3px;
-  background: linear-gradient(90deg, #4051B5, #6366F1);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   border-radius: 0 0 4px 4px;
   transition: transform 0.25s ease;
 }
@@ -57,8 +57,8 @@
 
 .label {
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 510;
+  letter-spacing: 0;
 }
 
 .navItem:active .icon {
@@ -66,7 +66,8 @@
 }
 
 .navItem.active {
-  color: #4051B5;
+  color: var(--color-accent-dark);
+  background: var(--color-primary-light);
 }
 
 .navItem.active .icon {

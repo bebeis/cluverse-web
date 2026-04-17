@@ -16,19 +16,29 @@ export default function LeftAside() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn()) {
-      setAuthRequired(true);
-      return;
-    }
-    cluverseApi.getMyProfile()
-      .then(data => {
+    let cancelled = false;
+
+    const run = async () => {
+      if (!isLoggedIn()) {
+        if (!cancelled) setAuthRequired(true);
+        return;
+      }
+      try {
+        const data = await cluverseApi.getMyProfile();
+        if (cancelled) return;
         setProfile(data);
         setAuthRequired(false);
-      })
-      .catch(caught => {
+      } catch (caught) {
+        if (cancelled) return;
         setProfile(null);
         setAuthRequired(caught instanceof ApiError && caught.statusCode === 401);
-      });
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (!profile) {
@@ -75,7 +85,7 @@ export default function LeftAside() {
         <div className={styles.menuBox}>
           <ul className={styles.menuList}>
             <li>
-              <Link href="/" className={`${styles.menuItem} ${pathname === '/' ? styles.menuItemActive : ''}`}>
+              <Link href="/home" className={`${styles.menuItem} ${pathname === '/home' ? styles.menuItemActive : ''}`}>
                 <Home size={20} />
                 홈 피드
               </Link>

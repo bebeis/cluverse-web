@@ -137,7 +137,7 @@ export default function RightAside() {
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7fFKNVLvUxg_IbeDa3JRTMfmiLNMvAiba7CWQXyFcQxN334a5ZBiMFrd0eBy5YXDPA2u1eHxKndbByqtxeRYI4lRWhdvlXZvWEFq0dbXOiUaXZmhfSLLE0S7fIp2hVZALsYTL3xEAqkbEhK3XJYnlneacmcNXw2Plc6I_8oMTEbHxeIgA3u5apHBafEIUVjtjsBghDWhDuzPchsotaKC4t57seSrXu_DBKm9D7p0fPWg1C1xlNUEjdNGMaw-InWnnPZyor_Fyy5f0"
             />
             <div className={styles.groupInfo}>
-              <h4 className={styles.groupName}>산악회 '오르자'</h4>
+              <h4 className={styles.groupName}>산악회 &apos;오르자&apos;</h4>
               <p className={styles.groupDesc}>주말 근교 산행 함께해요</p>
             </div>
             <button className={styles.addBtn}><Plus size={20} /></button>

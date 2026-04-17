@@ -3,18 +3,18 @@
   top: 0;
   z-index: 50;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(15, 16, 17, 0.86);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
 .inner {
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 16px;
-  height: 64px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,27 +42,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #4051B5 0%, #6366F1 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(64, 81, 181, 0.35);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  color: var(--color-text-primary);
+  box-shadow: 0 2px 8px rgba(113, 112, 255, 0.34);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .leftContainer:hover .logoIcon {
   transform: scale(1.06);
-  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.45);
+  box-shadow: 0 4px 12px rgba(113, 112, 255, 0.42);
 }
 
 .title {
-  font-family: 'Inter', var(--font-geist-sans), sans-serif;
-  font-size: 19px;
-  font-weight: 800;
-  color: #111827;
-  letter-spacing: -0.035em;
-  background: linear-gradient(135deg, #4051B5, #6366F1);
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 590;
+  color: var(--color-text-primary);
+  letter-spacing: 0;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -93,12 +93,12 @@
   display: flex;
   align-items: center;
   pointer-events: none;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   transition: color 0.2s;
 }
 
 .searchWrapper:focus-within .searchIcon {
-  color: #4051B5;
+  color: var(--color-primary);
 }
 
 .searchInput {
@@ -109,24 +109,24 @@
   padding-top: 0;
   padding-bottom: 0;
   border: 1.5px solid transparent;
-  border-radius: 12px;
-  background-color: #F3F4F6;
-  color: #111827;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text-primary);
   font-size: 14px;
-  height: 40px;
+  height: 36px;
   transition: all 0.2s;
   cursor: pointer;
 }
 
 .searchInput:focus {
   outline: none;
-  background: #fff;
-  border-color: #4051B5;
-  box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.12);
+  background: var(--color-surface-muted);
+  border-color: rgba(113, 112, 255, 0.45);
+  box-shadow: var(--shadow-focus);
 }
 
 .searchInput::placeholder {
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 .rightContainer {
@@ -155,11 +155,11 @@
   position: relative;
   white-space: nowrap;
   font-size: 14px;
-  font-weight: 500;
-  color: #4B5563;
+  font-weight: 510;
+  color: var(--color-text-secondary);
   text-decoration: none;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 5px 10px;
+  border-radius: var(--radius-md);
   transition: color 0.2s, background 0.2s;
 }
 
@@ -171,20 +171,20 @@
   transform: translateX(-50%) scaleX(0);
   width: 16px;
   height: 2px;
-  background: #4051B5;
+  background: var(--color-primary);
   border-radius: 2px;
   transition: transform 0.2s ease;
 }
 
 .navLink:hover {
-  color: #4051B5;
-  background: rgba(64, 81, 181, 0.06);
+  color: var(--color-primary);
+  background: rgba(113, 112, 255, 0.10);
 }
 
 .navLinkActive {
-  font-weight: 700;
-  color: #4051B5;
-  background: rgba(64, 81, 181, 0.08);
+  font-weight: 590;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
 }
 
 .navLinkActive::after {
@@ -193,9 +193,9 @@
 
 .iconBtn {
   text-decoration: none;
-  padding: 8px;
-  border-radius: 12px;
-  color: #6B7280;
+  padding: 7px;
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -207,8 +207,8 @@
 }
 
 .iconBtn:hover {
-  background-color: #F3F4F6;
-  color: #374151;
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-secondary);
   transform: scale(1.05);
 }
 
@@ -218,9 +218,9 @@
   right: 7px;
   width: 9px;
   height: 9px;
-  background: linear-gradient(135deg, #EF4444, #F87171);
+  background: linear-gradient(135deg, var(--color-error), #F87171);
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid var(--color-border);
   animation: badgePulse 2s infinite;
 }
 
@@ -232,19 +232,19 @@
 .profileWrapper {
   display: inline-block;
   text-decoration: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4051B5, #818CF8);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-dark));
   padding: 2px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(64, 81, 181, 0.25);
+  box-shadow: 0 2px 8px rgba(113, 112, 255, 0.25);
 }
 
 .profileWrapper:hover {
   transform: scale(1.06);
-  box-shadow: 0 4px 12px rgba(64, 81, 181, 0.4);
+  box-shadow: 0 4px 12px rgba(113, 112, 255, 0.38);
 }
 
 .profileImg {
@@ -252,5 +252,5 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid white;
+  border: 2px solid var(--color-border);
 }

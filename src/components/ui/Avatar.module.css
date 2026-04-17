@@ -3,11 +3,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #E2E8F0;
-  color: #475569;
-  font-weight: 600;
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  font-weight: 510;
   overflow: hidden;
   flex-shrink: 0;
+  border: 1px solid var(--color-border);
 }
 
 .image {
@@ -35,9 +36,9 @@
 }
 
 .anonymous {
-  background-color: #F8FAFC;
-  color: #94A3B8;
-  border: 1px dashed #CBD5E1;
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border-strong);
 }
 
 .fallback {

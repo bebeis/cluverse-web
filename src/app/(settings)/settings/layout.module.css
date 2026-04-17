@@ -27,10 +27,10 @@
     gap: 2px;
     position: sticky;
     top: 88px;
-    background: white;
+    background: var(--color-surface);
     padding: 16px 12px;
     border-radius: 18px;
-    border: 1px solid #F0F1F5;
+    border: 1px solid var(--color-border-light);
     box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.04));
     align-self: start;
     height: fit-content;
@@ -40,7 +40,7 @@
 .navLabel {
   font-size: 10px;
   font-weight: 700;
-  color: #C4C9D4;
+  color: var(--color-text-disabled);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0 10px;
@@ -55,24 +55,24 @@
   border-radius: 10px;
   font-size: 13px;
   font-weight: 500;
-  color: #6B7280;
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: all 0.18s ease;
   text-decoration: none;
 }
 
 .navItem:hover {
-  background: rgba(64, 81, 181, 0.06);
-  color: #4051B5;
+  background: rgba(113, 112, 255, 0.10);
+  color: var(--color-primary);
   transform: translateX(2px);
 }
 
 .navItemActive {
   composes: navItem;
-  background: linear-gradient(135deg, rgba(64,81,181,0.12), rgba(99,102,241,0.08));
-  color: #4051B5;
+  background: linear-gradient(135deg, rgba(113, 112, 255, 0.16), rgba(99,102,241,0.08));
+  color: var(--color-primary);
   font-weight: 700;
-  border: 1px solid rgba(64, 81, 181, 0.15);
+  border: 1px solid rgba(113, 112, 255, 0.18);
 }
 
 .navItemActive:hover {
@@ -81,7 +81,7 @@
 
 .navDivider {
   height: 1px;
-  background: #F3F4F6;
+  background: var(--color-surface-hover);
   margin: 6px 0;
 }
 
@@ -94,7 +94,7 @@
   border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
-  color: #EF4444;
+  color: var(--color-error);
   background: rgba(239, 68, 68, 0.05);
   border: 1px solid rgba(239, 68, 68, 0.12);
   cursor: pointer;
@@ -105,7 +105,7 @@
 .navLogout:hover {
   background: rgba(239, 68, 68, 0.1);
   border-color: rgba(239, 68, 68, 0.25);
-  color: #DC2626;
+  color: var(--color-error);
   transform: translateX(2px);
 }
 

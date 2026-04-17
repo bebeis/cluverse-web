@@ -1,7 +1,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 200;
   display: flex;
   align-items: center;
@@ -10,14 +10,15 @@
 }
 
 .modal {
-  background: white;
-  border-radius: 20px;
+  background: var(--color-panel);
+  border-radius: var(--radius-xl);
   width: 100%;
   max-width: 560px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
   overflow: hidden;
 }
 
@@ -26,14 +27,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px 16px;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid var(--color-border-light);
   flex-shrink: 0;
 }
 
 .modalTitle {
   font-size: 18px;
-  font-weight: 800;
-  color: #111827;
+  font-weight: 590;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
@@ -43,17 +44,17 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: var(--radius-lg);
   border: none;
-  background: #F3F4F6;
-  color: #6B7280;
+  background: var(--color-surface-hover);
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .closeBtn:hover {
-  background: #E5E7EB;
-  color: #111827;
+  background: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .form {
@@ -86,12 +87,12 @@
 
 .label {
   font-size: 13px;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 510;
+  color: var(--color-text-secondary);
 }
 
 .required {
-  color: #EF4444;
+  color: var(--color-error);
 }
 
 .input,
@@ -99,11 +100,11 @@
 .select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #E5E7EB;
-  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   font-size: 14px;
-  color: #111827;
-  background: white;
+  color: var(--color-text-primary);
+  background: var(--color-surface-subtle);
   transition: border-color 0.2s, box-shadow 0.2s;
   appearance: none;
   -webkit-appearance: none;
@@ -114,8 +115,8 @@
 .textarea:focus,
 .select:focus {
   outline: none;
-  border-color: #4051B5;
-  box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.1);
+  border-color: rgba(113, 112, 255, 0.45);
+  box-shadow: var(--shadow-focus);
 }
 
 .textarea {
@@ -143,34 +144,34 @@
   gap: 4px;
   padding: 6px 12px;
   border-radius: 9999px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
   font-size: 13px;
-  font-weight: 500;
-  color: #4B5563;
+  font-weight: 510;
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .interestChip:hover {
-  border-color: #4051B5;
-  color: #4051B5;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .interestChipSelected {
   composes: interestChip;
-  background: rgba(64, 81, 181, 0.08);
-  border-color: #4051B5;
-  color: #4051B5;
-  font-weight: 600;
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 510;
 }
 
 .error {
   margin: 0 24px;
   padding: 10px 14px;
   border-radius: 8px;
-  background: #FEF2F2;
-  color: #DC2626;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-error);
   font-size: 13px;
   flex-shrink: 0;
 }
@@ -181,24 +182,24 @@
   justify-content: flex-end;
   gap: 10px;
   padding: 16px 24px;
-  border-top: 1px solid #F3F4F6;
+  border-top: 1px solid var(--color-border-light);
   flex-shrink: 0;
 }
 
 .cancelBtn {
   padding: 10px 20px;
-  border-radius: 10px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-subtle);
   font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 510;
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .cancelBtn:hover {
-  background: #F9FAFB;
+  background: var(--color-surface-muted);
 }
 
 .submitBtn {
@@ -206,18 +207,18 @@
   align-items: center;
   gap: 6px;
   padding: 10px 20px;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   border: none;
-  background: #4051B5;
+  background: var(--color-primary);
   font-size: 14px;
-  font-weight: 700;
-  color: white;
+  font-weight: 510;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .submitBtn:hover:not(:disabled) {
-  background: #3344A0;
+  background: var(--color-primary-dark);
 }
 
 .submitBtn:disabled {

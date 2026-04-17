@@ -18,14 +18,14 @@
   .settingsNav {
     display: flex; flex-direction: column; gap: 4px;
     position: sticky; top: 96px;
-    background: white; padding: 16px; border-radius: 16px;
-    border: 1px solid #E5E7EB; box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    background: var(--color-surface); padding: 16px; border-radius: 16px;
+    border: 1px solid var(--color-border); box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     align-self: start;
   }
 }
 
 .navLabel {
-  font-size: 11px; font-weight: 700; color: #9CA3AF;
+  font-size: 11px; font-weight: 700; color: var(--color-text-muted);
   text-transform: uppercase; letter-spacing: 0.08em;
   padding: 0 12px; margin-bottom: 8px;
 }
@@ -33,29 +33,29 @@
 .navItem {
   display: flex; align-items: center; gap: 12px;
   padding: 10px 12px; border-radius: 12px;
-  font-size: 14px; font-weight: 500; color: #6B7280;
+  font-size: 14px; font-weight: 500; color: var(--color-text-muted);
   cursor: pointer; transition: all 0.2s; text-decoration: none;
 }
-.navItem:hover { background: rgba(64,81,181,0.06); color: #4051B5; }
+.navItem:hover { background: rgba(113, 112, 255, 0.10); color: var(--color-primary); }
 
 .navItemActive {
   composes: navItem;
-  background: rgba(64,81,181,0.1); color: #4051B5; font-weight: 700;
+  background: rgba(113, 112, 255, 0.14); color: var(--color-primary); font-weight: 700;
 }
 
 /* ── Content ─────────────────────────── */
 .content { display: flex; flex-direction: column; gap: 24px; }
 
 .header h1 {
-  font-size: 28px; font-weight: 900; color: #111827;
+  font-size: 28px; font-weight: 900; color: var(--color-text-primary);
   letter-spacing: -0.02em; margin-bottom: 4px;
 }
-.header p { font-size: 14px; color: #6B7280; }
+.header p { font-size: 14px; color: var(--color-text-muted); }
 
 /* ── Section Card ────────────────────── */
 .card {
-  background: white; border-radius: 16px;
-  border: 1px solid #E5E7EB;
+  background: var(--color-surface); border-radius: 16px;
+  border: 1px solid var(--color-border);
   box-shadow: 0 1px 3px rgba(0,0,0,0.03);
   overflow: hidden;
 }
@@ -63,23 +63,23 @@
 .cardHeader {
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid #F3F4F6;
+  border-bottom: 1px solid var(--color-surface-hover);
 }
 
 .cardTitle {
-  font-size: 16px; font-weight: 700; color: #111827;
+  font-size: 16px; font-weight: 700; color: var(--color-text-primary);
 }
 
 .statusBadge {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 12px; font-weight: 700; padding: 4px 10px;
   border-radius: 9999px;
-  background: #DCFCE7; color: #15803D;
+  background: rgba(16, 185, 129, 0.14); color: var(--color-success);
 }
 
 .statusDot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #22C55E;
+  background: var(--color-success-strong);
 }
 
 .cardBody { padding: 24px; }
@@ -90,7 +90,7 @@
 
 .settingRow + .settingRow {
   margin-top: 24px; padding-top: 24px;
-  border-top: 1px solid #F3F4F6;
+  border-top: 1px solid var(--color-surface-hover);
 }
 
 .settingInfo {
@@ -104,11 +104,11 @@
 }
 
 .settingName {
-  font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 4px;
+  font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 4px;
 }
 
 .settingDesc {
-  font-size: 13px; color: #6B7280; line-height: 1.5;
+  font-size: 13px; color: var(--color-text-muted); line-height: 1.5;
 }
 
 /* Toggle */
@@ -116,39 +116,39 @@
 .toggleInput { opacity: 0; width: 0; height: 0; }
 .toggleSlider {
   position: absolute; cursor: pointer; inset: 0;
-  background: #D1D5DB; border-radius: 9999px; transition: background 0.3s;
+  background: var(--color-border-strong); border-radius: 9999px; transition: background 0.3s;
 }
 .toggleSlider::after {
   content: ''; position: absolute;
   width: 18px; height: 18px; left: 3px; top: 3px;
-  background: white; border-radius: 50%;
+  background: var(--color-surface); border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
   transition: transform 0.3s;
 }
-.toggleInput:checked + .toggleSlider { background: #4051B5; }
+.toggleInput:checked + .toggleSlider { background: var(--color-primary); }
 .toggleInput:checked + .toggleSlider::after { transform: translateX(20px); }
 
 /* Footer Note */
 .cardFooter {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 24px;
-  border-top: 1px solid #F3F4F6;
-  background: #F9FAFB;
+  border-top: 1px solid var(--color-surface-hover);
+  background: var(--color-surface-muted);
 }
 
 .footerNote {
-  font-size: 13px; color: #6B7280;
+  font-size: 13px; color: var(--color-text-muted);
 }
 
 .previewBtn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 8px 16px; border-radius: 10px;
-  background: white; border: 1px solid #E5E7EB;
-  font-size: 13px; font-weight: 600; color: #374151;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  font-size: 13px; font-weight: 600; color: var(--color-text-secondary);
   cursor: pointer; transition: background 0.2s;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-.previewBtn:hover { background: #F3F4F6; }
+.previewBtn:hover { background: var(--color-surface-hover); }
 
 /* Messaging Card */
 .msgCard {
@@ -159,13 +159,13 @@
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px;
   border-radius: 10px;
-  border: 1px solid #F3F4F6;
-  background: #F9FAFB;
+  border: 1px solid var(--color-surface-hover);
+  background: var(--color-surface-muted);
 }
 
 .msgLabel {
   display: flex; align-items: center; gap: 10px;
-  font-size: 14px; font-weight: 500; color: #374151;
+  font-size: 14px; font-weight: 500; color: var(--color-text-secondary);
 }
 
 /* ── Preview Modal ───────────────────── */
@@ -177,7 +177,7 @@
 }
 
 .modal {
-  background: white; width: 100%; max-width: 420px;
+  background: var(--color-surface); width: 100%; max-width: 420px;
   border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
   overflow: hidden; animation: fadeIn 0.3s ease;
 }
@@ -189,30 +189,30 @@
 
 .modalHeader {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 24px; border-bottom: 1px solid #F3F4F6;
+  padding: 16px 24px; border-bottom: 1px solid var(--color-surface-hover);
 }
 
 .modalTitle {
   display: flex; align-items: center; gap: 8px;
-  font-size: 16px; font-weight: 700; color: #111827;
+  font-size: 16px; font-weight: 700; color: var(--color-text-primary);
 }
 
 .modalCloseBtn {
   background: none; border: none; cursor: pointer;
-  color: #9CA3AF; padding: 4px; border-radius: 50%;
+  color: var(--color-text-muted); padding: 4px; border-radius: 50%;
   transition: background 0.2s;
 }
-.modalCloseBtn:hover { background: #F3F4F6; }
+.modalCloseBtn:hover { background: var(--color-surface-hover); }
 
 .modalBody {
-  padding: 32px; background: #F9FAFB;
+  padding: 32px; background: var(--color-surface-muted);
   display: flex; flex-direction: column; align-items: center;
 }
 
 .previewCard {
-  background: white; border-radius: 20px;
+  background: var(--color-surface); border-radius: 20px;
   padding: 24px; width: 100%;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
   display: flex; flex-direction: column; align-items: center;
   text-align: center; position: relative;
@@ -222,33 +222,33 @@
   position: absolute; top: 12px; right: 12px;
   font-size: 10px; font-weight: 700;
   padding: 4px 8px; border-radius: 6px;
-  background: #1F2937; color: white;
+  background: var(--color-text-secondary); color: var(--color-text-primary);
   display: flex; align-items: center; gap: 4px;
   opacity: 0.7;
 }
 
 .previewAvatar {
   width: 88px; height: 88px; border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   margin-bottom: 16px;
-  border: 4px solid #F3F4F6;
+  border: 4px solid var(--color-surface-hover);
   position: relative;
 }
 
 .previewOnline {
   position: absolute; bottom: 2px; right: 2px;
   width: 20px; height: 20px; border-radius: 50%;
-  background: #22C55E; border: 3px solid white;
+  background: var(--color-success-strong); border: 3px solid var(--color-border);
 }
 
 .previewName {
-  font-size: 20px; font-weight: 800; color: #111827; margin-bottom: 4px;
+  font-size: 20px; font-weight: 800; color: var(--color-text-primary); margin-bottom: 4px;
 }
 
 .previewVerified {
   display: inline-flex; align-items: center; gap: 6px;
-  background: linear-gradient(135deg, #4051B5, #6366F1);
-  color: white; font-size: 12px; font-weight: 700;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: var(--color-text-primary); font-size: 12px; font-weight: 700;
   padding: 6px 14px; border-radius: 9999px;
   margin-bottom: 20px;
 }
@@ -256,7 +256,7 @@
 .previewStats {
   display: flex; width: 100%; justify-content: space-between;
   padding: 12px 8px;
-  border-top: 1px solid #F3F4F6;
+  border-top: 1px solid var(--color-surface-hover);
 }
 
 .previewStatItem {
@@ -264,22 +264,22 @@
 }
 
 .previewStatNum {
-  font-size: 18px; font-weight: 800; color: #111827;
+  font-size: 18px; font-weight: 800; color: var(--color-text-primary);
 }
 
 .previewStatLabel {
-  font-size: 11px; color: #6B7280; font-weight: 600;
+  font-size: 11px; color: var(--color-text-muted); font-weight: 600;
 }
 
 .previewStatDivider {
-  width: 1px; background: #E5E7EB;
+  width: 1px; background: var(--color-border);
 }
 
 /* Info Alert */
 .infoAlert {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 16px; border-radius: 12px;
-  background: #EFF6FF; border: 1px solid #DBEAFE;
+  background: rgba(113, 112, 255, 0.10); border: 1px solid rgba(113, 112, 255, 0.18);
   margin-top: 20px; width: 100%;
 }
 
@@ -293,25 +293,25 @@
 
 .modalFooter {
   display: flex; justify-content: flex-end; gap: 12px;
-  padding: 16px 24px; border-top: 1px solid #F3F4F6;
+  padding: 16px 24px; border-top: 1px solid var(--color-surface-hover);
 }
 
 .btnSecondary {
   padding: 10px 20px; border-radius: 12px;
-  font-size: 14px; font-weight: 500; color: #6B7280;
+  font-size: 14px; font-weight: 500; color: var(--color-text-muted);
   background: none; border: none; cursor: pointer;
   transition: background 0.2s;
 }
-.btnSecondary:hover { background: #F3F4F6; }
+.btnSecondary:hover { background: var(--color-surface-hover); }
 
 .btnPrimary {
   padding: 10px 20px; border-radius: 12px;
-  font-size: 14px; font-weight: 700; color: white;
-  background: #4051B5; border: none; cursor: pointer;
-  box-shadow: 0 4px 12px rgba(64,81,181,0.2);
+  font-size: 14px; font-weight: 700; color: var(--color-text-primary);
+  background: var(--color-primary); border: none; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(113, 112, 255, 0.24);
   transition: background 0.2s;
 }
-.btnPrimary:hover { background: #303F9F; }
+.btnPrimary:hover { background: var(--color-primary-dark); }
 
 /* ── Password Form ───────────────────── */
 .pwForm {
@@ -319,48 +319,48 @@
 }
 
 .pwLabel {
-  font-size: 13px; font-weight: 600; color: #374151; margin-top: 4px;
+  font-size: 13px; font-weight: 600; color: var(--color-text-secondary); margin-top: 4px;
 }
 
 .pwInput {
   padding: 10px 14px; border-radius: 10px;
-  border: 1px solid #E5E7EB; background: #F9FAFB;
-  font-size: 14px; color: #111827;
+  border: 1px solid var(--color-border); background: var(--color-surface-muted);
+  font-size: 14px; color: var(--color-text-primary);
   transition: border-color 0.15s;
   outline: none;
 }
-.pwInput:focus { border-color: #4051B5; background: white; }
+.pwInput:focus { border-color: var(--color-primary); background: var(--color-surface); }
 
-.pwError { font-size: 13px; color: #DC2626; }
-.pwSuccess { font-size: 13px; color: #16A34A; }
+.pwError { font-size: 13px; color: var(--color-error); }
+.pwSuccess { font-size: 13px; color: var(--color-success); }
 
 .pwBtn {
   margin-top: 4px; padding: 10px 20px; border-radius: 10px;
-  font-size: 14px; font-weight: 700; color: white;
-  background: #4051B5; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 700; color: var(--color-text-primary);
+  background: var(--color-primary); border: none; cursor: pointer;
   transition: background 0.2s; align-self: flex-start;
 }
-.pwBtn:hover:not(:disabled) { background: #303F9F; }
-.pwBtn:disabled { background: #D1D5DB; cursor: not-allowed; }
+.pwBtn:hover:not(:disabled) { background: var(--color-primary-dark); }
+.pwBtn:disabled { background: var(--color-border-strong); cursor: not-allowed; }
 
 /* ── Delete Card ─────────────────────── */
 .deleteCard {
   composes: card;
-  border-color: #FEE2E2;
+  border-color: rgba(239, 68, 68, 0.18);
 }
 
 .deleteWarning {
-  font-size: 14px; color: #374151; line-height: 1.6;
+  font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;
   margin-bottom: 16px;
   padding: 12px 16px; border-radius: 10px;
-  background: #FEF2F2; border: 1px solid #FECACA;
+  background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.32);
 }
 
 .deleteBtn {
   margin-top: 4px; padding: 10px 20px; border-radius: 10px;
-  font-size: 14px; font-weight: 700; color: white;
-  background: #DC2626; border: none; cursor: pointer;
+  font-size: 14px; font-weight: 700; color: var(--color-text-primary);
+  background: var(--color-error); border: none; cursor: pointer;
   transition: background 0.2s; align-self: flex-start;
 }
-.deleteBtn:hover:not(:disabled) { background: #B91C1C; }
-.deleteBtn:disabled { background: #D1D5DB; cursor: not-allowed; }
+.deleteBtn:hover:not(:disabled) { background: var(--color-error); }
+.deleteBtn:disabled { background: var(--color-border-strong); cursor: not-allowed; }

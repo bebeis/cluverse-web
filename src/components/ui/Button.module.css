@@ -2,11 +2,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-md);
+  font-weight: 510;
+  letter-spacing: 0;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
   cursor: pointer;
-  border: none;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
 }
 
 .btn:active {
@@ -14,55 +16,63 @@
 }
 
 .primary {
-  background-color: #2F80ED;
-  color: #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  border-color: rgba(113, 112, 255, 0.42);
 }
 
 .primary:hover {
-  background-color: #1A69D2;
+  background-color: var(--color-accent-dark);
+  border-color: rgba(130, 143, 255, 0.54);
 }
 
 .secondary {
-  background-color: #F2F2F2;
-  color: #333333;
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-secondary);
 }
 
 .secondary:hover {
-  background-color: #E0E0E0;
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
 }
 
 .outline {
-  background-color: transparent;
-  color: #2F80ED;
-  border: 1px solid #2F80ED;
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
 }
 
 .outline:hover {
-  background-color: rgba(47, 128, 237, 0.05);
+  background-color: var(--color-primary-light);
+  border-color: rgba(113, 112, 255, 0.45);
+  color: var(--color-accent-dark);
 }
 
 .ghost {
   background-color: transparent;
-  color: #333333;
+  color: var(--color-text-secondary);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .ghost:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-primary);
 }
 
 .small {
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 7px 12px;
+  font-size: 13px;
 }
 
 .medium {
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 9px 16px;
+  font-size: 14px;
 }
 
 .large {
-  padding: 16px 32px;
-  font-size: 18px;
+  padding: 11px 20px;
+  font-size: 15px;
 }
 
 .fullWidth {
