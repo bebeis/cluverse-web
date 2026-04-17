@@ -43,12 +43,11 @@ export default function StatsPage() {
 
   // SVG donut
   const total = donutData.reduce((a, b) => a + b.value, 0);
-  let cumulativePercent = 0;
-  const donutSegments = donutData.map(d => {
+  const donutSegments = donutData.map((d, index) => {
+    const previousValue = donutData.slice(0, index).reduce((sum, item) => sum + item.value, 0);
     const percent = d.value / total;
-    const startAngle = cumulativePercent * 360;
-    const endAngle = (cumulativePercent + percent) * 360;
-    cumulativePercent += percent;
+    const startAngle = (previousValue / total) * 360;
+    const endAngle = ((previousValue + d.value) / total) * 360;
     const x1 = 50 + 40 * Math.cos((Math.PI / 180) * (startAngle - 90));
     const y1 = 50 + 40 * Math.sin((Math.PI / 180) * (startAngle - 90));
     const x2 = 50 + 40 * Math.cos((Math.PI / 180) * (endAngle - 90));

@@ -9,13 +9,13 @@
 .pageTitle {
   font-size: 28px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
 .pageSubtitle {
   font-size: 14px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 4px;
 }
 
@@ -25,10 +25,10 @@
   gap: 6px;
   padding: 8px 16px;
   border-radius: 8px;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: var(--color-text-secondary);
 }
 
 /* ── Stats Grid ──────────────────── */
@@ -42,15 +42,15 @@
 .statCard {
   padding: 24px;
   border-radius: 14px;
-  background: white;
-  border: 1px solid #E5E7EB;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
 }
 
 .statCardPrimary {
   composes: statCard;
-  background: linear-gradient(135deg, #4051B5, #5C6BC0);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary));
   border: none;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .statTop {
@@ -69,10 +69,10 @@
   justify-content: center;
 }
 
-.statIconBlue { background: #EEF2FF; color: #4051B5; }
-.statIconGreen { background: #ECFDF5; color: #059669; }
-.statIconPurple { background: #F3E8FF; color: #7C3AED; }
-.statIconWhite { background: rgba(255,255,255,0.2); color: white; }
+.statIconBlue { background: rgba(113, 112, 255, 0.12); color: var(--color-primary); }
+.statIconGreen { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.statIconPurple { background: rgba(113, 112, 255, 0.14); color: var(--color-accent); }
+.statIconWhite { background: rgba(255,255,255,0.2); color: var(--color-text-primary); }
 
 .statChange {
   display: flex;
@@ -82,12 +82,12 @@
   font-weight: 700;
 }
 
-.statChangeUp { color: #059669; }
+.statChangeUp { color: var(--color-success); }
 .statChangeUpWhite { color: rgba(255,255,255,0.9); }
 
 .statLabel {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 4px;
 }
 
@@ -96,11 +96,11 @@
 .statValue {
   font-size: 32px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   letter-spacing: -0.02em;
 }
 
-.statCardPrimary .statValue { color: white; }
+.statCardPrimary .statValue { color: var(--color-text-primary); }
 
 .statProgress {
   font-size: 13px;
@@ -117,9 +117,9 @@
 
 /* ── Chart Card ──────────────────── */
 .card {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 28px;
 }
 
@@ -133,23 +133,23 @@
 .cardTitle {
   font-size: 18px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .cardSubtitle {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
 .cardSelect {
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 13px;
   font-weight: 600;
-  color: #111218;
-  background: white;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
   cursor: pointer;
 }
 
@@ -185,7 +185,7 @@
 
 .chartBarLabel {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
@@ -194,8 +194,8 @@
   top: -24px;
   left: 50%;
   transform: translateX(-50%);
-  background: #111218;
-  color: white;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   font-size: 11px;
   font-weight: 700;
   padding: 3px 8px;
@@ -224,22 +224,22 @@
 .tableTabBtn {
   padding: 6px 14px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   font-size: 13px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.tableTabBtn:hover { background: #F6F6F8; }
+.tableTabBtn:hover { background: var(--color-bg); }
 
 .tableTabBtnActive {
   composes: tableTabBtn;
-  background: #111218;
-  color: white;
-  border-color: #111218;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
 }
 
 .table {
@@ -251,22 +251,22 @@
   text-align: left;
   font-size: 12px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 10px 12px;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .table td {
   padding: 14px 12px;
   font-size: 14px;
-  color: #111218;
-  border-bottom: 1px solid #F1F5F9;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-surface-hover);
   vertical-align: middle;
 }
 
-.table tr:hover td { background: #FAFBFC; }
+.table tr:hover td { background: var(--color-surface-muted); }
 
 .tableTarget {
   display: flex;
@@ -281,21 +281,21 @@
   flex-shrink: 0;
 }
 
-.tableTargetDotRed { background: #EF4444; }
-.tableTargetDotBlue { background: #3B82F6; }
-.tableTargetDotPurple { background: #8B5CF6; }
+.tableTargetDotRed { background: var(--color-error); }
+.tableTargetDotBlue { background: var(--color-accent); }
+.tableTargetDotPurple { background: var(--color-accent); }
 
 .tableTargetInfo {}
 
 .tableTargetId {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .tableTargetPreview {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -312,24 +312,24 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 11px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .tableReason {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
 .tableTime {
   font-size: 13px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
@@ -342,9 +342,9 @@
   font-weight: 700;
 }
 
-.statusNew { background: #FEF2F2; color: #EF4444; }
-.statusReview { background: #EFF6FF; color: #2563EB; }
-.statusDone { background: #ECFDF5; color: #059669; }
+.statusNew { background: rgba(239, 68, 68, 0.12); color: var(--color-error); }
+.statusReview { background: rgba(113, 112, 255, 0.10); color: var(--color-accent); }
+.statusDone { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
 
 /* ── Right Panel — Report Detail ── */
 .detailPanel {
@@ -361,8 +361,8 @@
 }
 
 .detailNewBadge {
-  background: #EF4444;
-  color: white;
+  background: var(--color-error);
+  color: var(--color-text-primary);
   font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
@@ -371,19 +371,19 @@
 
 .detailId {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
 .detailDate {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 .detailTitle {
   font-size: 18px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
 }
 
@@ -393,14 +393,14 @@
   justify-content: space-between;
   font-size: 13px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 12px;
 }
 
 .detailLink {
   font-size: 13px;
   font-weight: 600;
-  color: #4051B5;
+  color: var(--color-primary);
   cursor: pointer;
 }
 
@@ -408,9 +408,9 @@
 
 /* ── Reported Content Preview ──── */
 .reportedContent {
-  background: #FAFBFC;
+  background: var(--color-surface-muted);
   border-radius: 12px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 16px;
   margin-bottom: 20px;
 }
@@ -426,24 +426,24 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 13px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .reportedName {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .reportedWarningBadge {
-  background: #FEF2F2;
-  color: #EF4444;
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-error);
   font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
@@ -452,17 +452,17 @@
 
 .reportedDate {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 .reportedText {
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text-secondary);
   line-height: 1.6;
   padding: 12px;
-  background: white;
+  background: var(--color-surface);
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
 }
 
 /* ── Reporter info ───────────────── */
@@ -470,7 +470,7 @@
   display: flex;
   gap: 24px;
   padding: 12px 16px;
-  background: #F6F6F8;
+  background: var(--color-bg);
   border-radius: 10px;
   margin-bottom: 20px;
 }
@@ -479,7 +479,7 @@
 
 .reporterColLabel {
   font-size: 11px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -487,13 +487,13 @@
 .reporterColValue {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.reporterColValueRed { color: #EF4444; }
+.reporterColValueRed { color: var(--color-error); }
 
 /* ── Action Section ──────────────── */
 .actionSection {
@@ -506,7 +506,7 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 12px;
 }
 
@@ -522,26 +522,26 @@
   gap: 12px;
   padding: 14px 16px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .actionCard:hover {
-  border-color: rgba(64, 81, 181, 0.3);
+  border-color: rgba(113, 112, 255, 0.30);
 }
 
 .actionCardSelected {
   composes: actionCard;
-  border-color: #4051B5;
-  background: #EEF2FF;
+  border-color: var(--color-primary);
+  background: rgba(113, 112, 255, 0.12);
 }
 
 .actionCardDanger {
   composes: actionCard;
-  border-color: #EF4444;
-  background: #FEF2F2;
+  border-color: var(--color-error);
+  background: rgba(239, 68, 68, 0.12);
 }
 
 .actionIcon {
@@ -554,28 +554,28 @@
   flex-shrink: 0;
 }
 
-.actionIconWarn { background: #FEF3C7; color: #D97706; }
-.actionIconBlind { background: #F1F5F9; color: #475569; }
-.actionIconBan { background: #FEF2F2; color: #EF4444; }
+.actionIconWarn { background: rgba(234, 179, 8, 0.16); color: var(--color-warning); }
+.actionIconBlind { background: var(--color-surface-hover); color: var(--color-text-secondary); }
+.actionIconBan { background: rgba(239, 68, 68, 0.12); color: var(--color-error); }
 
 .actionInfo { flex: 1; }
 
 .actionTitle {
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .actionDesc {
   font-size: 12px;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .actionRadio {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid #D1D5DB;
+  border: 2px solid var(--color-border-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -584,15 +584,15 @@
 
 .actionRadioChecked {
   composes: actionRadio;
-  border-color: #4051B5;
-  background: #4051B5;
+  border-color: var(--color-primary);
+  background: var(--color-primary);
 }
 
 .actionRadioDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-surface);
 }
 
 /* ── Ban Duration Buttons ────────── */
@@ -601,7 +601,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: #FEF2F2;
+  background: rgba(239, 68, 68, 0.12);
   border-radius: 10px;
   margin-top: 8px;
 }
@@ -609,24 +609,24 @@
 .banDurationBtn {
   padding: 6px 14px;
   border-radius: 6px;
-  border: 1px solid #FECACA;
-  background: white;
+  border: 1px solid rgba(239, 68, 68, 0.32);
+  background: var(--color-surface);
   font-size: 13px;
   font-weight: 700;
-  color: #EF4444;
+  color: var(--color-error);
   cursor: pointer;
   transition: all 0.15s;
 }
 
 .banDurationBtn:hover {
-  background: #FEF2F2;
+  background: rgba(239, 68, 68, 0.12);
 }
 
 .banDurationBtnActive {
   composes: banDurationBtn;
-  background: #111218;
-  color: white;
-  border-color: #111218;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
 }
 
 /* ── Admin Memo ──────────────────── */
@@ -637,7 +637,7 @@
 .memoLabel {
   font-size: 13px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 8px;
 }
 
@@ -646,52 +646,52 @@
   min-height: 64px;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 13px;
   font-family: inherit;
-  color: #111218;
+  color: var(--color-text-primary);
   resize: vertical;
 }
 
 .memoTextarea:focus {
   outline: none;
-  border-color: #4051B5;
+  border-color: var(--color-primary);
 }
 
-.memoTextarea::placeholder { color: #D1D5DB; }
+.memoTextarea::placeholder { color: var(--color-border-strong); }
 
 /* ── Footer Actions ──────────────── */
 .detailFooter {
   display: flex;
   gap: 12px;
   padding-top: 16px;
-  border-top: 1px solid #E5E7EB;
+  border-top: 1px solid var(--color-border);
 }
 
 .dismissBtn {
   flex: 1;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   font-size: 14px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.dismissBtn:hover { background: #F6F6F8; }
+.dismissBtn:hover { background: var(--color-bg); }
 
 .confirmBtn {
   flex: 1;
   padding: 12px;
   border-radius: 10px;
   border: none;
-  background: #4051B5;
+  background: var(--color-primary);
   font-size: 14px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
   display: flex;
@@ -700,4 +700,4 @@
   gap: 6px;
 }
 
-.confirmBtn:hover { background: #303F9F; }
+.confirmBtn:hover { background: var(--color-primary-dark); }

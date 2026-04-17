@@ -132,7 +132,7 @@ export function RichEditor({ initialValue = '', onChange, placeholder = '내용�
           title="인용구"
           aria-label="인용구"
         >
-          "
+          &quot;
         </button>
         <div className={styles.divider} />
         <button

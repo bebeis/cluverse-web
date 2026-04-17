@@ -19,19 +19,19 @@
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 6px;
-  background: #EEF2FF;
-  color: #4051B5;
+  background: rgba(113, 112, 255, 0.12);
+  color: var(--color-primary);
 }
 
 .pageTitle {
   font-size: 24px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .pageSubtitle {
   font-size: 14px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 4px;
 }
 
@@ -46,16 +46,16 @@
   gap: 6px;
   padding: 10px 16px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   font-size: 13px;
   font-weight: 600;
-  color: #111218;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.historyBtn:hover { border-color: #4051B5; color: #4051B5; }
+.historyBtn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
 .saveBtn {
   display: flex;
@@ -64,22 +64,22 @@
   padding: 10px 20px;
   border-radius: 10px;
   border: none;
-  background: #4051B5;
+  background: var(--color-primary);
   font-size: 13px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.saveBtn:hover { background: #303F9F; }
+.saveBtn:hover { background: var(--color-primary-dark); }
 
 /* ── Tab Nav ─────────────────────── */
 .tabNav {
   display: flex;
   gap: 4px;
   margin-bottom: 28px;
-  border-bottom: 2px solid #E5E7EB;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 0;
 }
 
@@ -90,7 +90,7 @@
   padding: 12px 20px;
   font-size: 14px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   cursor: pointer;
   border: none;
   background: none;
@@ -99,12 +99,12 @@
   transition: all 0.15s;
 }
 
-.tabBtn:hover { color: #111218; }
+.tabBtn:hover { color: var(--color-text-primary); }
 
 .tabBtnActive {
   composes: tabBtn;
-  color: #4051B5;
-  border-bottom-color: #4051B5;
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
   font-weight: 700;
 }
 
@@ -121,7 +121,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   border-radius: 10px;
   margin-bottom: 20px;
 }
@@ -129,7 +129,7 @@
 .toolbarLabel {
   font-size: 14px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -146,28 +146,28 @@
   gap: 6px;
   padding: 8px 14px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   font-size: 13px;
   font-weight: 600;
-  color: #111218;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.toolbarBtn:hover { border-color: #4051B5; color: #4051B5; }
+.toolbarBtn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
 .toolbarBtnDelete {
   composes: toolbarBtn;
-  color: #EF4444;
-  border-color: #FECACA;
+  color: var(--color-error);
+  border-color: rgba(239, 68, 68, 0.32);
 }
 
-.toolbarBtnDelete:hover { background: #FEF2F2; }
+.toolbarBtnDelete:hover { background: rgba(239, 68, 68, 0.12); }
 
 .dragHint {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -175,9 +175,9 @@
 
 /* ── Tree ──────────────────────── */
 .treeCard {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 24px;
 }
 
@@ -194,7 +194,7 @@
   gap: 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 /* ── Tree Node ───────────────────── */
@@ -212,12 +212,12 @@
   transition: all 0.15s;
 }
 
-.treeNodeRow:hover { background: #F6F6F8; }
+.treeNodeRow:hover { background: var(--color-bg); }
 
 .treeNodeRowSelected {
   composes: treeNodeRow;
-  background: #EEF2FF;
-  border: 1px solid #C7D2FE;
+  background: rgba(113, 112, 255, 0.12);
+  border: 1px solid rgba(113, 112, 255, 0.30);
 }
 
 .treeNodeRowActive {
@@ -230,7 +230,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   cursor: pointer;
   flex-shrink: 0;
   transition: transform 0.2s;
@@ -254,20 +254,20 @@
   flex-shrink: 0;
 }
 
-.treeIconRoot { background: #EEF2FF; color: #4051B5; }
-.treeIconFolder { background: #FEF3C7; color: #D97706; }
-.treeIconLeaf { background: #F1F5F9; color: #6B7280; }
+.treeIconRoot { background: rgba(113, 112, 255, 0.12); color: var(--color-primary); }
+.treeIconFolder { background: rgba(234, 179, 8, 0.16); color: var(--color-warning); }
+.treeIconLeaf { background: var(--color-surface-hover); color: var(--color-text-muted); }
 
 .treeLabel {
   font-size: 14px;
   font-weight: 600;
-  color: #111218;
+  color: var(--color-text-primary);
   flex: 1;
 }
 
 .treeMeta {
   font-size: 12px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -278,17 +278,17 @@
   border-radius: 4px;
 }
 
-.treeBadgeAdmin { background: #EEF2FF; color: #4051B5; }
-.treeBadgeActive { background: #ECFDF5; color: #059669; }
-.treeBadgeCount { background: #F1F5F9; color: #6B7280; }
+.treeBadgeAdmin { background: rgba(113, 112, 255, 0.12); color: var(--color-primary); }
+.treeBadgeActive { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.treeBadgeCount { background: var(--color-surface-hover); color: var(--color-text-muted); }
 
 .treeCheck {
-  color: #4051B5;
+  color: var(--color-primary);
 }
 
 .treeChildren {
   padding-left: 36px;
-  border-left: 2px solid #F1F5F9;
+  border-left: 2px solid var(--color-surface-hover);
   margin-left: 20px;
 }
 
@@ -302,9 +302,9 @@
 }
 
 .detailCard {
-  background: white;
+  background: var(--color-surface);
   border-radius: 14px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   padding: 24px;
 }
 
@@ -312,8 +312,8 @@
   display: inline-flex;
   padding: 4px 10px;
   border-radius: 6px;
-  background: #EEF2FF;
-  color: #4051B5;
+  background: rgba(113, 112, 255, 0.12);
+  color: var(--color-primary);
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 8px;
@@ -322,12 +322,12 @@
 .detailName {
   font-size: 22px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .detailId {
   font-size: 13px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-top: 2px;
   margin-bottom: 16px;
 }
@@ -335,7 +335,7 @@
 .detailFieldLabel {
   font-size: 13px;
   font-weight: 600;
-  color: #6B7280;
+  color: var(--color-text-muted);
   margin-bottom: 6px;
 }
 
@@ -343,15 +343,15 @@
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 14px;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
 }
 
 .detailFieldInput:focus {
   outline: none;
-  border-color: #4051B5;
+  border-color: var(--color-primary);
 }
 
 .detailStats {
@@ -364,12 +364,12 @@
 .detailStatBox {
   padding: 14px;
   border-radius: 10px;
-  background: #F6F6F8;
+  background: var(--color-bg);
 }
 
 .detailStatLabel {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -377,7 +377,7 @@
 .detailStatValue {
   font-size: 22px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .detailToggleRow {
@@ -390,14 +390,14 @@
 .detailToggleLabel {
   font-size: 14px;
   font-weight: 600;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .toggle {
   width: 44px;
   height: 24px;
   border-radius: 12px;
-  background: #D1D5DB;
+  background: var(--color-border-strong);
   position: relative;
   cursor: pointer;
   transition: background 0.2s;
@@ -405,7 +405,7 @@
 
 .toggleActive {
   composes: toggle;
-  background: #4051B5;
+  background: var(--color-primary);
 }
 
 .toggleDot {
@@ -415,7 +415,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: white;
+  background: var(--color-surface);
   transition: transform 0.2s;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
@@ -428,16 +428,16 @@
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  border: 1px solid #E5E7EB;
-  background: white;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   font-size: 14px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.detailViewBtn:hover { border-color: #4051B5; color: #4051B5; }
+.detailViewBtn:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
 /* ── School Registration ────────── */
 .schoolCard {
@@ -457,26 +457,26 @@
   gap: 8px;
   font-size: 16px;
   font-weight: 800;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .schoolStep {
   font-size: 12px;
   font-weight: 700;
-  color: #6B7280;
+  color: var(--color-text-muted);
 }
 
 .schoolFieldLabel {
   font-size: 13px;
   font-weight: 700;
-  color: #EF4444;
+  color: var(--color-error);
   margin-bottom: 6px;
 }
 
 .schoolFieldLabelNormal {
   font-size: 13px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 6px;
 }
 
@@ -484,17 +484,17 @@
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 14px;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 16px;
 }
 
-.schoolInput::placeholder { color: #D1D5DB; }
+.schoolInput::placeholder { color: var(--color-border-strong); }
 
 .schoolInput:focus {
   outline: none;
-  border-color: #4051B5;
+  border-color: var(--color-primary);
 }
 
 /* ── Logo upload ──────────────────── */
@@ -504,31 +504,31 @@
   gap: 16px;
   padding: 16px;
   border-radius: 12px;
-  border: 1px dashed #D1D5DB;
+  border: 1px dashed var(--color-border-strong);
   margin-bottom: 16px;
-  background: #FAFBFC;
+  background: var(--color-surface-muted);
 }
 
 .logoUploadIcon {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: #F1F5F9;
+  background: var(--color-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
 }
 
 .logoUploadText {
   font-size: 14px;
   font-weight: 600;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
 .logoUploadHint {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   margin-top: 2px;
 }
 
@@ -536,7 +536,7 @@
 .domainLabel {
   font-size: 13px;
   font-weight: 700;
-  color: #111218;
+  color: var(--color-text-primary);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -545,7 +545,7 @@
 
 .domainLabelHint {
   font-size: 12px;
-  color: #6B7280;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -559,19 +559,19 @@
   flex: 1;
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--color-border);
   font-size: 14px;
-  color: #111218;
+  color: var(--color-text-primary);
 }
 
-.domainInput:focus { outline: none; border-color: #4051B5; }
+.domainInput:focus { outline: none; border-color: var(--color-primary); }
 
 .domainAddBtn {
   padding: 10px 16px;
   border-radius: 8px;
   border: none;
-  background: #4051B5;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-text-primary);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -590,8 +590,8 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 8px;
-  background: #EEF2FF;
-  color: #4051B5;
+  background: rgba(113, 112, 255, 0.12);
+  color: var(--color-primary);
   font-size: 13px;
   font-weight: 600;
 }
@@ -604,7 +604,7 @@
 
 .domainCount {
   font-size: 12px;
-  color: #9CA3AF;
+  color: var(--color-text-muted);
   margin-bottom: 16px;
 }
 
@@ -613,10 +613,10 @@
   padding: 14px;
   border-radius: 10px;
   border: none;
-  background: #4051B5;
+  background: var(--color-primary);
   font-size: 15px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -625,4 +625,4 @@
   transition: all 0.15s;
 }
 
-.schoolSubmitBtn:hover { background: #303F9F; }
+.schoolSubmitBtn:hover { background: var(--color-primary-dark); }

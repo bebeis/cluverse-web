@@ -22,19 +22,29 @@ export default function FollowingFeedPage() {
   const [authRequired, setAuthRequired] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn()) {
-      setAuthRequired(true);
-      return;
-    }
-    cluverseApi.getFollowingFeed(scopeMap[activeFilter], 20)
-      .then(result => {
+    let cancelled = false;
+
+    const run = async () => {
+      if (!isLoggedIn()) {
+        if (!cancelled) setAuthRequired(true);
+        return;
+      }
+      try {
+        const result = await cluverseApi.getFollowingFeed(scopeMap[activeFilter], 20);
+        if (cancelled) return;
         setPosts(result.posts);
         setAuthRequired(false);
-      })
-      .catch(caught => {
+      } catch (caught) {
+        if (cancelled) return;
         setPosts([]);
         setAuthRequired(caught instanceof ApiError && caught.statusCode === 401);
-      });
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
   }, [activeFilter]);
 
   return (

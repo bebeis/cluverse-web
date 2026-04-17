@@ -18,24 +18,26 @@
 
 .chip {
   padding: 8px 16px;
-  background-color: #F1F5F9;
-  color: #64748B;
-  border: 1px solid transparent;
-  border-radius: 20px;
+  background-color: var(--color-surface-subtle);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 510;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 
 .chip:hover {
-  background-color: #E2E8F0;
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-primary);
 }
 
 .chip.active {
-  background-color: #0F172A;
-  color: #FFFFFF;
+  background-color: var(--color-primary);
+  color: var(--color-text-primary);
+  border-color: rgba(113, 112, 255, 0.45);
 }
 
 .chip:active {

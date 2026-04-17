@@ -1,7 +1,7 @@
 .tabsContainer {
   display: flex;
-  border-bottom: 2px solid #F1F5F9;
-  background-color: white;
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: transparent;
 }
 
 .fullWidth .tab {
@@ -11,8 +11,8 @@
 .tab {
   padding: 14px 20px;
   font-size: 15px;
-  font-weight: 500;
-  color: #64748B;
+  font-weight: 510;
+  color: var(--color-text-muted);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -21,12 +21,12 @@
 }
 
 .tab:hover {
-  color: #0F172A;
+  color: var(--color-text-secondary);
 }
 
 .tab.active {
-  color: #0F172A;
-  font-weight: 700;
+  color: var(--color-text-primary);
+  font-weight: 590;
 }
 
 .tab.active::after {
@@ -36,6 +36,6 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #0F172A;
+  background-color: var(--color-accent);
   border-radius: 2px 2px 0 0;
 }
